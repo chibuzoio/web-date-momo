@@ -1,6 +1,8 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './css/App.css';
+import './css/header.css';
+import {appendScript} from './utility/utility';
+import {removeScript} from './utility/utility';
 
 class App extends React.Component {
   
@@ -12,7 +14,12 @@ class App extends React.Component {
 
   componentDidMount() {
     /* Fetch data here and save it in state */
+    // appendScript("/path/to/resource.js");
     this.setTimer();
+  }
+
+  componentDidUnmount () {
+    // removeScript("/path/to/resource.js")
   }
 
   setTimer() {
@@ -31,7 +38,7 @@ class App extends React.Component {
       hours : currentTime.getHours(),
       minutes : currentTime.getMinutes(),
       seconds : currentTime.getSeconds(),
-      ampm : currentTime.getHours() >= 12 ? 'pm' : 'am'
+      ampm : currentTime.getHours() >= 12 ? "pm" : "am"
     }
   }
 
@@ -39,10 +46,10 @@ class App extends React.Component {
     const {hours, minutes, seconds, ampm} = this.state;
 
     return (
-      <div className="App-header">
-        {hours == 0 ? 12 : hours > 12 ? hours - 12 : hours}:
-        {minutes > 9 ? minutes : '0${minutes}'}:
-        {seconds > 9 ? seconds : '0${seconds}'} {ampm}
+      <div className="header">
+        {hours === 0 ? 12 : hours > 12 ? hours - 12 : hours}:
+        {minutes > 9 ? minutes : "{minutes}"}:
+        {seconds > 9 ? seconds : "{seconds}"} {ampm}
       </div>
     );
   }
