@@ -1,6 +1,7 @@
 import React from 'react';
 import './css/App.css';
 import './css/header.css';
+import Header from './component/header'
 import {appendScript} from './utility/utility';
 import {removeScript} from './utility/utility';
 
@@ -14,7 +15,8 @@ class App extends React.Component {
 
   componentDidMount() {
     /* Fetch data here and save it in state */
-    // appendScript("/path/to/resource.js");
+    // appendScript("./component/header.js");
+    let headerSub = new Header();
     this.setTimer();
   }
 
