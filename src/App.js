@@ -2,8 +2,6 @@ import React from 'react';
 import './css/App.css';
 import './css/header.css';
 import Header from './component/header'
-import {appendScript} from './utility/utility';
-import {removeScript} from './utility/utility';
 
 class App extends React.Component {
   
@@ -15,13 +13,12 @@ class App extends React.Component {
 
   componentDidMount() {
     /* Fetch data here and save it in state */
-    // appendScript("./component/header.js");
-    let headerSub = new Header();
+    // let headerSub = new Header();
     this.setTimer();
   }
 
   componentDidUnmount () {
-    // removeScript("/path/to/resource.js")
+    
   }
 
   setTimer() {
@@ -45,14 +42,8 @@ class App extends React.Component {
   }
 
   render() {
-    const {hours, minutes, seconds, ampm} = this.state;
-
     return (
-      <div className="header">
-        {hours === 0 ? 12 : hours > 12 ? hours - 12 : hours}:
-        {minutes > 9 ? minutes : "{minutes}"}:
-        {seconds > 9 ? seconds : "{seconds}"} {ampm}
-      </div>
+      <Header {...this.state}/>
     );
   }
 }

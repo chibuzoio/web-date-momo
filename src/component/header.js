@@ -1,5 +1,5 @@
 import React from 'react';
-import './css/header.css';
+import '../css/header.css';
 
 class Header extends React.Component {
 
@@ -16,6 +16,17 @@ class Header extends React.Component {
     };
   }*/
 
+	render() {
+		const {hours, minutes, seconds, ampm} = this.state;
+
+		return (
+			<div className="header">
+	      {hours === 0 ? 12 : hours > 12 ? hours - 12 : hours}:
+	      {minutes > 9 ? minutes : "{minutes}"}:
+	      {seconds > 9 ? seconds : "{seconds}"} {ampm}
+			</div>
+		);
+	}
 }
 
 export default Header;   
