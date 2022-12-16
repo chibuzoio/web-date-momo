@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import './css/App.css';
 import './css/header.css';
 import Header from './component/header'
@@ -7,41 +8,31 @@ class App extends React.Component {
   
   constructor(props) {
     super(props);
-    /* Store state values (That is JSON response data) here */
-    this.state = this.getTime();
+
+    this.state = {
+      userNames : []
+    };
   }
 
   componentDidMount() {
-    /* Fetch data here and save it in state */
-    // let headerSub = new Header();
-    this.setTimer();
+    axios.get("http://datemomo.com/service/usernamecomposite.php")
+      .then(response => {
+        this.setState({
+          userNames : response.data
+        });
+        console.log("The response value from the server here is " + JSON.stringify(response.data));
+      }, error => {
+        console.log(error);
+      });
   }
 
-  componentDidUnmount () {
+  componentWillUnmount () {
     
   }
 
-  setTimer() {
-    clearTimeout(this.timeout);
-    this.timeout = setTimeout(this.updateClock.bind(this), 1000);
-  }
-
-  updateClock() {
-    this.setState(this.getTime, this.setTimer);
-  }
-
-  getTime() {
-    const currentTime = new Date();
-
-    return {
-      hours : currentTime.getHours(),
-      minutes : currentTime.getMinutes(),
-      seconds : currentTime.getSeconds(),
-      ampm : currentTime.getHours() >= 12 ? "pm" : "am"
-    }
-  }
-
   render() {
+    console.log("The value of userNames here is " + this.state.userNames);
+
     return (
       <Header {...this.state}/>
     );
