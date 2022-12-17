@@ -26,7 +26,10 @@ class Login extends React.Component {
 	render() {
 		return (
 			<div className="login">
-				{JSON.stringify(this.state.userNames)}
+				<img src={logo}/>
+				<div>
+					{JSON.stringify(this.state.userNames)}
+				</div>
 			</div>
 		);
 	}
