@@ -1,0 +1,38 @@
+.fieldLayout {
+	display: block;
+	height: 7.3vmin;
+	width: 110%;
+	align-items: center;
+	background: yellow;
+	justify-content: center;
+}
+
+input[type="submit"] {
+	height: 6vmin;
+}
+
+input[type="text"] {
+	height: 5vmin;
+}
+
+.leftFormIcon {
+	height: 5vmin;
+	width: 5vmin;
+}
+
+img, input {
+	font-size: calc(10px + 1.2vmin);
+	display: inline;
+}
+
+label {
+	font-size: calc(10px + 1.2vmin);
+	display: block;
+}
+
+div {
+	display: block;
+	color: black;
+}
+
+

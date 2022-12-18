@@ -55,7 +55,8 @@ class Login extends React.Component {
 	render() {
 		var formPartsValue = {
 			buttonTitle : "Please Submit",
-			fieldIcon : icon_person
+			fieldIcon : icon_person,
+			label : "Name"
 		};
 
 		return (

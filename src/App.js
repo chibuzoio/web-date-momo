@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import './css/App.css';
 import './css/header.css';
-import Header from './component/header'
+import Header from './widget/header'
 import Login from './webpage/login'
 
 class App extends React.Component {

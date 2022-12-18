@@ -1,5 +1,6 @@
 import React from 'react';
 import '../css/input.css';
+import BasicButton from '../component/basic_button';
 
 class LeftIconFormField extends React.Component {
 	state = {formParts : {}};
@@ -20,12 +21,12 @@ class LeftIconFormField extends React.Component {
 	render() {
 		return (
 			<div>
-				<label>
-				    Name:
+				<label>{this.state.formParts.label}</label>
+				<div className="fieldLayout">
 				    <img className="leftFormIcon" alt="" src={this.state.formParts.fieldIcon} />
 				    <input type="text" name="name" />
-				</label>
-				<input type="submit" value={this.state.formParts.buttonTitle} />
+				</div>
+			    {/* <BasicButton buttonTitle={this.state.formParts.buttonTitle} /> */}
 			</div>
 		);
 	}
