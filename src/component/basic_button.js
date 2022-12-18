@@ -1,7 +1,7 @@
 import React from 'react';
-import '../css/header.css';
+import '../css/input.css';
 
-class Header extends React.Component {
+class BasicButton extends React.Component {
 
 /*		
 	You declare constructor explicitly because 
@@ -13,18 +13,19 @@ class Header extends React.Component {
 */		
 	constructor(props) {
 		super(props);
-		this.state = {}; 
+		// this.state = props.buttonTitle; // Highlighted because 
+		// I won't be setting buttonTitle in setState method
 	}
 
 	render() {
 		return (
-			<div className="header">
-
+			<div className="button">
+				{this.props.buttonTitle}
 			</div>
 		);
 	}
 }
 
-export default Header;   
+export default BasicButton;   
 
 

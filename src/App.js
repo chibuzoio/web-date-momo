@@ -3,10 +3,18 @@ import axios from 'axios';
 import './css/App.css';
 import './css/header.css';
 import Header from './component/header'
-import Login from './component/login'
+import Login from './webpage/login'
 
 class App extends React.Component {
   
+/*    
+  You declare constructor explicitly because 
+  you want to initialize state. You initialized 
+  state because you want to set state somewhere
+  in the class. If not, use data from props directly, 
+  without initializing state with it and do not declare 
+  the constructor because it's already declared implicitly.
+*/    
   constructor(props) {
     super(props);
   }

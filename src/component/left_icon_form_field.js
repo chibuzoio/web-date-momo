@@ -1,7 +1,7 @@
 import React from 'react';
-import '../css/header.css';
+import '../css/input.css';
 
-class Header extends React.Component {
+class LeftIconFormField extends React.Component {
 
 /*		
 	You declare constructor explicitly because 
@@ -13,18 +13,18 @@ class Header extends React.Component {
 */		
 	constructor(props) {
 		super(props);
-		this.state = {}; 
+		this.state = props.formParts; 
 	}
 
 	render() {
 		return (
-			<div className="header">
-
+			<div className="form">
+				<img className="leftFormIcon" alt="" src={this.state.formParts.leftFormIcon} />
 			</div>
 		);
 	}
 }
 
-export default Header;   
+export default LeftIconFormField;   
 
 
