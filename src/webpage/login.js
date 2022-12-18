@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import '../css/login.css';
 import LeftIconFormField from '../component/left_icon_form_field'
+import icon_person from '../image/icon_person.png'
 import logo from '../image/datemomo.png';
 
 class Login extends React.Component {
@@ -17,6 +18,11 @@ class Login extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {userNames : []};
+
+		// The binding below is necessary so as to attach 
+		// testMethod to the context of this class and for 
+		// the method not to appear undefined when called
+		this.testMethod = this.testMethod.bind(this); 
 	}
 
 	componentDidMount() {
@@ -47,11 +53,16 @@ class Login extends React.Component {
 	}
 
 	render() {
+		var formPartsValue = {
+			buttonTitle : "Please Submit",
+			fieldIcon : icon_person
+		};
+
 		return (
 			<div className="login">
 				<img className="logo" alt="Logo" src={logo}/>
 				<div>
-					{JSON.stringify(this.state.userNames)}
+					<LeftIconFormField formParts={formPartsValue} />
 				</div>
 			</div>
 		);

@@ -2,6 +2,7 @@ import React from 'react';
 import '../css/input.css';
 
 class LeftIconFormField extends React.Component {
+	state = {formParts : {}};
 
 /*		
 	You declare constructor explicitly because 
@@ -13,13 +14,18 @@ class LeftIconFormField extends React.Component {
 */		
 	constructor(props) {
 		super(props);
-		this.state = props.formParts; 
+		this.state.formParts = props.formParts; 
 	}
 
 	render() {
 		return (
-			<div className="form">
-				<img className="leftFormIcon" alt="" src={this.state.formParts.leftFormIcon} />
+			<div>
+				<label>
+				    Name:
+				    <img className="leftFormIcon" alt="" src={this.state.formParts.fieldIcon} />
+				    <input type="text" name="name" />
+				</label>
+				<input type="submit" value={this.state.formParts.buttonTitle} />
 			</div>
 		);
 	}

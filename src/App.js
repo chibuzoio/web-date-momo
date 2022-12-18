@@ -36,6 +36,8 @@ class App extends React.Component {
   }
 
   render() {
+    /* USE localStorage FOR STORAGE OF PERSISTENT DATA ON THE BROWSER */
+
     return (
       <Login />
     );
