@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import '../css/login.css';
 import LeftIconFormField from '../component/left_icon_form_field'
+import BasicButton from '../component/basic_button'
 import icon_person from '../image/icon_person.png'
 import logo from '../image/datemomo.png';
 
@@ -64,6 +65,7 @@ class Login extends React.Component {
 				<img className="logo" alt="Logo" src={logo}/>
 				<div>
 					<LeftIconFormField formParts={formPartsValue} />
+					<BasicButton buttonTitle={formPartsValue.buttonTitle} />
 				</div>
 			</div>
 		);

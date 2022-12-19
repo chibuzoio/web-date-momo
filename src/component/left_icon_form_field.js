@@ -26,7 +26,6 @@ class LeftIconFormField extends React.Component {
 				    <img className="leftFormIcon" alt="" src={this.state.formParts.fieldIcon} />
 				    <input type="text" name="name" />
 				</div>
-			    {/* <BasicButton buttonTitle={this.state.formParts.buttonTitle} /> */}
 			</div>
 		);
 	}
