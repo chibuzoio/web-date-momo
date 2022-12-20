@@ -9,7 +9,7 @@ import icon_password from '../image/icon_password.png'
 import logo from '../image/datemomo.png';
 
 class Login extends React.Component {
-	this.state = {userNames : []};
+	state = {userNames : []};
 
 	constructor(props) {
 		super(props);
@@ -46,12 +46,13 @@ class Login extends React.Component {
 		return (
 			<div className="login">
 				<div className="loginWidget">
-					<img className="logo" alt="Logo" src={logo}/>
-					<div>
-						<LeftIconFormField formParts={firstFormPartsValue} />
-						<LeftIconFormField formParts={secondFormPartsValue} />
-						<BasicButton buttonParts={basicButton} />
+					<div className="registerPageHeader">
+						<div className="registerPageTitle">Create Your <br></br>Account</div>
+						<img className="registerPageIcon" alt="Logo" src={logo}/>
 					</div>
+					<LeftIconFormField formParts={firstFormPartsValue} />
+					<LeftIconFormField formParts={secondFormPartsValue} />
+					<BasicButton buttonParts={basicButton} />
 				</div>
 			</div>
 		);
