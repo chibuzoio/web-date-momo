@@ -9,6 +9,7 @@ import icon_password from '../image/icon_password.png'
 import logo from '../image/datemomo.png';
 
 class Login extends React.Component {
+	state = {userNames : []};
 
 /*		
 	You declare constructor explicitly because 
@@ -20,7 +21,6 @@ class Login extends React.Component {
 */		
 	constructor(props) {
 		super(props);
-		this.state = {userNames : []};
 
 		// The binding below is necessary so as to attach 
 		// testMethod to the context of this class and for 

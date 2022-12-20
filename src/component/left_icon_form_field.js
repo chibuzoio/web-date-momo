@@ -1,6 +1,5 @@
 import React from 'react';
 import '../css/input.css';
-import BasicButton from '../component/basic_button';
 
 class LeftIconFormField extends React.Component {
 	state = {formParts : {}};
