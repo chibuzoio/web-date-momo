@@ -2,7 +2,7 @@ import React from 'react';
 import '../css/input.css';
 
 class BasicButton extends React.Component {
-	state = {buttonTitle : ""};
+	state = {buttonParts : {}};
 
 /*		
 	You declare constructor explicitly because 
@@ -14,12 +14,12 @@ class BasicButton extends React.Component {
 */		
 	constructor(props) {
 		super(props);
-		this.state.buttonTitle = props.buttonTitle; 
+		this.state.buttonParts = props.buttonParts; 
 	}
 
 	render() {
 		return (
-			<input type="submit" value={this.state.buttonTitle} />
+			<input className="basicButton" type="submit" value={this.state.buttonParts.buttonTitle} />
 		);
 	}
 }

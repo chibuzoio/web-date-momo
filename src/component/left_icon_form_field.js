@@ -24,7 +24,7 @@ class LeftIconFormField extends React.Component {
 				<label>{this.state.formParts.label}</label>
 				<div className="fieldLayout">
 				    <img className="leftFormIcon" alt="" src={this.state.formParts.fieldIcon} />
-				    <input type="text" name="name" />
+				    <input type={this.state.formParts.type} name="name" placeholder={this.state.formParts.placeholder} />
 				</div>
 			</div>
 		);
