@@ -40,7 +40,7 @@ class App extends React.Component {
     /* USE localStorage FOR STORAGE OF PERSISTENT DATA ON THE BROWSER */
 
     return (
-      <Register />
+      <Login />
     );
   }
 }

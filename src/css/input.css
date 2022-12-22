@@ -1,3 +1,20 @@
+.leftHollowButtonContent {
+	justify-content: center;
+	display: inline-flex;
+}
+
+.leftHollowButtonTitle {
+	display: inline-block;
+	color: #097ECA;
+}
+
+.hollowButtonLeftIcon {
+	display: inline-block;
+	margin-right: 1vmin;
+	height: 4vmin;
+	width: 4vmin;
+}
+
 .fieldLayout {
 	display: inline-block;
 	padding-left: 0.5vmin;
@@ -14,7 +31,7 @@
 	margin-bottom: 2vmin;
 }
 
-input[type="submit"] {
+.leftIconHollowButton, input[type="submit"] {
 	height: 7vmin;
 	font-size: calc(10px + 1vmin);
 	width: 100%;

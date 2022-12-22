@@ -1,7 +1,7 @@
 import React from 'react';
 import '../css/input.css';
 
-class BasicButton extends React.Component {
+class HollowButton extends React.Component {
 	state = {buttonParts : {}};
 
 	constructor(props) {
@@ -17,6 +17,6 @@ class BasicButton extends React.Component {
 	}
 }
 
-export default BasicButton;   
+export default HollowButton;   
 
 
