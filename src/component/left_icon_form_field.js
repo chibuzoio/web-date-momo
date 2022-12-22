@@ -17,12 +17,12 @@ class LeftIconFormField extends React.Component {
 		this.state.formParts = props.formParts; 
 	}
 
-	render() {
+	render() {  
 		return (
 			<div>
 				<label>{this.state.formParts.label}</label>
-				<div className="fieldLayout">
-				    <img className="leftFormIcon" alt="" src={this.state.formParts.fieldIcon} />
+				<div className={this.state.formParts.fieldLayoutClass}>
+				    <img className={this.state.formParts.fieldIconClass} alt="" src={this.state.formParts.fieldIcon} />
 				    <input type={this.state.formParts.type} name="name" placeholder={this.state.formParts.placeholder} />
 				</div>
 			</div>

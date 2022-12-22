@@ -62,29 +62,39 @@ class Login extends React.Component {
 			fieldIcon : icon_person,
 			placeholder : "User Name",
 			label : "User Name",
-			type : "text"
+			type : "text",
+			fieldLayoutClass : "fieldLayout",
+			fieldIconClass : "leftFieldIcon"
 		};
 
 		var secondFormPartsValue = {
 			fieldIcon : icon_password,
 			placeholder : "Password",
 			label : "Password",
-			type : "password"
+			type : "password",
+			fieldLayoutClass : "fieldLayout",
+			fieldIconClass : "leftFieldIcon"
 		};
 
 		var basicButton = {
-			buttonTitle : "Log In"
+			buttonTitle : "Log In",
+			buttonClass : "basicButton"
 		}
 
 		var hollowButton = {
-			buttonTitle : "Sign Up"			
+			buttonTitle : "Sign Up",
+			buttonClass : "hollowButton buttonTopMargin"
 		}
 
 		var leftIconHollowButton = {
 			buttonTitle : "Photos",
-			buttonIcon : icon_gallery_blue
+			buttonIcon : icon_gallery_blue,
+			leftIconHollowButtonClass : "leftIconHollowButton hollowButton buttonTopMargin",
+			leftHollowButtonContentClass : "leftHollowButtonContent",
+			hollowButtonLeftIconClass : "hollowButtonLeftIcon",
+			leftHollowButtonTitleClass : "leftHollowButtonTitle"
 		}
-
+             
 		return (
 			<div className="login">
 				<div className="loginWidget">

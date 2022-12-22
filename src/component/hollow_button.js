@@ -11,7 +11,7 @@ class HollowButton extends React.Component {
 
 	render() {
 		return (
-			<input className="hollowButton buttonTopMargin" type="submit" 
+			<input className={this.state.buttonParts.buttonClass} type="submit" 
 			value={this.state.buttonParts.buttonTitle} />
 		);
 	}

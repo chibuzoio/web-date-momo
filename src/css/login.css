@@ -1,3 +1,21 @@
+.userPicture {
+  width: 100%;
+}
+
+.uploadPictureButton {
+  display: inline-block;
+  width: 47%;
+}
+
+.takePictureButton {
+  display: inline-block;
+  width: 47%;
+}
+
+.pictureButtons {
+  width: 100%;
+}
+
 .registerPageTitle {
   display: inline-block;
 }

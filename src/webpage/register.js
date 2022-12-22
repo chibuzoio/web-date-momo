@@ -7,7 +7,7 @@ import icon_person from '../image/icon_person.png'
 import icon_password from '../image/icon_password.png'
 import logo from '../image/datemomo.png';
 
-class Login extends React.Component {
+class Register extends React.Component {
 	state = {userNames : []};
 
 	constructor(props) {
@@ -28,18 +28,23 @@ class Login extends React.Component {
 			fieldIcon : icon_person,
 			placeholder : "User Name",
 			label : "User Name",
-			type : "text"
+			type : "text",
+			fieldLayoutClass : "fieldLayout",
+			fieldIconClass : "leftFieldIcon"
 		};
 
 		var secondFormPartsValue = {
 			fieldIcon : icon_password,
 			placeholder : "Password",
 			label : "Password",
-			type : "password"
+			type : "password",
+			fieldLayoutClass : "fieldLayout",
+			fieldIconClass : "leftFieldIcon"
 		};
 
 		var basicButton = {
-			buttonTitle : "Sign Up"
+			buttonTitle : "Sign Up",
+			buttonClass : "basicButton"
 		}
  
 		return (
@@ -58,6 +63,6 @@ class Login extends React.Component {
 	}
 }
 
-export default Login;  
+export default Register;  
 
 

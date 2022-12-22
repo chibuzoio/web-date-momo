@@ -17,9 +17,9 @@ class BasicButton extends React.Component {
 		this.state.buttonParts = props.buttonParts; 
 	}
 
-	render() {
+	render() {  
 		return (
-			<input className="basicButton" type="submit" value={this.state.buttonParts.buttonTitle} />
+			<input className={this.state.buttonParts.buttonClass} type="submit" value={this.state.buttonParts.buttonTitle} />
 		);
 	}
 }
