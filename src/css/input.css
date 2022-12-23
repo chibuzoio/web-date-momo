@@ -1,3 +1,9 @@
+.ageFormField {
+	text-align: center;
+	height: 7vmin;
+	width: 15%;
+}
+
 .leftHollowButtonContent {
 	justify-content: center;
 	display: inline-flex;
@@ -43,7 +49,7 @@
 	margin-top: 2vmin;
 }
 
-input[type="text"], input[type="password"] {
+input[type="text"], input[type="number"], input[type="password"] {
 	height: 6vmin;
 	background: #EAEDED;   
 	outline: none;

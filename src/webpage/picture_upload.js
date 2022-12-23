@@ -1,14 +1,13 @@
 import React from 'react';
 import axios from 'axios';
 import '../css/login.css';
+import '../css/picture_upload.css';
 import LeftIconHollowButton from '../component/left_icon_hollow_button'
-import LeftIconFormField from '../component/left_icon_form_field'
+import BasicFormField from '../component/basic_form_field'
 import BasicButton from '../component/basic_button'
 import HollowButton from '../component/hollow_button'
-import icon_person from '../image/icon_person.png'
 import icon_gallery_blue from '../image/icon_gallery_blue.png'
 import icon_camera_blue from '../image/icon_camera_blue.png'
-import icon_password from '../image/icon_password.png'
 import placeholder from '../image/placeholder.jpg';
 import logo from '../image/datemomo.png';
 
@@ -28,16 +27,7 @@ class PictureUpload extends React.Component {
 
 	}
   
-	render() {
-		var firstFormPartsValue = {
-			fieldIcon : icon_person,
-			placeholder : "User Name",
-			label : "User Name",
-			type : "text",
-			fieldLayoutClass : "fieldLayout",
-			fieldIconClass : "leftFieldIcon"
-		};
-   
+	render() { 
 		var takePictureButton = {
 			buttonTitle : "Take Picture",
 			buttonIcon : icon_camera_blue,
@@ -50,17 +40,33 @@ class PictureUpload extends React.Component {
 		var uploadPictureButton = {
 			buttonTitle : "Upload Picture",
 			buttonIcon : icon_gallery_blue,
-			leftIconHollowButtonClass : "leftIconHollowButton hollowButton buttonTopMargin",
+			leftIconHollowButtonClass : "leftIconHollowButton hollowButton buttonTopMargin uploadPicture",
 			leftHollowButtonContentClass : "leftHollowButtonContent",
 			hollowButtonLeftIconClass : "hollowButtonLeftIcon",
 			leftHollowButtonTitleClass : "leftHollowButtonTitle"
 		}
 
 		var basicButton = {
-			buttonTitle : "Sign Up",
-			buttonClass : "basicButton"
+			buttonTitle : "Next",
+			buttonClass : "basicButton customTopMargin"
 		}
- 
+
+		var maleHollowButton = {
+			buttonTitle : "Male",
+			buttonClass : "hollowButton"
+		}
+
+		var femaleHollowButton = {
+			buttonTitle : "Female",
+			buttonClass : "hollowButton uploadPicture"
+		}
+
+		var ageFormField = {
+			ageFieldClass : "ageFormField",
+			placeholder : "Age",
+			type : "number"
+		}
+
 		return (
 			<div className="login">
 				<div className="loginWidget">
@@ -69,10 +75,20 @@ class PictureUpload extends React.Component {
 						<img className="registerPageIcon" alt="Logo" src={logo}/>
 					</div>
 					<img className="userPicture" alt="" src={placeholder} />
-					<div className="pictureButtons">
+					<div className="pictureButtons customTopMargin">
 						<LeftIconHollowButton buttonParts={takePictureButton} />
 						<LeftIconHollowButton buttonParts={uploadPictureButton} />
 					</div>
+					<div className="sexTitle">Sex</div>
+					<div className="pictureButtons">
+						<HollowButton buttonParts={maleHollowButton} />
+						<HollowButton buttonParts={femaleHollowButton} />
+					</div>
+					<div className="ageFormLayout">
+						<div className="ageFormTitle">Age</div>
+						<BasicFormField formParts={ageFormField} />
+					</div>
+					<BasicButton buttonParts={basicButton} />
 				</div>
 			</div>
 		);

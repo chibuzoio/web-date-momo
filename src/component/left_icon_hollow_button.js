@@ -10,11 +10,6 @@ class LeftIconHollowButton extends React.Component {
 	}
 
 	render() {
-		// leftIconHollowButtonClass = leftIconHollowButton hollowButton buttonTopMargin
-		// leftHollowButtonContentClass = leftHollowButtonContent
-		// hollowButtonLeftIconClass = hollowButtonLeftIcon
-		// leftHollowButtonTitleClass = leftHollowButtonTitle
-
 		return (
 			<button className={this.state.buttonParts.leftIconHollowButtonClass}>
 				<div className={this.state.buttonParts.leftHollowButtonContentClass}> 

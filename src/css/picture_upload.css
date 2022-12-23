@@ -1,0 +1,90 @@
+.customTopMargin {
+	margin-top: 3vmin !important;
+}
+
+.ageFormTitle {
+	margin-right: 1.5vmin;
+}
+
+.ageFormLayout {
+	justify-content: center;
+	display: inline-flex;
+	align-items: center;
+	margin-top: 4vmin;
+	color: #1C2833;
+	width: 100%;
+}
+
+.sexTitle {
+  font-size: calc(15px + 0.7vmin);
+  font-style: bold;
+  color: #1C2833;
+  width: 100%;
+  margin-bottom: -1vmin;
+  margin-top: 2vmin;
+}
+
+.hollowButton {
+	width: 48% !important;
+}
+
+.leftHollowButtonTitle {
+	margin-top: 0.3vmin;
+}
+
+.uploadPicture {
+	float: right;
+}
+
+.leftIconHollowButton {
+  font-size: calc(10px + 0.5vmin);
+  justify-content: center;
+  display: inline-flex;
+  padding-right: 3vmin;
+  padding-left: 3vmin;
+  align-items: center;
+  width: 48%;
+}
+        
+.pictureButtons {
+  width: 100%;
+}
+
+.userPicture {
+	margin-bottom: -1vmin;
+	border-radius: 15px;
+	margin-top: -3vmin;
+	cursor: pointer;
+	width: 100%;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+	.loginWidget {
+		margin-bottom: 5%;
+		margin-top: 5%;
+		width: 70%;
+	}
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+
+}
+
+
