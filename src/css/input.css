@@ -37,7 +37,7 @@
 	margin-bottom: 2vmin;
 }
 
-.leftIconHollowButton, input[type="submit"] {
+.leftIconHollowButton {
 	height: 7vmin;
 	font-size: calc(10px + 1vmin);
 	width: 100%;
@@ -47,6 +47,20 @@
 	padding-right: 7vmin;
 	border-radius: 25px;
 	margin-top: 2vmin;
+}
+
+button {
+	height: 7vmin;
+	font-size: calc(10px + 1vmin);
+	width: fit-content;
+    border: 0.3vmin solid #097ECA;
+	cursor: pointer;
+	padding-left: 3vmin;
+	padding-right: 3vmin;
+	border-radius: 25px;
+	margin-top: 2vmin;	
+	justify-content: center;
+	align-items: center;
 }
 
 input[type="text"], input[type="number"], input[type="password"] {

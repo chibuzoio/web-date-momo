@@ -2,10 +2,11 @@ import React from 'react';
 import axios from 'axios';
 import './css/App.css';
 import './css/header.css';
-import Header from './widget/header'
-import Login from './webpage/login'
-import Register from './webpage/register'
-import PictureUpload from './webpage/picture_upload'
+import Header from './widget/header';
+import Login from './webpage/login';
+import Register from './webpage/register';
+import Sexuality from './webpage/sexuality';
+import PictureUpload from './webpage/picture_upload';
 
 class App extends React.Component {
   
@@ -41,7 +42,7 @@ class App extends React.Component {
     /* USE localStorage FOR STORAGE OF PERSISTENT DATA ON THE BROWSER */
 
     return (
-      <PictureUpload />
+      <Register />
     );
   }
 }

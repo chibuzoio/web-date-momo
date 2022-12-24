@@ -2,12 +2,12 @@ import React from 'react';
 import axios from 'axios';
 import '../css/login.css';
 import '../css/picture_upload.css';
-import LeftIconHollowButton from '../component/left_icon_hollow_button'
-import BasicFormField from '../component/basic_form_field'
-import BasicButton from '../component/basic_button'
-import HollowButton from '../component/hollow_button'
-import icon_gallery_blue from '../image/icon_gallery_blue.png'
-import icon_camera_blue from '../image/icon_camera_blue.png'
+import LeftIconHollowButton from '../component/left_icon_hollow_button';
+import BasicFormField from '../component/basic_form_field';
+import BasicButton from '../component/basic_button';
+import HollowButton from '../component/hollow_button';
+import icon_gallery_blue from '../image/icon_gallery_blue.png';
+import icon_camera_blue from '../image/icon_camera_blue.png';
 import placeholder from '../image/placeholder.jpg';
 import logo from '../image/datemomo.png';
 
@@ -48,17 +48,17 @@ class PictureUpload extends React.Component {
 
 		var basicButton = {
 			buttonTitle : "Next",
-			buttonClass : "basicButton customTopMargin"
+			buttonClass : "basicButton customTopMargin fullWidth"
 		}
 
 		var maleHollowButton = {
 			buttonTitle : "Male",
-			buttonClass : "hollowButton"
+			buttonClass : "hollowButton halfSpacedWidth"
 		}
 
 		var femaleHollowButton = {
 			buttonTitle : "Female",
-			buttonClass : "hollowButton uploadPicture"
+			buttonClass : "hollowButton uploadPicture halfSpacedWidth"
 		}
 
 		var ageFormField = {

@@ -44,7 +44,7 @@ class Register extends React.Component {
 
 		var basicButton = {
 			buttonTitle : "Sign Up",
-			buttonClass : "basicButton"
+			buttonClass : "basicButton fullWidth"
 		}
  
 		return (

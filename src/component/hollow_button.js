@@ -1,5 +1,6 @@
 import React from 'react';
 import '../css/input.css';
+import '../css/style.css';
 
 class HollowButton extends React.Component {
 	state = {buttonParts : {}};
@@ -11,8 +12,9 @@ class HollowButton extends React.Component {
 
 	render() {
 		return (
-			<input className={this.state.buttonParts.buttonClass} type="submit" 
-			value={this.state.buttonParts.buttonTitle} />
+			<button className={this.state.buttonParts.buttonClass} type="button"> 
+				{this.state.buttonParts.buttonTitle}
+			</button>
 		);
 	}
 }
