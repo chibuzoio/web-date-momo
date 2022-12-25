@@ -1,3 +1,30 @@
+.selectedMenuLayout {
+	background: #097ECA;
+}
+
+.ignoredMenuLayout {
+	background: #D4E6F1;
+}
+
+.bottomMenuIcon {
+	height: 3.3vmin;
+	width: 3.3vmin;
+}
+
+.bottomMenuLayout {
+	justify-content: center;
+	flex-direction: row;
+	margin-bottom: auto;
+	align-items: center;
+	border-radius: 5px;
+	margin-top: auto;
+	height: 5.5vmin;
+	display: flex;
+	outline: none;
+	width: 4vmin;
+	border: none;
+}
+
 .formFieldClass {
 	height: 90% !important;
 	width: 87%;
@@ -116,8 +143,9 @@ input[type="text"], input[type="number"], input[type="password"] {
 
 .rightFieldIcon {
 	margin-left: 1vmin;
-	height: 7vmin;
-	width: 7vmin;
+	cursor: pointer;
+	height: 30px;
+	width: 30px;
 }
 
 .buttonTopMargin {

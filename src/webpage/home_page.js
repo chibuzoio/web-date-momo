@@ -8,6 +8,7 @@ import BasicFormField from '../component/basic_form_field';
 import BasicButton from '../component/basic_button';
 import HollowButton from '../component/hollow_button';
 import Header from '../widget/header';
+import Footer from '../widget/footer';
 import motion_placeholder from '../image/motion_placeholder.gif';
 import icon_gallery_blue from '../image/icon_gallery_blue.png';
 import icon_camera_blue from '../image/icon_camera_blue.png';
@@ -135,6 +136,7 @@ class HomePage extends React.Component {
 					</div>
 				</div>
 				<div className="footerLayout">
+					<Footer />
 				</div>
 			</div>
 		);
