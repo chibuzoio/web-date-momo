@@ -7,6 +7,7 @@ import LeftIconHollowButton from '../component/left_icon_hollow_button';
 import BasicFormField from '../component/basic_form_field';
 import BasicButton from '../component/basic_button';
 import HollowButton from '../component/hollow_button';
+import Header from '../widget/header';
 import motion_placeholder from '../image/motion_placeholder.gif';
 import icon_gallery_blue from '../image/icon_gallery_blue.png';
 import icon_camera_blue from '../image/icon_camera_blue.png';
@@ -113,6 +114,9 @@ class HomePage extends React.Component {
            
 		return (
 			<div className="homePage">
+				<div className="headerLayout">
+					<Header />
+				</div>
 				<div className="scrollView">
 					<div className="homePageWidget">
 						<img class="centerCropped" src={test_image} />
@@ -129,6 +133,8 @@ class HomePage extends React.Component {
 					<div className="homePageWidget">
 						<img class="centerCropped" src={motion_placeholder} />
 					</div>
+				</div>
+				<div className="footerLayout">
 				</div>
 			</div>
 		);

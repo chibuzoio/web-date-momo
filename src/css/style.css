@@ -1,3 +1,14 @@
+.roundPictureClass {
+	background-repeat: no-repeat;
+	object-position: center;
+	margin-bottom: auto;
+	border-radius: 50%;
+	object-fit: cover;
+	margin-top: auto;
+	cursor: pointer;
+	height: 75%;            
+}
+
 .fullWidth {
 	width: 100%;
 }

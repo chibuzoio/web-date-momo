@@ -82,10 +82,20 @@ for the container element (E.g. div) and set flex-direction to column or row.
 	width: 96%;
 }
 
+.footerLayout {
+	background: white;
+	height: 7%;
+}
+
 .scrollView {
 	padding-bottom: 2.5vmin;
 	overflow-y: auto;
-/*	height: 70%;*/
+	height: 85%;
+}
+
+.headerLayout {
+	background: white;
+	height: 8%;
 }
 
 .homePage {
