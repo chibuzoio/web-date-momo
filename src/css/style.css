@@ -1,3 +1,8 @@
+
+.hideComponent {
+	display: none !important;
+}
+
 .roundPictureClass {
 	background-repeat: no-repeat;
 	object-position: center;

@@ -7,13 +7,13 @@ import LeftIconHollowButton from '../component/left_icon_hollow_button';
 import BasicFormField from '../component/basic_form_field';
 import BasicButton from '../component/basic_button';
 import HollowButton from '../component/hollow_button';
+import Timeline from '../widget/timeline';
 import Header from '../widget/header';
 import Footer from '../widget/footer';
+import FloatingUserAccount from '../widget/floating_account';
 import motion_placeholder from '../image/motion_placeholder.gif';
 import icon_gallery_blue from '../image/icon_gallery_blue.png';
 import icon_camera_blue from '../image/icon_camera_blue.png';
-import test_image from '../image/test_image.png';
-import icon_heart_hollow from '../image/icon_heart_hollow.png';
 import logo from '../image/datemomo.png';
 
 class HomePage extends React.Component {
@@ -115,29 +115,10 @@ class HomePage extends React.Component {
            
 		return (
 			<div className="homePage">
-				<div className="headerLayout">
-					<Header />
-				</div>
-				<div className="scrollView">
-					<div className="homePageWidget">
-						<img class="centerCropped" src={test_image} />
-						<div className="bottomContentLayout">
-							<div className="userNameLayout">
-								<div className="userNameText">Solution, 37</div>
-								<div className="locationText">Minarelikoy</div>
-							</div>
-							<div className="likeIconLayout">
-								<img className="heartIcon" alt="" src={icon_heart_hollow}/>
-							</div>
-						</div>
-					</div>
-					<div className="homePageWidget">
-						<img class="centerCropped" src={motion_placeholder} />
-					</div>
-				</div>
-				<div className="footerLayout">
-					<Footer />
-				</div>
+				<Header />
+				<Timeline />
+				<FloatingUserAccount />
+				<Footer />
 			</div>
 		);
 	}
