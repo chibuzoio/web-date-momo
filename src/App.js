@@ -7,6 +7,7 @@ import Login from './webpage/login';
 import Register from './webpage/register';
 import Sexuality from './webpage/sexuality';
 import PictureUpload from './webpage/picture_upload';
+import HomePage from './webpage/home_page';
 
 class App extends React.Component {
   
@@ -42,7 +43,7 @@ class App extends React.Component {
     /* USE localStorage FOR STORAGE OF PERSISTENT DATA ON THE BROWSER */
 
     return (
-      <Register />
+      <HomePage />
     );
   }
 }
