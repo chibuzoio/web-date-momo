@@ -1,19 +1,26 @@
 
+.floatingUserAccountImage {
+	width: 100%;
+	border-radius: 25px;
+}
+
+.floatingUserAccountWidget::-webkit-scrollbar { 
+    display: none;  
+}
+
 .floatingUserAccountWidget {
 	width: 96%;
 	height: 96%;
-	position: fixed;
+	-ms-overflow-style: none; 
+    scrollbar-width: none; 
 	border-radius: 25px;
 	background: white;
 	overflow-y: auto;
 }
 
 .floatingUserAccountLayout {
-	position: fixed;
-	z-index: 5;
-	margin-top: 25%;
-	margin-bottom: 7%;
-	height: 50%;
+	height: 85%;
+	width: 100%;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;

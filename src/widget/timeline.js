@@ -1,4 +1,5 @@
 import React from 'react';
+import '../css/style.css';
 import '../css/header.css';
 import '../css/timeline.css';
 import placeholder from '../image/placeholder.jpg';
@@ -33,7 +34,7 @@ class Timeline extends React.Component {
 		};
 
 		return (
-			<div className="scrollView">
+			<div className="scrollView hideComponent">
 				<TimeLineCard />
 			</div>
 		);
