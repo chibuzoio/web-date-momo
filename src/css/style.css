@@ -1,3 +1,10 @@
+.greyHollowButton {
+	background: #EAEDED !important;
+}
+
+.floatContentRight {
+	float: right;
+}
 
 .hideComponent {
 	display: none !important;

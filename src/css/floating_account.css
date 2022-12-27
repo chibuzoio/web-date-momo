@@ -1,3 +1,24 @@
+.floatingAccountButton {
+	width: 43%;
+	font-size: calc(10px + 1vmin);	
+}
+
+.floatingLayoutButtons {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+}
+
+.userStatusText {
+	font-size: calc(10px + 1vmin);	
+	margin-right: 5vmin;
+	margin-left: 5vmin;
+	float: left;
+	color: #1C2833;
+	margin-top: 3vmin;
+}
+
 .gradientLocation {
 	font-size: calc(10px + 0.3vmin);	
 	position: absolute;

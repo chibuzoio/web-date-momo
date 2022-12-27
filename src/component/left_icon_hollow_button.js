@@ -1,5 +1,6 @@
 import React from 'react';
 import '../css/input.css';
+import '../css/style.css';
 
 class LeftIconHollowButton extends React.Component {
 	state = {buttonParts : {}};
