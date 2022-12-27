@@ -10,10 +10,23 @@ import test_image from '../image/test_image.png';
 import logo from '../image/datemomo.png';
 
 class FloatingAccount extends React.Component {
+	state = {gradientHeight : 0};
 
 	constructor(props) {
 		super(props);
 		this.state = {}; 
+		this.setGradientHeight = this.setGradientHeight.bind(this);
+	}
+
+	componentDidMount() {
+		const height = this.gradientCover.clientHeight;
+		console.log("The original height of gradientCover here is " + height);
+	}
+               
+	setGradientHeight(event) { 
+		console.log("The height of the image here is " + event.target.clientHeight);
+		console.log("The height of this.gradientCover.style.height here is " + this.gradientCover.style.height);
+		this.setState({gradientHeight : event.target.clientHeight});
 	}
 
 	render() {
@@ -34,7 +47,14 @@ class FloatingAccount extends React.Component {
 		return (
 			<div className="floatingUserAccountLayout">
 				<div className="floatingUserAccountWidget">
-					<img className="floatingUserAccountImage" alt="" src={test_image} />
+					<img className="floatingUserAccountImage" onLoad={this.setGradientHeight} alt="" src={test_image} />
+					<div className="gradientCover" ref={(gradientCover) => {this.gradientCover = gradientCover}} 
+					style={{height : this.state.gradientHeight}}>
+						<div className="gradientLayout">
+							<div className="gradientUserName">Solution, 37</div>
+							<div className="gradientLocation">Minarelikoy</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		);

@@ -1,6 +1,50 @@
+.gradientLocation {
+	font-size: calc(10px + 0.3vmin);	
+	position: absolute;
+	bottom: 23%;
+	margin-right: 5vmin;
+	margin-left: 5vmin;
+	color: white;
+	float: left;
+}
+
+.gradientUserName {
+	font-size: calc(10px + 2vmin);
+	position: absolute;
+	bottom: 37%;
+	margin-right: 5vmin;
+	margin-left: 5vmin;
+	font-style: bold;
+	color: white;
+	float: left;
+}
+
+.gradientLayout {
+	width: 100%;
+	height: 25%;
+	bottom: 0;
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	border-bottom-left-radius: 25px;
+	border-bottom-right-radius: 25px;
+	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+}
+
+.gradientCover {
+	width: 100%;
+	height: 85%;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	z-index: 2;
+	border-radius: 25px;
+	position: absolute;
+}
 
 .floatingUserAccountImage {
 	width: 100%;
+	position: relative;
 	border-radius: 25px;
 }
 
@@ -14,6 +58,7 @@
 	-ms-overflow-style: none; 
     scrollbar-width: none; 
 	border-radius: 25px;
+	position: relative;
 	background: white;
 	overflow-y: auto;
 }
