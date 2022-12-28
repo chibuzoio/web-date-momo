@@ -2,14 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import '../css/login.css';
 import '../css/sexuality.css';
-import LeftIconHollowButton from '../component/left_icon_hollow_button';
-import BasicFormField from '../component/basic_form_field';
 import BasicButton from '../component/basic_button';
-import HollowButton from '../component/hollow_button';
-import icon_gallery_blue from '../image/icon_gallery_blue.png';
-import icon_camera_blue from '../image/icon_camera_blue.png';
-import placeholder from '../image/placeholder.jpg';
-import logo from '../image/datemomo.png';
+import SexualityOptions from '../widget/sexuality_options';
 
 class Sexuality extends React.Component {
 	state = {userNames : []};
@@ -28,45 +22,11 @@ class Sexuality extends React.Component {
 	}
   
 	render() { 
-		var takePictureButton = {
-			buttonTitle : "Take Picture",
-			buttonIcon : icon_camera_blue,
-			leftIconHollowButtonClass : "leftIconHollowButton hollowButton buttonTopMargin",
-			leftHollowButtonContentClass : "leftHollowButtonContent",
-			hollowButtonLeftIconClass : "hollowButtonLeftIcon",
-			leftHollowButtonTitleClass : "leftHollowButtonTitle"
-		}
-
-		var uploadPictureButton = {
-			buttonTitle : "Upload Picture",
-			buttonIcon : icon_gallery_blue,
-			leftIconHollowButtonClass : "leftIconHollowButton hollowButton buttonTopMargin uploadPicture",
-			leftHollowButtonContentClass : "leftHollowButtonContent",
-			hollowButtonLeftIconClass : "hollowButtonLeftIcon",
-			leftHollowButtonTitleClass : "leftHollowButtonTitle"
-		}
-
 		var basicButton = {
 			buttonTitle : "Submit",
 			buttonClass : "basicButton customTopMargin fullWidth"
 		}
-
-		var maleHollowButton = {
-			buttonTitle : "Male",
-			buttonClass : "hollowButton"
-		}
-
-		var femaleHollowButton = {
-			buttonTitle : "Female",
-			buttonClass : "hollowButton uploadPicture"
-		}
-
-		var ageFormField = {
-			ageFieldClass : "ageFormField",
-			placeholder : "Age",
-			type : "number"
-		}
-
+    
 		var sexualCategoryButtons = [
 			{buttonTitle : "Bisexual", buttonClass : "sexualityButton"},
 			{buttonTitle : "Gay", buttonClass : "sexualityButton"},
@@ -112,29 +72,11 @@ class Sexuality extends React.Component {
 			<div className="login">
 				<div className="loginWidget">
 					<div className="sexualCategoryHeader">Your Sexual Category</div>
-					<div className="sexualityButtonLayout">
-						{ 
-							sexualCategoryButtons.map((categoryButton) => ( 
-								<HollowButton buttonParts={categoryButton} />
-							))
-						}
-					</div>
+					<SexualityOptions sexualityButtons={sexualCategoryButtons} />
 					<div className="sexualCategoryHeader">You are interested in</div>
-					<div className="sexualityButtonLayout">
-						{ 
-							sexualInterestButtons.map((interestButton) => ( 
-								<HollowButton buttonParts={interestButton} />
-							)) 
-						}
-					</div>
+					<SexualityOptions sexualityButtons={sexualInterestButtons} />
 					<div className="sexualCategoryHeader">Things you have tried or can do in sex</div>
-					<div className="sexualityButtonLayout">
-						{ 
-							sexualExperienceButtons.map((experienceButton) => ( 
-								<HollowButton buttonParts={experienceButton} />
-							)) 
-						}
-					</div>
+					<SexualityOptions sexualityButtons={sexualExperienceButtons} />
 					<BasicButton buttonParts={basicButton} />
 				</div>
 			</div>
