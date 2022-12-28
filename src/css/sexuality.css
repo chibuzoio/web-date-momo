@@ -1,13 +1,7 @@
 .sexualityButtonLayout {
   display: inline-block;
   margin-bottom: 1vmin;
-  width: 100%;
-}
-
-.sexualityButton {
-  margin-right: 2vmin;
-  background: white;
-  color: #097ECA;
+  width: 96% !important;
 }
 
 .sexualCategoryHeader {

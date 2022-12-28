@@ -28,44 +28,44 @@ class Sexuality extends React.Component {
 		}
     
 		var sexualCategoryButtons = [
-			{buttonTitle : "Bisexual", buttonClass : "sexualityButton"},
-			{buttonTitle : "Gay", buttonClass : "sexualityButton"},
-			{buttonTitle : "Lesbian", buttonClass : "sexualityButton"},
-			{buttonTitle : "Straight", buttonClass : "sexualityButton"},
-			{buttonTitle : "Sugar Daddy", buttonClass : "sexualityButton"},
-			{buttonTitle : "Sugar Mommy", buttonClass : "sexualityButton"},
-			{buttonTitle : "Toy Boy", buttonClass : "sexualityButton"},
-			{buttonTitle : "Toy Girl", buttonClass : "sexualityButton"}
+			{buttonTitle : "Bisexual", buttonClass : "hollowButton sexualityButton"},
+			{buttonTitle : "Gay", buttonClass : "hollowButton sexualityButton"},
+			{buttonTitle : "Lesbian", buttonClass : "hollowButton sexualityButton"},
+			{buttonTitle : "Straight", buttonClass : "hollowButton sexualityButton"},
+			{buttonTitle : "Sugar Daddy", buttonClass : "hollowButton sexualityButton"},
+			{buttonTitle : "Sugar Mommy", buttonClass : "hollowButton sexualityButton"},
+			{buttonTitle : "Toy Boy", buttonClass : "hollowButton sexualityButton"},
+			{buttonTitle : "Toy Girl", buttonClass : "hollowButton sexualityButton"}
 		];
 
 		var sexualInterestButtons = [
-			{buttonTitle : "Bisexual", buttonClass : "sexualityButton"},
-			{buttonTitle : "Friendship", buttonClass : "sexualityButton"},
-			{buttonTitle : "Gay", buttonClass : "sexualityButton"},
-			{buttonTitle : "Lesbian", buttonClass : "sexualityButton"},
-			{buttonTitle : "Relationship", buttonClass : "sexualityButton"},
-			{buttonTitle : "Straight", buttonClass : "sexualityButton"},
-			{buttonTitle : "Sugar Daddy", buttonClass : "sexualityButton"},
-			{buttonTitle : "Sugar Mommy", buttonClass : "sexualityButton"},
-			{buttonTitle : "Toy Boy", buttonClass : "sexualityButton"},
-			{buttonTitle : "Toy Girl", buttonClass : "sexualityButton"}
+			{buttonTitle : "Bisexual", buttonClass : "hollowButton sexualityButton"},
+			{buttonTitle : "Friendship", buttonClass : "hollowButton sexualityButton"},
+			{buttonTitle : "Gay", buttonClass : "hollowButton sexualityButton"},
+			{buttonTitle : "Lesbian", buttonClass : "hollowButton sexualityButton"},
+			{buttonTitle : "Relationship", buttonClass : "hollowButton sexualityButton"},
+			{buttonTitle : "Straight", buttonClass : "hollowButton sexualityButton"},
+			{buttonTitle : "Sugar Daddy", buttonClass : "hollowButton sexualityButton"},
+			{buttonTitle : "Sugar Mommy", buttonClass : "hollowButton sexualityButton"},
+			{buttonTitle : "Toy Boy", buttonClass : "hollowButton sexualityButton"},
+			{buttonTitle : "Toy Girl", buttonClass : "hollowButton sexualityButton"}
 		];
     
 		var sexualExperienceButtons = [
-			{buttonTitle : "69", buttonClass : "sexualityButton"},
-			{buttonTitle : "Anal Sex", buttonClass : "sexualityButton"},
-			{buttonTitle : "Given Head", buttonClass : "sexualityButton"},
-			{buttonTitle : "Missionary", buttonClass : "sexualityButton"},
-			{buttonTitle : "One-night Stand", buttonClass : "sexualityButton"},
-			{buttonTitle : "Orgy Sex", buttonClass : "sexualityButton"},
-			{buttonTitle : "Pool Sex", buttonClass : "sexualityButton"},
-			{buttonTitle : "Received Head", buttonClass : "sexualityButton"},
-			{buttonTitle : "Sexed In Car", buttonClass : "sexualityButton"},
-			{buttonTitle : "Sexed In Public", buttonClass : "sexualityButton"},
-			{buttonTitle : "Sexed With Camera", buttonClass : "sexualityButton"},
-			{buttonTitle : "Threesome", buttonClass : "sexualityButton"},
-			{buttonTitle : "Used Sex Toys", buttonClass : "sexualityButton"},
-			{buttonTitle : "Video Sex Chat", buttonClass : "sexualityButton"}
+			{buttonTitle : "69", buttonClass : "hollowButton sexualityButton"},
+			{buttonTitle : "Anal Sex", buttonClass : "hollowButton sexualityButton"},
+			{buttonTitle : "Given Head", buttonClass : "hollowButton sexualityButton"},
+			{buttonTitle : "Missionary", buttonClass : "hollowButton sexualityButton"},
+			{buttonTitle : "One-night Stand", buttonClass : "hollowButton sexualityButton"},
+			{buttonTitle : "Orgy Sex", buttonClass : "hollowButton sexualityButton"},
+			{buttonTitle : "Pool Sex", buttonClass : "hollowButton sexualityButton"},
+			{buttonTitle : "Received Head", buttonClass : "hollowButton sexualityButton"},
+			{buttonTitle : "Sexed In Car", buttonClass : "hollowButton sexualityButton"},
+			{buttonTitle : "Sexed In Public", buttonClass : "hollowButton sexualityButton"},
+			{buttonTitle : "Sexed With Camera", buttonClass : "hollowButton sexualityButton"},
+			{buttonTitle : "Threesome", buttonClass : "hollowButton sexualityButton"},
+			{buttonTitle : "Used Sex Toys", buttonClass : "hollowButton sexualityButton"},
+			{buttonTitle : "Video Sex Chat", buttonClass : "hollowButton sexualityButton"}
 		];
            
 		return (

@@ -1,3 +1,22 @@
+.floatingSexualityLayout {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin-top: 1vmin;
+	margin-left: 5vmin;
+	margin-right: 5vmin;
+	margin-bottom: 3vmin;
+}
+
+.sexualityHeader {
+	font-size: calc(10px + 1vmin);
+	font-style: bold;
+	color: #1C2833;
+	margin-top: 3vmin;
+	width: 100%;
+	float: left;
+}
+
 .floatingAccountButton {
 	width: 43%;
 	font-size: calc(10px + 1vmin);	
