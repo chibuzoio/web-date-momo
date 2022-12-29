@@ -108,7 +108,7 @@ button {
 	height: 7vmin;
 	font-size: calc(10px + 1vmin);
 	width: fit-content;
-    border: 0.3vmin solid #097ECA;
+  border: 0.3vmin solid #097ECA;
 	cursor: pointer;
 	padding-left: 3vmin;
 	padding-right: 3vmin;

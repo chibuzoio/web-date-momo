@@ -34,7 +34,7 @@ class Timeline extends React.Component {
 		};
 
 		return (
-			<div className="scrollView hideComponent">
+			<div className="scrollView">
 				<TimeLineCard />
 			</div>
 		);

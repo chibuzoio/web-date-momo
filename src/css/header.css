@@ -14,15 +14,17 @@
 .header {
 	height: 8%;
 	width: 94%;      
+	z-index: 2;
 	display: flex;
 	padding-left: 3%;
 	padding-right: 3%;
+	background: white;
 	padding-top: auto;
 	flex-direction: row;
 	padding-bottom: auto;
-	justify-content: space-between;
 	font-size: calc(10px + 2vmin);
-	background: white;
+	justify-content: space-between;
+	box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
 }
 
 
