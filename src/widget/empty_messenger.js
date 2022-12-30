@@ -1,4 +1,5 @@
 import React from 'react';
+import '../css/style.css';
 import '../css/messenger.css';
 import icon_empty_chat from '../image/icon_empty_chat.png';
 import EmptyMessengerContent from '../widget/empty_messenger_content';
@@ -21,6 +22,21 @@ class EmptyMessenger extends React.Component {
 					</div> 				
 				</div>
 				<EmptyMessengerContent />
+				<EmptyMessengerContent />
+				<EmptyMessengerContent />
+				<EmptyMessengerContent />
+				<EmptyMessengerContent />
+				<EmptyMessengerContent />
+				<EmptyMessengerContent />
+				<EmptyMessengerContent />
+				<EmptyMessengerContent />
+				<EmptyMessengerContent />
+				<EmptyMessengerContent />
+				<EmptyMessengerContent />
+				<EmptyMessengerContent />
+				<EmptyMessengerContent />
+				<EmptyMessengerContent />
+				<div className="bottomPadding"><p></p></div>
 			</div>
 		);
 	}

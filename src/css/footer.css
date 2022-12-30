@@ -1,7 +1,6 @@
 .footer {
-/*	box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);*/
-	border-top: 1px solid #E5E7E9;                 
 	justify-content: space-around;
+	border-top: 1px solid #E5E7E9;                 
 	flex-direction: row;
 	background: white;
 	display: flex;     

@@ -1,9 +1,17 @@
 .horizontalButtonList {
 	display: flex;
 	overflow-x: auto;
+	margin-top: -2vmin;
 	overflow-y: hidden;
 	flex-direction: row;  
 	justify-content: space-between;
+}
+
+.emptyMessengerButtons {
+	height: 5vmin;
+	white-space: nowrap;
+	font-size: calc(10px + 0.5vmin);
+	margin-right: 2vmin;
 }
 
 .sexualityButton {

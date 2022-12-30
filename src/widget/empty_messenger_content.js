@@ -14,30 +14,34 @@ class EmptyMessengerContent extends React.Component {
 
 	render() {
 		var roundPictureParts = {
-			roundPictureClass : "roundPictureClass",
+			roundPictureClass : "emptyMessengerPicture",
 			roundPicture : test_image
 		};
 
 		var sexualCategoryButtons = [
-			{buttonTitle : "Bisexual", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Gay", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Lesbian", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Straight", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Sugar Daddy", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Sugar Mommy", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Toy Boy", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Toy Girl", buttonClass : "basicButton sexualityButton"}
+			{buttonTitle : "Bisexual", buttonClass : "basicButton emptyMessengerButtons"},
+			{buttonTitle : "Gay", buttonClass : "basicButton emptyMessengerButtons"},
+			{buttonTitle : "Lesbian", buttonClass : "basicButton emptyMessengerButtons"},
+			{buttonTitle : "Straight", buttonClass : "basicButton emptyMessengerButtons"},
+			{buttonTitle : "Sugar Daddy", buttonClass : "basicButton emptyMessengerButtons"},
+			{buttonTitle : "Sugar Mommy", buttonClass : "basicButton emptyMessengerButtons"},
+			{buttonTitle : "Toy Boy", buttonClass : "basicButton emptyMessengerButtons"},
+			{buttonTitle : "Toy Girl", buttonClass : "basicButton emptyMessengerButtons"}
 		];
              
 		return (
 			<div className="emptyMessengerContent">
-				<RoundPicture pictureParts={roundPictureParts} />
+				<div className="RoundPictureContainer">
+					<RoundPicture pictureParts={roundPictureParts} />
+				</div>
 				<div className="userAccountData">
 					<div className="chatMateUserName">Solution, 33</div>
 					<div className="chatMateLocation">Minarelikoy</div>
 					<HorizontalButtonList sexualityButtons={sexualCategoryButtons} />
 				</div>
-				<img className="messengerWavingIcon" alt="" src={icon_waving_hand} />
+				<div className="wavingIconContainer">				
+					<img className="messengerWavingIcon" alt="" src={icon_waving_hand} />
+				</div>
 			</div>
 		);
 	}
