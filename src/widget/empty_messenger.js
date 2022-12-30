@@ -1,8 +1,7 @@
 import React from 'react';
 import '../css/messenger.css';
-import RoundPicture from '../component/round_picture';
 import icon_empty_chat from '../image/icon_empty_chat.png';
-import test_image from '../image/test_image.png';
+import EmptyMessengerContent from '../widget/empty_messenger_content';
 
 class EmptyMessenger extends React.Component {
 
@@ -11,23 +10,7 @@ class EmptyMessenger extends React.Component {
 		this.state = {}; 
 	}
 
-	render() {
-		var roundPictureParts = {
-			roundPictureClass : "roundPictureClass",
-			roundPicture : test_image
-		};
-
-		var sexualCategoryButtons = [
-			{buttonTitle : "Bisexual", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Gay", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Lesbian", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Straight", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Sugar Daddy", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Sugar Mommy", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Toy Boy", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Toy Girl", buttonClass : "basicButton sexualityButton"}
-		];
-             
+	render() {  
 		return (
 			<div className="emptyMessengerLayout">
 				<div className="emptyMessengerDescription">
@@ -37,6 +20,7 @@ class EmptyMessenger extends React.Component {
 						meeting people by waving at them!
 					</div> 				
 				</div>
+				<EmptyMessengerContent />
 			</div>
 		);
 	}

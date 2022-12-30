@@ -1,3 +1,22 @@
+.messengerWavingIcon {
+
+}
+
+.userAccountData {
+	width: 65%;	
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space_between;
+}
+
+.emptyMessengerContent {
+	display: flex;	
+	flex-direction: row;
+	justify-content: space_between;
+	width: 100%;
+}
+
 .emptyMessengerDescriptionText {
 	font-size: calc(10px + 1vmin);
 	padding-right: 1.5vmin;

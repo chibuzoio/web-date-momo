@@ -1,3 +1,11 @@
+.horizontalButtonList {
+	display: flex;
+	overflow-x: auto;
+	overflow-y: hidden;
+	flex-direction: row;  
+	justify-content: space-between;
+}
+
 .sexualityButton {
   margin-right: 2vmin;
 }
