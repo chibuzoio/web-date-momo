@@ -31,7 +31,7 @@ class EmptyMessengerContent extends React.Component {
              
 		return (
 			<div className="emptyMessengerContent">
-				<div className="RoundPictureContainer">
+				<div className="roundPictureContainer">
 					<RoundPicture pictureParts={roundPictureParts} />
 				</div>
 				<div className="userAccountData">

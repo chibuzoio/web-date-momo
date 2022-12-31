@@ -13,7 +13,7 @@ class EmptyMessenger extends React.Component {
 
 	render() {  
 		return (
-			<div className="emptyMessengerLayout">
+			<div className="genericMessengerLayout">
 				<div className="emptyMessengerDescription">
 					<img className="emptyMessengerDescriptionIcon" src={icon_empty_chat} />
 					<div className="emptyMessengerDescriptionText"> 

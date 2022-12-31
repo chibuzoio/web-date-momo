@@ -1,5 +1,6 @@
 import React from 'react';
 import '../css/messenger.css';
+import ActiveMessenger from '../widget/active_messenger';
 import EmptyMessenger from '../widget/empty_messenger';
 
 class Messenger extends React.Component {
@@ -12,7 +13,7 @@ class Messenger extends React.Component {
 	render() {             
 		return (
 			<div className="dateMomoMessengerLayout">
-				<EmptyMessenger />
+				<ActiveMessenger />
 			</div>			
 		);
 	}
