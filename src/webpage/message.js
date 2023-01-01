@@ -1,13 +1,12 @@
 import React from 'react';
 import '../css/style.css';
-import '../css/message.css';
-import Header from '../widget/header';
-import Footer from '../widget/footer';
+import '../css/message.css';   
 import test_image from '../image/test_image.png';
 import RoundPicture from '../component/round_picture';
 import MessageContent from '../widget/message_content';
+import BasicTextarea from '../component/basic_textarea';
 import icon_menu_blue from '../image/icon_menu_blue.png';
-import BasicFormField from '../component/basic_form_field';
+import icon_message_send from '../image/icon_message_send.png';
 import icon_left_arrow_blue from '../image/icon_left_arrow_blue.png';
 
 class Message extends React.Component {
@@ -19,11 +18,12 @@ class Message extends React.Component {
 
 	render() {
 		var userMessageEditor = {
-			ageFieldClass : "ageFormField",
+			basicTextarea : "dateMomoMessageEditor",
 			placeholder : "Write Message...",
-			type : "text"
+			minimumRows : 1,
+			rowCount : 1
 		}
-
+   
 		var roundPictureParts = {
 			roundPictureClass : "messageHeaderPicture",
 			roundPicture : test_image
@@ -52,7 +52,12 @@ class Message extends React.Component {
 						<MessageContent />
 					</div>
 					<div className="dateMomoMessageFooter">
-						<BasicFormField formParts={userMessageEditor} />
+						<div className="messageInputField">
+							<BasicTextarea formParts={userMessageEditor} />
+						</div>
+						<div className="messageSenderLayout">
+							<img className="messageSenderIcon" alt="" src={icon_message_send} />
+						</div>
 					</div>
 				</div>
 				{/* <Footer /> */}

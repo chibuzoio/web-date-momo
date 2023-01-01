@@ -50,6 +50,17 @@
 	width: 87%;
 }
 
+.dateMomoMessageEditor {
+	padding-bottom: 1vmin;
+	padding-top: 1vmin;
+	padding-right: 2%;
+	padding-left: 2%;
+	height: inherit;
+/*	outline: none;*/
+/*	border: none;*/
+/*	width: 93% !important;*/
+}
+
 .ageFormField {
 	text-align: center;
 	height: 7vmin;

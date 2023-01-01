@@ -1,3 +1,26 @@
+.messageSenderIcon {
+	height: 9vmin;
+	margin-left: -3vmin;
+}
+
+.messageSenderLayout {
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	display: flex;
+	height: 100%;
+	width: 11%;
+}
+
+.messageInputField {
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	display: flex;
+	height: 100%;
+	width: 89%;
+}
+
 .messageMenuIcon {
 	width: 30px;
 }
@@ -51,13 +74,19 @@
 
 .dateMomoMessageBody {
 	height: 85%;
+	display: flex;
+	flex-direction: column;
 }
 
 .dateMomoMessageFooter {
+	justify-content: space-between;
 	border-top: 1px solid #E5E7E9;
+	flex-direction: row;
+	align-items: center;
 	position: absolute;
 	background: white;
 	min-height: 7%;
+	display: flex;
 	width: 100%;
 	bottom: 0px;
 	z-index: 2;
