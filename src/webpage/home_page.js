@@ -3,8 +3,7 @@ import axios from 'axios';
 import '../css/home_page.css';
 import Timeline from '../widget/timeline';
 import Header from '../widget/header';
-import Footer from '../widget/footer';
-import Messenger from '../webpage/messenger';
+import Footer from '../widget/footer'; 
 import FloatingUserAccount from '../widget/floating_account';
 
 class HomePage extends React.Component {
@@ -27,9 +26,8 @@ class HomePage extends React.Component {
 		return (
 			<div className="homePage">
 				<Header />
-				{/* <Timeline /> */}
+				<Timeline /> 
 				{/* <FloatingUserAccount /> */}
-				<Messenger />
 				<Footer />
 			</div>
 		);

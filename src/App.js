@@ -4,7 +4,9 @@ import './css/App.css';
 import './css/header.css';
 import Header from './widget/header';
 import Login from './webpage/login';
+import Message from './webpage/message';
 import Register from './webpage/register';
+import Messenger from './webpage/messenger';
 import Sexuality from './webpage/sexuality';
 import PictureUpload from './webpage/picture_upload';
 import HomePage from './webpage/home_page';
@@ -43,7 +45,10 @@ class App extends React.Component {
     /* USE localStorage FOR STORAGE OF PERSISTENT DATA ON THE BROWSER */
 
     return (
-      <HomePage />
+      <div>
+        {/* <HomePage /> */}
+        <Message /> 
+      </div>
     );
   }
 }
