@@ -1,14 +1,16 @@
 import React from 'react';
+import '../css/style.css';
 import '../css/input.css';
 import '../css/message.css';
 import RoundPicture from '../component/round_picture';
 import test_image from '../image/test_image.png';
 
 class MessageContent extends React.Component {
+	state = {messageData : {}};
 
 	constructor(props) {
 		super(props);
-		this.state = {}; 
+		this.state.messageData = props.messageData; 
 	}
 
 	render() {
@@ -18,17 +20,12 @@ class MessageContent extends React.Component {
 		};
                
 		return (
-			<div className="activeMessengerContent">
-				<div className="roundPictureContainer">
-					<RoundPicture pictureParts={roundPictureParts} />
+			<div className="chatMessageLayout">
+				<div className="baseMessage chatMateMessage">
+					{this.state.messageData.message}
 				</div>
-				<div className="userNameMessageLayout">
-					<div className="chatMateUserName">Solution</div>
-					<div className="chatLastMessage">Hello dear! How did it go?</div>
-				</div>
-				<div className="messagePropertiesLayout">				
-					<div className="unreadMessageCounter basicButton">98</div>
-					<div className="lastMessageDate">1 week ago</div>
+				<div className="baseMessage hostUserMessage">
+					{this.state.messageData.message}
 				</div>
 			</div>
 		);

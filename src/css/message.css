@@ -1,3 +1,41 @@
+.hostUserMessage {  
+	background: #097ECA; 
+	color: white;
+	float: right;
+}
+
+.chatMateMessage { 
+	background: #E5E7E9;   
+	float: left;
+}
+
+.baseMessage {
+	font-size: calc(10px + 1vmin);
+  	-webkit-box-orient: vertical;
+	white-space: -moz-pre-wrap;
+	white-space: -o-pre-wrap;
+  	text-overflow: ellipsis;
+  	white-space: -pre-wrap;
+	white-space: pre-wrap;
+  	word-wrap: break-word;
+  	display: -webkit-box;
+	border-radius: 15px; 
+	margin-right: 2vmin;
+	margin-left: 2vmin;
+	width: fit-content;
+	margin-top: 2vmin;
+	max-width: 70%;
+	padding: 2vmin;
+	outline: none;
+	border: none;
+}
+
+.chatMessageLayout {
+	width: 100%;
+	overflow-y: auto;
+	padding-bottom: 2vmin;
+}
+
 .messageSenderIcon {
 	height: 9vmin;
 	margin-left: -3vmin;
@@ -74,6 +112,7 @@
 
 .dateMomoMessageBody {
 	height: 85%;
+	width: 100%;
 	display: flex;
 	flex-direction: column;
 }

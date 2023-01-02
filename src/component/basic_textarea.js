@@ -39,7 +39,17 @@ class BasicTextarea extends React.Component {
 		console.log("The text value in this div is " + event.target.textContent);
 		console.log("The html value in this div is " + event.target.innerHTML);
 
-		var placeholder = event.target.innerHTML
+		var placeholder = event.target.innerHTML;
+		var textContentLength = placeholder.length;   
+		
+	    if (document.selection) {
+	    	let selection = document.selection.createRange();
+    		selection.moveStart('character', textContentLength);
+    		selection.select();
+	    } else {
+		    let selection = window.getSelection();
+		    selection.collapse(event.target.lastChild, textContentLength);
+		}
 
 		if (placeholder.includes("Write Message...")) {
 			event.target.innerHTML = "";

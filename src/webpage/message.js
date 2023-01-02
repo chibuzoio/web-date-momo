@@ -22,6 +22,10 @@ class Message extends React.Component {
 			placeholder : "Write Message..."
 		}
    
+		var gottenMessage = {
+			message : "Hello Bro! fsdjlfsjal djal jflajsfdlkjlalk jljsdf lasjflkj lkjfsdlakjf lksajfd lkasjf lkjaslkd jlkfjlsakj flkasjf lsj"
+		}
+
 		var roundPictureParts = {
 			roundPictureClass : "messageHeaderPicture",
 			roundPicture : test_image
@@ -47,7 +51,7 @@ class Message extends React.Component {
 						</div>
 					</div>
 					<div className="dateMomoMessageBody">
-						<MessageContent />
+						<MessageContent messageData={gottenMessage} />
 					</div>
 					<div className="dateMomoMessageFooter">
 						<div className="messageInputField">
