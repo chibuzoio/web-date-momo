@@ -8,7 +8,9 @@ class BasicTextarea extends React.Component {
 		super(props);
 		this.state.formParts = props.formParts; 
 		this.getScrollHeight = this.getScrollHeight.bind(this);
+		this.checkEmptyEditor = this.checkEmptyEditor.bind(this);
 		this.expandTextareaInput = this.expandTextareaInput.bind(this);
+		this.deleteThePlaceholder = this.deleteThePlaceholder.bind(this);
 	}
 
 	expandTextareaInput({target : element}) {
@@ -27,24 +29,29 @@ class BasicTextarea extends React.Component {
 		element.value = savedValue;
 	}
 
+	checkEmptyEditor(event) {
+		if (event.target.textContent.trim() === "") {
+			event.target.innerHTML = this.state.formParts.placeholder;
+		}
+	}
+
+	deleteThePlaceholder(event) {
+		console.log("The text value in this div is " + event.target.textContent);
+		console.log("The html value in this div is " + event.target.innerHTML);
+
+		var placeholder = event.target.innerHTML
+
+		if (placeholder.includes("Write Message...")) {
+			event.target.innerHTML = "";
+		}
+	}
+
 	render() {     
 		return (
-			<div> 
-				<textarea 
-					className={this.state.formParts.basicTextarea} 
-					onKeyUp={this.expandTextareaInput} 
-					rows={this.state.formParts.rowCount} 
-					data-min-rows={this.state.formParts.minimumRows} 
-					placeholder={this.state.formParts.placeholder} 
-					autoFocus></textarea>
-
-				{/* <textarea className='autoExpand' onKeyUp={} rows='3' data-min-rows='3' 
-				placeholder='Auto-Expanding Textarea' autoFocus></textarea> */}
-
-				{/* <TextareaAutosize className={this.state.formParts.basicTextarea} 
-					minRows={this.state.formParts.minimumRows}
-					maxRows={this.state.formParts.maximumRows}
-					placeholder={this.state.formParts.placeholder} /> */}
+			<div className={this.state.formParts.basicTextarea} 
+				onFocus={this.deleteThePlaceholder} onBlur={this.checkEmptyEditor} 
+				contentEditable="true">
+				{this.state.formParts.placeholder}
 			</div>
 		);
 	}

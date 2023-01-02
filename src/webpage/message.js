@@ -19,9 +19,7 @@ class Message extends React.Component {
 	render() {
 		var userMessageEditor = {
 			basicTextarea : "dateMomoMessageEditor",
-			placeholder : "Write Message...",
-			minimumRows : 1,
-			rowCount : 1
+			placeholder : "Write Message..."
 		}
    
 		var roundPictureParts = {
