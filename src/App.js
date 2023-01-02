@@ -8,6 +8,7 @@ import Message from './webpage/message';
 import Register from './webpage/register';
 import Messenger from './webpage/messenger';
 import Sexuality from './webpage/sexuality';
+import Notification from './webpage/notification';
 import PictureUpload from './webpage/picture_upload';
 import HomePage from './webpage/home_page';
 
@@ -47,7 +48,8 @@ class App extends React.Component {
     return (
       <div>
         {/* <HomePage /> */}
-        <Message /> 
+        <Notification />
+        {/*<Messenger /> */}
       </div>
     );
   }
