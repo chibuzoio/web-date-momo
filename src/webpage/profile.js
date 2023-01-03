@@ -7,6 +7,7 @@ import test_image from '../image/test_image.png';
 import icon_edit_blue from '../image/icon_edit_blue.png';
 import ProfilePicture from '../component/profile_picture';
 import icon_gallery_blue from '../image/icon_gallery_blue.png';
+import UserDetailPicture from '../component/user_detail_picture';
 import IconProfilePicture from '../component/icon_profile_picture';
 import LeftIconHollowButton from '../component/left_icon_hollow_button';
 
@@ -42,6 +43,14 @@ class Profile extends React.Component {
 			leftHollowButtonTitleClass : "leftHollowButtonTitle"
 		}
 
+		var userLikerDetails = {
+			roundPicture : test_image,
+			userNameAge : "Solution, 33",
+			detailPictureHeight : "200px",
+			detailPictureWidth : "150px",
+			userNameLabelHeight : "30px"
+		};
+
 		return (
 			<div className="dateMomoOuterLayout">
 				<Header />
@@ -59,6 +68,9 @@ class Profile extends React.Component {
 					<div className="profileButtonLayout">
 						<LeftIconHollowButton buttonParts={pictureGalleryButton} />
 						<LeftIconHollowButton buttonParts={editProfileButton} />
+					</div>
+					<div className="allLikerUserLayout"> 
+						<UserDetailPicture userDetailParts={userLikerDetails} />
 					</div>
 				</div>
 				<Footer />

@@ -49,7 +49,7 @@ class App extends React.Component {
     return (
       <div>
         {/* <HomePage /> */}
-        <Profile />
+        <HomePage />
         {/*<Messenger /> */}
       </div>
     );

@@ -63,7 +63,7 @@ class Login extends React.Component {
 			placeholder : "User Name",
 			label : "User Name",
 			type : "text",
-			fieldLayoutClass : "fieldLayout",
+			fieldLayoutClass : "fieldLayout iconMargin",
 			fieldIconClass : "leftFieldIcon"
 		};
 

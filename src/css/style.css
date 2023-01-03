@@ -1,3 +1,7 @@
+.iconMargin { 
+
+}
+
 .messageHeaderPicture {
 	background-repeat: no-repeat;
 	border-radius: 50%;
@@ -57,7 +61,13 @@
 }
 
 .halfSpacedWidth {
-	width: 48% !important;
+	width: 49% !important;
 }
 
+* { 
+	-moz-box-sizing: border-box; 
+  	-webkit-box-sizing: border-box; 
+  	box-sizing: border-box; 
+}
+    
 

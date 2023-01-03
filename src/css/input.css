@@ -74,7 +74,7 @@
   line-clamp: 5; 
 	outline: none;
 	border: none;
-	width: 93%;
+	width: 97%;
 }
 
 .ageFormField {
@@ -120,7 +120,8 @@
 }
 
 .fieldLayout {
-	display: inline-block;
+	display: flex;
+	flex-direction: row;
 	padding-left: 0.5vmin;
 	padding-right: 1.5vmin;
 	overflow: auto;
@@ -215,4 +216,10 @@ div {
 	color: #1C2833;
 }
 
+* { 
+	-moz-box-sizing: border-box; 
+  -webkit-box-sizing: border-box; 
+  box-sizing: border-box; 
+}
+    
 

@@ -6,7 +6,7 @@
 	margin-right: 2%;
 	margin-left: 2%;
 	display: flex;
-	width: 96%;
+	width: 100%;
 }
 
 .lastMessageDate {
@@ -170,4 +170,10 @@
 	height: 100%;
 }
 
+* { 
+	-moz-box-sizing: border-box; 
+  	-webkit-box-sizing: border-box; 
+  	box-sizing: border-box; 
+}
+    
 

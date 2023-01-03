@@ -32,7 +32,7 @@
   display: flex;
   flex-direction: column;
   background: white;
-  padding: 7vmin;
+  padding: 10vmin;
   border-radius: 10px;
   align-items: center;
   justify-content: center;
@@ -43,4 +43,10 @@
   margin-bottom: 5vmin;
 }
 
+* { 
+  -moz-box-sizing: border-box; 
+  -webkit-box-sizing: border-box; 
+  box-sizing: border-box; 
+}
+    
 

@@ -12,21 +12,26 @@
 }
 
 .header {
-	height: 8%;
-	width: 94%;      
-	z-index: 2;
-	display: flex;
-	padding-left: 3%;
-	padding-right: 3%;
-	background: white;
-	padding-top: auto;
-	flex-direction: row;
-	padding-bottom: auto;
-	font-size: calc(10px + 2vmin);
+	border-bottom: 1px solid #E5E7E9;                  
 	justify-content: space-between;
-	border-bottom: 1px solid #E5E7E9;                 
-/*	box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);*/
+	font-size: calc(10px + 2vmin);
+	padding-bottom: auto;
+	flex-direction: row;
+	padding-top: auto;
+	background: white;
+	padding-right: 3%;
+	padding-left: 3%;
+	display: flex;
+	width: 100%;      
+	z-index: 2;
+	height: 8%;
 }
 
+* { 
+	-moz-box-sizing: border-box; 
+  	-webkit-box-sizing: border-box; 
+  	box-sizing: border-box; 
+}
+    
 
    

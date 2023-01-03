@@ -94,7 +94,7 @@
 
 .floatingUserAccountWidget {
 	width: 96%;
-	height: 96%;
+	height: 100%;
 	-ms-overflow-style: none; 
     scrollbar-width: none; 
 	border-radius: 25px;
@@ -110,6 +110,12 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+}
+
+* { 
+	-moz-box-sizing: border-box; 
+  	-webkit-box-sizing: border-box; 
+  	box-sizing: border-box; 
 }
      
 

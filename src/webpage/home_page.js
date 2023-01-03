@@ -26,8 +26,8 @@ class HomePage extends React.Component {
 		return (
 			<div className="homePage">
 				<Header />
-				<Timeline /> 
-				{/* <FloatingUserAccount /> */}
+				<Timeline />
+				<FloatingUserAccount /> 
 				<Footer />
 			</div>
 		);

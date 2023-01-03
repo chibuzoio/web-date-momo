@@ -39,7 +39,7 @@
   padding-right: 3vmin;
   padding-left: 3vmin;
   align-items: center;
-  width: 48%;
+  width: 49%;
 }
         
 .pictureButtons {
@@ -83,4 +83,10 @@
 
 }
 
+* { 
+	-moz-box-sizing: border-box; 
+  -webkit-box-sizing: border-box; 
+  box-sizing: border-box; 
+}
+    
 

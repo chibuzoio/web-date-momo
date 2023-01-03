@@ -94,7 +94,7 @@
 	padding-right: 1%;
 	padding-left: 1%;
 	display: flex;
-	width: 69%;
+	width: 71%;
 }
 
 .headerPictureLayout {
@@ -149,4 +149,10 @@
 	width: 100%;
 }
 
+* { 
+	-moz-box-sizing: border-box; 
+  	-webkit-box-sizing: border-box; 
+  	box-sizing: border-box; 
+}
+    
 
