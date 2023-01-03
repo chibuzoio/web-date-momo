@@ -93,23 +93,30 @@
 }
 
 .floatingUserAccountWidget {
-	width: 96%;
-	height: 100%;
 	-ms-overflow-style: none; 
     scrollbar-width: none; 
 	border-radius: 25px;
 	position: relative;
 	background: white;
 	overflow-y: auto;
+	height: 100%;
+	width: 100%;
 }
 
 .floatingUserAccountLayout {
-	height: 85%;
-	width: 100%;
-	display: flex;
-	flex-direction: column;
 	justify-content: center;
+	flex-direction: column;
 	align-items: center;
+	margin-bottom: 7vh;
+	margin-top: 8vh;
+	position: fixed;
+	padding: 2vmin;
+	display: flex;
+	height: 85vh;
+	width: 100%;
+	z-index: 2;
+	left: 0px;
+	top: 0px;
 }
 
 * { 

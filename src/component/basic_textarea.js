@@ -47,8 +47,8 @@ class BasicTextarea extends React.Component {
     		selection.moveStart('character', textContentLength);
     		selection.select();
 	    } else {
-		    let selection = window.getSelection();
-		    selection.collapse(event.target.lastChild, textContentLength);
+		    // let selection = window.getSelection();
+		    // selection.collapse(event.target.lastChild, textContentLength);
 		}
 
 		if (placeholder.includes("Write Message...")) {

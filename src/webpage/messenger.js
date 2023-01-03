@@ -18,7 +18,7 @@ class Messenger extends React.Component {
 			<div className="dateMomoOuterLayout">
 				<Header />
 				<div className="dateMomoMessengerLayout">
-					<ActiveMessenger />
+					<EmptyMessenger />
 				</div>
 				<Footer />
 			</div>

@@ -44,7 +44,7 @@
 }
 
 .activeMessengerHeader {
-	font-size: calc(10px + 2vmin);
+	font-size: calc(10px + 3vmin);
 	margin-bottom: 1vmin;
 	margin-left: 3vmin;
 	margin-top: 2vmin;
@@ -156,9 +156,10 @@
 }
 
 .emptyMessengerDescription {
-	display: flex;            
-	flex-direction: row;
 	justify-content: center;
+	flex-direction: row;
+	display: flex;            
+	margin: 2vmin;
 	height: 9%;
 }
       
