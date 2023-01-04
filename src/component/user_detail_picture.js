@@ -10,10 +10,7 @@ class UserDetailPicture extends React.Component {
 		this.state.userDetailParts = props.userDetailParts; 
 	}
 
-	render() {  
-		// Programmatically alter picture length and width based on changes 
-		// on screen sizes  
-
+	render() {   
 		return (
 			<div className="detailPictureLayout" style={{
 					height : this.state.userDetailParts.detailPictureHeight,
@@ -21,7 +18,7 @@ class UserDetailPicture extends React.Component {
 				<img className="detailPictureImage" style={{
 					height : this.state.userDetailParts.detailPictureHeight,
 					width : this.state.userDetailParts.detailPictureWidth}}
-				alt="" src={this.state.userDetailParts.roundPicture} />
+					alt="" src={this.state.userDetailParts.roundPicture} />
 				<div className="userNameLabel" style={{
 					height : this.state.userDetailParts.userNameLabelHeight}}>
 					{this.state.userDetailParts.userNameAge}

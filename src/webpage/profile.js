@@ -12,10 +12,46 @@ import IconProfilePicture from '../component/icon_profile_picture';
 import LeftIconHollowButton from '../component/left_icon_hollow_button';
 
 class Profile extends React.Component {
+	state = {userDetailParts : {}};
 
 	constructor(props) {
 		super(props);
-		this.state = {}; 
+		this.state.userDetailParts = {
+			roundPicture : test_image,
+			userNameAge : "Solution, 33",
+			detailPictureHeight : "154px",
+			detailPictureWidth : "140px",
+			userNameLabelHeight : "30px"
+		}; 
+
+		this.calculatePictureDimensions = this.calculatePictureDimensions.bind(this);
+		// this.calculatePictureDimensions(); // Very very wrong to call this 
+		// method in the constructor because it sets state in itself      
+	}
+
+	componentDidMount() {
+		window.addEventListener('resize', this.calculatePictureDimensions);
+	}
+
+	calculatePictureDimensions() {
+		var browserWidth = window.innerWidth;  
+		var sumOfPictureMargins = (8 / 100) * browserWidth;
+		var totalPictureWidth = browserWidth - sumOfPictureMargins;
+		var eachPictureWidth = totalPictureWidth / 3;
+		var eachPictureHeight = 1.1 * eachPictureWidth;
+		var userNameLabel = (19.48052 / 100) * eachPictureHeight;
+		var userNameTopMargin = (eachPictureHeight * (-34)) / 154; // (newHeight * oldMargin) / oldHeight
+
+		console.log("Execution entered here with browserWidth = " + browserWidth);
+
+		this.setState({userDetailParts : {    
+			roundPicture : test_image,
+			userNameAge : "Solution, 33",
+			detailPictureHeight : eachPictureHeight + "px",
+			detailPictureWidth : eachPictureWidth + "px",
+			userNameLabelHeight : userNameLabel + "px",
+			topUserNameMargin : userNameTopMargin + "px"
+		}});
 	}
 
 	render() {             
@@ -43,14 +79,6 @@ class Profile extends React.Component {
 			leftHollowButtonTitleClass : "leftHollowButtonTitle"
 		}
 
-		var userLikerDetails = {
-			roundPicture : test_image,
-			userNameAge : "Solution, 33",
-			detailPictureHeight : "200px",
-			detailPictureWidth : "150px",
-			userNameLabelHeight : "30px"
-		};
-
 		return (
 			<div className="dateMomoOuterLayout">
 				<Header />
@@ -70,7 +98,92 @@ class Profile extends React.Component {
 						<LeftIconHollowButton buttonParts={editProfileButton} />
 					</div>
 					<div className="allLikerUserLayout"> 
-						<UserDetailPicture userDetailParts={userLikerDetails} />
+						<div className="firstThreeLikerUsers">
+							<div className="detailPictureLayout" style={{
+									height : this.state.userDetailParts.detailPictureHeight,
+									width : this.state.userDetailParts.detailPictureWidth}}>
+								<img className="detailPictureImage" style={{
+									height : this.state.userDetailParts.detailPictureHeight,
+									width : this.state.userDetailParts.detailPictureWidth}}
+									alt="" src={this.state.userDetailParts.roundPicture} />
+								<div className="userNameLabel" style={{
+									marginTop : this.state.userDetailParts.topUserNameMargin,
+									height : this.state.userDetailParts.userNameLabelHeight}}>
+									{this.state.userDetailParts.userNameAge}
+								</div>
+							</div>
+
+							<div className="detailPictureLayout" style={{
+									height : this.state.userDetailParts.detailPictureHeight,
+									width : this.state.userDetailParts.detailPictureWidth}}>
+								<img className="detailPictureImage" style={{
+									height : this.state.userDetailParts.detailPictureHeight,
+									width : this.state.userDetailParts.detailPictureWidth}}
+									alt="" src={this.state.userDetailParts.roundPicture} />
+								<div className="userNameLabel" style={{
+									marginTop : this.state.userDetailParts.topUserNameMargin,
+									height : this.state.userDetailParts.userNameLabelHeight}}>
+									{this.state.userDetailParts.userNameAge}
+								</div>
+							</div>
+						
+							<div className="detailPictureLayout" style={{
+									height : this.state.userDetailParts.detailPictureHeight,
+									width : this.state.userDetailParts.detailPictureWidth}}>
+								<img className="detailPictureImage" style={{
+									height : this.state.userDetailParts.detailPictureHeight,
+									width : this.state.userDetailParts.detailPictureWidth}}
+									alt="" src={this.state.userDetailParts.roundPicture} />
+								<div className="userNameLabel" style={{
+									marginTop : this.state.userDetailParts.topUserNameMargin,
+									height : this.state.userDetailParts.userNameLabelHeight}}>
+									{this.state.userDetailParts.userNameAge}
+								</div>
+							</div>  
+						</div>
+						<div className="secondThreeLikerUsers">
+							<div className="detailPictureLayout" style={{
+									height : this.state.userDetailParts.detailPictureHeight,
+									width : this.state.userDetailParts.detailPictureWidth}}>
+								<img className="detailPictureImage" style={{
+									height : this.state.userDetailParts.detailPictureHeight,
+									width : this.state.userDetailParts.detailPictureWidth}}
+									alt="" src={this.state.userDetailParts.roundPicture} />
+								<div className="userNameLabel" style={{
+									marginTop : this.state.userDetailParts.topUserNameMargin,
+									height : this.state.userDetailParts.userNameLabelHeight}}>
+									{this.state.userDetailParts.userNameAge}
+								</div>
+							</div>
+						
+							<div className="detailPictureLayout" style={{
+									height : this.state.userDetailParts.detailPictureHeight,
+									width : this.state.userDetailParts.detailPictureWidth}}>
+								<img className="detailPictureImage" style={{
+									height : this.state.userDetailParts.detailPictureHeight,
+									width : this.state.userDetailParts.detailPictureWidth}}
+									alt="" src={this.state.userDetailParts.roundPicture} />
+								<div className="userNameLabel" style={{
+									marginTop : this.state.userDetailParts.topUserNameMargin,
+									height : this.state.userDetailParts.userNameLabelHeight}}>
+									{this.state.userDetailParts.userNameAge}
+								</div>
+							</div>
+						
+							<div className="detailPictureLayout" style={{
+									height : this.state.userDetailParts.detailPictureHeight,
+									width : this.state.userDetailParts.detailPictureWidth}}>
+								<img className="detailPictureImage" style={{
+									height : this.state.userDetailParts.detailPictureHeight,
+									width : this.state.userDetailParts.detailPictureWidth}}
+									alt="" src={this.state.userDetailParts.roundPicture} />
+								<div className="userNameLabel" style={{
+									marginTop : this.state.userDetailParts.topUserNameMargin,
+									height : this.state.userDetailParts.userNameLabelHeight}}>
+									{this.state.userDetailParts.userNameAge}
+								</div>
+							</div>  
+						</div>
 					</div>
 				</div>
 				<Footer />
