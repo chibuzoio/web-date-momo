@@ -12,6 +12,8 @@ import Messenger from './webpage/messenger';
 import Sexuality from './webpage/sexuality';
 import Notification from './webpage/notification';
 import PictureUpload from './webpage/picture_upload';
+import UserLikerList from './webpage/user_liker_list';
+import UserInformation from './webpage/user_information';
 import HomePage from './webpage/home_page';
 
 class App extends React.Component {
@@ -50,7 +52,7 @@ class App extends React.Component {
     return (
       <div>
         {/* <HomePage /> */}
-        <Account />
+        <UserLikerList />
         {/*<Messenger /> */}
       </div>
     );
