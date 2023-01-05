@@ -1,3 +1,46 @@
+.accountMenuLayout {
+	padding: 2vmin;
+}
+
+.likedUsersTitle {
+	font-size: calc(10px + 1vmin);
+	margin-bottom: 2vmin;
+	margin-right: 2vmin;
+	margin-left: 2vmin;
+	margin-top: 5vmin;
+	font-style: bold;	
+}
+
+.impactCountNumber {
+	font-size: calc(10px + 5vmin);		
+}
+
+.impactCountHeader {
+	font-size: calc(10px + 1vmin);	
+}
+
+.impactCountLayout {
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	display: flex;
+	width: 50%;	
+}
+
+.accountPictureLayout {
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	display: flex;
+	width: 50%;
+}
+
+.profilePictureImpactCount {
+	flex-direction: row;
+	align-items: center;
+	display: flex;
+}
+
 .userLikerSexualityLayout {
 	display: flex;
 	flex-direction: column;

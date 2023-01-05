@@ -4,6 +4,7 @@ import './css/App.css';
 import './css/header.css';
 import Header from './widget/header';
 import Login from './webpage/login';
+import Account from './webpage/account';
 import Message from './webpage/message';
 import Profile from './webpage/profile';
 import Register from './webpage/register';
@@ -49,7 +50,7 @@ class App extends React.Component {
     return (
       <div>
         {/* <HomePage /> */}
-        <Profile />
+        <Account />
         {/*<Messenger /> */}
       </div>
     );

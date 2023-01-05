@@ -1,3 +1,31 @@
+.iconMenuTitle {
+
+}
+
+.iconMenuImage {
+	margin-right: 1vmin;
+	height: 20px;
+}
+
+.borderlessIconMenu {
+	font-size: calc(10px + 1.5vmin);
+	flex-direction: row;
+	align-items: center;
+	cursor: pointer;
+	display: flex;
+	height: 7vh;
+}
+
+.bottomBorderIconMenu {
+	border-bottom: 0.3vmin solid #E5E7E9;
+	font-size: calc(10px + 1.5vmin);
+	flex-direction: row;
+	align-items: center;
+	cursor: pointer;
+	display: flex;
+	height: 7vh;
+}
+
 .horizontalButtonList {
 	display: flex;
 	overflow-x: auto;

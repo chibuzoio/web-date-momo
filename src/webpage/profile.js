@@ -31,6 +31,7 @@ class Profile extends React.Component {
 	}
 
 	componentDidMount() {
+		this.calculatePictureDimensions();
 		window.addEventListener('resize', this.calculatePictureDimensions);
 	}
 
