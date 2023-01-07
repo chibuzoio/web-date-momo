@@ -1,3 +1,94 @@
+.profileEditorButton {
+	justify-content: right;
+	margin-bottom: 3vmin;
+	flex-direction: row;
+	display: flex;
+}
+
+.sexualityEditorButtons {
+	flex-direction: column;
+	display: flex;
+	width: 100%;
+}
+
+.subEditorHeader {
+	font-size: calc(10px + 2vmin);
+	color: #1C2833;
+	width: 100%;		
+}
+
+.statusEditorText {
+	font-size: calc(10px + 1vmin);
+	flex-direction: row;
+	margin-top: 1vmin;
+	color: #1C2833;
+	display: flex;
+	width: 100%;		
+}
+
+.statusEditorButton {
+	font-size: calc(10px + 1vmin);
+	justify-content: right;
+	flex-direction: row;
+	cursor: pointer;
+	color: #097ECA;
+	display: flex;
+	width: 100%;	
+}
+
+.statusEditorLayout {
+	flex-direction: column;
+	display: flex;
+	width: 100%;
+}
+
+.profilePictureChanger {
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	display: flex;
+	width: 70%;
+}
+
+.rightLayoutSpace {
+	font-size: calc(10px + 1vmin);
+	justify-content: right;
+	flex-direction: row;
+	cursor: pointer;
+	color: #097ECA;
+	display: flex;
+	width: 15%;
+}
+
+.leftLayoutSpace {
+	width: 15%;
+}
+
+.profilePictureUpdater {
+	flex-direction: row;
+	display: flex;
+	width: 100%;
+}
+
+.profileEditorHeader {
+	font-size: calc(10px + 3vmin);
+	flex-direction: row;
+	display: flex;
+	width: 100%;
+}
+
+.profileEditorLayout {
+	-ms-overflow-style: none; 
+	flex-direction: column;
+    scrollbar-width: none; 
+	overflow-x: hidden;
+	background: white;
+	overflow-y: auto;
+	padding: 2vmin;
+	display: flex;
+	height: 85%;
+}
+
 .accountMenuLayout {
 	padding: 2vmin;
 }

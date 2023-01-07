@@ -1,3 +1,10 @@
+.lineSeparator {
+	margin-bottom: 2vmin;
+	background: #E5E7E9;
+	margin-top: 2vmin;
+	height: 1px;
+	width: 100%;
+}
 
 .iconMargin { 
 
