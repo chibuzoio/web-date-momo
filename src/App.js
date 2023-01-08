@@ -53,7 +53,7 @@ class App extends React.Component {
     return (
       <div>
         {/* <HomePage /> */}
-        <ProfileEditor />
+        <Login />
         {/*<Messenger /> */}
       </div>
     );
