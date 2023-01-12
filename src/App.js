@@ -16,6 +16,8 @@ import ProfileEditor from './webpage/profile_editor';
 import UserLikerList from './webpage/user_liker_list';
 import UserInformation from './webpage/user_information';
 import HomePage from './webpage/home_page';
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
+// { BrowserRouter as Router, Route, Link }
 
 class App extends React.Component {
   
@@ -53,8 +55,17 @@ class App extends React.Component {
     return (
       <div>
         {/* <HomePage /> */}
-        <Login />
         {/*<Messenger /> */}
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Login />}>
+              <Route index element={<HomePage />} />
+              {/*<Route path="blogs" element={<Blogs />} />
+              <Route path="contact" element={<Contact />} />
+              <Route path="*" element={<NoPage />} />*/}
+            </Route>
+          </Routes>
+        </BrowserRouter>
       </div>
     );
   }
