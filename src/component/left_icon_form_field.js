@@ -3,7 +3,9 @@ import '../css/input.css';
 import '../css/style.css';
 
 class LeftIconFormField extends React.Component {
-	// fieldInputValue = "";
+	// this is the way you declare global variable in react js 
+	// class just like you declare global state variable below it 
+	// fieldInputValue = ""; 
 	state = {formParts : {}};
 
 /*		
@@ -17,25 +19,8 @@ class LeftIconFormField extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state.formParts = props.formParts; 
-
-		this.handleChange = this.handleChange.bind(this);
 	}
-
-  	handleChange(e) {
-  		// console.log("The value of e.target.value here is " + e.target.value);
-
-   		this.setState({formParts : {
-				fieldIcon : this.state.formParts.fieldIcon,
-				placeholder : this.state.formParts.placeholder,
-				label : this.state.formParts.label,
-				value : e.target.value,
-				type : this.state.formParts.type,
-				fieldLayoutClass : this.state.formParts.fieldLayoutClass,
-				fieldIconClass : this.state.formParts.fieldIconClass
-			}
-		});
-   	}
-
+       
 	render() {  
 		return (
 			<div>
@@ -45,7 +30,6 @@ class LeftIconFormField extends React.Component {
 				    <input 
 				    	type={this.state.formParts.type} name="name" 
 				    	value={this.state.formParts.value}
-				    	onChange={this.handleChange}
 				    	placeholder={this.state.formParts.placeholder} />
 				</div>
 			</div>
