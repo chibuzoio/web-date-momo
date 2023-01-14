@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react';           
 import axios from 'axios';
 import './css/App.css';
 import './css/header.css';
@@ -16,10 +16,15 @@ import ProfileEditor from './webpage/profile_editor';
 import UserLikerList from './webpage/user_liker_list';
 import UserInformation from './webpage/user_information';
 import HomePage from './webpage/home_page';
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 // { BrowserRouter as Router, Route, Link }
 
 class App extends React.Component {
+  state = {currentUser : {}};
+
+  /* Save basic user information in state: 
+    memberId, userName, authenticated
+  */
   
 /*    
   You declare constructor explicitly because 
@@ -31,9 +36,18 @@ class App extends React.Component {
 */    
   constructor(props) {
     super(props);
+
+    this.updateCurrentUser = this.updateCurrentUser.bind(this);
+    this.displayPage = this.displayPage.bind(this);
   }
 
   componentDidMount() {
+    var currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    console.log("currentUser gotten here is " + JSON.stringify(currentUser));
+
+    // update state here 
+    this.updateCurrentUser(currentUser);
+
 /*    axios.get("http://datemomo.com/service/usernamecomposite.php")
       .then(response => {
         this.setState({
@@ -49,23 +63,54 @@ class App extends React.Component {
     
   }
 
-  render() {
-    /* USE localStorage FOR STORAGE OF PERSISTENT DATA ON THE BROWSER */
+  updateCurrentUser(currentUser) {
+    this.setState({currentUser : currentUser});
+  }
 
-    return (
-      <div>
-        {/* <HomePage /> */}
-        {/*<Messenger /> */}
+  displayPage() {
+    if (!this.state.currentUser) {
+      return (
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Login />}>
-              <Route index element={<HomePage />} />
-              {/*<Route path="blogs" element={<Blogs />} />
-              <Route path="contact" element={<Contact />} />
-              <Route path="*" element={<NoPage />} />*/}
-            </Route>
+            <Route path="/" element={<Login />} />
+            <Route path="register" element={<Register />} />
           </Routes>
         </BrowserRouter>
+      );
+    } else {
+      if (this.state.currentUser.authenticated) {
+        return (
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route index element={<HomePage />} />
+              <Route path="account" element={<Account />} />
+              <Route path="messenger" element={<Messenger />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="user_information" element={<UserInformation />} />
+              <Route path="register" element={<Register />} />
+              <Route path="notification" element={<Notification />} />
+              {/*<Route path="*" element={<EmptyPage />} />*/}
+            </Routes>
+          </BrowserRouter>
+        );
+      } else {
+        return (
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Login />} />
+              <Route path="register" element={<Register />} />
+            </Routes>
+          </BrowserRouter>
+        );
+      }
+    } 
+  }
+
+  render() {
+    return (
+      <div> 
+        {this.displayPage()}      
       </div>
     );
   }

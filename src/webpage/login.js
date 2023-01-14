@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import '../css/login.css';
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import { Link } from "react-router-dom";
 import LeftIconHollowButton from '../component/left_icon_hollow_button';
 import LeftIconFormField from '../component/left_icon_form_field';
 import BasicButton from '../component/basic_button';
@@ -9,10 +9,15 @@ import HollowButton from '../component/hollow_button';
 import icon_person from '../image/icon_person.png';
 import icon_gallery_blue from '../image/icon_gallery_blue.png';
 import icon_password from '../image/icon_password.png';
+import Register from '../webpage/register';
 import logo from '../image/datemomo.png';
 
 class Login extends React.Component {
-	state = {userNames : []};
+	state = {loginData : {
+			userNames : [],
+			firstFormPartsValue : {}			
+		}
+	};
 
 /*		
 	You declare constructor explicitly because 
@@ -29,13 +34,16 @@ class Login extends React.Component {
 		// testMethod to the context of this class and for 
 		// the method not to appear undefined when called
 		this.testMethod = this.testMethod.bind(this); 
+		this.getValue = this.getValue.bind(this);
 	}
 
 	componentDidMount() {
 		axios.get("http://datemomo.com/service/usernamecomposite.php")
 	    	.then(response => {
-	    		this.setState({
-	    			userNames : response.data
+	    		this.setState({loginData : {
+		    			userNames : response.data,
+		    			firstFormPartsValue : this.state.loginData.firstFormPartsValue
+		    		}
 	    		});
 	
 				this.testMethod();
@@ -46,6 +54,11 @@ class Login extends React.Component {
 
 	componentWillUnmount() {
 
+	}
+
+	getValue() {
+		console.log("The value of this.state.loginData.firstFormPartsValue.value = " 
+			+ this.state.loginData.firstFormPartsValue.value);
 	}
 
 	testMethod() {
@@ -59,10 +72,11 @@ class Login extends React.Component {
 	}
 
 	render() {
-		var firstFormPartsValue = {
+		this.state.loginData.firstFormPartsValue = {
 			fieldIcon : icon_person,
 			placeholder : "User Name",
 			label : "User Name",
+			value : "",
 			type : "text",
 			fieldLayoutClass : "fieldLayout iconMargin",
 			fieldIconClass : "leftFieldIcon"
@@ -73,6 +87,7 @@ class Login extends React.Component {
 			placeholder : "Password",
 			label : "Password",
 			type : "password",
+			value : "",
 			fieldLayoutClass : "fieldLayout",
 			fieldIconClass : "leftFieldIcon"
 		};
@@ -97,14 +112,17 @@ class Login extends React.Component {
 		}
              
 		return (
-			<div className="login">
+			<div className="login"> 
 				<div className="loginWidget">
 					<img className="logo" alt="Logo" src={logo}/>
 					<div>
-						<LeftIconFormField formParts={firstFormPartsValue} />
+						<LeftIconFormField onChange={this.getValue} formParts={this.state.loginData.firstFormPartsValue} />
 						<LeftIconFormField formParts={secondFormPartsValue} />
-						<BasicButton buttonParts={basicButton} />
-						<HollowButton buttonParts={hollowButton} />
+						<BasicButton onClick={this.getValue} buttonParts={basicButton} /> {/* If you click on this button, 
+						fetch data, store it in localStorage and reload */}
+						<Link to="register">
+							<HollowButton buttonParts={hollowButton} />
+						</Link>
 					</div>
 				</div>
 			</div>
