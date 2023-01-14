@@ -2,11 +2,12 @@ import React from 'react';
 import axios from 'axios';
 import './css/App.css';
 import './css/header.css';
-import Header from './widget/header';
 import Login from './webpage/login';
+import Header from './widget/header';
 import Account from './webpage/account';
 import Message from './webpage/message';
 import Profile from './webpage/profile';
+import Timeline from './widget/timeline';
 import Register from './webpage/register';
 import Messenger from './webpage/messenger';
 import Sexuality from './webpage/sexuality';
@@ -82,15 +83,17 @@ class App extends React.Component {
         return (
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route index element={<HomePage />} />
-              <Route path="account" element={<Account />} />
-              <Route path="messenger" element={<Messenger />} />
-              <Route path="profile" element={<Profile />} />
-              <Route path="user_information" element={<UserInformation />} />
+              <Route path="/" element={<HomePage />} >
+                <Route index element={<Timeline />} />
+                <Route path="account" element={<Account />} />
+                <Route path="messenger" element={<Messenger />} />
+                <Route path="profile" element={<Profile />} />
+                <Route path="user_information" element={<UserInformation />} />
+                <Route path="notification" element={<Notification />} />
+                {/*<Route path="*" element={<EmptyPage />} />*/}
+              </Route>
               <Route path="register" element={<Register />} />
-              <Route path="notification" element={<Notification />} />
-              {/*<Route path="*" element={<EmptyPage />} />*/}
+              <Route path="login" element={<Login />} />
             </Routes>
           </BrowserRouter>
         );

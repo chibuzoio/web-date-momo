@@ -10,6 +10,7 @@ import RightIconFormField from '../component/right_icon_form_field';
 import icon_search from '../image/icon_search.png';
 import test_image from '../image/test_image.png';
 import logo from '../image/datemomo.png';
+import FloatingUserAccount from '../widget/floating_account';
 
 class Timeline extends React.Component {
 
@@ -34,8 +35,11 @@ class Timeline extends React.Component {
 		};
 
 		return (
-			<div className="scrollView">
-				<TimeLineCard />
+			<div>
+				<div className="scrollView">
+					<TimeLineCard />
+				</div>
+				<FloatingUserAccount /> 
 			</div>
 		);
 	}

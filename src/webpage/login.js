@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
+import '../css/input.css';
 import '../css/login.css';
+import '../css/style.css';
 import { Link } from "react-router-dom";
 import icon_person from '../image/icon_person.png';
 import icon_gallery_blue from '../image/icon_gallery_blue.png';
@@ -12,7 +14,6 @@ class Login extends React.Component {
 	authenticationData = {userName : "",
 		password : ""};
 	state = {loginData : {
-			userNames : [],
 			currentUser : {}
 		}
 	};
@@ -27,26 +28,26 @@ class Login extends React.Component {
 */		
 	constructor(props) {
 		super(props);
-
+		
 		// The binding below is necessary so as to attach 
 		// testMethod to the context of this class and for 
-		// the method not to appear undefined when called
+		// the method not to appear undefined when called		
 		this.authenticateCurrentUser = this.authenticateCurrentUser.bind(this);
 		this.testMethod = this.testMethod.bind(this); 
 		this.getValue = this.getValue.bind(this);
 	}
 
 	componentDidMount() {
-		axios.get("http://datemomo.com/service/usernamecomposite.php")
+/*		axios.get("http://datemomo.com/service/usernamecomposite.php")
 	    	.then(response => {
 	    		this.setState({loginData : {
 		    			userNames : response.data,
-		    			currentUser : JSON.parse(localStorage.getItem("currentUser"))
+		    			currentUser : {}
 		    		}
 	    		});
 	        }, error => {
 	        	console.log(error);
-	        });
+	        });*/
 	}
 
 	componentWillUnmount() {
@@ -66,16 +67,16 @@ class Login extends React.Component {
 			axios.post("http://datemomo.com/service/loginmember.php", this.authenticationData)
 		    	.then(response => {
 		    		this.setState({loginData : {
-			    			userNames : this.state.loginData.userNames,
 			    			currentUser : response.data
 			    		}
 		    		}); 
 
 		    		if (response.data.authenticated) {
 		    			localStorage.setItem("currentUser", JSON.stringify(response.data));
+			    		window.location.reload(true);
+		    		} else {
+		    			localStorage.setItem("currentUser", JSON.stringify({}));
 		    		}
-
-		    		window.location.reload(true);
 		        }, error => {
 		        	console.log(error);
 		        });

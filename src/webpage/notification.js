@@ -14,8 +14,9 @@ class Notification extends React.Component {
 
 	render() {             
 		return (
-			<div className="dateMomoOuterLayout">
-				<Header />
+			<div>
+			{/*<div className="dateMomoOuterLayout">
+				<Header />*/}
 				<div className="dateMomoMessengerLayout">
 					<div className="notificationHeader">Notifications</div>
 					<NotificationContent />
@@ -38,7 +39,8 @@ class Notification extends React.Component {
 					<NotificationContent />
 					<NotificationContent />   
 				</div>
-				<Footer />
+				{/*<Footer />
+			</div>*/}
 			</div>
 		);
 	}

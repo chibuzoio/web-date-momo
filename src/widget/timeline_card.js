@@ -34,7 +34,7 @@ class TimelineCard extends React.Component {
 
 		return (
 			<div className="timelineWidget"> 
-				<img class="centerCropped" src={test_image} />
+				<img className="centerCropped" src={test_image} />
 				<div className="bottomContentLayout">
 					<div className="userNameLayout">
 						<div className="userNameText">Solution, 37</div>

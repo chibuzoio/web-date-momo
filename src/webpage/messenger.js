@@ -15,12 +15,14 @@ class Messenger extends React.Component {
 
 	render() {             
 		return (
-			<div className="dateMomoOuterLayout">
-				<Header />
+			<div>
+			{/*<div className="dateMomoOuterLayout">
+				<Header />*/}
 				<div className="dateMomoMessengerLayout">
 					<EmptyMessenger />
 				</div>
-				<Footer />
+				{/*<Footer />
+			</div>*/}
 			</div>
 		);
 	}

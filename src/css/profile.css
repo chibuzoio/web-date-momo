@@ -320,7 +320,7 @@
 	background: white;
 	overflow-y: auto;
 	display: flex;
-	height: 85%;
+	height: 85vh;
 }
 
 * { 

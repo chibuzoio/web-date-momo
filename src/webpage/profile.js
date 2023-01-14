@@ -123,8 +123,9 @@ class Profile extends React.Component {
 		];
      
 		return (
-			<div className="dateMomoOuterLayout">
-				<Header />
+			<div>
+			{/*<div className="dateMomoOuterLayout">
+				<Header />*/}
 				<div className="dateMomoProfileLayout">
 					<div className="pictureUserNameLayout">
 						<div className="profilePictureContainer">
@@ -238,7 +239,8 @@ class Profile extends React.Component {
 						<SexualityOptions sexualityButtons={sexualExperienceButtons} />
 					</div>
 				</div>
-				<Footer />
+				{/*<Footer />
+			</div>*/}
 			</div>
 		);
 	}

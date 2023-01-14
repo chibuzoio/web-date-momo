@@ -88,8 +88,9 @@ class Account extends React.Component {
 		};
 
 		return (
-			<div className="dateMomoOuterLayout">
-				<Header />
+			<div>
+			{/*<div className="dateMomoOuterLayout">
+				<Header />*/}
 				<div className="dateMomoProfileLayout">
 					<div className="profilePictureImpactCount">
 						<div className="accountPictureLayout">
@@ -167,7 +168,8 @@ class Account extends React.Component {
 						<BorderlessIconMenu iconMenuParts={accountLogoutMenu} />
 					</div>
 				</div>
-				<Footer />
+				{/*<Footer />
+			</div>*/}
 			</div>
 		);
 	}
