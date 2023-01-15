@@ -92,6 +92,7 @@
 }
    
 .timelineWidget {
+	margin-bottom: 2vmin;
 	border-radius: 25px;
 	background: white;
 	height: 87vmin;

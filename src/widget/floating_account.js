@@ -101,7 +101,7 @@ class FloatingAccount extends React.Component {
 		];
      
 		return (
-			<div className="floatingUserAccountLayout">
+			<div className="floatingUserAccountLayout hideComponent">
 				<div className="floatingUserAccountWidget">
 					<img className="floatingUserAccountImage" 
 						ref={(userAccountImage) => {this.userAccountImage = userAccountImage}} 

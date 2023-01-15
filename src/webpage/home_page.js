@@ -26,7 +26,7 @@ class HomePage extends React.Component {
 	}
 
 	componentDidMount() {
-	
+		// console.log("currentUser values in HomePage class here is " + localStorage.getItem("currentUser"));	
 	}
 
 	componentWillUnmount() {
