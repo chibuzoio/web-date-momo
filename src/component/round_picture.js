@@ -12,7 +12,7 @@ class RoundPicture extends React.Component {
 	render() {  
 		return (
 			<img className={this.state.pictureParts.roundPictureClass} 
-			alt="" src={this.state.pictureParts.roundPicture} />
+				alt="" src={this.state.pictureParts.roundPicture} />
 		);
 	}
 }

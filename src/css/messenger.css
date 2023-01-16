@@ -24,6 +24,13 @@
 
 }
 
+.sexualityButtonList {
+	flex-direction: row;
+	overflow-y: hidden;
+	overflow-x: auto;
+	display: flex;
+}
+
 .notificationHeader {
 	font-size: calc(10px + 3vmin);
 	margin-bottom: 1vmin;

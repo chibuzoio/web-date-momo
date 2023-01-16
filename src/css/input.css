@@ -39,6 +39,7 @@
 	height: 5vmin;
 	white-space: nowrap;
 	font-size: calc(10px + 0.5vmin);
+	margin-top: 0vmin;
 	margin-right: 2vmin;
 }
 

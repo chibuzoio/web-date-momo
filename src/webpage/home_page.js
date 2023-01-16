@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import '../css/style.css';
 import '../css/header.css';
 import '../css/footer.css';
 import '../css/home_page.css';
@@ -18,15 +19,17 @@ import test_image from '../image/test_image.png';
 import logo from '../image/datemomo.png';
 
 class HomePage extends React.Component {
+	currentUser = {};
 	state = {userNames : []};
 
 	constructor(props) {
 		super(props);
 		this.state.userNames = props.userNames;
+		this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
 	}
 
 	componentDidMount() {
-		// console.log("currentUser values in HomePage class here is " + localStorage.getItem("currentUser"));	
+		
 	}
 
 	componentWillUnmount() {
@@ -42,12 +45,7 @@ class HomePage extends React.Component {
 			fieldLayoutClass : "rightIconFieldLayout",
 			fieldIconClass : "rightFieldIcon"
 		};
-
-		var roundPictureParts = {
-			roundPictureClass : "roundPictureClass",
-			roundPicture : test_image
-		};
-
+   
 		// For footer 
 		var homeBottomMenu = {
 			bottomMenuClass : "bottomMenuLayout selectedMenuLayout",
@@ -74,7 +72,8 @@ class HomePage extends React.Component {
 				<div className="header">
 					<img className="companyLogo" alt="Logo" src={logo} />
 					<RightIconFormField formParts={searchFormPartsValue}/>
-					<RoundPicture pictureParts={roundPictureParts} />
+					<img className="roundPictureClass" alt="" 
+						src={"http://datemomo.com/client/image/" + this.currentUser.profilePicture} />
 				</div>
 		
 				<Outlet />

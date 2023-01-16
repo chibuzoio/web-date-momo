@@ -94,21 +94,7 @@ class TimelineCard extends React.Component {
 		}
 	}
 
-	render() {
-		var searchFormPartsValue = {
-			fieldIcon : icon_search,
-			placeholder : "Search",
-			type : "text",
-			formFieldClass : "formFieldClass",
-			fieldLayoutClass : "rightIconFieldLayout",
-			fieldIconClass : "rightFieldIcon"
-		};
-
-		var roundPictureParts = {
-			roundPictureClass : "roundPictureClass",
-			roundPicture : test_image
-		};
-
+	render() {        
 		return (
 			<div>
 				{ 

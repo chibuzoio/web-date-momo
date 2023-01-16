@@ -1,17 +1,99 @@
 import React from 'react';
+import axios from 'axios';
 import '../css/style.css';
+import '../css/input.css';
 import '../css/messenger.css';
 import icon_empty_chat from '../image/icon_empty_chat.png';
-import EmptyMessengerContent from '../widget/empty_messenger_content';
+import grey_placeholder from '../image/grey_placeholder.png';
+import HorizontalButtonList from '../component/horizontal_button_list';
+import icon_waving_hand from '../image/icon_waving_hand.png';
+import RoundPicture from '../component/round_picture';
 
 class EmptyMessenger extends React.Component {
+	currentUser = {};
+	requestData = {};
+	state = {contextData : {
+		emptyMessengerComposite : {
+			homeDisplayResponses : [],
+			thousandRandomCounter : []
+		}
+	}}; 
 
 	constructor(props) {
 		super(props);
-		this.state = {}; 
+		this.displayUserImage = this.displayUserImage.bind(this);
+		this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
+		this.displaySexualityButtons = this.displaySexualityButtons.bind(this);
 	}
 
-	render() {  
+	componentDidMount() {
+		this.requestData = {
+			memberId : this.currentUser.memberId
+		}
+
+		axios.post("http://datemomo.com/service/alluserdata.php", this.requestData)
+	    	.then(response => {
+	    		this.setState({contextData : {
+		    			emptyMessengerComposite : response.data
+		    		}
+	    		});
+
+	    		console.log("The response data here from querying all user composites is " + JSON.stringify(response.data));
+	        }, error => {
+	        	console.log(error);
+	        });
+	}
+
+	displaySexualityButtons(homeDisplayUser) {
+		var builtButtonList = "";
+
+		if (homeDisplayUser.bisexualCategory > 0) {
+			builtButtonList += "<button class=\"basicButton emptyMessengerButtons\" type=\"button\">Bisexual</button>";
+		}
+
+		if (homeDisplayUser.gayCategory > 0) {
+			builtButtonList += "<button class=\"basicButton emptyMessengerButtons\" type=\"button\">Gay</button>";
+		}
+
+		if (homeDisplayUser.lesbianCategory > 0) {
+			builtButtonList += "<button class=\"basicButton emptyMessengerButtons\" type=\"button\">Lesbian</button>";
+		}
+
+		if (homeDisplayUser.straightCategory > 0) {
+			builtButtonList += "<button class=\"basicButton emptyMessengerButtons\" type=\"button\">Straight</button>";
+		}
+
+		if (homeDisplayUser.sugarDaddyCategory > 0) {
+			builtButtonList += "<button class=\"basicButton emptyMessengerButtons\" type=\"button\">Sugar Daddy</button>";
+		}
+
+		if (homeDisplayUser.sugarMommyCategory > 0) {
+			builtButtonList += "<button class=\"basicButton emptyMessengerButtons\" type=\"button\">Sugar Mommy</button>";
+		}
+
+		if (homeDisplayUser.toyBoyCategory > 0) {
+			builtButtonList += "<button class=\"basicButton emptyMessengerButtons\" type=\"button\">Toy Boy</button>";
+		}
+
+		if (homeDisplayUser.toyGirlCategory > 0) {
+			builtButtonList += "<button class=\"basicButton emptyMessengerButtons\" type=\"button\">Toy Girl</button>";
+		}
+
+		return builtButtonList;
+	} 
+
+	displayUserImage(userGottenPicture) {
+		if (typeof userGottenPicture != "undefined") {
+			return (<img className="emptyMessengerPicture" 
+						alt="" src={"http://datemomo.com/client/image/" 
+						+ userGottenPicture.imageName} />);
+		} else {
+			return (<img className="emptyMessengerPicture" 
+						alt="" src={grey_placeholder} />);
+		}
+	}
+
+	render() {  	 
 		return (
 			<div className="genericMessengerLayout">
 				<div className="emptyMessengerDescription">
@@ -21,21 +103,25 @@ class EmptyMessenger extends React.Component {
 						meeting people by waving at them!
 					</div> 				
 				</div>
-				<EmptyMessengerContent />
-				<EmptyMessengerContent />
-				<EmptyMessengerContent />
-				<EmptyMessengerContent />
-				<EmptyMessengerContent />
-				<EmptyMessengerContent />
-				<EmptyMessengerContent />
-				<EmptyMessengerContent />
-				<EmptyMessengerContent />
-				<EmptyMessengerContent />
-				<EmptyMessengerContent />
-				<EmptyMessengerContent />
-				<EmptyMessengerContent />
-				<EmptyMessengerContent />
-				<EmptyMessengerContent />
+
+				{
+					this.state.contextData.emptyMessengerComposite.homeDisplayResponses.map((homeDisplayUser) => ( 
+						<div className="emptyMessengerContent">
+							<div className="roundPictureContainer">
+								{this.displayUserImage(homeDisplayUser.userPictureResponses[0])}
+							</div>
+							<div className="userAccountData">
+								<div className="chatMateUserName">{homeDisplayUser.userName}, {homeDisplayUser.age}</div>
+								<div className="chatMateLocation">{homeDisplayUser.currentLocation}</div>
+								<div className="sexualityButtonList" dangerouslySetInnerHTML={{__html : this.displaySexualityButtons(homeDisplayUser)}} ></div>
+							</div>
+							<div className="wavingIconContainer">				
+								<img className="messengerWavingIcon" alt="" src={icon_waving_hand} />
+							</div>
+						</div>
+					))
+				}
+
 				<div className="bottomPadding"><p></p></div>
 			</div>
 		);
