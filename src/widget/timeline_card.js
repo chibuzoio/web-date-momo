@@ -19,7 +19,8 @@ class TimelineCard extends React.Component {
 		userComposite : {
 			homeDisplayResponses : [],
 			thousandRandomCounter : []
-		}
+		},
+		stateLoaded : false
 	}}; 
 
 	constructor(props) {
@@ -73,7 +74,8 @@ class TimelineCard extends React.Component {
 	    	.then(response => {
 	    		this.setState({contextData : {
 		    			userComposite : response.data
-		    		}
+		    		},
+		    		stateLoaded : true
 	    		});
 
 	    		console.log("The response data here from querying all user composites is " + JSON.stringify(response.data));

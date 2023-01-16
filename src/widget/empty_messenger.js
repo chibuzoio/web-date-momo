@@ -16,7 +16,8 @@ class EmptyMessenger extends React.Component {
 		emptyMessengerComposite : {
 			homeDisplayResponses : [],
 			thousandRandomCounter : []
-		}
+		},
+		stateLoaded : false
 	}}; 
 
 	constructor(props) {
@@ -35,7 +36,8 @@ class EmptyMessenger extends React.Component {
 	    	.then(response => {
 	    		this.setState({contextData : {
 		    			emptyMessengerComposite : response.data
-		    		}
+		    		},
+		    		stateLoaded : true
 	    		});
 
 	    		console.log("The response data here from querying all user composites is " + JSON.stringify(response.data));
