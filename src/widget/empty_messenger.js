@@ -17,7 +17,7 @@ class EmptyMessenger extends React.Component {
 		},
 		stateLoaded : false
 	}}; 
-
+   
 	constructor(props) {
 		super(props);
 		this.displayUserImage = this.displayUserImage.bind(this);
@@ -80,7 +80,7 @@ class EmptyMessenger extends React.Component {
 
 		return builtButtonList;
 	} 
-
+           
 	displayUserImage(userGottenPicture) {
 		if (typeof userGottenPicture != "undefined") {
 			return (<img className="emptyMessengerPicture" 

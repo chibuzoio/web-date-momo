@@ -70,10 +70,14 @@ class HomePage extends React.Component {
 		return (
 			<div className="homePage">
 				<div className="header">
-					<img className="companyLogo" alt="Logo" src={logo} />
+					<Link className="companyLogoLink" to="/">
+						<img className="companyLogo" alt="Logo" src={logo} />
+					</Link>
 					<RightIconFormField formParts={searchFormPartsValue}/>
-					<img className="roundPictureClass" alt="" 
-						src={"http://datemomo.com/client/image/" + this.currentUser.profilePicture} />
+					<Link className="companyLogoLink" to="account">
+						<img className="roundPictureClass" alt="" 
+							src={"http://datemomo.com/client/image/" + this.currentUser.profilePicture} />
+					</Link>
 				</div>
 		
 				<Outlet />
