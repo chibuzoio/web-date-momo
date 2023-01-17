@@ -16,7 +16,6 @@ class FloatingAccount extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {}; 
 		this.setGradientHeight = this.setGradientHeight.bind(this);
 		this.updateGradientHeight = this.updateGradientHeight.bind(this);
 	}

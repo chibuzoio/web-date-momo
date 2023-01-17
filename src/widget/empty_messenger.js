@@ -32,10 +32,12 @@ class EmptyMessenger extends React.Component {
 
 		axios.post("http://datemomo.com/service/alluserdata.php", this.requestData)
 	    	.then(response => {
-	    		this.setState({contextData : {
-	    			emptyMessengerComposite : response.data,
-	    			stateLoaded : true
-	    		}});
+	    		this.setState(function(state) { 
+	    			return {contextData : {
+		    			emptyMessengerComposite : response.data,
+		    			stateLoaded : true
+		    		}
+		    	}});
 
 	    		console.log("The response data here from querying all user composites is " + JSON.stringify(response.data));
 	        }, error => {
@@ -110,7 +112,8 @@ class EmptyMessenger extends React.Component {
 								{this.displayUserImage(homeDisplayUser.userPictureResponses[0])}
 							</div>
 							<div className="userAccountData">
-								<div className="chatMateUserName">{homeDisplayUser.userName}, {homeDisplayUser.age}</div>
+								<div className="chatMateUserName">{homeDisplayUser.userName.charAt(0).toUpperCase() 
+									+ homeDisplayUser.userName.slice(1)}, {homeDisplayUser.age}</div>
 								<div className="chatMateLocation">{homeDisplayUser.currentLocation}</div>
 								<div className="sexualityButtonList" dangerouslySetInnerHTML={{__html : this.displaySexualityButtons(homeDisplayUser)}} ></div>
 							</div>

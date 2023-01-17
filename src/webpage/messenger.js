@@ -32,11 +32,12 @@ class Messenger extends React.Component {
 
 		axios.post("http://datemomo.com/service/usermessengersdata.php", this.requestData)
 	    	.then(response => {
-	    		this.setState({contextData : {
+	    		this.setState(function(state) { 
+	    			return {contextData : {
 		    			messengerResponses : response.data,
 		    			stateLoaded : true
 		    		}
-	    		});
+	    		}});
 
 	    		console.log("The response data here from querying all messenger composites is " + JSON.stringify(response.data));
 	        }, error => {
@@ -59,7 +60,8 @@ class Messenger extends React.Component {
 												+ messengerResponse.profilePicture} />
 										</div>
 										<div className="userNameMessageLayout">
-											<div className="chatMateUserName">{messengerResponse.userName}</div>
+											<div className="chatMateUserName">{messengerResponse.userName.charAt(0).toUpperCase() 
+												+ messengerResponse.userName.slice(1)}</div>
 											<div className="chatLastMessage">{decodeURIComponent(messengerResponse.lastMessage).split("+").join(" ")}</div>
 										</div>
 										<div className="messagePropertiesLayout">				

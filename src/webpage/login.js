@@ -33,7 +33,6 @@ class Login extends React.Component {
 		// testMethod to the context of this class and for 
 		// the method not to appear undefined when called		
 		this.authenticateCurrentUser = this.authenticateCurrentUser.bind(this);
-		this.testMethod = this.testMethod.bind(this); 
 		this.getValue = this.getValue.bind(this);
 	}
 
@@ -66,10 +65,11 @@ class Login extends React.Component {
 
 			axios.post("http://datemomo.com/service/loginmember.php", this.authenticationData)
 		    	.then(response => {
-		    		this.setState({loginData : {
-			    			currentUser : response.data
-			    		}
-		    		}); 
+		    		this.setState(function(state) {
+		    			return {loginData : {
+				 			currentUser : response.data
+				   		}
+				    }}); 
 
 		    		if (response.data.authenticated) {
 		    			localStorage.setItem("currentUser", JSON.stringify(response.data));
@@ -86,17 +86,7 @@ class Login extends React.Component {
 	getValue() {
 
 	}
-
-	testMethod() {
-		// This kind of expression below is used when the 
-		// state needs to be updated using values from state 
-		// (old data) and values from props (new data)
- 		this.setState((state, props) => {
-			// counter: state.counter + props.increment
-			// console.log("The value of state here is " + JSON.stringify(state));
-		});
-	}
-
+ 
 	render() {          
 		return (
 			<div className="login"> 

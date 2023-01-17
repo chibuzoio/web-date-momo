@@ -93,12 +93,13 @@ class Profile extends React.Component {
 
 		axios.post("http://datemomo.com/service/userlikersdata.php", this.requestData)
 	    	.then(response => {
-	    		this.setState({contextData : {
+	    		this.setState(function(state) { 
+	    			return {contextData : {
 		    			userLikerResponses : response.data,
-		    			userLikerProperties : this.state.contextData.userLikerProperties,
+		    			userLikerProperties : state.contextData.userLikerProperties,
 		    			stateLoaded : true
 		    		}
-	    		});
+	    		}});
 
 				this.displayAvailableLiker();
 	    		console.log("The response data here from querying all user likers composite here is " + JSON.stringify(response.data));
@@ -250,15 +251,17 @@ class Profile extends React.Component {
 
 		console.log("Execution entered here with browserWidth = " + browserWidth);
 
-		this.setState({contextData : {
-			userLikerResponses : this.state.contextData.userLikerResponses,
-			userLikerProperties : {    
-				detailPictureHeight : eachPictureHeight + "px",
-				detailPictureWidth : eachPictureWidth + "px",
-				userNameLabelHeight : userNameLabel + "px",
-				topUserNameMargin : userNameTopMargin + "px"
-			},
-			stateLoaded : this.state.contextData.stateLoaded
+		this.setState(function(state) { 
+			return {contextData : {
+				userLikerResponses : state.contextData.userLikerResponses,
+				userLikerProperties : {    
+					detailPictureHeight : eachPictureHeight + "px",
+					detailPictureWidth : eachPictureWidth + "px",
+					userNameLabelHeight : userNameLabel + "px",
+					topUserNameMargin : userNameTopMargin + "px"
+				},
+				stateLoaded : state.contextData.stateLoaded
+			}
 		}});
 	}
 
@@ -441,7 +444,8 @@ class Profile extends React.Component {
 						</div>
 					</div>
 					<div className="userNameLocationLayout">
-						<div className="userNameAgeText">{this.currentUser.userName}, {this.currentUser.age}</div>
+						<div className="userNameAgeText">{this.currentUser.userName.charAt(0).toUpperCase() 
+							+ this.currentUser.userName.slice(1)}, {this.currentUser.age}</div>
 						<div className="userLocationText">{this.currentUser.currentLocation}</div>
 						<div className="currentStatusText">{this.currentUser.userStatus}</div>
 					</div>
@@ -465,7 +469,8 @@ class Profile extends React.Component {
 								<div className="userNameLabel" style={{
 									marginTop : this.state.contextData.userLikerProperties.topUserNameMargin,
 									height : this.state.contextData.userLikerProperties.userNameLabelHeight}}>
-									{this.userLikerDisplayStatus.firstLikerUser.userLikerData.likerUserName},&nbsp;
+									{this.userLikerDisplayStatus.firstLikerUser.userLikerData.likerUserName.charAt(0).toUpperCase() 
+									+ this.userLikerDisplayStatus.firstLikerUser.userLikerData.likerUserName.slice(1)},&nbsp;
 									{this.userLikerDisplayStatus.firstLikerUser.userLikerData.likerAge}
 								</div>
 							</div>
@@ -483,7 +488,8 @@ class Profile extends React.Component {
 								<div className="userNameLabel" style={{
 									marginTop : this.state.contextData.userLikerProperties.topUserNameMargin,
 									height : this.state.contextData.userLikerProperties.userNameLabelHeight}}>
-									{this.userLikerDisplayStatus.secondLikerUser.userLikerData.likerUserName},&nbsp;
+									{this.userLikerDisplayStatus.secondLikerUser.userLikerData.likerUserName.charAt(0).toUpperCase() 
+									+ this.userLikerDisplayStatus.secondLikerUser.userLikerData.likerUserName.slice(1)},&nbsp;
 									{this.userLikerDisplayStatus.secondLikerUser.userLikerData.likerAge}
 								</div>
 							</div>
@@ -501,7 +507,8 @@ class Profile extends React.Component {
 								<div className="userNameLabel" style={{
 									marginTop : this.state.contextData.userLikerProperties.topUserNameMargin,
 									height : this.state.contextData.userLikerProperties.userNameLabelHeight}}>
-									{this.userLikerDisplayStatus.thirdLikerUser.userLikerData.likerUserName},&nbsp;
+									{this.userLikerDisplayStatus.thirdLikerUser.userLikerData.likerUserName.charAt(0).toUpperCase() 
+									+ this.userLikerDisplayStatus.thirdLikerUser.userLikerData.likerUserName.slice(1)},&nbsp;
 									{this.userLikerDisplayStatus.thirdLikerUser.userLikerData.likerAge}
 								</div>
 							</div>
@@ -520,7 +527,8 @@ class Profile extends React.Component {
 								<div className="userNameLabel" style={{
 									marginTop : this.state.contextData.userLikerProperties.topUserNameMargin,
 									height : this.state.contextData.userLikerProperties.userNameLabelHeight}}>
-									{this.userLikerDisplayStatus.fourthLikerUser.userLikerData.likerUserName},&nbsp;
+									{this.userLikerDisplayStatus.fourthLikerUser.userLikerData.likerUserName.charAt(0).toUpperCase() 
+									+ this.userLikerDisplayStatus.fourthLikerUser.userLikerData.likerUserName.slice(1)},&nbsp;
 									{this.userLikerDisplayStatus.fourthLikerUser.userLikerData.likerAge}
 								</div>
 							</div>
@@ -538,7 +546,8 @@ class Profile extends React.Component {
 								<div className="userNameLabel" style={{
 									marginTop : this.state.contextData.userLikerProperties.topUserNameMargin,
 									height : this.state.contextData.userLikerProperties.userNameLabelHeight}}>
-									{this.userLikerDisplayStatus.fifthLikerUser.userLikerData.likerUserName},&nbsp;
+									{this.userLikerDisplayStatus.fifthLikerUser.userLikerData.likerUserName.charAt(0).toUpperCase() 
+									+ this.userLikerDisplayStatus.fifthLikerUser.userLikerData.likerUserName.slice(1)},&nbsp;
 									{this.userLikerDisplayStatus.fifthLikerUser.userLikerData.likerAge}
 								</div>
 							</div>
@@ -556,7 +565,8 @@ class Profile extends React.Component {
 								<div className="userNameLabel" style={{
 									marginTop : this.state.contextData.userLikerProperties.topUserNameMargin,
 									height : this.state.contextData.userLikerProperties.userNameLabelHeight}}>
-									{this.userLikerDisplayStatus.sixthLikerUser.userLikerData.likerUserName},&nbsp;
+									{this.userLikerDisplayStatus.sixthLikerUser.userLikerData.likerUserName.charAt(0).toUpperCase() 
+									+ this.userLikerDisplayStatus.sixthLikerUser.userLikerData.likerUserName.slice(1)},&nbsp;
 									{this.userLikerDisplayStatus.sixthLikerUser.userLikerData.likerAge}
 								</div>
 							</div>
