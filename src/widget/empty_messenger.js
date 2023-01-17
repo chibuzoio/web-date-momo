@@ -5,9 +5,7 @@ import '../css/input.css';
 import '../css/messenger.css';
 import icon_empty_chat from '../image/icon_empty_chat.png';
 import grey_placeholder from '../image/grey_placeholder.png';
-import HorizontalButtonList from '../component/horizontal_button_list';
 import icon_waving_hand from '../image/icon_waving_hand.png';
-import RoundPicture from '../component/round_picture';
 
 class EmptyMessenger extends React.Component {
 	currentUser = {};
@@ -35,10 +33,9 @@ class EmptyMessenger extends React.Component {
 		axios.post("http://datemomo.com/service/alluserdata.php", this.requestData)
 	    	.then(response => {
 	    		this.setState({contextData : {
-		    			emptyMessengerComposite : response.data
-		    		},
-		    		stateLoaded : true
-	    		});
+	    			emptyMessengerComposite : response.data,
+	    			stateLoaded : true
+	    		}});
 
 	    		console.log("The response data here from querying all user composites is " + JSON.stringify(response.data));
 	        }, error => {

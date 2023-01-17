@@ -73,10 +73,9 @@ class TimelineCard extends React.Component {
 		axios.post("http://datemomo.com/service/matcheduserdata.php", this.requestData)
 	    	.then(response => {
 	    		this.setState({contextData : {
-		    			userComposite : response.data
-		    		},
+		    		userComposite : response.data,
 		    		stateLoaded : true
-	    		});
+		    	}});
 
 	    		console.log("The response data here from querying all user composites is " + JSON.stringify(response.data));
 	        }, error => {
