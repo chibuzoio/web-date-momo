@@ -1,17 +1,12 @@
 import React from 'react';
 import axios from 'axios';
+import '../css/input.css';
 import '../css/style.css';
 import '../css/profile.css';
-import Header from '../widget/header';
-import Footer from '../widget/footer';
-import test_image from '../image/test_image.png';
-import icon_edit_blue from '../image/icon_edit_blue.png';
-import ProfilePicture from '../component/profile_picture';
-import SexualityOptions from '../widget/sexuality_options';
+import '../css/sexuality.css';  
+import icon_edit_blue from '../image/icon_edit_blue.png'; 
 import icon_camera_blue from '../image/icon_camera_blue.png';
-import icon_gallery_blue from '../image/icon_gallery_blue.png';
-import UserDetailPicture from '../component/user_detail_picture';
-import IconProfilePicture from '../component/icon_profile_picture';
+import icon_gallery_blue from '../image/icon_gallery_blue.png'; 
 import LeftIconHollowButton from '../component/left_icon_hollow_button';
 
 class Profile extends React.Component {
@@ -74,6 +69,9 @@ class Profile extends React.Component {
 		super(props);
 		this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
 		this.displayAvailableLiker = this.displayAvailableLiker.bind(this);
+		this.displayInterestButtons = this.displayInterestButtons.bind(this);
+		this.displaySexualityButtons = this.displaySexualityButtons.bind(this);
+		this.displayExperienceButtons = this.displayExperienceButtons.bind(this);
 		this.initializeFirstLikerUser = this.initializeFirstLikerUser.bind(this);
 		this.initializeFifthLikerUser = this.initializeFifthLikerUser.bind(this);
 		this.initializeSixthLikerUser = this.initializeSixthLikerUser.bind(this);
@@ -264,11 +262,153 @@ class Profile extends React.Component {
 		}});
 	}
 
-	render() {             
-		var userProfilePicture = {
-			roundPicture : test_image
-		};
+	displaySexualityButtons() {
+		var builtButtonList = "";
 
+		if (this.currentUser.bisexualCategory > 0) {
+			builtButtonList += "<button class=\"basicButton sexualityButton\" type=\"button\">Bisexual</button>";
+		}
+
+		if (this.currentUser.gayCategory > 0) {
+			builtButtonList += "<button class=\"basicButton sexualityButton\" type=\"button\">Gay</button>";
+		}
+
+		if (this.currentUser.lesbianCategory > 0) {
+			builtButtonList += "<button class=\"basicButton sexualityButton\" type=\"button\">Lesbian</button>";
+		}
+
+		if (this.currentUser.straightCategory > 0) {
+			builtButtonList += "<button class=\"basicButton sexualityButton\" type=\"button\">Straight</button>";
+		}
+
+		if (this.currentUser.sugarDaddyCategory > 0) {
+			builtButtonList += "<button class=\"basicButton sexualityButton\" type=\"button\">Sugar Daddy</button>";
+		}
+
+		if (this.currentUser.sugarMommyCategory > 0) {
+			builtButtonList += "<button class=\"basicButton sexualityButton\" type=\"button\">Sugar Mommy</button>";
+		}
+
+		if (this.currentUser.toyBoyCategory > 0) {
+			builtButtonList += "<button class=\"basicButton sexualityButton\" type=\"button\">Toy Boy</button>";
+		}
+
+		if (this.currentUser.toyGirlCategory > 0) {
+			builtButtonList += "<button class=\"basicButton sexualityButton\" type=\"button\">Toy Girl</button>";
+		}
+
+		return builtButtonList;
+	}
+  
+	displayInterestButtons() {
+		var builtButtonList = "";
+
+		if (this.currentUser.bisexualInterest > 0) {
+			builtButtonList += "<button class=\"basicButton sexualityButton\" type=\"button\">Bisexual</button>";
+		}
+
+		if (this.currentUser.friendshipInterest > 0) {
+			builtButtonList += "<button class=\"basicButton sexualityButton\" type=\"button\">Friendship</button>";
+		}
+
+		if (this.currentUser.gayInterest > 0) {
+			builtButtonList += "<button class=\"basicButton sexualityButton\" type=\"button\">Gay</button>";
+		}
+
+		if (this.currentUser.lesbianInterest > 0) {
+			builtButtonList += "<button class=\"basicButton sexualityButton\" type=\"button\">Lesbian</button>";
+		}
+
+		if (this.currentUser.relationshipInterest > 0) {
+			builtButtonList += "<button class=\"basicButton sexualityButton\" type=\"button\">Relationship</button>";
+		}
+
+		if (this.currentUser.straightInterest > 0) {
+			builtButtonList += "<button class=\"basicButton sexualityButton\" type=\"button\">Straight</button>";
+		}
+
+		if (this.currentUser.sugarDaddyInterest > 0) {
+			builtButtonList += "<button class=\"basicButton sexualityButton\" type=\"button\">Sugar Daddy</button>";
+		}
+
+		if (this.currentUser.sugarMommyInterest > 0) {
+			builtButtonList += "<button class=\"basicButton sexualityButton\" type=\"button\">Sugar Mommy</button>";
+		}
+
+		if (this.currentUser.toyBoyInterest > 0) {
+			builtButtonList += "<button class=\"basicButton sexualityButton\" type=\"button\">Toy Boy</button>";
+		}
+
+		if (this.currentUser.toyGirlInterest > 0) {
+			builtButtonList += "<button class=\"basicButton sexualityButton\" type=\"button\">Toy Girl</button>";
+		}
+
+		return builtButtonList;
+	}
+          
+	displayExperienceButtons() {
+		var builtButtonList = "";
+
+		if (this.currentUser.sixtyNineExperience > 0) {
+			builtButtonList += "<button class=\"basicButton sexualityButton\" type=\"button\">69</button>";
+		}
+
+		if (this.currentUser.analSexExperience > 0) {
+			builtButtonList += "<button class=\"basicButton sexualityButton\" type=\"button\">Anal Sex</button>";
+		}
+
+		if (this.currentUser.givenHeadExperience > 0) {
+			builtButtonList += "<button class=\"basicButton sexualityButton\" type=\"button\">Given Head</button>";
+		}
+
+		if (this.currentUser.missionaryExperience > 0) {
+			builtButtonList += "<button class=\"basicButton sexualityButton\" type=\"button\">Missionary</button>";
+		}
+
+		if (this.currentUser.oneNightStandExperience > 0) {
+			builtButtonList += "<button class=\"basicButton sexualityButton\" type=\"button\">One-night Stand</button>";
+		}
+
+		if (this.currentUser.orgySexExperience > 0) {
+			builtButtonList += "<button class=\"basicButton sexualityButton\" type=\"button\">Orgy Sex</button>";
+		}
+
+		if (this.currentUser.poolSexExperience > 0) {
+			builtButtonList += "<button class=\"basicButton sexualityButton\" type=\"button\">Pool Sex</button>";
+		}
+
+		if (this.currentUser.receivedHeadExperience > 0) {
+			builtButtonList += "<button class=\"basicButton sexualityButton\" type=\"button\">Received Head</button>";
+		}
+ 
+		if (this.currentUser.carSexExperience > 0) {
+			builtButtonList += "<button class=\"basicButton sexualityButton\" type=\"button\">Sexed In Car</button>";
+		}
+
+		if (this.currentUser.publicSexExperience > 0) {
+			builtButtonList += "<button class=\"basicButton sexualityButton\" type=\"button\">Sexed In Public</button>";
+		}
+
+		if (this.currentUser.cameraSexExperience > 0) {
+			builtButtonList += "<button class=\"basicButton sexualityButton\" type=\"button\">Sexed With Camera</button>";
+		}
+
+		if (this.currentUser.threesomeExperience > 0) {
+			builtButtonList += "<button class=\"basicButton sexualityButton\" type=\"button\">Threesome</button>";
+		}
+
+		if (this.currentUser.sexToyExperience > 0) {
+			builtButtonList += "<button class=\"basicButton sexualityButton\" type=\"button\">Used Sex Toys</button>";
+		}
+
+		if (this.currentUser.videoSexExperience > 0) {
+			builtButtonList += "<button class=\"basicButton sexualityButton\" type=\"button\">Video Sex Chat</button>";
+		}
+
+		return builtButtonList;
+	}
+
+	render() {              
 		var editProfileButton = {
 			buttonTitle : "Edit Profile",
 			buttonIcon : icon_edit_blue,
@@ -288,48 +428,7 @@ class Profile extends React.Component {
 			hollowButtonLeftIconClass : "hollowButtonLeftIcon",
 			leftHollowButtonTitleClass : "leftHollowButtonTitle"
 		}
-
-		var sexualCategoryButtons = [
-			{buttonTitle : "Bisexual", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Gay", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Lesbian", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Straight", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Sugar Daddy", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Sugar Mommy", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Toy Boy", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Toy Girl", buttonClass : "basicButton sexualityButton"}
-		];
-
-		var sexualInterestButtons = [
-			{buttonTitle : "Bisexual", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Friendship", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Gay", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Lesbian", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Relationship", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Straight", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Sugar Daddy", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Sugar Mommy", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Toy Boy", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Toy Girl", buttonClass : "basicButton sexualityButton"}
-		];
-    
-		var sexualExperienceButtons = [
-			{buttonTitle : "69", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Anal Sex", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Given Head", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Missionary", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "One-night Stand", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Orgy Sex", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Pool Sex", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Received Head", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Sexed In Car", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Sexed In Public", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Sexed With Camera", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Threesome", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Used Sex Toys", buttonClass : "basicButton sexualityButton"},
-			{buttonTitle : "Video Sex Chat", buttonClass : "basicButton sexualityButton"}
-		];
-     
+              
 		return ( 
 			<div className="dateMomoProfileLayout">
 				<div className="pictureUserNameLayout">
@@ -466,11 +565,11 @@ class Profile extends React.Component {
 				</div>
 				<div className="userLikerSexualityLayout">
 					<div className="sexualityHeader">My sexuality</div>
-					<SexualityOptions sexualityButtons={sexualCategoryButtons} />
+					<div className="sexualityButtonLayout" dangerouslySetInnerHTML={{__html : this.displaySexualityButtons()}} ></div>
 					<div className="sexualityHeader">My Interests</div>
-					<SexualityOptions sexualityButtons={sexualInterestButtons} />
+					<div className="sexualityButtonLayout" dangerouslySetInnerHTML={{__html : this.displayInterestButtons()}} ></div>
 					<div className="sexualityHeader">My Experiences</div>
-					<SexualityOptions sexualityButtons={sexualExperienceButtons} />
+					<div className="sexualityButtonLayout" dangerouslySetInnerHTML={{__html : this.displayExperienceButtons()}} ></div>
 				</div>
 			</div>
 		);
