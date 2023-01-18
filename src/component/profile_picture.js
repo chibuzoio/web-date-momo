@@ -7,14 +7,23 @@ class ProfilePicture extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state.pictureParts = props.pictureParts; 
+		this.updateState = this.updateState.bind(this);
+	}
+
+	// Remember this method type for setting state using props values  
+	updateState() {
+		this.setState(function(state, props) {
+			return {
+				pictureParts : this.props.pictureParts
+			}
+		});
 	}
 
 	render() {  
 		return (
 			<div className="profilePictureLayout">
 				<img className="profilePictureImage" 
-				alt="" src={this.state.pictureParts.roundPicture} />
+				alt="" src={this.props.pictureParts.roundPicture} />
 			</div>
 		);
 	}

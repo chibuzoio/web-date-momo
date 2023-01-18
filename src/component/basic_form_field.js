@@ -6,13 +6,22 @@ class BasicFormField extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state.formParts = props.formParts; 
+		this.updateState = this.updateState.bind(this);
+	}
+
+	// Remember this method type for setting state using props values  
+	updateState() {
+		this.setState(function(state, props) {
+			return {
+				formParts : this.props.formParts
+			}
+		});
 	}
 
 	render() {     
 		return (
-			<input className={this.state.formParts.ageFieldClass} type={this.state.formParts.type} 
-			placeholder={this.state.formParts.placeholder} />
+			<input className={this.props.formParts.ageFieldClass} type={this.props.formParts.type} 
+			placeholder={this.props.formParts.placeholder} />
 		);
 	}
 }

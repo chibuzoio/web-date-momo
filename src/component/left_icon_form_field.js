@@ -18,19 +18,28 @@ class LeftIconFormField extends React.Component {
 */		
 	constructor(props) {
 		super(props);
-		this.state.formParts = props.formParts; 
+		this.updateState = this.updateState.bind(this);
 	}
-       
+
+	// Remember this method type for setting state using props values  
+	updateState() {
+		this.setState(function(state, props) {
+			return {
+				formParts : this.props.formParts
+			}
+		});
+	}
+
 	render() {  
 		return (
 			<div>
-				<label>{this.state.formParts.label}</label>
-				<div className={this.state.formParts.fieldLayoutClass}>
-				    <img className={this.state.formParts.fieldIconClass} alt="" src={this.state.formParts.fieldIcon} />
+				<label>{this.props.formParts.label}</label>
+				<div className={this.props.formParts.fieldLayoutClass}>
+				    <img className={this.props.formParts.fieldIconClass} alt="" src={this.props.formParts.fieldIcon} />
 				    <input 
-				    	type={this.state.formParts.type} name="name" 
-				    	value={this.state.formParts.value}
-				    	placeholder={this.state.formParts.placeholder} />
+				    	type={this.props.formParts.type} name="name" 
+				    	value={this.props.formParts.value}
+				    	placeholder={this.props.formParts.placeholder} />
 				</div>
 			</div>
 		);

@@ -6,13 +6,22 @@ class BottomMenuIcon extends React.Component {
 		
 	constructor(props) {
 		super(props);
-		this.state.menuParts = props.menuParts; 
+		this.updateState = this.updateState.bind(this);
+	}
+
+	// Remember this method type for setting state using props values  
+	updateState() {
+		this.setState(function(state, props) {
+			return {
+				menuParts : this.props.menuParts
+			}
+		});
 	}
 
 	render() {  
 		return (
-			<button className={this.state.menuParts.bottomMenuClass} type="button"> 
-				<img className="bottomMenuIcon" alt="" src={this.state.menuParts.menuIcon} />
+			<button className={this.props.menuParts.bottomMenuClass} type="button"> 
+				<img className="bottomMenuIcon" alt="" src={this.props.menuParts.menuIcon} />
 			</button>
 		);
 	}

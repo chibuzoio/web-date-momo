@@ -7,15 +7,24 @@ class LeftIconHollowButton extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state.buttonParts = props.buttonParts; 
+		this.updateState = this.updateState.bind(this);
+	}
+
+	// Remember this method type for setting state using props values  
+	updateState() {
+		this.setState(function(state, props) {
+			return {
+				buttonParts : this.props.buttonParts
+			}
+		});
 	}
 
 	render() {
 		return (
-			<button className={this.state.buttonParts.leftIconHollowButtonClass}>
-				<div className={this.state.buttonParts.leftHollowButtonContentClass}> 
-					<img className={this.state.buttonParts.hollowButtonLeftIconClass} src={this.state.buttonParts.buttonIcon}/>
-					<div className={this.state.buttonParts.leftHollowButtonTitleClass}>{this.state.buttonParts.buttonTitle}</div>
+			<button className={this.props.buttonParts.leftIconHollowButtonClass}>
+				<div className={this.props.buttonParts.leftHollowButtonContentClass}> 
+					<img className={this.props.buttonParts.hollowButtonLeftIconClass} src={this.props.buttonParts.buttonIcon}/>
+					<div className={this.props.buttonParts.leftHollowButtonTitleClass}>{this.props.buttonParts.buttonTitle}</div>
 				</div>
 			</button>
 		);

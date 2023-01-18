@@ -9,18 +9,27 @@ class UserLikerContent extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state.userLikerData = props.userLikerData; 
+		this.updateState = this.updateState.bind(this);
+	}
+
+	// Remember this method type for setting state using props values  
+	updateState() {
+		this.setState(function(state, props) {
+			return {
+				userLikerData : this.props.userLikerData
+			}
+		});
 	}
 
 	render() {           
 		return (
 			<div className="notificationOuterLayout">
 				<div className="roundPictureContainer">
-					<RoundPicture pictureParts={this.state.userLikerData.roundPictureParts} />
+					<RoundPicture pictureParts={this.props.userLikerData.roundPictureParts} />
 				</div>
 				<div className="notificationComponentLayout">
-					<div className="notificationTitle">{this.state.userLikerData.userLikerNameAge}</div>
-					<div className="chatLastMessage">{this.state.userLikerData.userLikerLocation}</div>
+					<div className="notificationTitle">{this.props.userLikerData.userLikerNameAge}</div>
+					<div className="chatLastMessage">{this.props.userLikerData.userLikerLocation}</div>
 				</div>   
 			</div>
 		);

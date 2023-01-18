@@ -7,14 +7,23 @@ class HorizontalButtonList extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state.sexualityButtons = props.sexualityButtons; 
+		this.updateState = this.updateState.bind(this);
+	}
+
+	// Remember this method type for setting state using props values  
+	updateState() {
+		this.setState(function(state, props) {
+			return {
+				sexualityButtons : this.props.sexualityButtons
+			}
+		});
 	}
 
 	render() {      
 		return (
 			<div className="horizontalButtonList">
 				{ 
-					this.state.sexualityButtons.map((sexualityButton) => ( 
+					this.props.sexualityButtons.map((sexualityButton) => ( 
 						<BasicButton buttonParts={sexualityButton} />
 					))
 				}

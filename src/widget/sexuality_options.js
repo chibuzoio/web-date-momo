@@ -6,11 +6,17 @@ class SexualityOptions extends React.Component {
 	state = {sexualityButtons : []};
 
 	constructor(props) {
-		super(props);
+		super(props);     
+		this.updateState = this.updateState.bind(this);
+	}
 
-		// This failed. Use setState construct to update state 
-		// if data here need to change on user interaction  
-		this.state.sexualityButtons = props.sexualityButtons; 
+	// Remember this method type for setting state using props values  
+	updateState() {
+		this.setState(function(state, props) {
+			return {
+				sexualityButtons : this.props.sexualityButtons
+			}
+		});
 	}
 
 	render() { 

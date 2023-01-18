@@ -7,15 +7,24 @@ class BorderlessIconMenu extends React.Component {
     
 	constructor(props) {
 		super(props);
-		this.state.iconMenuParts = props.iconMenuParts; 
+		this.updateState = this.updateState.bind(this);
+	}
+
+	// Remember this method type for setting state using props values  
+	updateState() {
+		this.setState(function(state, props) {
+			return {
+				iconMenuParts : this.props.iconMenuParts
+			}
+		});
 	}
 
 	render() {  
 		return (
 			<div className="borderlessIconMenu">
-				<img className="iconMenuImage" alt="" src={this.state.iconMenuParts.iconMenuImage} />
+				<img className="iconMenuImage" alt="" src={this.props.iconMenuParts.iconMenuImage} />
 				<div className="iconMenuTitle"> 
-					{this.state.iconMenuParts.iconMenuTitle}
+					{this.props.iconMenuParts.iconMenuTitle}
 				</div>
 			</div>
 		);

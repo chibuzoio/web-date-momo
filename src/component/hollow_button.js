@@ -7,13 +7,22 @@ class HollowButton extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state.buttonParts = props.buttonParts; 
+		this.updateState = this.updateState.bind(this);
+	}
+
+	// Remember this method type for setting state using props values  
+	updateState() {
+		this.setState(function(state, props) {
+			return {
+				buttonParts : this.props.buttonParts
+			}
+		});
 	}
 
 	render() {
 		return (
-			<button className={this.state.buttonParts.buttonClass} type="button"> 
-				{this.state.buttonParts.buttonTitle}
+			<button className={this.props.buttonParts.buttonClass} type="button"> 
+				{this.props.buttonParts.buttonTitle}
 			</button>
 		);
 	}

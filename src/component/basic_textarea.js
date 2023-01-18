@@ -6,11 +6,20 @@ class BasicTextarea extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state.formParts = props.formParts; 
+		this.updateState = this.updateState.bind(this);
 		this.getScrollHeight = this.getScrollHeight.bind(this);
 		this.checkEmptyEditor = this.checkEmptyEditor.bind(this);
 		this.expandTextareaInput = this.expandTextareaInput.bind(this);
 		this.deleteThePlaceholder = this.deleteThePlaceholder.bind(this);
+	}
+
+	// Remember this method type for setting state using props values  
+	updateState() {
+		this.setState(function(state, props) {
+			return {
+				formParts : this.props.formParts
+			}
+		});
 	}
 
 	expandTextareaInput({target : element}) {
@@ -31,7 +40,7 @@ class BasicTextarea extends React.Component {
 
 	checkEmptyEditor(event) {
 		if (event.target.textContent.trim() === "") {
-			event.target.innerHTML = this.state.formParts.placeholder;
+			event.target.innerHTML = this.props.formParts.placeholder;
 		}
 	}
 
@@ -58,10 +67,10 @@ class BasicTextarea extends React.Component {
 
 	render() {     
 		return (
-			<div className={this.state.formParts.basicTextarea} 
+			<div className={this.props.formParts.basicTextarea} 
 				onFocus={this.deleteThePlaceholder} onBlur={this.checkEmptyEditor} 
 				contentEditable="true">
-				{this.state.formParts.placeholder}
+				{this.props.formParts.placeholder}
 			</div>
 		);
 	}
