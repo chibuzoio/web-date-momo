@@ -7,6 +7,9 @@ class SexualityOptions extends React.Component {
 
 	constructor(props) {
 		super(props);
+
+		// This failed. Use setState construct to update state 
+		// if data here need to change on user interaction  
 		this.state.sexualityButtons = props.sexualityButtons; 
 	}
 
@@ -14,7 +17,7 @@ class SexualityOptions extends React.Component {
 		return (
 			<div className="sexualityButtonLayout">
 				{ 
-					this.state.sexualityButtons.map((sexualityButton) => ( 
+					this.props.sexualityButtons.map((sexualityButton) => ( 
 						<HollowButton buttonParts={sexualityButton} />
 					))
 				}

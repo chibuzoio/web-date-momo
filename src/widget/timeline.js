@@ -243,7 +243,7 @@ class Timeline extends React.Component {
         if (this.state.contextData.userComposite.homeDisplayResponses[currentPosition].videoSexExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Video Sex Chat", buttonClass : "basicButton sexualityButton"});
         }
-       
+           
 		return sexualExperienceButtons;
 	} 
 
@@ -289,7 +289,7 @@ class Timeline extends React.Component {
         if (this.state.contextData.userComposite.homeDisplayResponses[currentPosition].toyGirlInterest > 0) {
         	sexualInterestButtons.push({buttonTitle : "Toy Girl", buttonClass : "basicButton sexualityButton"});
         }
-     
+                
 		return sexualInterestButtons;
 	} 
 
