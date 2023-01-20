@@ -17,7 +17,7 @@ import SexualityOptions from '../widget/sexuality_options';
 import LeftIconHollowButton from '../component/left_icon_hollow_button';
 import icon_close_white from '../image/icon_close_white.png';
 import icon_view_blue from '../image/icon_view_blue.png';
-import test_image from '../image/test_image.png';
+import color_loader from '../image/color_loader.gif';
 import logo from '../image/datemomo.png';
 
 class Timeline extends React.Component {
@@ -48,6 +48,10 @@ class Timeline extends React.Component {
 			menuIcon : icon_close_white,
 			menuLayoutDisplay : "none",
 		},
+		infiniteScrollingPage : {
+			totalAvailablePages : 0,
+			lastDisplayPage : 0
+		},
 		stateLoaded : false
 	}}; 
 
@@ -61,8 +65,10 @@ class Timeline extends React.Component {
 		this.displayFloatingLayout = this.displayFloatingLayout.bind(this);
 		this.updateGradientHeight = this.updateGradientHeight.bind(this);
 		this.closeFloatingLayout = this.closeFloatingLayout.bind(this);
+		this.detectScrollBottom = this.detectScrollBottom.bind(this);
 		this.setGradientHeight = this.setGradientHeight.bind(this);
 		this.changeLikedIcon = this.changeLikedIcon.bind(this);
+		this.clickLikeUser = this.clickLikeUser.bind(this);
 	}
 
 	componentDidMount() {
@@ -106,62 +112,42 @@ class Timeline extends React.Component {
 		};
 
 		window.addEventListener('resize', this.updateGradientHeight);
+		window.addEventListener('scroll', this.detectScrollBottom);
     
 		axios.post("http://datemomo.com/service/matcheduserdata.php", this.requestData)
 	    	.then(response => {
-	    		this.setState(function(state) { 
-	    			return {contextData : {
-			    		userComposite : response.data,
-			    		floatingAccountData : state.contextData.floatingAccountData,
-			    		closeLayoutIcon : state.contextData.closeLayoutIcon,
-			    		stateLoaded : true
-			    	}
-			    }});
+	    		this.state.contextData.userComposite = response.data;
+	    		this.state.contextData.stateLoaded = true;
 
-	    		console.log("The response data here from querying all user composites is " + JSON.stringify(response.data));
+	    		this.setState(function(state) { 
+	    			return {contextData : state.contextData}
+				});
+
+	    		console.log("The response data here in timeline.js from querying all user composites is " + JSON.stringify(response.data));
 	        }, error => {
 	        	console.log(error);
 	        });
 	}
 
 	componentWillUnmount() {
-
+		window.removeEventListener('resize', this.updateGradientHeight);
+		window.removeEventListener('scroll', this.detectScrollBottom);
 	}
 
 	updateGradientHeight() { 
+		this.state.contextData.floatingAccountData.gradientHeight = this.userAccountImage.clientHeight;
+
 		this.setState(function(state) {
-			return {contextData :  {
-				userComposite : state.contextData.userComposite,
-				floatingAccountData : {
-					sexualExperienceButtons : state.contextData.floatingAccountData.sexualExperienceButtons,
-					sexualInterestButtons : state.contextData.floatingAccountData.sexualInterestButtons,
-					sexualCategoryButtons : state.contextData.floatingAccountData.sexualCategoryButtons,
-					floatingLayoutDisplay : state.contextData.floatingAccountData.floatingLayoutDisplay,
-					userDisplayResponse : state.contextData.floatingAccountData.userDisplayResponse,
-					gradientHeight : this.userAccountImage.clientHeight
-				},
-				closeLayoutIcon : state.contextData.closeLayoutIcon,
-				stateLoaded : state.contextData.stateLoaded
-			}
-		}});
+			return {contextData : state.contextData}
+		});
 	}
 
 	setGradientHeight(event) {         
+		this.state.contextData.floatingAccountData.gradientHeight = event.target.clientHeight;
+
 		this.setState(function(state) { 
-			return {contextData :  {
-				userComposite : state.contextData.userComposite,
-				floatingAccountData : {
-					sexualExperienceButtons : state.contextData.floatingAccountData.sexualExperienceButtons,
-					sexualInterestButtons : state.contextData.floatingAccountData.sexualInterestButtons,
-					sexualCategoryButtons : state.contextData.floatingAccountData.sexualCategoryButtons,
-					floatingLayoutDisplay : state.contextData.floatingAccountData.floatingLayoutDisplay,
-					userDisplayResponse : state.contextData.floatingAccountData.userDisplayResponse,
-					gradientHeight : event.target.clientHeight
-				},
-				closeLayoutIcon : state.contextData.closeLayoutIcon,
-				stateLoaded : state.contextData.stateLoaded
-			}
-		}});
+			return {contextData : state.contextData}
+		});
 	}
 
 	changeLikedIcon(liked) {
@@ -175,32 +161,22 @@ class Timeline extends React.Component {
 	displayFloatingLayout(event) {     
 		var currentUserPosition = event.currentTarget.getAttribute("data-current-user");
 
+		this.state.contextData.floatingAccountData.sexualExperienceButtons = this.buildSexualExperienceButtons(currentUserPosition);
+		this.state.contextData.floatingAccountData.sexualInterestButtons = this.buildSexualInterestButtons(currentUserPosition);
+		this.state.contextData.floatingAccountData.sexualCategoryButtons = this.buildSexualCategoryButtons(currentUserPosition);
+		this.state.contextData.floatingAccountData.floatingLayoutDisplay = "flex";
+		this.state.contextData.floatingAccountData.userDisplayResponse = {          
+			currentLocation : this.state.contextData.userComposite.homeDisplayResponses[currentUserPosition].currentLocation,
+			profilePicture : this.state.contextData.userComposite.homeDisplayResponses[currentUserPosition].profilePicture,
+			userStatus : this.state.contextData.userComposite.homeDisplayResponses[currentUserPosition].userStatus,
+			userName : this.state.contextData.userComposite.homeDisplayResponses[currentUserPosition].userName,
+			age : this.state.contextData.userComposite.homeDisplayResponses[currentUserPosition].age
+		};
+		this.state.contextData.closeLayoutIcon.menuLayoutDisplay = "flex";
+
 		this.setState(function(state) {
-			return {contextData :  {
-				userComposite : state.contextData.userComposite,
-				floatingAccountData : {
-					sexualExperienceButtons : this.buildSexualExperienceButtons(currentUserPosition),
-					sexualInterestButtons : this.buildSexualInterestButtons(currentUserPosition),
-					sexualCategoryButtons : this.buildSexualCategoryButtons(currentUserPosition),
-					floatingLayoutDisplay : "flex",
-					userDisplayResponse : {          
-						currentLocation : state.contextData.userComposite.homeDisplayResponses[currentUserPosition].currentLocation,
-						profilePicture : state.contextData.userComposite.homeDisplayResponses[currentUserPosition].profilePicture,
-						userStatus : state.contextData.userComposite.homeDisplayResponses[currentUserPosition].userStatus,
-						userName : state.contextData.userComposite.homeDisplayResponses[currentUserPosition].userName,
-						age : state.contextData.userComposite.homeDisplayResponses[currentUserPosition].age
-					},
-					gradientHeight : state.contextData.floatingAccountData.gradientHeight
-				},
-				closeLayoutIcon : {
-					menuLayoutClass : state.contextData.closeLayoutIcon.menuLayoutClass,
-					menuIconClass : state.contextData.closeLayoutIcon.menuIconClass,
-					menuIcon : state.contextData.closeLayoutIcon.menuIcon,
-					menuLayoutDisplay : "flex",
-				},
-				stateLoaded : state.contextData.stateLoaded		
-			}
-		}});
+			return {contextData : state.contextData}
+		});
 	}
 
 	buildSexualExperienceButtons(currentPosition) {
@@ -351,32 +327,55 @@ class Timeline extends React.Component {
 
 	closeFloatingLayout(menuLayoutDisplay) {
 		if (menuLayoutDisplay === "none") {
+			this.state.contextData.floatingAccountData.floatingLayoutDisplay = "none";
+			this.state.contextData.closeLayoutIcon.menuLayoutDisplay = "none";
+
 			this.setState(function(state) {
-				return {contextData :  {
-					userComposite : state.contextData.userComposite,
-					floatingAccountData : {
-						sexualExperienceButtons : state.contextData.floatingAccountData.sexualExperienceButtons,
-						sexualInterestButtons : state.contextData.floatingAccountData.sexualInterestButtons,
-						sexualCategoryButtons : state.contextData.floatingAccountData.sexualCategoryButtons,
-						floatingLayoutDisplay : "none",
-						userDisplayResponse : {          
-							currentLocation : state.contextData.floatingAccountData.userDisplayResponse.currentLocation,
-							profilePicture : state.contextData.floatingAccountData.userDisplayResponse.profilePicture,
-							userStatus : state.contextData.floatingAccountData.userDisplayResponse.userStatus,
-							userName : state.contextData.floatingAccountData.userDisplayResponse.userName,
-							age : state.contextData.floatingAccountData.userDisplayResponse.age
-						},
-						gradientHeight : state.contextData.floatingAccountData.gradientHeight
-					},
-					closeLayoutIcon : {
-						menuLayoutClass : state.contextData.closeLayoutIcon.menuLayoutClass,
-						menuIconClass : state.contextData.closeLayoutIcon.menuIconClass,
-						menuIcon : state.contextData.closeLayoutIcon.menuIcon,
-						menuLayoutDisplay : "none",
-					},
-					stateLoaded : state.contextData.stateLoaded		
-				}
-			}});
+				return {contextData : state.contextData}
+			});
+		}
+	}
+
+	clickLikeUser(event) {
+		var currentUserPosition = event.currentTarget.getAttribute("data-current-user");
+
+		if (this.state.contextData.userComposite.homeDisplayResponses[currentUserPosition].liked) {
+			this.state.contextData.userComposite.homeDisplayResponses[currentUserPosition].liked = false;
+		} else {
+			this.state.contextData.userComposite.homeDisplayResponses[currentUserPosition].liked = true;
+		}
+
+		this.setState(function(state) {
+			return {contextData : state.contextData}
+		});
+
+		var likeRequestData = {
+			memberId : this.currentUser.memberId,
+            liked : this.state.contextData.userComposite.homeDisplayResponses[currentUserPosition].liked,
+			likedUserId : this.state.contextData.userComposite.homeDisplayResponses[currentUserPosition].memberId
+		};
+
+		axios.post("http://datemomo.com/service/likeuser.php", likeRequestData)
+	    	.then(response => {
+	    		// console.log("Action proceeded with positive response from the server");
+	        }, error => {
+	        	console.log(error);
+	        });
+	}
+
+	detectScrollBottom() {
+		if ((this.homeDisplayScroller.scrollHeight - 
+			this.homeDisplayScroller.scrollTop) === this.homeDisplayScroller.clientHeight) {
+			console.log("Bottom of homeDisplayScroller is reached!!!!"); // this works 
+
+			// display loading gif image and set stateLoaded to false, until data is loaded completely from the server 
+			this.state.contextData.stateLoaded = false;
+
+			this.setState(function(state) {
+				return {contextData : state.contextData}
+			});
+
+
 		}
 	}
 
@@ -403,13 +402,14 @@ class Timeline extends React.Component {
               
 		return (
 			<div>
-				<div className="scrollView">
+				<div className="scrollView" ref={(homeDisplayScroller) => 
+					{this.homeDisplayScroller = homeDisplayScroller}} onScroll={this.detectScrollBottom}>
 					{ 
 						this.state.contextData.userComposite.homeDisplayResponses.map((homeDisplayUser, index) => ( 
 							<div className="timelineWidget"> 
 								<img className="centerCropped" onClick={this.displayFloatingLayout} 
 									data-current-user={index} src={"http://datemomo.com/client/image/" 
-									+ homeDisplayUser.userPictureResponses[0].imageName} />
+									+ homeDisplayUser.profilePicture} />
 								<div className="bottomContentLayout">
 									<div className="userNameLayout" data-current-user={index}  
 										onClick={this.displayFloatingLayout}>
@@ -420,13 +420,17 @@ class Timeline extends React.Component {
 										<div className="locationText">{homeDisplayUser.currentLocation}</div>
 									</div>
 									<div className="likeIconLayout" ref={(userTimelineLiker) => 
-										{this.userTimelineLiker = userTimelineLiker}}>
+										{this.userTimelineLiker = userTimelineLiker}} data-current-user={index} 
+										onClick={this.clickLikeUser}>
 										{this.changeLikedIcon(homeDisplayUser.liked)}
 									</div>
 								</div>
 							</div>
 						))
 					}
+					<div className="colorLoaderLayout" style={{}}>
+						<img className="colorLoader" src={color_loader} alt="" />
+					</div>
 				</div>
 
 				<div className="floatingUserAccountLayout" 
