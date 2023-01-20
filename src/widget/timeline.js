@@ -12,8 +12,10 @@ import icon_heart_hollow from '../image/icon_heart_hollow.png';
 import icon_heart_red from '../image/icon_heart_red.png';
 import icon_search from '../image/icon_search.png';
 import icon_message_blue from '../image/icon_message_blue.png';
+import CloseLayoutIcon from '../component/close_layout_icon';
 import SexualityOptions from '../widget/sexuality_options';
 import LeftIconHollowButton from '../component/left_icon_hollow_button';
+import icon_close_white from '../image/icon_close_white.png';
 import icon_view_blue from '../image/icon_view_blue.png';
 import test_image from '../image/test_image.png';
 import logo from '../image/datemomo.png';
@@ -40,6 +42,12 @@ class Timeline extends React.Component {
 			},
 			gradientHeight : 0
 		},
+		closeLayoutIcon : {
+			menuLayoutClass : "menuLayoutClass",
+			menuIconClass : "menuIconClass",
+			menuIcon : icon_close_white,
+			menuLayoutDisplay : "none",
+		},
 		stateLoaded : false
 	}}; 
 
@@ -52,6 +60,7 @@ class Timeline extends React.Component {
 		this.buildSexualCategoryButtons = this.buildSexualCategoryButtons.bind(this);
 		this.displayFloatingLayout = this.displayFloatingLayout.bind(this);
 		this.updateGradientHeight = this.updateGradientHeight.bind(this);
+		this.closeFloatingLayout = this.closeFloatingLayout.bind(this);
 		this.setGradientHeight = this.setGradientHeight.bind(this);
 		this.changeLikedIcon = this.changeLikedIcon.bind(this);
 	}
@@ -104,6 +113,7 @@ class Timeline extends React.Component {
 	    			return {contextData : {
 			    		userComposite : response.data,
 			    		floatingAccountData : state.contextData.floatingAccountData,
+			    		closeLayoutIcon : state.contextData.closeLayoutIcon,
 			    		stateLoaded : true
 			    	}
 			    }});
@@ -130,6 +140,7 @@ class Timeline extends React.Component {
 					userDisplayResponse : state.contextData.floatingAccountData.userDisplayResponse,
 					gradientHeight : this.userAccountImage.clientHeight
 				},
+				closeLayoutIcon : state.contextData.closeLayoutIcon,
 				stateLoaded : state.contextData.stateLoaded
 			}
 		}});
@@ -147,6 +158,7 @@ class Timeline extends React.Component {
 					userDisplayResponse : state.contextData.floatingAccountData.userDisplayResponse,
 					gradientHeight : event.target.clientHeight
 				},
+				closeLayoutIcon : state.contextData.closeLayoutIcon,
 				stateLoaded : state.contextData.stateLoaded
 			}
 		}});
@@ -179,6 +191,12 @@ class Timeline extends React.Component {
 						age : state.contextData.userComposite.homeDisplayResponses[currentUserPosition].age
 					},
 					gradientHeight : state.contextData.floatingAccountData.gradientHeight
+				},
+				closeLayoutIcon : {
+					menuLayoutClass : state.contextData.closeLayoutIcon.menuLayoutClass,
+					menuIconClass : state.contextData.closeLayoutIcon.menuIconClass,
+					menuIcon : state.contextData.closeLayoutIcon.menuIcon,
+					menuLayoutDisplay : "flex",
 				},
 				stateLoaded : state.contextData.stateLoaded		
 			}
@@ -331,7 +349,38 @@ class Timeline extends React.Component {
 		return sexualCategoryButtons;
 	} 
 
-	render() {        
+	closeFloatingLayout(menuLayoutDisplay) {
+		if (menuLayoutDisplay === "none") {
+			this.setState(function(state) {
+				return {contextData :  {
+					userComposite : state.contextData.userComposite,
+					floatingAccountData : {
+						sexualExperienceButtons : state.contextData.floatingAccountData.sexualExperienceButtons,
+						sexualInterestButtons : state.contextData.floatingAccountData.sexualInterestButtons,
+						sexualCategoryButtons : state.contextData.floatingAccountData.sexualCategoryButtons,
+						floatingLayoutDisplay : "none",
+						userDisplayResponse : {          
+							currentLocation : state.contextData.floatingAccountData.userDisplayResponse.currentLocation,
+							profilePicture : state.contextData.floatingAccountData.userDisplayResponse.profilePicture,
+							userStatus : state.contextData.floatingAccountData.userDisplayResponse.userStatus,
+							userName : state.contextData.floatingAccountData.userDisplayResponse.userName,
+							age : state.contextData.floatingAccountData.userDisplayResponse.age
+						},
+						gradientHeight : state.contextData.floatingAccountData.gradientHeight
+					},
+					closeLayoutIcon : {
+						menuLayoutClass : state.contextData.closeLayoutIcon.menuLayoutClass,
+						menuIconClass : state.contextData.closeLayoutIcon.menuIconClass,
+						menuIcon : state.contextData.closeLayoutIcon.menuIcon,
+						menuLayoutDisplay : "none",
+					},
+					stateLoaded : state.contextData.stateLoaded		
+				}
+			}});
+		}
+	}
+
+	render() {           
 		var viewProfileButton = {
 			buttonTitle : "View Profile",
 			buttonIcon : icon_view_blue,
@@ -415,6 +464,8 @@ class Timeline extends React.Component {
 						</div>
 					</div>
 				</div>
+
+				<CloseLayoutIcon menuIconParts={this.state.contextData.closeLayoutIcon} onChangeIconDisplay={this.closeFloatingLayout} />
 
 			</div>
 		);

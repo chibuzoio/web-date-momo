@@ -88,7 +88,6 @@ class Account extends React.Component {
 		    	}});
 
 				this.displayAvailableLiked();
-	    		console.log("The response data here from querying all user liked composite here is " + JSON.stringify(response.data));
 	        }, error => {
 	        	console.log(error);
 	        });

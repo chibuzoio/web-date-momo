@@ -6,6 +6,7 @@ import '../css/messenger.css';
 import icon_empty_chat from '../image/icon_empty_chat.png';
 import grey_placeholder from '../image/grey_placeholder.png';
 import icon_waving_hand from '../image/icon_waving_hand.png';
+import HorizontalButtonList from '../component/horizontal_button_list';
 
 class EmptyMessenger extends React.Component {
 	currentUser = {};
@@ -22,7 +23,7 @@ class EmptyMessenger extends React.Component {
 		super(props);
 		this.displayUserImage = this.displayUserImage.bind(this);
 		this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
-		this.displaySexualityButtons = this.displaySexualityButtons.bind(this);
+		this.buildSexualCategoryButtons = this.buildSexualCategoryButtons.bind(this);
 	}
 
 	componentDidMount() {
@@ -38,51 +39,49 @@ class EmptyMessenger extends React.Component {
 		    			stateLoaded : true
 		    		}
 		    	}});
-
-	    		console.log("The response data here from querying all user composites is " + JSON.stringify(response.data));
 	        }, error => {
 	        	console.log(error);
 	        });
 	}
 
-	displaySexualityButtons(homeDisplayUser) {
-		var builtButtonList = "";
+	buildSexualCategoryButtons(homeDisplayUser) {
+		var sexualCategoryButtons = [];
 
-		if (homeDisplayUser.bisexualCategory > 0) {
-			builtButtonList += "<button class=\"basicButton emptyMessengerButtons\" type=\"button\">Bisexual</button>";
-		}
+        if (homeDisplayUser.bisexualCategory > 0) {
+        	sexualCategoryButtons.push({buttonTitle : "Bisexual", buttonClass : "basicButton emptyMessengerButtons"});
+        }
 
-		if (homeDisplayUser.gayCategory > 0) {
-			builtButtonList += "<button class=\"basicButton emptyMessengerButtons\" type=\"button\">Gay</button>";
-		}
+        if (homeDisplayUser.gayCategory > 0) {
+        	sexualCategoryButtons.push({buttonTitle : "Gay", buttonClass : "basicButton emptyMessengerButtons"});
+        }
 
-		if (homeDisplayUser.lesbianCategory > 0) {
-			builtButtonList += "<button class=\"basicButton emptyMessengerButtons\" type=\"button\">Lesbian</button>";
-		}
+        if (homeDisplayUser.lesbianCategory > 0) {
+        	sexualCategoryButtons.push({buttonTitle : "Lesbian", buttonClass : "basicButton emptyMessengerButtons"});
+        }
 
-		if (homeDisplayUser.straightCategory > 0) {
-			builtButtonList += "<button class=\"basicButton emptyMessengerButtons\" type=\"button\">Straight</button>";
-		}
+        if (homeDisplayUser.straightCategory > 0) {
+        	sexualCategoryButtons.push({buttonTitle : "Straight", buttonClass : "basicButton emptyMessengerButtons"});
+        }
 
-		if (homeDisplayUser.sugarDaddyCategory > 0) {
-			builtButtonList += "<button class=\"basicButton emptyMessengerButtons\" type=\"button\">Sugar Daddy</button>";
-		}
+        if (homeDisplayUser.sugarDaddyCategory > 0) {
+        	sexualCategoryButtons.push({buttonTitle : "Sugar Daddy", buttonClass : "basicButton emptyMessengerButtons"});
+        }
 
-		if (homeDisplayUser.sugarMommyCategory > 0) {
-			builtButtonList += "<button class=\"basicButton emptyMessengerButtons\" type=\"button\">Sugar Mommy</button>";
-		}
+        if (homeDisplayUser.sugarMommyCategory > 0) {
+        	sexualCategoryButtons.push({buttonTitle : "Sugar Mommy", buttonClass : "basicButton emptyMessengerButtons"});
+        }
 
-		if (homeDisplayUser.toyBoyCategory > 0) {
-			builtButtonList += "<button class=\"basicButton emptyMessengerButtons\" type=\"button\">Toy Boy</button>";
-		}
+        if (homeDisplayUser.toyBoyCategory > 0) {
+        	sexualCategoryButtons.push({buttonTitle : "Toy Boy", buttonClass : "basicButton emptyMessengerButtons"});
+        }
 
-		if (homeDisplayUser.toyGirlCategory > 0) {
-			builtButtonList += "<button class=\"basicButton emptyMessengerButtons\" type=\"button\">Toy Girl</button>";
-		}
-
-		return builtButtonList;
-	} 
+        if (homeDisplayUser.toyGirlCategory > 0) {
+        	sexualCategoryButtons.push({buttonTitle : "Toy Girl", buttonClass : "basicButton emptyMessengerButtons"});
+        }
            
+		return sexualCategoryButtons;
+	} 
+                
 	displayUserImage(userGottenPicture) {
 		if (typeof userGottenPicture != "undefined") {
 			return (<img className="emptyMessengerPicture" 
@@ -115,7 +114,7 @@ class EmptyMessenger extends React.Component {
 								<div className="chatMateUserName">{homeDisplayUser.userName.charAt(0).toUpperCase() 
 									+ homeDisplayUser.userName.slice(1)}, {homeDisplayUser.age}</div>
 								<div className="chatMateLocation">{homeDisplayUser.currentLocation}</div>
-								<div className="sexualityButtonList" dangerouslySetInnerHTML={{__html : this.displaySexualityButtons(homeDisplayUser)}} ></div>
+								<HorizontalButtonList sexualityButtons={this.buildSexualCategoryButtons(homeDisplayUser)} />
 							</div>
 							<div className="wavingIconContainer">				
 								<img className="messengerWavingIcon" alt="" src={icon_waving_hand} />
