@@ -49,6 +49,7 @@ class Timeline extends React.Component {
 			menuLayoutDisplay : "none",
 		},
 		infiniteScrollingPage : {
+			colorLoadingDisplay : "flex",
 			totalAvailablePages : 0,
 			lastDisplayPage : 0
 		},
@@ -113,9 +114,12 @@ class Timeline extends React.Component {
 
 		window.addEventListener('resize', this.updateGradientHeight);
 		window.addEventListener('scroll', this.detectScrollBottom);
-    
+ 
 		axios.post("http://datemomo.com/service/matcheduserdata.php", this.requestData)
-	    	.then(response => {
+			.then(response => {
+	    		this.state.contextData.infiniteScrollingPage.totalAvailablePages = response.data.homeDisplayResponses.length;
+	    		this.state.contextData.infiniteScrollingPage.lastDisplayPage = response.data.homeDisplayResponses.length - 1;
+	    		this.state.contextData.infiniteScrollingPage.colorLoadingDisplay = "none";
 	    		this.state.contextData.userComposite = response.data;
 	    		this.state.contextData.stateLoaded = true;
 
@@ -369,13 +373,51 @@ class Timeline extends React.Component {
 			console.log("Bottom of homeDisplayScroller is reached!!!!"); // this works 
 
 			// display loading gif image and set stateLoaded to false, until data is loaded completely from the server 
+			this.state.contextData.infiniteScrollingPage.colorLoadingDisplay = "flex";
 			this.state.contextData.stateLoaded = false;
 
 			this.setState(function(state) {
 				return {contextData : state.contextData}
 			});
 
+			if (this.state.contextData.infiniteScrollingPage.totalAvailablePages < 
+				this.state.contextData.userComposite.thousandRandomCounter.length) {
+				var tenIterationCounter = 0;
+				var moreMatchedUserRequest = {
+					memberId : this.currentUser.memberId,
+					nextMatchedUsersIdArray : []
+				};				
 
+				for (var i = this.state.contextData.infiniteScrollingPage.lastDisplayPage; i < 
+					this.state.contextData.userComposite.thousandRandomCounter.length; i++) {
+					moreMatchedUserRequest.nextMatchedUsersIdArray.push(this.state.contextData.userComposite.thousandRandomCounter[i]);
+					tenIterationCounter++
+
+                    if (tenIterationCounter >= 10) {
+                        break
+                    }
+				}
+
+				console.log("The value of moreMatchedUserRequest here is " + JSON.stringify(moreMatchedUserRequest));
+
+				axios.post("http://datemomo.com/service/morematcheduserdata.php", moreMatchedUserRequest)
+			    	.then(response => {
+			    		this.state.contextData.userComposite.homeDisplayResponses.concat(response.data);
+			    		this.state.contextData.infiniteScrollingPage.totalAvailablePages = 
+			    			this.state.contextData.userComposite.homeDisplayResponses.length;
+			    		this.state.contextData.infiniteScrollingPage.lastDisplayPage = 
+			    			this.state.contextData.userComposite.homeDisplayResponses.length - 1;
+			    		this.state.contextData.infiniteScrollingPage.colorLoadingDisplay = "none";
+			    		this.state.contextData.stateLoaded = true;
+
+			    		this.setState(function(state) {
+			    			return {contextData : state.contextData}
+			    		});
+			        }, error => {
+			        	console.log(error);
+			        });
+
+			}
 		}
 	}
 
@@ -428,7 +470,8 @@ class Timeline extends React.Component {
 							</div>
 						))
 					}
-					<div className="colorLoaderLayout" style={{}}>
+					<div className="colorLoaderLayout" style={{display : 
+						this.state.contextData.infiniteScrollingPage.colorLoadingDisplay}}>
 						<img className="colorLoader" src={color_loader} alt="" />
 					</div>
 				</div>
