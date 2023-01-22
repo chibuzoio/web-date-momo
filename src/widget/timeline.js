@@ -117,17 +117,19 @@ class Timeline extends React.Component {
  
 		axios.post("http://datemomo.com/service/matcheduserdata.php", this.requestData)
 			.then(response => {
-	    		this.state.contextData.infiniteScrollingPage.totalAvailablePages = response.data.homeDisplayResponses.length;
-	    		this.state.contextData.infiniteScrollingPage.lastDisplayPage = response.data.homeDisplayResponses.length - 1;
-	    		this.state.contextData.infiniteScrollingPage.colorLoadingDisplay = "none";
-	    		this.state.contextData.userComposite = response.data;
-	    		this.state.contextData.stateLoaded = true;
-
 	    		this.setState(function(state) { 
-	    			return {contextData : state.contextData}
-				});
-
-	    		console.log("The response data here in timeline.js from querying all user composites is " + JSON.stringify(response.data));
+	    			return {contextData : {
+	    				userComposite : response.data,
+	    				floatingAccountData : state.contextData.floatingAccountData,
+	    				closeLayoutIcon : state.contextData.closeLayoutIcon,
+	    				infiniteScrollingPage : {
+	    					colorLoadingDisplay : "none",
+	    					totalAvailablePages : response.data.homeDisplayResponses.length,
+	    					lastDisplayPage : response.data.homeDisplayResponses.length - 1
+	    				},
+	    				stateLoaded : true
+	    			}
+	    		}});  
 	        }, error => {
 	        	console.log(error);
 	        });
@@ -139,19 +141,41 @@ class Timeline extends React.Component {
 	}
 
 	updateGradientHeight() { 
-		this.state.contextData.floatingAccountData.gradientHeight = this.userAccountImage.clientHeight;
-
-		this.setState(function(state) {
-			return {contextData : state.contextData}
-		});
+		this.setState(function(state) { 
+			return {contextData : {
+				userComposite : state.contextData.userComposite,
+				floatingAccountData : {
+					sexualExperienceButtons : state.contextData.floatingAccountData.sexualExperienceButtons,
+					sexualInterestButtons : state.contextData.floatingAccountData.sexualInterestButtons,
+					sexualCategoryButtons : state.contextData.floatingAccountData.sexualCategoryButtons,
+					floatingLayoutDisplay : state.contextData.floatingAccountData.floatingLayoutDisplay,
+					userDisplayResponse : state.contextData.floatingAccountData.userDisplayResponse,
+					gradientHeight : this.userAccountImage.clientHeight
+				},
+				closeLayoutIcon : state.contextData.closeLayoutIcon,
+				infiniteScrollingPage : state.contextData.infiniteScrollingPage,
+				stateLoaded : state.contextData.stateLoaded
+			}
+		}});  
 	}
 
 	setGradientHeight(event) {         
-		this.state.contextData.floatingAccountData.gradientHeight = event.target.clientHeight;
-
 		this.setState(function(state) { 
-			return {contextData : state.contextData}
-		});
+			return {contextData : {
+				userComposite : state.contextData.userComposite,
+				floatingAccountData : {
+					sexualExperienceButtons : state.contextData.floatingAccountData.sexualExperienceButtons,
+					sexualInterestButtons : state.contextData.floatingAccountData.sexualInterestButtons,
+					sexualCategoryButtons : state.contextData.floatingAccountData.sexualCategoryButtons,
+					floatingLayoutDisplay : state.contextData.floatingAccountData.floatingLayoutDisplay,
+					userDisplayResponse : state.contextData.floatingAccountData.userDisplayResponse,
+					gradientHeight : event.target.clientHeight
+				},
+				closeLayoutIcon : state.contextData.closeLayoutIcon,
+				infiniteScrollingPage : state.contextData.infiniteScrollingPage,
+				stateLoaded : state.contextData.stateLoaded
+			}
+		}});  
 	}
 
 	changeLikedIcon(liked) {
@@ -164,23 +188,34 @@ class Timeline extends React.Component {
 
 	displayFloatingLayout(event) {     
 		var currentUserPosition = event.currentTarget.getAttribute("data-current-user");
-
-		this.state.contextData.floatingAccountData.sexualExperienceButtons = this.buildSexualExperienceButtons(currentUserPosition);
-		this.state.contextData.floatingAccountData.sexualInterestButtons = this.buildSexualInterestButtons(currentUserPosition);
-		this.state.contextData.floatingAccountData.sexualCategoryButtons = this.buildSexualCategoryButtons(currentUserPosition);
-		this.state.contextData.floatingAccountData.floatingLayoutDisplay = "flex";
-		this.state.contextData.floatingAccountData.userDisplayResponse = {          
-			currentLocation : this.state.contextData.userComposite.homeDisplayResponses[currentUserPosition].currentLocation,
-			profilePicture : this.state.contextData.userComposite.homeDisplayResponses[currentUserPosition].profilePicture,
-			userStatus : this.state.contextData.userComposite.homeDisplayResponses[currentUserPosition].userStatus,
-			userName : this.state.contextData.userComposite.homeDisplayResponses[currentUserPosition].userName,
-			age : this.state.contextData.userComposite.homeDisplayResponses[currentUserPosition].age
-		};
-		this.state.contextData.closeLayoutIcon.menuLayoutDisplay = "flex";
-
-		this.setState(function(state) {
-			return {contextData : state.contextData}
-		});
+            
+		this.setState(function(state) { 
+			return {contextData : {
+				userComposite : state.contextData.userComposite,
+				floatingAccountData : {
+					sexualExperienceButtons : this.buildSexualExperienceButtons(currentUserPosition),
+					sexualInterestButtons : this.buildSexualInterestButtons(currentUserPosition),
+					sexualCategoryButtons : this.buildSexualCategoryButtons(currentUserPosition),
+					floatingLayoutDisplay : "flex",
+					userDisplayResponse : {
+						currentLocation : state.contextData.userComposite.homeDisplayResponses[currentUserPosition].currentLocation,
+						profilePicture : state.contextData.userComposite.homeDisplayResponses[currentUserPosition].profilePicture,
+						userStatus : state.contextData.userComposite.homeDisplayResponses[currentUserPosition].userStatus,
+						userName : state.contextData.userComposite.homeDisplayResponses[currentUserPosition].userName,
+						age : state.contextData.userComposite.homeDisplayResponses[currentUserPosition].age
+					},
+					gradientHeight : event.target.clientHeight
+				},
+				closeLayoutIcon : {
+					menuLayoutClass : state.contextData.closeLayoutIcon.menuLayoutClass,
+					menuIconClass : state.contextData.closeLayoutIcon.menuIconClass,
+					menuIcon : state.contextData.closeLayoutIcon.menuIcon,
+					menuLayoutDisplay : "flex",
+				},
+				infiniteScrollingPage : state.contextData.infiniteScrollingPage,
+				stateLoaded : state.contextData.stateLoaded
+			}
+		}});  
 	}
 
 	buildSexualExperienceButtons(currentPosition) {
@@ -331,27 +366,53 @@ class Timeline extends React.Component {
 
 	closeFloatingLayout(menuLayoutDisplay) {
 		if (menuLayoutDisplay === "none") {
-			this.state.contextData.floatingAccountData.floatingLayoutDisplay = "none";
-			this.state.contextData.closeLayoutIcon.menuLayoutDisplay = "none";
-
-			this.setState(function(state) {
-				return {contextData : state.contextData}
-			});
+			this.setState(function(state) { 
+				return {contextData : {
+					userComposite : state.contextData.userComposite,
+					floatingAccountData : {
+						sexualExperienceButtons : state.contextData.floatingAccountData.sexualExperienceButtons,
+						sexualInterestButtons : state.contextData.floatingAccountData.sexualInterestButtons,
+						sexualCategoryButtons : state.contextData.floatingAccountData.sexualCategoryButtons,
+						floatingLayoutDisplay : "none",
+						userDisplayResponse : state.contextData.floatingAccountData.userDisplayResponse,
+						gradientHeight : state.contextData.floatingAccountData.gradientHeight
+					},
+					closeLayoutIcon : {
+						menuLayoutClass : state.contextData.closeLayoutIcon.menuLayoutClass,
+						menuIconClass : state.contextData.closeLayoutIcon.menuIconClass,
+						menuIcon : state.contextData.closeLayoutIcon.menuIcon,
+						menuLayoutDisplay : "none",
+					},
+					infiniteScrollingPage : state.contextData.infiniteScrollingPage,
+					stateLoaded : state.contextData.stateLoaded
+				}
+			}});  
 		}
 	}
 
 	clickLikeUser(event) {
+		var currentUserLiked = true;
 		var currentUserPosition = event.currentTarget.getAttribute("data-current-user");
 
 		if (this.state.contextData.userComposite.homeDisplayResponses[currentUserPosition].liked) {
-			this.state.contextData.userComposite.homeDisplayResponses[currentUserPosition].liked = false;
-		} else {
-			this.state.contextData.userComposite.homeDisplayResponses[currentUserPosition].liked = true;
-		}
+			currentUserLiked = false;
+		} 
 
-		this.setState(function(state) {
-			return {contextData : state.contextData}
-		});
+		var homeDisplayResponses = this.state.contextData.userComposite.homeDisplayResponses;
+		homeDisplayResponses[currentUserPosition].liked = currentUserLiked;
+
+		this.setState(function(state) { 
+			return {contextData : {
+				userComposite : {
+					homeDisplayResponses : homeDisplayResponses,
+					thousandRandomCounter : state.contextData.userComposite.thousandRandomCounter
+				},
+				floatingAccountData : state.contextData.floatingAccountData,
+				closeLayoutIcon : state.contextData.closeLayoutIcon,
+				infiniteScrollingPage : state.contextData.infiniteScrollingPage,
+				stateLoaded : state.contextData.stateLoaded
+			}
+		}});  
 
 		var likeRequestData = {
 			memberId : this.currentUser.memberId,
@@ -370,26 +431,33 @@ class Timeline extends React.Component {
 	detectScrollBottom() {
 		if ((this.homeDisplayScroller.scrollHeight - 
 			this.homeDisplayScroller.scrollTop) === this.homeDisplayScroller.clientHeight) {
-			console.log("Bottom of homeDisplayScroller is reached!!!!"); // this works 
-
-			// display loading gif image and set stateLoaded to false, until data is loaded completely from the server 
-			this.state.contextData.infiniteScrollingPage.colorLoadingDisplay = "flex";
-			this.state.contextData.stateLoaded = false;
-
-			this.setState(function(state) {
-				return {contextData : state.contextData}
-			});
-
 			if (this.state.contextData.infiniteScrollingPage.totalAvailablePages < 
 				this.state.contextData.userComposite.thousandRandomCounter.length) {
+				window.removeEventListener('scroll', this.detectScrollBottom);
+
+				this.setState(function(state) { 
+					return {contextData : {
+						userComposite : state.contextData.userComposite,
+						floatingAccountData : state.contextData.floatingAccountData,
+						closeLayoutIcon : state.contextData.closeLayoutIcon,
+						infiniteScrollingPage : {
+							colorLoadingDisplay : "flex",
+							totalAvailablePages : state.contextData.infiniteScrollingPage.totalAvailablePages,
+							lastDisplayPage : state.contextData.infiniteScrollingPage.lastDisplayPage
+						},
+						stateLoaded : false
+					}
+				}});  
+
 				var tenIterationCounter = 0;
 				var moreMatchedUserRequest = {
 					memberId : this.currentUser.memberId,
 					nextMatchedUsersIdArray : []
 				};				
 
-				for (var i = this.state.contextData.infiniteScrollingPage.lastDisplayPage; i < 
-					this.state.contextData.userComposite.thousandRandomCounter.length; i++) {
+				var countStartindex = this.state.contextData.infiniteScrollingPage.lastDisplayPage + 1;
+        
+				for (var i = countStartindex; i < this.state.contextData.userComposite.thousandRandomCounter.length; i++) {
 					moreMatchedUserRequest.nextMatchedUsersIdArray.push(this.state.contextData.userComposite.thousandRandomCounter[i]);
 					tenIterationCounter++
 
@@ -397,26 +465,77 @@ class Timeline extends React.Component {
                         break
                     }
 				}
-
-				console.log("The value of moreMatchedUserRequest here is " + JSON.stringify(moreMatchedUserRequest));
-
+       
 				axios.post("http://datemomo.com/service/morematcheduserdata.php", moreMatchedUserRequest)
 			    	.then(response => {
-			    		this.state.contextData.userComposite.homeDisplayResponses.concat(response.data);
-			    		this.state.contextData.infiniteScrollingPage.totalAvailablePages = 
-			    			this.state.contextData.userComposite.homeDisplayResponses.length;
-			    		this.state.contextData.infiniteScrollingPage.lastDisplayPage = 
-			    			this.state.contextData.userComposite.homeDisplayResponses.length - 1;
-			    		this.state.contextData.infiniteScrollingPage.colorLoadingDisplay = "none";
-			    		this.state.contextData.stateLoaded = true;
+			    		var homeDisplayResponsesData = this.state.contextData.userComposite.homeDisplayResponses.concat(response.data);
 
-			    		this.setState(function(state) {
-			    			return {contextData : state.contextData}
-			    		});
-			        }, error => {
+			    		var memberIdArray = [];
+			    		var homeDisplayResponses = [];
+
+			    		for (var i = 0; i < homeDisplayResponsesData.length; i++) {
+			    			if (memberIdArray.indexOf(homeDisplayResponsesData[i].memberId) < 0) {
+			    				memberIdArray.push(homeDisplayResponsesData[i].memberId);
+			    				homeDisplayResponses.push(homeDisplayResponsesData[i]);
+			    			}
+			    		}
+
+			    		var totalAvailablePages = homeDisplayResponses.length;
+			    		var lastDisplayPage = this.state.contextData.userComposite.thousandRandomCounter
+			    			.indexOf(homeDisplayResponses[homeDisplayResponses.length - 1].memberId);
+                                 
+						this.setState(function(state) { 
+							return {contextData : {
+								userComposite : {
+									homeDisplayResponses : homeDisplayResponses,
+									thousandRandomCounter : state.contextData.userComposite.thousandRandomCounter
+								},
+								floatingAccountData : state.contextData.floatingAccountData,
+								closeLayoutIcon : state.contextData.closeLayoutIcon,
+								infiniteScrollingPage : {
+									colorLoadingDisplay : "none",
+									totalAvailablePages : totalAvailablePages,
+									lastDisplayPage : lastDisplayPage
+								},
+								stateLoaded : true
+							}
+						}});  
+
+						window.addEventListener('scroll', this.detectScrollBottom);
+			        }, error => {              
+						this.setState(function(state) { 
+							return {contextData : {
+								userComposite : state.contextData.userComposite,
+								floatingAccountData : state.contextData.floatingAccountData,
+								closeLayoutIcon : state.contextData.closeLayoutIcon,
+								infiniteScrollingPage : {
+									colorLoadingDisplay : "none",
+									totalAvailablePages : state.contextData.infiniteScrollingPage.totalAvailablePages,
+									lastDisplayPage : state.contextData.infiniteScrollingPage.lastDisplayPage
+								},
+								stateLoaded : true
+							}
+						}});  
+
+						window.addEventListener('scroll', this.detectScrollBottom);
 			        	console.log(error);
 			        });
+			} else {
+				window.addEventListener('scroll', this.detectScrollBottom);
 
+				this.setState(function(state) { 
+					return {contextData : {
+						userComposite : state.contextData.userComposite,
+						floatingAccountData : state.contextData.floatingAccountData,
+						closeLayoutIcon : state.contextData.closeLayoutIcon,
+						infiniteScrollingPage : {
+							colorLoadingDisplay : "none",
+							totalAvailablePages : state.contextData.infiniteScrollingPage.totalAvailablePages,
+							lastDisplayPage : state.contextData.infiniteScrollingPage.lastDisplayPage
+						},
+						stateLoaded : true
+					}
+				}});  
 			}
 		}
 	}
@@ -451,7 +570,7 @@ class Timeline extends React.Component {
 							<div className="timelineWidget"> 
 								<img className="centerCropped" onClick={this.displayFloatingLayout} 
 									data-current-user={index} src={"http://datemomo.com/client/image/" 
-									+ homeDisplayUser.profilePicture} />
+									+ homeDisplayUser.profilePicture} alt="" />
 								<div className="bottomContentLayout">
 									<div className="userNameLayout" data-current-user={index}  
 										onClick={this.displayFloatingLayout}>
