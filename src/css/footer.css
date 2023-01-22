@@ -45,10 +45,12 @@
 	border-top: 1px solid #E5E7E9;                 
 	flex-direction: row;
 	background: white;
+	position: fixed;
 	display: flex;     
-	width: 100%;
-	z-index: 2;
+	width: 100vw;
 	height: 7vh;
+	bottom: 0px;
+	z-index: 2;
 }
 
 * { 

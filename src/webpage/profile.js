@@ -92,7 +92,7 @@ class Profile extends React.Component {
 			memberId : this.currentUser.memberId
 		}
 
-		axios.post("http://datemomo.com/service/userlikersdata.php", this.requestData)
+		axios.post("https://datemomo.com/service/userlikersdata.php", this.requestData)
 	    	.then(response => {
 	    		this.setState(function(state) { 
 	    			return {contextData : {
@@ -439,7 +439,7 @@ class Profile extends React.Component {
 					<div className="profilePictureContainer">
 						<div className="profilePictureLayout">
 							<img className="profilePictureImage" 
-								alt="" src={"http://datemomo.com/client/image/" 
+								alt="" src={"https://datemomo.com/client/image/" 
 								+ this.currentUser.profilePicture} />
 							<img className="profilePictureIcon" alt="" src={icon_camera_blue} />
 						</div>
@@ -465,7 +465,7 @@ class Profile extends React.Component {
 								<img className="detailPictureImage" style={{
 									height : this.state.contextData.userLikerProperties.detailPictureHeight,
 									width : this.state.contextData.userLikerProperties.detailPictureWidth}}
-									alt="" src={"http://datemomo.com/client/image/" 
+									alt="" src={"https://datemomo.com/client/image/" 
 									+ this.userLikerDisplayStatus.firstLikerUser.userLikerData.likerProfilePicture} />
 								<div className="userNameLabel" style={{
 									marginTop : this.state.contextData.userLikerProperties.topUserNameMargin,
@@ -484,7 +484,7 @@ class Profile extends React.Component {
 								<img className="detailPictureImage" style={{
 									height : this.state.contextData.userLikerProperties.detailPictureHeight,
 									width : this.state.contextData.userLikerProperties.detailPictureWidth}}
-									alt="" src={"http://datemomo.com/client/image/" 
+									alt="" src={"https://datemomo.com/client/image/" 
 									+ this.userLikerDisplayStatus.secondLikerUser.userLikerData.likerProfilePicture} />
 								<div className="userNameLabel" style={{
 									marginTop : this.state.contextData.userLikerProperties.topUserNameMargin,
@@ -503,7 +503,7 @@ class Profile extends React.Component {
 								<img className="detailPictureImage" style={{
 									height : this.state.contextData.userLikerProperties.detailPictureHeight,
 									width : this.state.contextData.userLikerProperties.detailPictureWidth}}
-									alt="" src={"http://datemomo.com/client/image/" 
+									alt="" src={"https://datemomo.com/client/image/" 
 									+ this.userLikerDisplayStatus.thirdLikerUser.userLikerData.likerProfilePicture} />
 								<div className="userNameLabel" style={{
 									marginTop : this.state.contextData.userLikerProperties.topUserNameMargin,
@@ -523,7 +523,7 @@ class Profile extends React.Component {
 								<img className="detailPictureImage" style={{
 									height : this.state.contextData.userLikerProperties.detailPictureHeight,
 									width : this.state.contextData.userLikerProperties.detailPictureWidth}}
-									alt="" src={"http://datemomo.com/client/image/" 
+									alt="" src={"https://datemomo.com/client/image/" 
 									+ this.userLikerDisplayStatus.fourthLikerUser.userLikerData.likerProfilePicture} />
 								<div className="userNameLabel" style={{
 									marginTop : this.state.contextData.userLikerProperties.topUserNameMargin,
@@ -542,7 +542,7 @@ class Profile extends React.Component {
 								<img className="detailPictureImage" style={{
 									height : this.state.contextData.userLikerProperties.detailPictureHeight,
 									width : this.state.contextData.userLikerProperties.detailPictureWidth}}
-									alt="" src={"http://datemomo.com/client/image/" 
+									alt="" src={"https://datemomo.com/client/image/" 
 									+ this.userLikerDisplayStatus.fifthLikerUser.userLikerData.likerProfilePicture} />
 								<div className="userNameLabel" style={{
 									marginTop : this.state.contextData.userLikerProperties.topUserNameMargin,
@@ -561,7 +561,7 @@ class Profile extends React.Component {
 								<img className="detailPictureImage" style={{
 									height : this.state.contextData.userLikerProperties.detailPictureHeight,
 									width : this.state.contextData.userLikerProperties.detailPictureWidth}}
-									alt="" src={"http://datemomo.com/client/image/" 
+									alt="" src={"https://datemomo.com/client/image/" 
 									+ this.userLikerDisplayStatus.sixthLikerUser.userLikerData.likerProfilePicture} />
 								<div className="userNameLabel" style={{
 									marginTop : this.state.contextData.userLikerProperties.topUserNameMargin,

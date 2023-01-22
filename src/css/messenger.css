@@ -176,11 +176,12 @@
 .dateMomoMessengerLayout {
 	-ms-overflow-style: none; 
     scrollbar-width: none; 
-	padding-bottom: 2vmin;
+	padding-bottom: 9vmin;
 	overflow-x: hidden;
 	background: white;
+    padding-top: 8vh;
 	overflow-y: auto;
-	height: 85vh;
+	height: 100vh;
 }
 
 .emptyMessengerDescriptionIcon {

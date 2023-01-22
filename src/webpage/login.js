@@ -37,7 +37,7 @@ class Login extends React.Component {
 	}
 
 	componentDidMount() {
-/*		axios.get("http://datemomo.com/service/usernamecomposite.php")
+/*		axios.get("https://datemomo.com/service/usernamecomposite.php")
 	    	.then(response => {
 	    		this.setState({loginData : {
 		    			userNames : response.data,
@@ -63,7 +63,7 @@ class Login extends React.Component {
 				password : localPassword
 			};
 
-			axios.post("http://datemomo.com/service/loginmember.php", this.authenticationData)
+			axios.post("https://datemomo.com/service/loginmember.php", this.authenticationData)
 		    	.then(response => {
 		    		this.setState(function(state) {
 		    			return {loginData : {

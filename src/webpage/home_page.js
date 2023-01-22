@@ -76,7 +76,7 @@ class HomePage extends React.Component {
 					<RightIconFormField formParts={searchFormPartsValue}/>
 					<Link className="companyLogoLink" to="account">
 						<img className="roundPictureClass" alt="" 
-							src={"http://datemomo.com/client/image/" + this.currentUser.profilePicture} />
+							src={"https://datemomo.com/client/image/" + this.currentUser.profilePicture} />
 					</Link>
 				</div>
 		

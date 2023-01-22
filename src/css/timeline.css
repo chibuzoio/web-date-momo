@@ -94,13 +94,22 @@
 	width: 100%;
 }
 
+.scrollView::-webkit-scrollbar { 
+    display: none;  
+}
+
 .scrollView {
+	-ms-overflow-style: none; 
 	flex-direction: column;
+    scrollbar-width: none; 
+	padding-right: 1.5vw;
+	padding-bottom: 8vh;
+	padding-left: 1.5vw;
+	padding-top: 9vh;
 	overflow-y: auto;
-	padding: 2vmin;
 	display: flex;
-	height: 85vh;
-	width: 100%;
+	height: 100vh;
+	width: 100vw;
 }
    
 .timelineWidget {
@@ -108,7 +117,7 @@
 	border-radius: 25px;
 	background: white;
 	height: 87vmin;
-	width: 100%;
+	width: 97vw;
 }
 
 * { 

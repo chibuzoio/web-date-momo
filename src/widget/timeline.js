@@ -115,7 +115,7 @@ class Timeline extends React.Component {
 		window.addEventListener('resize', this.updateGradientHeight);
 		window.addEventListener('scroll', this.detectScrollBottom);
  
-		axios.post("http://datemomo.com/service/matcheduserdata.php", this.requestData)
+		axios.post("https://datemomo.com/service/matcheduserdata.php", this.requestData)
 			.then(response => {
 	    		this.setState(function(state) { 
 	    			return {contextData : {
@@ -420,7 +420,7 @@ class Timeline extends React.Component {
 			likedUserId : this.state.contextData.userComposite.homeDisplayResponses[currentUserPosition].memberId
 		};
 
-		axios.post("http://datemomo.com/service/likeuser.php", likeRequestData)
+		axios.post("https://datemomo.com/service/likeuser.php", likeRequestData)
 	    	.then(response => {
 	    		// console.log("Action proceeded with positive response from the server");
 	        }, error => {
@@ -428,9 +428,10 @@ class Timeline extends React.Component {
 	        });
 	}
 
-	detectScrollBottom() {
+	detectScrollBottom() {        
 		if ((this.homeDisplayScroller.scrollHeight - 
-			this.homeDisplayScroller.scrollTop) === this.homeDisplayScroller.clientHeight) {
+			this.homeDisplayScroller.scrollTop) <= (this.homeDisplayScroller.clientHeight 
+			+ (this.homeDisplayScroller.clientHeight / 2))) {
 			if (this.state.contextData.infiniteScrollingPage.totalAvailablePages < 
 				this.state.contextData.userComposite.thousandRandomCounter.length) {
 				window.removeEventListener('scroll', this.detectScrollBottom);
@@ -466,7 +467,7 @@ class Timeline extends React.Component {
                     }
 				}
        
-				axios.post("http://datemomo.com/service/morematcheduserdata.php", moreMatchedUserRequest)
+				axios.post("https://datemomo.com/service/morematcheduserdata.php", moreMatchedUserRequest)
 			    	.then(response => {
 			    		var homeDisplayResponsesData = this.state.contextData.userComposite.homeDisplayResponses.concat(response.data);
 
@@ -483,7 +484,7 @@ class Timeline extends React.Component {
 			    		var totalAvailablePages = homeDisplayResponses.length;
 			    		var lastDisplayPage = this.state.contextData.userComposite.thousandRandomCounter
 			    			.indexOf(homeDisplayResponses[homeDisplayResponses.length - 1].memberId);
-                                 
+       
 						this.setState(function(state) { 
 							return {contextData : {
 								userComposite : {
@@ -569,7 +570,7 @@ class Timeline extends React.Component {
 						this.state.contextData.userComposite.homeDisplayResponses.map((homeDisplayUser, index) => ( 
 							<div className="timelineWidget"> 
 								<img className="centerCropped" onClick={this.displayFloatingLayout} 
-									data-current-user={index} src={"http://datemomo.com/client/image/" 
+									data-current-user={index} src={"https://datemomo.com/client/image/" 
 									+ homeDisplayUser.profilePicture} alt="" />
 								<div className="bottomContentLayout">
 									<div className="userNameLayout" data-current-user={index}  
@@ -600,7 +601,7 @@ class Timeline extends React.Component {
 					<div className="floatingUserAccountWidget">
 						<img className="floatingUserAccountImage" 
 							ref={(userAccountImage) => {this.userAccountImage = userAccountImage}} 
-							onLoad={this.setGradientHeight} alt="" src={"http://datemomo.com/client/image/" 
+							onLoad={this.setGradientHeight} alt="" src={"https://datemomo.com/client/image/" 
 							+ this.state.contextData.floatingAccountData.userDisplayResponse.profilePicture} />
 						<div className="gradientCover" ref={(gradientCover) => {this.gradientCover = gradientCover}} 
 							style={{height : this.state.contextData.floatingAccountData.gradientHeight}}>

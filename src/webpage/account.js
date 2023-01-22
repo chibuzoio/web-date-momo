@@ -77,7 +77,7 @@ class Account extends React.Component {
 			memberId : this.currentUser.memberId
 		}
 
-		axios.post("http://datemomo.com/service/likedusersdata.php", this.requestData)
+		axios.post("https://datemomo.com/service/likedusersdata.php", this.requestData)
 	    	.then(response => {
 	    		this.setState(function(state) { 
 	    			return {contextData : {
@@ -238,7 +238,7 @@ class Account extends React.Component {
 					<div className="accountPictureLayout">
 						<div className="profilePictureLayout">
 							<img className="profilePictureImage" 
-								alt="" src={"http://datemomo.com/client/image/" 
+								alt="" src={"https://datemomo.com/client/image/" 
 								+ this.currentUser.profilePicture} />
 						</div>
 					</div>
@@ -256,7 +256,7 @@ class Account extends React.Component {
 							<img className="detailPictureImage" style={{
 								height : this.state.contextData.userLikedProperties.detailPictureHeight,
 								width : this.state.contextData.userLikedProperties.detailPictureWidth}}
-								alt="" src={"http://datemomo.com/client/image/" 
+								alt="" src={"https://datemomo.com/client/image/" 
 								+ this.userLikedDisplayStatus.firstLikedUser.userLikedData.likedProfilePicture} />
 							<div className="userNameLabel" style={{
 								marginTop : this.state.contextData.userLikedProperties.topUserNameMargin,
@@ -275,7 +275,7 @@ class Account extends React.Component {
 							<img className="detailPictureImage" style={{
 								height : this.state.contextData.userLikedProperties.detailPictureHeight,
 								width : this.state.contextData.userLikedProperties.detailPictureWidth}}
-								alt="" src={"http://datemomo.com/client/image/" 
+								alt="" src={"https://datemomo.com/client/image/" 
 								+ this.userLikedDisplayStatus.secondLikedUser.userLikedData.likedProfilePicture} />
 							<div className="userNameLabel" style={{
 								marginTop : this.state.contextData.userLikedProperties.topUserNameMargin,
@@ -294,7 +294,7 @@ class Account extends React.Component {
 							<img className="detailPictureImage" style={{
 								height : this.state.contextData.userLikedProperties.detailPictureHeight,
 								width : this.state.contextData.userLikedProperties.detailPictureWidth}}
-								alt="" src={"http://datemomo.com/client/image/" 
+								alt="" src={"https://datemomo.com/client/image/" 
 								+ this.userLikedDisplayStatus.thirdLikedUser.userLikedData.likedProfilePicture} />
 							<div className="userNameLabel" style={{
 								marginTop : this.state.contextData.userLikedProperties.topUserNameMargin,
@@ -313,7 +313,7 @@ class Account extends React.Component {
 							<img className="detailPictureImage" style={{
 								height : this.state.contextData.userLikedProperties.detailPictureHeight,
 								width : this.state.contextData.userLikedProperties.detailPictureWidth}}
-								alt="" src={"http://datemomo.com/client/image/" 
+								alt="" src={"https://datemomo.com/client/image/" 
 								+ this.userLikedDisplayStatus.fourthLikedUser.userLikedData.likedProfilePicture} />
 							<div className="userNameLabel" style={{
 								marginTop : this.state.contextData.userLikedProperties.topUserNameMargin,

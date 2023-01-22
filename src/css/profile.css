@@ -155,6 +155,7 @@
 .profilePictureImpactCount {
 	flex-direction: row;
 	align-items: center;
+	margin-top: 3vh;
 	display: flex;
 }
 
@@ -314,13 +315,13 @@
 	-ms-overflow-style: none; 
 	flex-direction: column;
     scrollbar-width: none; 
-	padding-bottom: 2vmin;
-	padding-top: 5vmin;
+	padding-bottom: 9vmin;
+	padding-top: 13vmin;
 	overflow-x: hidden;
 	background: white;
 	overflow-y: auto;
 	display: flex;
-	height: 85vh;
+	height: 100vh;
 }
 
 * { 

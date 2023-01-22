@@ -134,12 +134,12 @@
 	flex-direction: column;
 	align-items: center;
 	margin-bottom: 7vh;
+	padding: 1.5vmin;
 	margin-top: 8vh;
 	position: fixed;
-	padding: 2vmin;
 	display: flex;
 	height: 85vh;
-	width: 100%;
+	width: 100vw;
 	z-index: 2;
 	left: 0px;
 	top: 0px;

@@ -24,7 +24,7 @@ class Notification extends React.Component {
 			memberId : this.currentUser.memberId
 		}
 
-		axios.post("http://datemomo.com/service/usernotifications.php", this.requestData)
+		axios.post("https://datemomo.com/service/usernotifications.php", this.requestData)
 	    	.then(response => {
 	    		this.setState({contextData : {
 	    			notificationResponses : response.data,
@@ -40,7 +40,7 @@ class Notification extends React.Component {
 	displayUserImage(userGottenPicture) {
 		if (userGottenPicture !== "") {
 			return (<img className="emptyMessengerPicture" 
-						alt="" src={"http://datemomo.com/client/image/" 
+						alt="" src={"https://datemomo.com/client/image/" 
 						+ userGottenPicture} />);
 		} else {
 			return (<img className="emptyMessengerPicture" 

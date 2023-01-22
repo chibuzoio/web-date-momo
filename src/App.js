@@ -49,7 +49,7 @@ class App extends React.Component {
     // update state here 
     this.updateCurrentUser(currentUser);
 
-/*    axios.get("http://datemomo.com/service/usernamecomposite.php")
+/*    axios.get("https://datemomo.com/service/usernamecomposite.php")
       .then(response => {
         this.setState({
           userNames : response.data

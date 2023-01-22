@@ -30,7 +30,7 @@ class Messenger extends React.Component {
 			memberId : this.currentUser.memberId
 		}
 
-		axios.post("http://datemomo.com/service/usermessengersdata.php", this.requestData)
+		axios.post("https://datemomo.com/service/usermessengersdata.php", this.requestData)
 	    	.then(response => {
 	    		this.setState(function(state) { 
 	    			return {contextData : {
@@ -56,7 +56,7 @@ class Messenger extends React.Component {
 									<div className="activeMessengerContent">
 										<div className="roundPictureContainer">
 											<img className="emptyMessengerPicture" 
-												alt="" src={"http://datemomo.com/client/image/" 
+												alt="" src={"https://datemomo.com/client/image/" 
 												+ messengerResponse.profilePicture} />
 										</div>
 										<div className="userNameMessageLayout">

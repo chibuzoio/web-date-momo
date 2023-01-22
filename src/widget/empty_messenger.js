@@ -31,7 +31,7 @@ class EmptyMessenger extends React.Component {
 			memberId : this.currentUser.memberId
 		}
 
-		axios.post("http://datemomo.com/service/alluserdata.php", this.requestData)
+		axios.post("https://datemomo.com/service/alluserdata.php", this.requestData)
 	    	.then(response => {
 	    		this.setState(function(state) { 
 	    			return {contextData : {
@@ -85,7 +85,7 @@ class EmptyMessenger extends React.Component {
 	displayUserImage(userGottenPicture) {
 		if (typeof userGottenPicture != "undefined") {
 			return (<img className="emptyMessengerPicture" 
-						alt="" src={"http://datemomo.com/client/image/" 
+						alt="" src={"https://datemomo.com/client/image/" 
 						+ userGottenPicture.imageName} />);
 		} else {
 			return (<img className="emptyMessengerPicture" 
