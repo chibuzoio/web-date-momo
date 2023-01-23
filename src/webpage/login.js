@@ -5,7 +5,9 @@ import '../css/login.css';
 import '../css/style.css';
 import { Link } from "react-router-dom";
 import icon_person from '../image/icon_person.png';
+import google_play_download from '../image/google_play_download.png';
 import icon_gallery_blue from '../image/icon_gallery_blue.png';
+import loading_puzzle from '../image/loading_puzzle.gif';
 import icon_password from '../image/icon_password.png';
 import Register from '../webpage/register';
 import logo from '../image/datemomo.png';
@@ -13,25 +15,15 @@ import logo from '../image/datemomo.png';
 class Login extends React.Component {
 	authenticationData = {userName : "",
 		password : ""};
-	state = {loginData : {
-			currentUser : {}
+	state = {contextData : {
+			currentUser : {},
+			loginButtonDisplay : "flex",
+			loadingPuzzleDisplay : "none"
 		}
 	};
-
-/*		
-	You declare constructor explicitly because 
-	you want to initialize state. You initialized 
-	state because you want to set state somewhere
-	in the class. If not, use data from props directly, 
-	without initializing state with it and do not declare 
-	the constructor because it's already declared implicitly.
-*/		
+   
 	constructor(props) {
 		super(props);
-		
-		// The binding below is necessary so as to attach 
-		// testMethod to the context of this class and for 
-		// the method not to appear undefined when called		
 		this.authenticateCurrentUser = this.authenticateCurrentUser.bind(this);
 		this.getValue = this.getValue.bind(this);
 	}
@@ -63,11 +55,21 @@ class Login extends React.Component {
 				password : localPassword
 			};
 
+			this.setState(function(state) {
+    			return {contextData : {
+		 			currentUser : state.contextData.currentUser,
+		 			loginButtonDisplay : "none",
+		 			loadingPuzzleDisplay : "flex"
+		   		}
+		    }}); 
+
 			axios.post("https://datemomo.com/service/loginmember.php", this.authenticationData)
 		    	.then(response => {
 		    		this.setState(function(state) {
-		    			return {loginData : {
-				 			currentUser : response.data
+		    			return {contextData : {
+				 			currentUser : response.data,
+				 			loginButtonDisplay : "flex",
+				 			loadingPuzzleDisplay : "none"
 				   		}
 				    }}); 
 
@@ -77,7 +79,15 @@ class Login extends React.Component {
 		    		} else {
 		    			localStorage.setItem("currentUser", JSON.stringify({}));
 		    		}
-		        }, error => {
+		        }, error => {		        	
+					this.setState(function(state) {
+		    			return {contextData : {
+				 			currentUser : state.contextData.currentUser,
+				 			loginButtonDisplay : "flex",
+				 			loadingPuzzleDisplay : "none"
+				   		}
+				    }}); 
+
 		        	console.log(error);
 		        });
 		}
@@ -101,7 +111,7 @@ class Login extends React.Component {
 						    	placeholder="User Name" />
 						</div>
 						<label>Password</label>
-						<div className="fieldLayout">
+						<div className="fieldLayout bottomMargin">
 						    <img className="leftFieldIcon" alt="" src={icon_password} />
 						    <input type="password" name="name" 
 						    	ref={(passwordInput) => {this.passwordInput = passwordInput}} 
@@ -110,11 +120,21 @@ class Login extends React.Component {
 						{/* If you click on this button, fetch data, store it in localStorage and reload */}
 						<button 
 							className="basicButton fullWidth" 
+							style={{display : this.state.contextData.loginButtonDisplay}} 
 							onClick={this.authenticateCurrentUser} 
 							type="button">Log In</button>
+						<div className="progressLoadingLayout" 
+							style={{display : this.state.contextData.loadingPuzzleDisplay}}>
+							<img className="progressLoadingIcon" src={loading_puzzle} alt="" />
+						</div>
 						<Link to="register">
 							<button className="hollowButton buttonTopMargin fullWidth" type="button">Sign Up</button>
 						</Link>
+						<a href="https://play.google.com/store/apps/details?id=com.chibuzo.datemomo"> 
+							<div className="googlePlayLayout">
+								<img className="googlePlayDownload" src={google_play_download} alt="Google Play Download" />
+							</div>
+						</a>
 					</div>
 				</div>
 			</div>

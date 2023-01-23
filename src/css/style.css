@@ -10,6 +10,10 @@
 
 }
 
+.bottomMargin {
+	margin-bottom: 4vmin;
+}
+
 .messageHeaderPicture {
 	background-repeat: no-repeat;
 	border-radius: 50%;

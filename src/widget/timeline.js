@@ -15,6 +15,7 @@ import icon_message_blue from '../image/icon_message_blue.png';
 import CloseLayoutIcon from '../component/close_layout_icon';
 import SexualityOptions from '../widget/sexuality_options';
 import LeftIconHollowButton from '../component/left_icon_hollow_button';
+import motion_placeholder from '../image/motion_placeholder.gif';
 import icon_close_white from '../image/icon_close_white.png';
 import icon_view_blue from '../image/icon_view_blue.png';
 import color_loader from '../image/color_loader.gif';
@@ -58,11 +59,11 @@ class Timeline extends React.Component {
 
 	constructor(props) {
 		super(props);
-		// localStorage.setItem("currentUser", "{}");
 		this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
 		this.buildSexualExperienceButtons = this.buildSexualExperienceButtons.bind(this);
 		this.buildSexualInterestButtons = this.buildSexualInterestButtons.bind(this);
 		this.buildSexualCategoryButtons = this.buildSexualCategoryButtons.bind(this);
+		this.replaceImagePlaceholder = this.replaceImagePlaceholder.bind(this);
 		this.displayFloatingLayout = this.displayFloatingLayout.bind(this);
 		this.updateGradientHeight = this.updateGradientHeight.bind(this);
 		this.closeFloatingLayout = this.closeFloatingLayout.bind(this);
@@ -169,7 +170,7 @@ class Timeline extends React.Component {
 					sexualCategoryButtons : state.contextData.floatingAccountData.sexualCategoryButtons,
 					floatingLayoutDisplay : state.contextData.floatingAccountData.floatingLayoutDisplay,
 					userDisplayResponse : state.contextData.floatingAccountData.userDisplayResponse,
-					gradientHeight : event.target.clientHeight
+					gradientHeight : event.target.clientHeight   
 				},
 				closeLayoutIcon : state.contextData.closeLayoutIcon,
 				infiniteScrollingPage : state.contextData.infiniteScrollingPage,
@@ -204,7 +205,7 @@ class Timeline extends React.Component {
 						userName : state.contextData.userComposite.homeDisplayResponses[currentUserPosition].userName,
 						age : state.contextData.userComposite.homeDisplayResponses[currentUserPosition].age
 					},
-					gradientHeight : event.target.clientHeight
+					gradientHeight : state.contextData.floatingAccountData.gradientHeight
 				},
 				closeLayoutIcon : {
 					menuLayoutClass : state.contextData.closeLayoutIcon.menuLayoutClass,
@@ -363,6 +364,12 @@ class Timeline extends React.Component {
            
 		return sexualCategoryButtons;
 	} 
+
+	replaceImagePlaceholder(event) {
+		var currentUserPosition = event.currentTarget.getAttribute("data-current-user");
+		event.currentTarget.src = "https://datemomo.com/client/image/" 
+			+ this.state.contextData.userComposite.homeDisplayResponses[currentUserPosition].profilePicture;
+	}
 
 	closeFloatingLayout(menuLayoutDisplay) {
 		if (menuLayoutDisplay === "none") {
@@ -570,8 +577,8 @@ class Timeline extends React.Component {
 						this.state.contextData.userComposite.homeDisplayResponses.map((homeDisplayUser, index) => ( 
 							<div className="timelineWidget"> 
 								<img className="centerCropped" onClick={this.displayFloatingLayout} 
-									data-current-user={index} src={"https://datemomo.com/client/image/" 
-									+ homeDisplayUser.profilePicture} alt="" />
+									data-current-user={index} src={motion_placeholder} alt="" 
+									onLoad={this.replaceImagePlaceholder} /> 
 								<div className="bottomContentLayout">
 									<div className="userNameLayout" data-current-user={index}  
 										onClick={this.displayFloatingLayout}>

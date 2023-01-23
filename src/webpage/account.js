@@ -4,17 +4,16 @@ import '../css/style.css';
 import '../css/profile.css';
 import Header from '../widget/header';
 import Footer from '../widget/footer';
-import test_image from '../image/test_image.png';
 
+import test_image from '../image/test_image.png';
 import icon_logout from '../image/icon_logout.png';
 import icon_suggestion from '../image/icon_suggestion.png';
 import icon_announcement from '../image/icon_announcement.png';
 import icon_help_and_support from '../image/icon_help_and_support.png';
 import icon_terms_and_conditions from '../image/icon_terms_and_conditions.png';
 
+import LeftIconMenu from '../component/left_icon_menu'; 
 import ProfilePicture from '../component/profile_picture'; 
-import BorderlessIconMenu from '../component/borderless_icon_menu'; 
-import BottomBorderIconMenu from '../component/bottom_border_icon_menu'; 
 
 class Account extends React.Component {
 	currentUser = {};
@@ -60,6 +59,7 @@ class Account extends React.Component {
 
 	constructor(props) {
 		super(props);  
+		this.logoutCurrentUser = this.logoutCurrentUser.bind(this);
 		this.displayAvailableLiked = this.displayAvailableLiked.bind(this);
 		this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
 		this.initializeFirstLikedUser = this.initializeFirstLikedUser.bind(this);
@@ -91,6 +91,13 @@ class Account extends React.Component {
 	        }, error => {
 	        	console.log(error);
 	        });
+	}
+
+	logoutCurrentUser(menuClicked) {
+		if (menuClicked) {
+			localStorage.setItem("currentUser", "{}");
+			window.location.replace("/");
+		}
 	}
 
 	calculatePictureDimensions() {
@@ -208,26 +215,31 @@ class Account extends React.Component {
 		};
 
 		var friendReferenceMenu = {
+			iconMenuLayout : "bottomBorderIconMenu",
 			iconMenuImage : icon_announcement,
 			iconMenuTitle : "Refer A Friend"
 		};
 
 		var suggestionMenu = {
+			iconMenuLayout : "bottomBorderIconMenu",
 			iconMenuImage : icon_suggestion,
 			iconMenuTitle : "Suggestion"
 		};
 
 		var helpSupportMenu = {
+			iconMenuLayout : "bottomBorderIconMenu",
 			iconMenuImage : icon_help_and_support,
 			iconMenuTitle : "Help And Support"
 		};
 
 		var termsConditionMenu = {
+			iconMenuLayout : "bottomBorderIconMenu",
 			iconMenuImage : icon_terms_and_conditions,
 			iconMenuTitle : "Terms And Conditions"
 		};
 
 		var accountLogoutMenu = {
+			iconMenuLayout : "borderlessIconMenu",
 			iconMenuImage : icon_logout,
 			iconMenuTitle : "Logout"
 		};
@@ -327,11 +339,11 @@ class Account extends React.Component {
 				</div>
 
 				<div className="accountMenuLayout">
-					<BottomBorderIconMenu iconMenuParts={friendReferenceMenu} />
-					<BottomBorderIconMenu iconMenuParts={suggestionMenu} />
-					<BottomBorderIconMenu iconMenuParts={helpSupportMenu} />
-					<BottomBorderIconMenu iconMenuParts={termsConditionMenu} />
-					<BorderlessIconMenu iconMenuParts={accountLogoutMenu} />
+					<LeftIconMenu iconMenuParts={friendReferenceMenu} /> 
+					<LeftIconMenu iconMenuParts={suggestionMenu} /> 
+					<LeftIconMenu iconMenuParts={helpSupportMenu} /> 
+					<LeftIconMenu iconMenuParts={termsConditionMenu} /> 
+					<LeftIconMenu onMenuClicked={this.logoutCurrentUser} iconMenuParts={accountLogoutMenu} /> 
 				</div>
 			</div>
 		);

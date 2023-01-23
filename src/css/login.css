@@ -26,34 +26,67 @@
 
 }
 
+.progressLoadingLayout {
+ justify-content: center;
+  flex-direction: row;
+  display: flex;
+  width: 100%; 
+}
+
+.progressLoadingIcon {
+  width: 55px;
+}
+
+.googlePlayLayout {
+  justify-content: center;
+  flex-direction: row;
+  margin-top: 3vmin;
+  display: flex;
+  width: 100%;
+}
+
+.googlePlayDownload {
+  width: 151px;  
+}
+
 .registerPageTitle {
   display: inline-block;
 }
 
 .registerPageIcon {
   display: inline-block;
-  width: 13vmin;
+  height: 55px;
   float: right;       
 }
 
 .registerPageHeader {
+  justify-content: space-between;
   font-size: calc(20px + 2vmin);
+  margin-bottom: 7vmin;
+  flex-direction: row;
+  align-items: center;
   font-style: bold;
   color: #1C2833;
+  display: flex;
   width: 100%;
-  margin-bottom: 7vmin;
+}
+
+.login::-webkit-scrollbar { 
+    display: none;  
 }
 
 .login {
+  font-size: calc(10px + 2vmin);
+  -ms-overflow-style: none; 
+  justify-content: center;
+  flex-direction: column;
+  scrollbar-width: none; 
+  align-items: center;
   background: #E5E7E9;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
   overflow-y: auto;
   color: #1C2833;
+  display: flex;
 }
 
 .loginWidget {
@@ -67,8 +100,8 @@
 }
 
 .logo {
-  width: 13vmin;
   margin-bottom: 5vmin;
+  width: 65px;
 }
 
 * { 

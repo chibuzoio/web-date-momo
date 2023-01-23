@@ -2,12 +2,17 @@ import React from 'react';
 import '../css/input.css';
 import '../css/style.css';
 
-class BottomBorderIconMenu extends React.Component {
+class LeftIconMenu extends React.Component {
 	state = {iconMenuParts : {}};
     
 	constructor(props) {
 		super(props);
 		this.updateState = this.updateState.bind(this);
+		this.clickIconMenu = this.clickIconMenu.bind(this);
+	}
+
+	clickIconMenu(event) {
+		this.props.onMenuClicked(true);
 	}
 
 	// Remember this method type for setting state using props values  
@@ -21,7 +26,7 @@ class BottomBorderIconMenu extends React.Component {
 
 	render() {  
 		return (
-			<div className="bottomBorderIconMenu">
+			<div className={this.props.iconMenuParts.iconMenuLayout} onClick={this.clickIconMenu} >
 				<img className="iconMenuImage" alt="" src={this.props.iconMenuParts.iconMenuImage} />
 				<div className="iconMenuTitle"> 
 					{this.props.iconMenuParts.iconMenuTitle}
@@ -31,6 +36,6 @@ class BottomBorderIconMenu extends React.Component {
 	}
 }
 
-export default BottomBorderIconMenu;   
+export default LeftIconMenu;   
 
 
