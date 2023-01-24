@@ -52,19 +52,21 @@ class Notification extends React.Component {
 		return (
 			<div className="dateMomoMessengerLayout">
 				<div className="notificationHeader">Notifications</div>
-				{
-					this.state.contextData.notificationResponses.map((notificationResponse) => (
-						<div className="notificationOuterLayout">
-							<div className="roundPictureContainer">
-								{this.displayUserImage(notificationResponse.profilePicture)}
+				<div className="notificationFlexLayout">
+					{
+						this.state.contextData.notificationResponses.map((notificationResponse) => (
+							<div className="notificationOuterLayout">
+								<div className="roundPictureContainer">
+									{this.displayUserImage(notificationResponse.profilePicture)}
+								</div>
+								<div className="notificationComponentLayout">
+									<div className="notificationTitle">{notificationResponse.genericNotification}</div>
+									<div className="chatLastMessage">{notificationResponse.notificationDate}</div>
+								</div>   
 							</div>
-							<div className="notificationComponentLayout">
-								<div className="notificationTitle">{notificationResponse.genericNotification}</div>
-								<div className="chatLastMessage">{notificationResponse.notificationDate}</div>
-							</div>   
-						</div>
-					))
-				}
+						))
+					}
+				</div>
 			</div> 
 		);
 	}

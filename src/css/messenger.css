@@ -65,7 +65,7 @@
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-evenly;	
+	justify-content: space-around;	
 }
 
 .userNameMessageLayout {
@@ -138,10 +138,18 @@
 	justify-content: space-around;
 }
 
+.notificationFlexLayout {
+	justify-content: space-between;
+	flex-direction: column;
+	display: flex;
+}
+
 .notificationOuterLayout {
 	display: flex;	
 	cursor: pointer;
 	flex-direction: row;
+	margin-top: 1vmin;
+	margin-bottom: 1vmin;
 	justify-content: space-between;
 	width: 100%;
 	height: 14vmin;

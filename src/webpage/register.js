@@ -23,6 +23,12 @@ class Register extends React.Component {
 
 	}
   
+	processRegistration(buttonClicked) {
+		if (buttonClicked) {
+			
+		}
+	}
+
 	render() {
 		var firstFormPartsValue = {
 			fieldIcon : icon_person,
@@ -56,7 +62,7 @@ class Register extends React.Component {
 					</div>
 					<LeftIconFormField formParts={firstFormPartsValue} />
 					<LeftIconFormField formParts={secondFormPartsValue} />
-					<BasicButton buttonParts={basicButton} />
+					<BasicButton onButtonClicked={this.processRegistration} buttonParts={basicButton} />
 				</div>
 			</div>
 		);

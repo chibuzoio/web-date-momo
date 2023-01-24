@@ -4,18 +4,15 @@ import '../css/style.css';
 
 class BasicButton extends React.Component {
 	state = {buttonParts : {}};
-
-/*		
-	You declare constructor explicitly because 
-	you want to initialize state. You initialized 
-	state because you want to set state somewhere
-	in the class. If not, use data from props directly, 
-	without initializing state with it and do not declare 
-	the constructor because it's already declared implicitly.
-*/		
+ 
 	constructor(props) {
 		super(props);
 		this.updateState = this.updateState.bind(this);
+		this.clickBasicButton = this.clickBasicButton.bind(this);
+	}
+
+	clickBasicButton(event) {
+		this.props.onButtonClicked(true);
 	}
 
 	// Remember this method type for setting state using props values  
@@ -29,7 +26,7 @@ class BasicButton extends React.Component {
 
 	render() {  
 		return (
-			<button className={this.props.buttonParts.buttonClass} type="button"> 
+			<button className={this.props.buttonParts.buttonClass} onClick={this.clickBasicButton} type="button"> 
 				{this.props.buttonParts.buttonTitle}
 			</button>
 		);
