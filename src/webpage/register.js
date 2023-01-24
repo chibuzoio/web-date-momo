@@ -8,24 +8,71 @@ import icon_password from '../image/icon_password.png'
 import logo from '../image/datemomo.png';
 
 class Register extends React.Component {
-	state = {userNames : []};
+	state = {contextData : {
+			userNames : [],
+			registerRequestData : {
+				userNameValue : "",
+				passwordValue : ""
+			}
+		}
+	};
 
 	constructor(props) {
 		super(props);
-		this.state.userNames = props.userNames;
+		this.updateInputUserName = this.updateInputUserName.bind(this);
+		this.updateInputPassword = this.updateInputPassword.bind(this);
 	}
 
 	componentDidMount() {
-	
+		axios.get("https://datemomo.com/service/usernamecomposite.php")
+	      .then(response => {
+	        this.setState(function(state) {
+	        	return {contextData : {
+		          	userNames : response.data,
+		          	registerRequestData : state.contextData.registerRequestData
+	          	}
+	        }});
+	      }, error => {
+	        console.log(error);
+	      });
 	}
 
 	componentWillUnmount() {
 
 	}
   
+	updateInputUserName(userNameValue) {
+		console.log("Value of userName form field gotten here is " + userNameValue);
+
+		this.setState(function(state) {
+			return {contextData : {
+				userNames : state.contextData.userNames,
+				registerRequestData : {
+					userNameValue : userNameValue,
+					passwordValue : state.contextData.registerRequestData.passwordValue
+				}
+			}
+		}});
+	}
+
+	updateInputPassword(passwordValue) {
+		console.log("Value of password form field gotten here is " + passwordValue);
+
+		this.setState(function(state) {
+			return {contextData : {
+				userNames : state.contextData.userNames,
+				registerRequestData : {
+					userNameValue : state.contextData.registerRequestData.userNameValue,
+					passwordValue : passwordValue
+				}
+			}
+		}});
+	}
+
 	processRegistration(buttonClicked) {
 		if (buttonClicked) {
-			
+			// check if input fields are filled 
+			// check if userName is contained in userNames array in state 			
 		}
 	}
 
@@ -60,8 +107,8 @@ class Register extends React.Component {
 						<div className="registerPageTitle">Create Your <br></br>Account</div>
 						<img className="registerPageIcon" alt="Logo" src={logo}/>
 					</div>
-					<LeftIconFormField formParts={firstFormPartsValue} />
-					<LeftIconFormField formParts={secondFormPartsValue} />
+					<LeftIconFormField onFormValueChange={this.updateInputUserName} formParts={firstFormPartsValue} />
+					<LeftIconFormField onFormValueChange={this.updateInputPassword} formParts={secondFormPartsValue} />
 					<BasicButton onButtonClicked={this.processRegistration} buttonParts={basicButton} />
 				</div>
 			</div>

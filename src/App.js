@@ -48,17 +48,7 @@ class App extends React.Component {
 
     // update state here 
     this.updateCurrentUser(currentUser);
-
-/*    axios.get("https://datemomo.com/service/usernamecomposite.php")
-      .then(response => {
-        this.setState({
-          userNames : response.data
-        });
-        console.log("The response value from the server here is " + JSON.stringify(response.data));
-      }, error => {
-        console.log(error);
-      });
-*/  }
+  }
 
   componentWillUnmount () {
     

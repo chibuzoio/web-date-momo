@@ -173,11 +173,11 @@
 	flex-direction: row;
 	padding-left: 0.5vmin;
 	padding-right: 1.5vmin;
-	overflow: auto;
 	align-items: center;
 	background: #EAEDED;
 	padding-top: 0.5vmin;
 	padding-bottom: 0.5vmin;
+	background: yellow;
 	padding-left: 2vmin;
 	padding-right: 2vmin;
 	justify-content: center;
