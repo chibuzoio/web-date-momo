@@ -177,7 +177,6 @@
 	background: #EAEDED;
 	padding-top: 0.5vmin;
 	padding-bottom: 0.5vmin;
-	background: yellow;
 	padding-left: 2vmin;
 	padding-right: 2vmin;
 	justify-content: center;
@@ -213,6 +212,7 @@ button {
 
 input[type="text"], input[type="number"], input[type="password"] {
 	height: 6vmin;
+	min-width: 95%;
 	background: #EAEDED;   
 	outline: none;
 	border: none;

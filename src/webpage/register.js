@@ -19,6 +19,7 @@ class Register extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.validateUserName = this.validateUserName.bind(this);
 		this.updateInputUserName = this.updateInputUserName.bind(this);
 		this.updateInputPassword = this.updateInputPassword.bind(this);
 	}
@@ -41,9 +42,17 @@ class Register extends React.Component {
 
 	}
   
-	updateInputUserName(userNameValue) {
-		console.log("Value of userName form field gotten here is " + userNameValue);
+	validateUserName() {
+		var userNameArray = this.state.contextData.userNames;
+		var userNameValue = this.state.contextData.registerRequestData.userNameValue;
 
+		if (userNameArray.indexOf(userNameValue) > -1) {
+			// display error message due to userName already existence
+
+		}
+	}
+
+	updateInputUserName(userNameValue) {
 		this.setState(function(state) {
 			return {contextData : {
 				userNames : state.contextData.userNames,
@@ -56,8 +65,6 @@ class Register extends React.Component {
 	}
 
 	updateInputPassword(passwordValue) {
-		console.log("Value of password form field gotten here is " + passwordValue);
-
 		this.setState(function(state) {
 			return {contextData : {
 				userNames : state.contextData.userNames,
@@ -73,6 +80,7 @@ class Register extends React.Component {
 		if (buttonClicked) {
 			// check if input fields are filled 
 			// check if userName is contained in userNames array in state 			
+
 		}
 	}
 
@@ -107,8 +115,10 @@ class Register extends React.Component {
 						<div className="registerPageTitle">Create Your <br></br>Account</div>
 						<img className="registerPageIcon" alt="Logo" src={logo}/>
 					</div>
-					<LeftIconFormField onFormValueChange={this.updateInputUserName} formParts={firstFormPartsValue} />
-					<LeftIconFormField onFormValueChange={this.updateInputPassword} formParts={secondFormPartsValue} />
+					<div className="registerInputLayout">
+						<LeftIconFormField onFormValueChange={this.updateInputUserName} formParts={firstFormPartsValue} />
+						<LeftIconFormField onFormValueChange={this.updateInputPassword} formParts={secondFormPartsValue} />
+					</div>
 					<BasicButton onButtonClicked={this.processRegistration} buttonParts={basicButton} />
 				</div>
 			</div>
