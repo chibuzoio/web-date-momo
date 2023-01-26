@@ -8,11 +8,25 @@ import icon_password from '../image/icon_password.png'
 import logo from '../image/datemomo.png';
 
 class Register extends React.Component {
+	passwordShortError = "Password is too short";
+	passwordEmptyError = "Password field is empty";
+	userNameShortError = "User name is too short";
+	userNameEmptyError = "User name field is empty";
+	userNameUsedError = "User name is already taken";
+	userNameSpaceError = "User name must not contain space";
 	state = {contextData : {
 			userNames : [],
 			registerRequestData : {
 				userNameValue : "",
 				passwordValue : ""
+			},
+			userNameValidity : {
+				userNameError : this.userNameEmptyError,
+				userNameValid : false
+			}, 
+			passwordValidity : {
+				passwordError : this.passwordEmptyError,
+				passwordValid : false
 			}
 		}
 	};
@@ -26,16 +40,18 @@ class Register extends React.Component {
 
 	componentDidMount() {
 		axios.get("https://datemomo.com/service/usernamecomposite.php")
-	      .then(response => {
-	        this.setState(function(state) {
-	        	return {contextData : {
-		          	userNames : response.data,
-		          	registerRequestData : state.contextData.registerRequestData
-	          	}
-	        }});
-	      }, error => {
-	        console.log(error);
-	      });
+	      	.then(response => {
+	        	this.setState(function(state) {
+		        	return {contextData : {
+			          	userNames : response.data,
+			          	registerRequestData : state.contextData.registerRequestData,
+			          	userNameValidity : state.contextData.userNameValidity,
+			          	passwordValidity : state.contextData.passwordValidity
+		          	}
+		        }});
+	      	}, error => {
+	        	console.log(error);
+	      	});
 	}
 
 	componentWillUnmount() {
@@ -52,7 +68,7 @@ class Register extends React.Component {
 		}
 	}
 
-	updateInputUserName(userNameValue) {
+	updateInputUserName(userNameValue, isBlurred) {
 		this.setState(function(state) {
 			return {contextData : {
 				userNames : state.contextData.userNames,
@@ -62,18 +78,28 @@ class Register extends React.Component {
 				}
 			}
 		}});
+
+		if (isBlurred) {
+			// validate userName input			
+		}
 	}
 
-	updateInputPassword(passwordValue) {
+	updateInputPassword(passwordValue, isBlurred) {
 		this.setState(function(state) {
 			return {contextData : {
 				userNames : state.contextData.userNames,
 				registerRequestData : {
 					userNameValue : state.contextData.registerRequestData.userNameValue,
 					passwordValue : passwordValue
-				}
+				},
+				userNameValidity : state.contextData.userNameValidity,
+		      	passwordValidity : state.contextData.passwordValidity
 			}
 		}});
+
+		if (isBlurred) {
+			// validate password input 
+		}
 	}
 
 	processRegistration(buttonClicked) {
