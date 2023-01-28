@@ -25,6 +25,21 @@
 @media only screen and (min-width: 1200px) {
 
 }
+
+.passwordError {
+  margin-bottom: 1vmin;
+  margin-top: -2vmin;
+}
+
+.userNameError {
+  margin-bottom: 2vmin;
+  margin-top: -2vmin;
+}
+
+.inputErrorMessage {
+  font-size: calc(10px + 0.5vmin);
+  color: #E74C3C;
+}
     
 .registerInputLayout {
   width: 100%;

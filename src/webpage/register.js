@@ -22,18 +22,22 @@ class Register extends React.Component {
 			},
 			userNameValidity : {
 				userNameError : this.userNameEmptyError,
-				userNameValid : false
+				userNameValid : false,
+				errorDisplay : "none"
 			}, 
 			passwordValidity : {
 				passwordError : this.passwordEmptyError,
-				passwordValid : false
+				passwordValid : false,
+				errorDisplay : "none"
 			}
 		}
 	};
 
 	constructor(props) {
 		super(props);
+		this.validatePassword = this.validatePassword.bind(this);
 		this.validateUserName = this.validateUserName.bind(this);
+		this.processRegistration = this.processRegistration.bind(this);
 		this.updateInputUserName = this.updateInputUserName.bind(this);
 		this.updateInputPassword = this.updateInputPassword.bind(this);
 	}
@@ -58,14 +62,84 @@ class Register extends React.Component {
 
 	}
   
+	validatePassword() {
+		var passwordValid = false;
+		var errorDisplayStyle = "none";
+		var passwordErrorText = this.passwordShortError;
+		var passwordValue = this.state.contextData.registerRequestData.passwordValue;
+      
+		if (passwordValue.length > 4) {
+			passwordValid = true;	
+		} else {
+			errorDisplayStyle = "flex";
+
+			if (!passwordValue) {
+				passwordErrorText = this.passwordEmptyError;
+			}
+		}
+
+		this.setState(function(state) {
+			return {contextData : {
+				userNames : state.contextData.userNames,
+				registerRequestData : state.contextData.registerRequestData,
+				userNameValidity : state.contextData.userNameValidity,
+		      	passwordValidity : {
+					passwordError : passwordErrorText,
+					passwordValid : passwordValid,
+					errorDisplay : errorDisplayStyle
+				}
+			}
+		}});
+
+		return passwordValid;		
+	}
+
 	validateUserName() {
+		var userNameValid = false;
+		var userNameErrorText = "";
+		var errorDisplayStyle = "none";
 		var userNameArray = this.state.contextData.userNames;
 		var userNameValue = this.state.contextData.registerRequestData.userNameValue;
+    
+		if (userNameValue.length > 3) {
+			userNameValid = true;
 
-		if (userNameArray.indexOf(userNameValue) > -1) {
-			// display error message due to userName already existence
-
+			if (userNameValue.indexOf(" ") > -1) {
+				userNameErrorText = this.userNameSpaceError;
+				errorDisplayStyle = "flex";
+				userNameValid = false;
+			} else {
+				if (userNameArray.indexOf(userNameValue) > -1) {
+					userNameErrorText = this.userNameUsedError;
+					errorDisplayStyle = "flex";
+					userNameValid = false;
+				} 
+			}
+		} else {
+			errorDisplayStyle = "flex";
+			userNameValid = false;
+		
+			if (!userNameValue) {
+				userNameErrorText = this.userNameEmptyError;
+			} else {
+				userNameErrorText = this.userNameShortError;
+			}
 		}
+
+		this.setState(function(state) {
+			return {contextData : {
+				userNames : state.contextData.userNames,
+				registerRequestData : state.contextData.registerRequestData,
+				userNameValidity : {
+					userNameError : userNameErrorText,
+					userNameValid : userNameValid,
+					errorDisplay : errorDisplayStyle
+				},
+		      	passwordValidity : state.contextData.passwordValidity
+			}
+		}});
+
+		return userNameValid;
 	}
 
 	updateInputUserName(userNameValue, isBlurred) {
@@ -73,14 +147,16 @@ class Register extends React.Component {
 			return {contextData : {
 				userNames : state.contextData.userNames,
 				registerRequestData : {
-					userNameValue : userNameValue,
+					userNameValue : userNameValue.toLowerCase().trim(),
 					passwordValue : state.contextData.registerRequestData.passwordValue
-				}
+				},
+				userNameValidity : state.contextData.userNameValidity,
+		      	passwordValidity : state.contextData.passwordValidity
 			}
 		}});
 
 		if (isBlurred) {
-			// validate userName input			
+			this.validateUserName();
 		}
 	}
 
@@ -98,15 +174,20 @@ class Register extends React.Component {
 		}});
 
 		if (isBlurred) {
-			// validate password input 
+			this.validateUserName();
+			this.validatePassword();
 		}
 	}
 
 	processRegistration(buttonClicked) {
 		if (buttonClicked) {
-			// check if input fields are filled 
-			// check if userName is contained in userNames array in state 			
+			var passwordValid = this.validatePassword();
+			var userNameValid = this.validateUserName();
 
+			if (passwordValid && userNameValid) {
+				// post to the server
+
+			}
 		}
 	}
 
@@ -143,7 +224,15 @@ class Register extends React.Component {
 					</div>
 					<div className="registerInputLayout">
 						<LeftIconFormField onFormValueChange={this.updateInputUserName} formParts={firstFormPartsValue} />
+						<div className="inputErrorMessage userNameError" 
+							style={{display: this.state.contextData.userNameValidity.errorDisplay}}>
+							{this.state.contextData.userNameValidity.userNameError}
+						</div>
 						<LeftIconFormField onFormValueChange={this.updateInputPassword} formParts={secondFormPartsValue} />
+						<div className="inputErrorMessage passwordError" 
+							style={{display: this.state.contextData.passwordValidity.errorDisplay}}>
+							{this.state.contextData.passwordValidity.passwordError}
+						</div>
 					</div>
 					<BasicButton onButtonClicked={this.processRegistration} buttonParts={basicButton} />
 				</div>
