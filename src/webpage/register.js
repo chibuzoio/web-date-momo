@@ -1,10 +1,11 @@
 import React from 'react';
 import axios from 'axios';
 import '../css/login.css';
-import LeftIconFormField from '../component/left_icon_form_field'
-import BasicButton from '../component/basic_button'
-import icon_person from '../image/icon_person.png'
-import icon_password from '../image/icon_password.png'
+import LeftIconFormField from '../component/left_icon_form_field';
+import loading_puzzle from '../image/loading_puzzle.gif';
+import icon_password from '../image/icon_password.png';
+import BasicButton from '../component/basic_button';
+import icon_person from '../image/icon_person.png';
 import logo from '../image/datemomo.png';
 
 class Register extends React.Component {
@@ -17,8 +18,10 @@ class Register extends React.Component {
 	state = {contextData : {
 			userNames : [],
 			registerRequestData : {
-				userNameValue : "",
-				passwordValue : ""
+				userName : "",
+				password : "",
+				userLevel : "uploadProfilePicture",
+				userStatus : "Hello dear! Welcome to my profile!"
 			},
 			userNameValidity : {
 				userNameError : this.userNameEmptyError,
@@ -29,7 +32,9 @@ class Register extends React.Component {
 				passwordError : this.passwordEmptyError,
 				passwordValid : false,
 				errorDisplay : "none"
-			}
+			},
+			registerButtonDisplay : "flex",
+			loadingPuzzleDisplay : "none"
 		}
 	};
 
@@ -50,7 +55,9 @@ class Register extends React.Component {
 			          	userNames : response.data,
 			          	registerRequestData : state.contextData.registerRequestData,
 			          	userNameValidity : state.contextData.userNameValidity,
-			          	passwordValidity : state.contextData.passwordValidity
+			          	passwordValidity : state.contextData.passwordValidity,
+			          	registerButtonDisplay : state.contextData.registerButtonDisplay,
+			          	loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
 		          	}
 		        }});
 	      	}, error => {
@@ -66,8 +73,8 @@ class Register extends React.Component {
 		var passwordValid = false;
 		var errorDisplayStyle = "none";
 		var passwordErrorText = this.passwordShortError;
-		var passwordValue = this.state.contextData.registerRequestData.passwordValue;
-      
+		var passwordValue = this.state.contextData.registerRequestData.password;
+
 		if (passwordValue.length > 4) {
 			passwordValid = true;	
 		} else {
@@ -87,7 +94,9 @@ class Register extends React.Component {
 					passwordError : passwordErrorText,
 					passwordValid : passwordValid,
 					errorDisplay : errorDisplayStyle
-				}
+				},
+	          	registerButtonDisplay : state.contextData.registerButtonDisplay,
+	          	loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
 			}
 		}});
 
@@ -99,7 +108,7 @@ class Register extends React.Component {
 		var userNameErrorText = "";
 		var errorDisplayStyle = "none";
 		var userNameArray = this.state.contextData.userNames;
-		var userNameValue = this.state.contextData.registerRequestData.userNameValue;
+		var userNameValue = this.state.contextData.registerRequestData.userName;
     
 		if (userNameValue.length > 3) {
 			userNameValid = true;
@@ -135,7 +144,9 @@ class Register extends React.Component {
 					userNameValid : userNameValid,
 					errorDisplay : errorDisplayStyle
 				},
-		      	passwordValidity : state.contextData.passwordValidity
+		      	passwordValidity : state.contextData.passwordValidity,
+	          	registerButtonDisplay : state.contextData.registerButtonDisplay,
+	          	loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
 			}
 		}});
 
@@ -147,11 +158,23 @@ class Register extends React.Component {
 			return {contextData : {
 				userNames : state.contextData.userNames,
 				registerRequestData : {
-					userNameValue : userNameValue.toLowerCase().trim(),
-					passwordValue : state.contextData.registerRequestData.passwordValue
+					userName : userNameValue.toLowerCase().trim(),
+					password : state.contextData.registerRequestData.password,
+					userLevel : state.contextData.registerRequestData.userLevel,
+					userStatus : state.contextData.registerRequestData.userStatus
 				},
-				userNameValidity : state.contextData.userNameValidity,
-		      	passwordValidity : state.contextData.passwordValidity
+				userNameValidity : {
+					userNameError : state.contextData.userNameValidity.userNameError,
+					userNameValid : state.contextData.userNameValidity.userNameValid,
+					errorDisplay : "none"
+				}, 
+				passwordValidity : {
+					passwordError : state.contextData.passwordValidity.passwordError,
+					passwordValid : state.contextData.passwordValidity.passwordValid,
+					errorDisplay : "none"
+				},
+	          	registerButtonDisplay : "flex",
+	          	loadingPuzzleDisplay : "none"
 			}
 		}});
 
@@ -165,11 +188,23 @@ class Register extends React.Component {
 			return {contextData : {
 				userNames : state.contextData.userNames,
 				registerRequestData : {
-					userNameValue : state.contextData.registerRequestData.userNameValue,
-					passwordValue : passwordValue
+					userNameValue : state.contextData.registerRequestData.userName,
+					passwordValue : passwordValue,
+					userLevel : state.contextData.registerRequestData.userLevel,
+					userStatus : state.contextData.registerRequestData.userStatus
 				},
-				userNameValidity : state.contextData.userNameValidity,
-		      	passwordValidity : state.contextData.passwordValidity
+				userNameValidity : {
+					userNameError : state.contextData.userNameValidity.userNameError,
+					userNameValid : state.contextData.userNameValidity.userNameValid,
+					errorDisplay : "none"
+				}, 
+				passwordValidity : {
+					passwordError : state.contextData.passwordValidity.passwordError,
+					passwordValid : state.contextData.passwordValidity.passwordValid,
+					errorDisplay : "none"
+				},
+	          	registerButtonDisplay : "flex",
+	          	loadingPuzzleDisplay : "none"
 			}
 		}});
 
@@ -186,7 +221,50 @@ class Register extends React.Component {
 
 			if (passwordValid && userNameValid) {
 				// post to the server
+        		this.setState(function(state) {
+		        	return {contextData : {
+			          	userNames : state.contextData.userNames,
+			          	registerRequestData : state.contextData.registerRequestData,
+			          	userNameValidity : state.contextData.userNameValidity,
+			          	passwordValidity : state.contextData.passwordValidity,
+			          	registerButtonDisplay : "none",
+			          	loadingPuzzleDisplay : "flex"
+		          	}
+		        }});
 
+				axios.post("https://datemomo.com/service/registermember.php", this.state.contextData.registerRequestData)
+			    	.then(response => {
+		        		this.setState(function(state) {
+				        	return {contextData : {
+					          	userNames : state.contextData.userNames,
+					          	registerRequestData : state.contextData.registerRequestData,
+					          	userNameValidity : state.contextData.userNameValidity,
+					          	passwordValidity : state.contextData.passwordValidity,
+					          	registerButtonDisplay : "flex",
+					          	loadingPuzzleDisplay : "none"
+				          	}
+				        }});
+
+			    		if (response.data.authenticated) {
+			    			localStorage.setItem("currentUser", JSON.stringify(response.data));
+				    		// window.location.reload(true); transition to the next registration process 
+			    		} else {
+			    			localStorage.setItem("currentUser", JSON.stringify({}));           
+			    		}
+			        }, error => {		        	
+		        		this.setState(function(state) {
+				        	return {contextData : {
+					          	userNames : state.contextData.userNames,
+					          	registerRequestData : state.contextData.registerRequestData,
+					          	userNameValidity : state.contextData.userNameValidity,
+					          	passwordValidity : state.contextData.passwordValidity,
+					          	registerButtonDisplay : "flex",
+					          	loadingPuzzleDisplay : "none"
+				          	}
+				        }});
+
+			        	console.log(error);
+			        });
 			}
 		}
 	}
@@ -212,7 +290,8 @@ class Register extends React.Component {
 
 		var basicButton = {
 			buttonTitle : "Sign Up",
-			buttonClass : "basicButton fullWidth"
+			buttonClass : "basicButton fullWidth",
+			buttonDisplay : this.state.contextData.registerButtonDisplay
 		}
  
 		return (
@@ -235,6 +314,10 @@ class Register extends React.Component {
 						</div>
 					</div>
 					<BasicButton onButtonClicked={this.processRegistration} buttonParts={basicButton} />
+					<div className="progressLoadingLayout" 
+						style={{display : this.state.contextData.loadingPuzzleDisplay}}>
+						<img className="progressLoadingIcon" src={loading_puzzle} alt="" />
+					</div>
 				</div>
 			</div>
 		);

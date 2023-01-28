@@ -26,8 +26,21 @@
 
 }
 
+.incorrectCredential {
+  justify-content: center;
+  margin-bottom: -1vmin;
+  flex-direction: row;
+  margin-top: 2vmin;
+  display: flex;
+  width: 100%;
+}
+
+.loginPasswordError {
+  margin-top: -4vmin;
+}
+
 .passwordError {
-  margin-bottom: 1vmin;
+  margin-bottom: -1vmin;
   margin-top: -2vmin;
 }
 
