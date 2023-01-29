@@ -37,7 +37,6 @@ class App extends React.Component {
 */    
   constructor(props) {
     super(props);
-
     this.updateCurrentUser = this.updateCurrentUser.bind(this);
     this.displayPage = this.displayPage.bind(this);
   }
@@ -60,6 +59,7 @@ class App extends React.Component {
 
   displayPage() {
     if (!this.state.currentUser) {
+      console.log("Execution entered here in the first if statement");
       return (
         <BrowserRouter>
           <Routes>
@@ -70,24 +70,50 @@ class App extends React.Component {
       );
     } else {
       if (this.state.currentUser.authenticated) {
-        return (
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<HomePage />} >
-                <Route index element={<Timeline />} />
-                <Route path="account" element={<Account />} />
-                <Route path="messenger" element={<Messenger />} />
-                <Route path="profile" element={<Profile />} />
-                <Route path="user_information" element={<UserInformation />} />
-                <Route path="notification" element={<Notification />} />
-                {/*<Route path="*" element={<EmptyPage />} />*/}
-              </Route>
-              <Route path="register" element={<Register />} />
-              <Route path="login" element={<Login />} />
-            </Routes>
-          </BrowserRouter>
-        );
+        if (this.state.currentUser.userLevel === "uploadProfilePicture") {
+          console.log("Execution entered here in uploadProfilePicture condition");
+          return (
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<PictureUpload />} />
+                <Route path="picture_upload" element={<PictureUpload />} />
+                <Route path="register" element={<Register />} />
+              </Routes>
+            </BrowserRouter>
+          );
+        } else if (this.state.currentUser.userLevel === "selectSexualityInterest") {
+          console.log("Execution entered here in selectSexualityInterest condition");
+          return (
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Sexuality />} />
+                <Route path="sexuality" element={<Sexuality />} />
+                <Route path="register" element={<Register />} />
+              </Routes>
+            </BrowserRouter>
+          );
+        } else if (this.state.currentUser.userLevel === "displayMatchedUsers") {
+          console.log("Execution entered here in displayMatchedUsers condition");
+          return (
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<HomePage />} >
+                  <Route index element={<Timeline />} />
+                  <Route path="account" element={<Account />} />
+                  <Route path="messenger" element={<Messenger />} />
+                  <Route path="profile" element={<Profile />} />
+                  <Route path="user_information" element={<UserInformation />} />
+                  <Route path="notification" element={<Notification />} />
+                  {/*<Route path="*" element={<EmptyPage />} />*/}
+                </Route>
+                <Route path="register" element={<Register />} />
+                <Route path="login" element={<Login />} />
+              </Routes>
+            </BrowserRouter>
+          );
+        }
       } else {
+        console.log("Execution entered here in the else condition");
         return (
           <BrowserRouter>
             <Routes>

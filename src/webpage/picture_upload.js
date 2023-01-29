@@ -6,6 +6,7 @@ import LeftIconHollowButton from '../component/left_icon_hollow_button';
 import BasicFormField from '../component/basic_form_field';
 import BasicButton from '../component/basic_button';
 import HollowButton from '../component/hollow_button';
+import icon_picture_upload from '../image/icon_picture_upload.png';
 import icon_gallery_blue from '../image/icon_gallery_blue.png';
 import icon_camera_blue from '../image/icon_camera_blue.png';
 import placeholder from '../image/placeholder.jpg';
@@ -74,7 +75,7 @@ class PictureUpload extends React.Component {
 						<div className="registerPageTitle">Upload Your <br></br>Profile Picture</div>
 						<img className="registerPageIcon" alt="Logo" src={logo}/>
 					</div>
-					<img className="userPicture" alt="" src={placeholder} />
+					<img className="userPicture" alt="" src={icon_picture_upload} />
 					<div className="pictureButtons customTopMargin">
 						<LeftIconHollowButton buttonParts={takePictureButton} />
 						<LeftIconHollowButton buttonParts={uploadPictureButton} />

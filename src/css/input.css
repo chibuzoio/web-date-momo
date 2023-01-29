@@ -95,8 +95,8 @@
 }
 
 .formFieldClass {
-	height: 90% !important;
-	width: 87%;
+	min-width: 87% !important;
+	height: 90% !important; 
 }
 
 .dateMomoMessageEditor {
@@ -129,7 +129,6 @@
 .ageFormField {
 	text-align: center;
 	height: 7vmin;
-	width: 15%;
 }
 
 .leftHollowButtonContent {
@@ -150,22 +149,20 @@
 }
 
 .rightIconFieldLayout {
-	display: flex;
-	width: 65vw;
-	height: 65%;
-	align-items: center;
-	justify-content: center;
-	flex-direction: row;
-	padding-left: 0.5vmin;
-	padding-right: 1.5vmin;
-	background: #EAEDED;
-	padding-top: 0.5vmin;
+	justify-content: space-between;
 	padding-bottom: 0.5vmin;
-	padding-left: 2vmin;
+	padding-top: 0.5vmin;
 	padding-right: 2vmin;
-	border-radius: 8px;
+	flex-direction: row; 
 	margin-bottom: auto;
+	padding-left: 2vmin;
+	align-items: center;
+	background: #EAEDED;
+	border-radius: 8px;
 	margin-top: auto;	
+	display: flex;
+	height: 65%;
+	width: 65vw;
 }
 
 .fieldLayout {

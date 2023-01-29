@@ -40,6 +40,7 @@ class Register extends React.Component {
 
 	constructor(props) {
 		super(props);
+		// localStorage.setItem("currentUser", "{}");
 		this.validatePassword = this.validatePassword.bind(this);
 		this.validateUserName = this.validateUserName.bind(this);
 		this.processRegistration = this.processRegistration.bind(this);
@@ -109,7 +110,7 @@ class Register extends React.Component {
 		var errorDisplayStyle = "none";
 		var userNameArray = this.state.contextData.userNames;
 		var userNameValue = this.state.contextData.registerRequestData.userName;
-    
+
 		if (userNameValue.length > 3) {
 			userNameValid = true;
 
@@ -188,8 +189,8 @@ class Register extends React.Component {
 			return {contextData : {
 				userNames : state.contextData.userNames,
 				registerRequestData : {
-					userNameValue : state.contextData.registerRequestData.userName,
-					passwordValue : passwordValue,
+					userName : state.contextData.registerRequestData.userName,
+					password : passwordValue,
 					userLevel : state.contextData.registerRequestData.userLevel,
 					userStatus : state.contextData.registerRequestData.userStatus
 				},
@@ -207,7 +208,7 @@ class Register extends React.Component {
 	          	loadingPuzzleDisplay : "none"
 			}
 		}});
-
+       
 		if (isBlurred) {
 			this.validateUserName();
 			this.validatePassword();
@@ -220,7 +221,6 @@ class Register extends React.Component {
 			var userNameValid = this.validateUserName();
 
 			if (passwordValid && userNameValid) {
-				// post to the server
         		this.setState(function(state) {
 		        	return {contextData : {
 			          	userNames : state.contextData.userNames,
@@ -233,7 +233,7 @@ class Register extends React.Component {
 		        }});
 
 				axios.post("https://datemomo.com/service/registermember.php", this.state.contextData.registerRequestData)
-			    	.then(response => {
+			    	.then(response => {   
 		        		this.setState(function(state) {
 				        	return {contextData : {
 					          	userNames : state.contextData.userNames,
@@ -247,11 +247,12 @@ class Register extends React.Component {
 
 			    		if (response.data.authenticated) {
 			    			localStorage.setItem("currentUser", JSON.stringify(response.data));
-				    		// window.location.reload(true); transition to the next registration process 
+			    			// window.location.reload(true);
+				    		window.location.replace("/");
 			    		} else {
 			    			localStorage.setItem("currentUser", JSON.stringify({}));           
 			    		}
-			        }, error => {		        	
+			        }, error => {    
 		        		this.setState(function(state) {
 				        	return {contextData : {
 					          	userNames : state.contextData.userNames,
