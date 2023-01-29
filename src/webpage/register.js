@@ -247,8 +247,7 @@ class Register extends React.Component {
 
 			    		if (response.data.authenticated) {
 			    			localStorage.setItem("currentUser", JSON.stringify(response.data));
-			    			// window.location.reload(true);
-				    		window.location.replace("/");
+				    		window.location.replace("/picture_upload");
 			    		} else {
 			    			localStorage.setItem("currentUser", JSON.stringify({}));           
 			    		}

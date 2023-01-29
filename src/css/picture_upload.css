@@ -28,6 +28,10 @@
 
 }
 
+.uploadPictureButton {
+	display: none;
+}
+
 .customTopMargin {
 	margin-top: 3vmin !important;
 }
@@ -83,11 +87,17 @@
 	cursor: pointer;
 	width: 100%;
 }
- 
+
+*::-webkit-scrollbar { 
+    display: none;  
+}
+
 * { 
-	-moz-box-sizing: border-box; 
   -webkit-box-sizing: border-box; 
+	-moz-box-sizing: border-box; 
+  -ms-overflow-style: none; 
   box-sizing: border-box; 
+  scrollbar-width: none; 	
 }
     
 

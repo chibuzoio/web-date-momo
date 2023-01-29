@@ -58,8 +58,7 @@ class App extends React.Component {
   }
 
   displayPage() {
-    if (!this.state.currentUser) {
-      console.log("Execution entered here in the first if statement");
+    if (!this.state.currentUser) { 
       return (
         <BrowserRouter>
           <Routes>
@@ -70,8 +69,7 @@ class App extends React.Component {
       );
     } else {
       if (this.state.currentUser.authenticated) {
-        if (this.state.currentUser.userLevel === "uploadProfilePicture") {
-          console.log("Execution entered here in uploadProfilePicture condition");
+        if (this.state.currentUser.userLevel === "uploadProfilePicture") { 
           return (
             <BrowserRouter>
               <Routes>
@@ -81,8 +79,7 @@ class App extends React.Component {
               </Routes>
             </BrowserRouter>
           );
-        } else if (this.state.currentUser.userLevel === "selectSexualityInterest") {
-          console.log("Execution entered here in selectSexualityInterest condition");
+        } else if (this.state.currentUser.userLevel === "selectSexualityInterest") { 
           return (
             <BrowserRouter>
               <Routes>
@@ -92,8 +89,7 @@ class App extends React.Component {
               </Routes>
             </BrowserRouter>
           );
-        } else if (this.state.currentUser.userLevel === "displayMatchedUsers") {
-          console.log("Execution entered here in displayMatchedUsers condition");
+        } else if (this.state.currentUser.userLevel === "displayMatchedUsers") { 
           return (
             <BrowserRouter>
               <Routes>
@@ -112,8 +108,7 @@ class App extends React.Component {
             </BrowserRouter>
           );
         }
-      } else {
-        console.log("Execution entered here in the else condition");
+      } else {  
         return (
           <BrowserRouter>
             <Routes>

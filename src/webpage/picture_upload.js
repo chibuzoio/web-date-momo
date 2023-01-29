@@ -13,11 +13,19 @@ import placeholder from '../image/placeholder.jpg';
 import logo from '../image/datemomo.png';
 
 class PictureUpload extends React.Component {
-	state = {userNames : []};
+	state = {contextData : {
+			pictureUpload : {
+				picture : icon_picture_upload
+			}
+		}
+	};
 
 	constructor(props) {
 		super(props);
-		this.state.userNames = props.userNames;
+		this.openDeviceCamera = this.openDeviceCamera.bind(this);
+		this.selectPictureFile = this.selectPictureFile.bind(this);
+		this.openSystemGallery = this.openSystemGallery.bind(this);
+		this.handlePictureChange = this.handlePictureChange.bind(this);
 	}
 
 	componentDidMount() {
@@ -27,7 +35,47 @@ class PictureUpload extends React.Component {
 	componentWillUnmount() {
 
 	}
+
+	chooseMaleSex(buttonClicked) {
+		if (buttonClicked) {
+			// change male sex button 
+		}
+	}
+
+	chooseFemaleSex(buttonClicked) {
+		if (buttonClicked) {
+			// change female sex button
+		}
+	}
+
+	openSystemGallery(buttonClicked) {
+		if (buttonClicked) {
+			this.selectPictureButton.click();
+		}
+	}
+
+	openDeviceCamera(buttonClicked) {
+		if (buttonClicked) {
+
+		}
+	}
+
+	selectPictureFile(event) {
+		this.selectPictureButton.click();
+	}
   
+	handlePictureChange(event) {
+		if (event.target.files[0] != null) {
+			this.setState(function(state) {
+				return {contextData : {
+					pictureUpload : {
+						picture : URL.createObjectURL(event.target.files[0])
+					}
+				}
+			}});  
+		}
+	}
+
 	render() { 
 		var takePictureButton = {
 			buttonTitle : "Take Picture",
@@ -75,15 +123,17 @@ class PictureUpload extends React.Component {
 						<div className="registerPageTitle">Upload Your <br></br>Profile Picture</div>
 						<img className="registerPageIcon" alt="Logo" src={logo}/>
 					</div>
-					<img className="userPicture" alt="" src={icon_picture_upload} />
+					<input type="file" onChange={this.handlePictureChange} className="uploadPictureButton"
+						ref={(selectPictureButton) => {this.selectPictureButton = selectPictureButton}} accept="image/*" />
+					<img className="userPicture" onClick={this.selectPictureFile} alt="" src={this.state.contextData.pictureUpload.picture} />
 					<div className="pictureButtons customTopMargin">
-						<LeftIconHollowButton buttonParts={takePictureButton} />
-						<LeftIconHollowButton buttonParts={uploadPictureButton} />
+						<LeftIconHollowButton onButtonClicked={this.openDeviceCamera} buttonParts={takePictureButton} />
+						<LeftIconHollowButton onButtonClicked={this.openSystemGallery} buttonParts={uploadPictureButton} />
 					</div>
 					<div className="sexTitle">Sex</div>
 					<div className="pictureButtons">
-						<HollowButton buttonParts={maleHollowButton} />
-						<HollowButton buttonParts={femaleHollowButton} />
+						<HollowButton onButtonClicked={this.chooseMaleSex} buttonParts={maleHollowButton} />
+						<HollowButton onButtonClicked={this.chooseFemaleSex} buttonParts={femaleHollowButton} />
 					</div>
 					<div className="ageFormLayout">
 						<div className="ageFormTitle">Age</div>
