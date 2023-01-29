@@ -16,13 +16,37 @@ class PictureUpload extends React.Component {
 	state = {contextData : {
 			pictureUpload : {
 				picture : icon_picture_upload
+			},
+			chosenSex : {
+				userSex : "",
+				maleBasicButtonDisplay : "none",
+				maleHollowButtonDisplay : "flex",
+				femaleBasicButtonDisplay : "none",
+				femaleHollowButtonDisplay : "flex"
+			},
+			userAge : 0,
+			pictureValidity : {
+				pictureError : "Choose picture to upload",
+				errorDisplay : "flex"
+			},
+			userSexValidity : {
+				userSexError : "Select your sex",
+				errorDisplay : "flex"
+			},
+			userAgeValidity : {
+				userAgeError : "Your age is required",
+				errorDisplay : "flex"
 			}
 		}
 	};
 
 	constructor(props) {
 		super(props);
+		this.chooseMaleSex = this.chooseMaleSex.bind(this);
+		this.chooseFemaleSex = this.chooseFemaleSex.bind(this);
+		this.clickChosenMale = this.clickChosenMale.bind(this);
 		this.openDeviceCamera = this.openDeviceCamera.bind(this);
+		this.clickChosenFemale = this.clickChosenFemale.bind(this);
 		this.selectPictureFile = this.selectPictureFile.bind(this);
 		this.openSystemGallery = this.openSystemGallery.bind(this);
 		this.handlePictureChange = this.handlePictureChange.bind(this);
@@ -38,14 +62,52 @@ class PictureUpload extends React.Component {
 
 	chooseMaleSex(buttonClicked) {
 		if (buttonClicked) {
-			// change male sex button 
+			this.setState(function(state) {
+				return {contextData : {
+					pictureUpload : state.contextData.pictureUpload,
+					chosenSex : {
+						userSex : "Male",
+						maleBasicButtonDisplay : "flex",
+						maleHollowButtonDisplay : "none",
+						femaleBasicButtonDisplay : "none",
+						femaleHollowButtonDisplay : "flex"
+					},
+					userAge : state.contextData.userAge,
+					pictureValidity : state.contextData.pictureValidity,
+					userSexValidity : state.contextData.userSexValidity,
+					userAgeValidity : state.contextData.userAgeValidity
+				}
+			}});  
 		}
 	}
 
 	chooseFemaleSex(buttonClicked) {
 		if (buttonClicked) {
-			// change female sex button
+			this.setState(function(state) {
+				return {contextData : {
+					pictureUpload : state.contextData.pictureUpload,
+					chosenSex : {
+						userSex : "Female",
+						maleBasicButtonDisplay : "none",
+						maleHollowButtonDisplay : "flex",
+						femaleBasicButtonDisplay : "flex",
+						femaleHollowButtonDisplay : "none"
+					},
+					userAge : state.contextData.userAge,
+					pictureValidity : state.contextData.pictureValidity,
+					userSexValidity : state.contextData.userSexValidity,
+					userAgeValidity : state.contextData.userAgeValidity
+				}
+			}});  
 		}
+	}
+
+	clickChosenMale(buttonClicked) {
+		if (buttonClicked) {}
+	}
+
+	clickChosenFemale(buttonClicked) {
+		if (buttonClicked) {}
 	}
 
 	openSystemGallery(buttonClicked) {
@@ -70,7 +132,12 @@ class PictureUpload extends React.Component {
 				return {contextData : {
 					pictureUpload : {
 						picture : URL.createObjectURL(event.target.files[0])
-					}
+					},
+					chosenSex : state.contextData.chosenSex,
+					userAge : state.contextData.userAge,
+					pictureValidity : state.contextData.pictureValidity,
+					userSexValidity : state.contextData.userSexValidity,
+					userAgeValidity : state.contextData.userAgeValidity
 				}
 			}});  
 		}
@@ -100,14 +167,28 @@ class PictureUpload extends React.Component {
 			buttonClass : "basicButton customTopMargin fullWidth"
 		}
 
+		var maleBasicButton = {
+			buttonTitle : "Male",
+			buttonClass : "basicButton fullWidth",
+			buttonDisplay : this.state.contextData.chosenSex.maleBasicButtonDisplay
+		}
+
+		var femaleBasicButton = {
+			buttonTitle : "Female",
+			buttonClass : "basicButton fullWidth",
+			buttonDisplay : this.state.contextData.chosenSex.femaleBasicButtonDisplay
+		}
+
 		var maleHollowButton = {
 			buttonTitle : "Male",
-			buttonClass : "hollowButton halfSpacedWidth"
+			buttonClass : "hollowButton fullWidth",
+			buttonDisplay : this.state.contextData.chosenSex.maleHollowButtonDisplay
 		}
 
 		var femaleHollowButton = {
 			buttonTitle : "Female",
-			buttonClass : "hollowButton uploadPicture halfSpacedWidth"
+			buttonClass : "hollowButton uploadPicture fullWidth",
+			buttonDisplay : this.state.contextData.chosenSex.femaleHollowButtonDisplay
 		}
 
 		var ageFormField = {
@@ -130,14 +211,32 @@ class PictureUpload extends React.Component {
 						<LeftIconHollowButton onButtonClicked={this.openDeviceCamera} buttonParts={takePictureButton} />
 						<LeftIconHollowButton onButtonClicked={this.openSystemGallery} buttonParts={uploadPictureButton} />
 					</div>
+					<div className="inputErrorMessage" 
+						style={{display: this.state.contextData.pictureValidity.errorDisplay}}>
+						{this.state.contextData.pictureValidity.pictureError}
+					</div>
 					<div className="sexTitle">Sex</div>
 					<div className="pictureButtons">
-						<HollowButton onButtonClicked={this.chooseMaleSex} buttonParts={maleHollowButton} />
-						<HollowButton onButtonClicked={this.chooseFemaleSex} buttonParts={femaleHollowButton} />
+						<div className="maleSexButtons">
+							<HollowButton onButtonClicked={this.chooseMaleSex} buttonParts={maleHollowButton} />
+							<BasicButton onButtonClicked={this.clickChosenMale} buttonParts={maleBasicButton} />
+						</div>
+						<div className="femaleSexButtons">
+							<HollowButton onButtonClicked={this.chooseFemaleSex} buttonParts={femaleHollowButton} />
+							<BasicButton onButtonClicked={this.clickChosenFemale} buttonParts={femaleBasicButton} />
+						</div>
+					</div>
+					<div className="inputErrorMessage" 
+						style={{display: this.state.contextData.userSexValidity.errorDisplay}}>
+						{this.state.contextData.userSexValidity.userSexError}
 					</div>
 					<div className="ageFormLayout">
 						<div className="ageFormTitle">Age</div>
 						<BasicFormField formParts={ageFormField} />
+					</div>
+					<div className="inputErrorMessage centerMessage" 
+						style={{display: this.state.contextData.userAgeValidity.errorDisplay}}>
+						{this.state.contextData.userAgeValidity.userAgeError}
 					</div>
 					<BasicButton buttonParts={basicButton} />
 				</div>

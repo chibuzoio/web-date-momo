@@ -27,6 +27,7 @@ class HollowButton extends React.Component {
 	render() {
 		return (
 			<button onClick={this.clickHollowButton} 
+				style={{display: this.props.buttonParts.buttonDisplay}}
 				className={this.props.buttonParts.buttonClass} type="button"> 
 				{this.props.buttonParts.buttonTitle}
 			</button>
