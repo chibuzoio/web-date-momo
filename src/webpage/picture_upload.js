@@ -50,6 +50,7 @@ class PictureUpload extends React.Component {
 		this.selectPictureFile = this.selectPictureFile.bind(this);
 		this.openSystemGallery = this.openSystemGallery.bind(this);
 		this.handlePictureChange = this.handlePictureChange.bind(this);
+		this.handlePictureUpload = this.handlePictureUpload.bind(this);
 	}
 
 	componentDidMount() {
@@ -126,6 +127,12 @@ class PictureUpload extends React.Component {
 		this.selectPictureButton.click();
 	}
   
+	handlePictureUpload(buttonClicked) {
+		if (buttonClicked) {
+
+		}
+	}
+
 	handlePictureChange(event) {
 		if (event.target.files[0] != null) {
 			this.setState(function(state) {
@@ -140,6 +147,29 @@ class PictureUpload extends React.Component {
 					userAgeValidity : state.contextData.userAgeValidity
 				}
 			}});  
+
+			var imageReader = new FileReader();
+			
+			imageReader.readAsDataURL(event.target.files[0]);
+
+			imageReader.onload = function(event) {
+				console.log(event.target.result);
+				// window.location.href = event.target.result;
+
+				var imageData = new Image();
+				imageData.src = event.target.result;
+				
+				imageData.onload = function() {
+					console.log("Natural width and height of this image are, width: " + imageData.naturalWidth 
+						+ " and height: " + imageData.naturalHeight);
+					console.log("Natural width and height of this image are, width: " + imageData.width 
+						+ " and height: " + imageData.height);	
+				}
+			}
+
+			imageReader.onerror = function(error) {
+				console.log("Error gotten here is: " + error);
+			}
 		}
 	}
 
@@ -238,7 +268,7 @@ class PictureUpload extends React.Component {
 						style={{display: this.state.contextData.userAgeValidity.errorDisplay}}>
 						{this.state.contextData.userAgeValidity.userAgeError}
 					</div>
-					<BasicButton buttonParts={basicButton} />
+					<BasicButton onButtonClicked={this.handlePictureUpload} buttonParts={basicButton} />
 				</div>
 			</div>
 		);
