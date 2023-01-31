@@ -22,7 +22,7 @@ class RightIconFormField extends React.Component {
 		return (
 			<div className={this.props.formParts.fieldLayoutClass}>
 			    <input className={this.props.formParts.formFieldClass} type={this.props.formParts.type} 
-			    name="name" placeholder={this.props.formParts.placeholder} />
+				    name="name" placeholder={this.props.formParts.placeholder} />
 			    <img className={this.props.formParts.fieldIconClass} alt="" src={this.props.formParts.fieldIcon} />
 			</div>
 		);

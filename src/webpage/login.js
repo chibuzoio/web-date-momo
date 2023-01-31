@@ -13,32 +13,41 @@ import Register from '../webpage/register';
 import logo from '../image/datemomo.png';
 
 class Login extends React.Component {
-	authenticationData = {userName : "",
-		password : ""};
+	passwordEmptyError = "Password field is empty";
+	userNameEmptyError = "User name field is empty";
+	incorrectCredentialError = "User name or password is incorrect";
 	state = {contextData : {
-			currentUser : {},
+			loginRequestData : {
+				userName : "",
+				password : ""
+			},
+			userNameValidity : {
+				userNameValid : false,
+				errorDisplay : "none"
+			}, 
+			passwordValidity : {
+				passwordValid : false,
+				errorDisplay : "none"
+			},
+			incorrectCredential : {
+				errorDisplay : "none"
+			},
 			loginButtonDisplay : "flex",
 			loadingPuzzleDisplay : "none"
 		}
 	};
-   
+
 	constructor(props) {
 		super(props);
+		this.validatePassword = this.validatePassword.bind(this);
+		this.validateUserName = this.validateUserName.bind(this);
+		this.updateInputPassword = this.updateInputPassword.bind(this);
+		this.updateInputUserName = this.updateInputUserName.bind(this);
 		this.authenticateCurrentUser = this.authenticateCurrentUser.bind(this);
-		this.getValue = this.getValue.bind(this);
 	}
 
 	componentDidMount() {
-/*		axios.get("https://datemomo.com/service/usernamecomposite.php")
-	    	.then(response => {
-	    		this.setState({loginData : {
-		    			userNames : response.data,
-		    			currentUser : {}
-		    		}
-	    		});
-	        }, error => {
-	        	console.log(error);
-	        });*/
+
 	}
 
 	componentWillUnmount() {
@@ -46,28 +55,29 @@ class Login extends React.Component {
 	}
 
 	authenticateCurrentUser() {
-		var localUserName = this.userNameInput.value.trim();
-		var localPassword = this.passwordInput.value.trim();
+		var passwordValid = this.validatePassword();
+		var userNameValid = this.validateUserName();
           
-		if (localPassword !== "" && localUserName !== "") {
-			this.authenticationData = {
-				userName : localUserName,
-				password : localPassword
-			};
-
+		if (passwordValid && userNameValid) {
 			this.setState(function(state) {
-    			return {contextData : {
-		 			currentUser : state.contextData.currentUser,
-		 			loginButtonDisplay : "none",
-		 			loadingPuzzleDisplay : "flex"
-		   		}
-		    }}); 
+				return {contextData : {
+					loginRequestData : state.contextData.loginRequestData,
+					userNameValidity : state.contextData.userNameValidity,
+					passwordValidity : state.contextData.passwordValidity,
+					incorrectCredential : state.contextData.incorrectCredential,
+					loginButtonDisplay : "none",
+					loadingPuzzleDisplay : "flex"
+				}
+			}});
 
-			axios.post("https://datemomo.com/service/loginmember.php", this.authenticationData)
+			axios.post("https://datemomo.com/service/loginmember.php", this.state.contextData.loginRequestData)
 		    	.then(response => {
 		    		this.setState(function(state) {
 		    			return {contextData : {
-				 			currentUser : response.data,
+							loginRequestData : state.contextData.loginRequestData,
+							userNameValidity : state.contextData.userNameValidity,
+							passwordValidity : state.contextData.passwordValidity,
+							incorrectCredential : state.contextData.incorrectCredential,
 				 			loginButtonDisplay : "flex",
 				 			loadingPuzzleDisplay : "none"
 				   		}
@@ -78,11 +88,27 @@ class Login extends React.Component {
 			    		window.location.reload(true);
 		    		} else {
 		    			localStorage.setItem("currentUser", JSON.stringify({}));
+
+		    			this.setState(function(state) {
+			    			return {contextData : {
+								loginRequestData : state.contextData.loginRequestData,
+								userNameValidity : state.contextData.userNameValidity,
+								passwordValidity : state.contextData.passwordValidity,
+								incorrectCredential : {
+									errorDisplay : "flex"
+								},
+					 			loginButtonDisplay : state.contextData.loginButtonDisplay,
+					 			loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
+					   		}
+					    }}); 
 		    		}
 		        }, error => {		        	
 					this.setState(function(state) {
 		    			return {contextData : {
-				 			currentUser : state.contextData.currentUser,
+							loginRequestData : state.contextData.loginRequestData,
+							userNameValidity : state.contextData.userNameValidity,
+							passwordValidity : state.contextData.passwordValidity,
+							incorrectCredential : state.contextData.incorrectCredential,
 				 			loginButtonDisplay : "flex",
 				 			loadingPuzzleDisplay : "none"
 				   		}
@@ -93,10 +119,110 @@ class Login extends React.Component {
 		}
 	}
 
-	getValue() {
+	validatePassword() {
+		var passwordValid = false;
+		var errorDisplayStyle = "none"; 
+		var passwordValue = this.state.contextData.loginRequestData.password;
+		
+		if (!passwordValue) {
+			errorDisplayStyle = "flex";
+		} else {
+			passwordValid = true;
+		}		
+   
+		this.setState(function(state) {
+			return {contextData : {
+				loginRequestData : state.contextData.loginRequestData,
+				userNameValidity : state.contextData.userNameValidity,
+				passwordValidity : {
+					passwordValid : passwordValid,
+					errorDisplay : errorDisplayStyle
+				},
+				incorrectCredential : state.contextData.incorrectCredential,
+				loginButtonDisplay : state.contextData.loginButtonDisplay,
+				loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
+			}
+		}});
 
+		return passwordValid;
 	}
- 
+  
+  	validateUserName() {
+		var userNameValid = false; 
+		var errorDisplayStyle = "none"; 
+		var userNameValue = this.state.contextData.loginRequestData.userName;  		
+		
+		if (!userNameValue) {
+			errorDisplayStyle = "flex";
+		} else {
+			userNameValid = true;
+		}		
+  
+		this.setState(function(state) {
+			return {contextData : {
+				loginRequestData : state.contextData.loginRequestData,
+				userNameValidity : {
+					userNameValid : userNameValid,
+					errorDisplay : errorDisplayStyle
+				},
+				passwordValidity : state.contextData.passwordValidity,
+				incorrectCredential : state.contextData.incorrectCredential,
+				loginButtonDisplay : state.contextData.loginButtonDisplay,
+				loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
+			}
+		}});
+
+		return userNameValid;
+  	}
+
+  	updateInputPassword(event) {
+  		this.setState(function(state) {
+			return {contextData : {
+				loginRequestData : {
+					userName : state.contextData.loginRequestData.userName,
+					password : event.target.value
+				},
+				userNameValidity : {
+					userNameValid : state.contextData.userNameValidity.userNameValid,
+					errorDisplay : "none"
+				},
+				passwordValidity : {
+					passwordValid : state.contextData.passwordValidity.passwordValid,
+					errorDisplay : "none"
+				},
+				incorrectCredential : {
+					errorDisplay : "none"
+				},
+				loginButtonDisplay : state.contextData.loginButtonDisplay,
+				loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
+			}
+		}});
+  	}
+
+  	updateInputUserName(event) {
+		this.setState(function(state) {
+			return {contextData : {
+				loginRequestData : {
+					userName : event.target.value.toLowerCase().trim(),
+					password : state.contextData.loginRequestData.password					
+				},
+				userNameValidity : {
+					userNameValid : state.contextData.userNameValidity.userNameValid,
+					errorDisplay : "none"
+				},
+				passwordValidity : {
+					passwordValid : state.contextData.passwordValidity.passwordValid,
+					errorDisplay : "none"
+				},
+				incorrectCredential : {
+					errorDisplay : "none"
+				},
+				loginButtonDisplay : state.contextData.loginButtonDisplay,
+				loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
+			}
+		}});
+  	}
+
 	render() {          
 		return (
 			<div className="login"> 
@@ -106,16 +232,22 @@ class Login extends React.Component {
 						<label>User Name</label>
 						<div className="fieldLayout iconMargin">
 						    <img className="leftFieldIcon" alt="" src={icon_person} />
-						    <input type="text" name="name" 
-						    	ref={(userNameInput) => {this.userNameInput = userNameInput}} 
-						    	placeholder="User Name" />
+						    <input type="text" name="name" onBlur={this.validateUserName} 
+						    	onChange={this.updateInputUserName} placeholder="User Name" />
+						</div>
+						<div className="inputErrorMessage userNameError" 
+							style={{display: this.state.contextData.userNameValidity.errorDisplay}}>
+							{this.userNameEmptyError}
 						</div>
 						<label>Password</label>
 						<div className="fieldLayout bottomMargin">
 						    <img className="leftFieldIcon" alt="" src={icon_password} />
-						    <input type="password" name="name" 
-						    	ref={(passwordInput) => {this.passwordInput = passwordInput}} 
-						    	placeholder="Password" />
+						    <input type="password" name="name" onBlur={this.validatePassword}
+						    	onChange={this.updateInputPassword} placeholder="Password" />
+						</div>
+						<div className="inputErrorMessage loginPasswordError" 
+							style={{display: this.state.contextData.passwordValidity.errorDisplay}}>
+							{this.passwordEmptyError}
 						</div>
 						{/* If you click on this button, fetch data, store it in localStorage and reload */}
 						<button 
@@ -130,6 +262,10 @@ class Login extends React.Component {
 						<Link to="register">
 							<button className="hollowButton buttonTopMargin fullWidth" type="button">Sign Up</button>
 						</Link>
+						<div className="inputErrorMessage incorrectCredential"  
+							style={{display: this.state.contextData.incorrectCredential.errorDisplay}}>
+							{this.incorrectCredentialError}
+						</div>
 						<a href="https://play.google.com/store/apps/details?id=com.chibuzo.datemomo"> 
 							<div className="googlePlayLayout">
 								<img className="googlePlayDownload" src={google_play_download} alt="Google Play Download" />

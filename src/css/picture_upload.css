@@ -1,7 +1,11 @@
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
-            
+	.loginWidget {
+		margin-bottom: 5%;
+		margin-top: 5%;
+		width: 70%;
+	}            
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
@@ -24,6 +28,39 @@
 
 }
 
+.centerMessage {
+	justify-content: center;
+	flex-direction: row;
+	display: flex;
+}
+
+.inputErrorMessage {
+  font-size: calc(10px + 0.5vmin);
+  margin-top: 1vmin;
+  color: #E74C3C;
+  width: 100%;
+}
+    
+.femaleSexButtons {
+	justify-content: space-between;
+	flex-direction: column;
+	align-items: center;
+	display: flex;
+	width: 49%;
+}
+
+.maleSexButtons {
+	justify-content: space-between;
+	flex-direction: column;
+	align-items: center;
+	display: flex;
+	width: 49%;
+}
+
+.uploadPictureButton {
+	display: none;
+}
+
 .customTopMargin {
 	margin-top: 3vmin !important;
 }
@@ -38,7 +75,7 @@
 	align-items: center;
 	margin-top: 4vmin;
 	color: #1C2833;
-	width: 100%;
+	width: 25%;
 }
 
 .sexTitle {
@@ -69,6 +106,9 @@
 }
         
 .pictureButtons {
+	justify-content: space-between;
+	flex-direction: row;
+	display: flex;
   width: 100%;
 }
 
@@ -80,39 +120,16 @@
 	width: 100%;
 }
 
-/* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 600px) {
-	.loginWidget {
-		margin-bottom: 5%;
-		margin-top: 5%;
-		width: 70%;
-	}
-}
-
-/* Small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (min-width: 600px) {
-    
-}
-
-/* Medium devices (landscape tablets, 768px and up) */
-@media only screen and (min-width: 768px) {
-
-}
-
-/* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px) {
-
-}
-
-/* Extra large devices (large laptops and desktops, 1200px and up) */
-@media only screen and (min-width: 1200px) {
-
+*::-webkit-scrollbar { 
+    display: none;  
 }
 
 * { 
-	-moz-box-sizing: border-box; 
   -webkit-box-sizing: border-box; 
+	-moz-box-sizing: border-box; 
+  -ms-overflow-style: none; 
   box-sizing: border-box; 
+  scrollbar-width: none; 	
 }
     
 

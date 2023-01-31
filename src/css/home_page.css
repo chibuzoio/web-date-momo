@@ -39,9 +39,15 @@ for the container element (E.g. div) and set flex-direction to column or row.
 
 }
 
+.homePage::-webkit-scrollbar { 
+    display: none;  
+}
+
 .homePage {
 	font-size: calc(10px + 2vmin);
+	-ms-overflow-style: none; 
 	flex-direction: column;
+	scrollbar-width: none; 
 	background: #E5E7E9;
 	color: #1C2833;
 	display: flex;

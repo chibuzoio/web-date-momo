@@ -8,6 +8,11 @@ class HollowButton extends React.Component {
 	constructor(props) {
 		super(props);
 		this.updateState = this.updateState.bind(this);
+		this.clickHollowButton = this.clickHollowButton.bind(this);
+	}
+
+	clickHollowButton(event) {
+		this.props.onButtonClicked(true);
 	}
 
 	// Remember this method type for setting state using props values  
@@ -21,7 +26,9 @@ class HollowButton extends React.Component {
 
 	render() {
 		return (
-			<button className={this.props.buttonParts.buttonClass} type="button"> 
+			<button onClick={this.clickHollowButton} 
+				style={{display: this.props.buttonParts.buttonDisplay}}
+				className={this.props.buttonParts.buttonClass} type="button"> 
 				{this.props.buttonParts.buttonTitle}
 			</button>
 		);
