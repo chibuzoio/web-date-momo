@@ -70,26 +70,29 @@ class App extends React.Component {
     } else {
       if (this.state.currentUser.authenticated) {
         if (this.state.currentUser.userLevel === "uploadProfilePicture") { 
+          console.log("Execution passed through here uploadProfilePicture");
           return (
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={<PictureUpload />} />
                 <Route path="picture_upload" element={<PictureUpload />} />
-                <Route path="register" element={<Register />} />
+                <Route path="login" element={<Login />} />
               </Routes>
             </BrowserRouter>
           );
         } else if (this.state.currentUser.userLevel === "selectSexualityInterest") { 
+          console.log("Execution passed through here selectSexualityInterest");
           return (
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={<Sexuality />} />
                 <Route path="sexuality" element={<Sexuality />} />
-                <Route path="register" element={<Register />} />
+                <Route path="login" element={<Login />} />
               </Routes>
             </BrowserRouter>
           );
         } else if (this.state.currentUser.userLevel === "displayMatchedUsers") { 
+          console.log("Execution passed through here displayMatchedUsers");
           return (
             <BrowserRouter>
               <Routes>

@@ -7,6 +7,16 @@ class BasicFormField extends React.Component {
 	constructor(props) {
 		super(props);
 		this.updateState = this.updateState.bind(this);
+		this.getInputValue = this.getInputValue.bind(this);
+		this.checkFieldValue = this.checkFieldValue.bind(this);
+	}
+
+	checkFieldValue(event) {
+		this.props.onFormValueChange(event.currentTarget.value, true);
+	}
+
+	getInputValue(event) {
+		this.props.onFormValueChange(event.currentTarget.value, false);
 	}
 
 	// Remember this method type for setting state using props values  
@@ -20,8 +30,9 @@ class BasicFormField extends React.Component {
 
 	render() {     
 		return (
-			<input className={this.props.formParts.ageFieldClass} type={this.props.formParts.type} 
-			placeholder={this.props.formParts.placeholder} />
+			<input className={this.props.formParts.ageFieldClass} onBlur={this.checkFieldValue} 
+				onChange={this.getInputValue} type={this.props.formParts.type} 
+				placeholder={this.props.formParts.placeholder} />
 		);
 	}
 }
