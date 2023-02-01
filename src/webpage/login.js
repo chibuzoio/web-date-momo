@@ -270,7 +270,7 @@ class Login extends React.Component {
 							style={{display : this.state.contextData.loadingPuzzleDisplay}}>
 							<img className="progressLoadingIcon" src={loading_puzzle} alt="" />
 						</div>
-						<Link to="register">
+						<Link to="/register">
 							<button className="hollowButton buttonTopMargin fullWidth" type="button">Sign Up</button>
 						</Link>
 						<div className="inputErrorMessage incorrectCredential"  

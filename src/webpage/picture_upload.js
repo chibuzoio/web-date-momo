@@ -208,6 +208,8 @@ class PictureUpload extends React.Component {
 				var imageData = new Image();
 				var base64String = event.target.result;
 
+				// console.log("base64String gotten here is " + base64String.substring(5));
+
 				this.setState(function(state) {
 					return {contextData : {
 						pictureUpload : {
@@ -223,8 +225,9 @@ class PictureUpload extends React.Component {
 					}
 				}});  
 
-				this.pictureUploadRequest.base64Picture = base64String;
-
+				this.pictureUploadRequest.base64Picture = 
+					base64String.substring(base64String.indexOf("base64,") + 7);
+            
 				imageData.src = base64String;
            
 				imageData.onload = function() {

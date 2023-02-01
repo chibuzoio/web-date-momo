@@ -10,7 +10,7 @@ class Sexuality extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state.userNames = props.userNames;
+		// localStorage.setItem("currentUser", "{}");
 	}
 
 	componentDidMount() {
