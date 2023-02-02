@@ -6,8 +6,8 @@ import Footer from '../widget/footer';
 import test_image from '../image/test_image.png';
 import icon_edit_blue from '../image/icon_edit_blue.png';
 import ProfilePicture from '../component/profile_picture';
-import SexualityOptions from '../widget/sexuality_options';
 import icon_gallery_blue from '../image/icon_gallery_blue.png';
+import SexualityBiometrics from '../widget/sexuality_biometrics';
 import LeftIconHollowButton from '../component/left_icon_hollow_button';
 
 class UserInformation extends React.Component {
@@ -103,11 +103,11 @@ class UserInformation extends React.Component {
 					</div>
 					<div className="userLikerSexualityLayout">
 						<div className="sexualityHeader">My sexuality</div>
-						<SexualityOptions sexualityButtons={sexualCategoryButtons} />
+						<SexualityBiometrics sexualityButtons={sexualCategoryButtons} />
 						<div className="sexualityHeader">My Interests</div>
-						<SexualityOptions sexualityButtons={sexualInterestButtons} />
+						<SexualityBiometrics sexualityButtons={sexualInterestButtons} />
 						<div className="sexualityHeader">My Experiences</div>
-						<SexualityOptions sexualityButtons={sexualExperienceButtons} />
+						<SexualityBiometrics sexualityButtons={sexualExperienceButtons} />
 					</div>
 				</div>
 				<Footer />
