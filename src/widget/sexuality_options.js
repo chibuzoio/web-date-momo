@@ -1,6 +1,6 @@
 import React from 'react';
 import '../css/sexuality.css';
-import HollowButton from '../component/hollow_button';
+import BasicHollowButton from '../component/basic_hollow_button';
 
 class SexualityOptions extends React.Component {
 	state = {sexualityButtons : []};
@@ -24,7 +24,7 @@ class SexualityOptions extends React.Component {
 			<div className="sexualityButtonLayout">
 				{ 
 					this.props.sexualityButtons.map((sexualityButton) => ( 
-						<HollowButton buttonParts={sexualityButton} />
+						<BasicHollowButton buttonParts={sexualityButton} />
 					))
 				}
 			</div>
