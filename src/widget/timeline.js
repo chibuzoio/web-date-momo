@@ -13,7 +13,7 @@ import icon_heart_red from '../image/icon_heart_red.png';
 import icon_search from '../image/icon_search.png';
 import icon_message_blue from '../image/icon_message_blue.png';
 import CloseLayoutIcon from '../component/close_layout_icon';
-import SexualityOptions from '../widget/sexuality_options';
+import SexualityBiometrics from '../widget/sexuality_biometrics';
 import LeftIconHollowButton from '../component/left_icon_hollow_button';
 import motion_placeholder from '../image/motion_placeholder.gif';
 import icon_close_white from '../image/icon_close_white.png';
@@ -628,13 +628,13 @@ class Timeline extends React.Component {
 						<div className="floatingSexualityLayout">
 							<div className="sexualityHeader">{this.state.contextData.floatingAccountData.userDisplayResponse.userName.charAt(0).toUpperCase() 
 								+ this.state.contextData.floatingAccountData.userDisplayResponse.userName.slice(1)} sexuality</div>
-							<SexualityOptions sexualityButtons={this.state.contextData.floatingAccountData.sexualCategoryButtons} />
+							<SexualityBiometrics sexualityButtons={this.state.contextData.floatingAccountData.sexualCategoryButtons} />
 							<div className="sexualityHeader">{this.state.contextData.floatingAccountData.userDisplayResponse.userName.charAt(0).toUpperCase() 
 								+ this.state.contextData.floatingAccountData.userDisplayResponse.userName.slice(1)} is looking for</div>
-							<SexualityOptions sexualityButtons={this.state.contextData.floatingAccountData.sexualInterestButtons} />
+							<SexualityBiometrics sexualityButtons={this.state.contextData.floatingAccountData.sexualInterestButtons} />
 							<div className="sexualityHeader">{this.state.contextData.floatingAccountData.userDisplayResponse.userName.charAt(0).toUpperCase() 
 								+ this.state.contextData.floatingAccountData.userDisplayResponse.userName.slice(1)} sexual fantasies</div>
-							<SexualityOptions sexualityButtons={this.state.contextData.floatingAccountData.sexualExperienceButtons} />
+							<SexualityBiometrics sexualityButtons={this.state.contextData.floatingAccountData.sexualExperienceButtons} />
 						</div>
 					</div>
 				</div>

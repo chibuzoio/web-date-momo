@@ -5,9 +5,9 @@ import '../css/style.css';
 import '../css/profile.css';
 import '../css/sexuality.css';  
 import icon_edit_blue from '../image/icon_edit_blue.png'; 
-import SexualityOptions from '../widget/sexuality_options';
 import icon_camera_blue from '../image/icon_camera_blue.png';
 import icon_gallery_blue from '../image/icon_gallery_blue.png'; 
+import SexualityBiometrics from '../widget/sexuality_biometrics';
 import LeftIconHollowButton from '../component/left_icon_hollow_button';
 
 class Profile extends React.Component {
@@ -576,11 +576,11 @@ class Profile extends React.Component {
 				</div>
 				<div className="userLikerSexualityLayout">
 					<div className="sexualityHeader">My sexuality</div>
-					<SexualityOptions sexualityButtons={this.buildSexualCategoryButtons()} />
+					<SexualityBiometrics sexualityButtons={this.buildSexualCategoryButtons()} />
 					<div className="sexualityHeader">My Interests</div>
-					<SexualityOptions sexualityButtons={this.buildSexualInterestButtons()} />
+					<SexualityBiometrics sexualityButtons={this.buildSexualInterestButtons()} />
 					<div className="sexualityHeader">My Experiences</div>
-					<SexualityOptions sexualityButtons={this.buildSexualExperienceButtons()} />
+					<SexualityBiometrics sexualityButtons={this.buildSexualExperienceButtons()} />
 				</div>
 			</div>
 		);
