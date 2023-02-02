@@ -3,13 +3,449 @@ import axios from 'axios';
 import '../css/login.css';
 import '../css/sexuality.css';
 import BasicButton from '../component/basic_button';
+import loading_puzzle from '../image/loading_puzzle.gif';
 import SexualityOptions from '../widget/sexuality_options';
 
 class Sexuality extends React.Component {
+	sexualCategoryButtons = [
+		{
+			sexualityType : "Category",
+			basicButton : {
+				buttonTitle : "Bisexual",
+				buttonClass : "basicButton sexualityButton",
+				buttonDisplay : "none"
+			},
+			hollowButton : {
+				buttonTitle : "Bisexual",
+				buttonClass : "hollowButton sexualityButton",
+				buttonDisplay : "flex"
+			}
+		},
+		{
+			sexualityType : "Category",
+			basicButton : {
+				buttonTitle : "Gay",
+				buttonClass : "basicButton sexualityButton",
+				buttonDisplay : "none"
+			},
+			hollowButton : {
+				buttonTitle : "Gay",
+				buttonClass : "hollowButton sexualityButton",
+				buttonDisplay : "flex"
+			}
+		},
+		{
+			sexualityType : "Category",
+			basicButton : {
+				buttonTitle : "Lesbian",
+				buttonClass : "basicButton sexualityButton",
+				buttonDisplay : "none"
+			},
+			hollowButton : {
+				buttonTitle : "Lesbian",
+				buttonClass : "hollowButton sexualityButton",
+				buttonDisplay : "flex"
+			}
+		},
+		{
+			sexualityType : "Category",
+			basicButton : {
+				buttonTitle : "Straight",
+				buttonClass : "basicButton sexualityButton",
+				buttonDisplay : "none"
+			},
+			hollowButton : {
+				buttonTitle : "Straight",
+				buttonClass : "hollowButton sexualityButton",
+				buttonDisplay : "flex"
+			}
+		},
+		{
+			sexualityType : "Category",
+			basicButton : {
+				buttonTitle : "Sugar Daddy",
+				buttonClass : "basicButton sexualityButton",
+				buttonDisplay : "none"
+			},
+			hollowButton : {
+				buttonTitle : "Sugar Daddy",
+				buttonClass : "hollowButton sexualityButton",
+				buttonDisplay : "flex"
+			}
+		},
+		{
+			sexualityType : "Category",
+			basicButton : {
+				buttonTitle : "Sugar Mommy",
+				buttonClass : "basicButton sexualityButton",
+				buttonDisplay : "none"
+			},
+			hollowButton : {
+				buttonTitle : "Sugar Mommy",
+				buttonClass : "hollowButton sexualityButton",
+				buttonDisplay : "flex"
+			}
+		},
+		{
+			sexualityType : "Category",
+			basicButton : {
+				buttonTitle : "Toy Boy",
+				buttonClass : "basicButton sexualityButton",
+				buttonDisplay : "none"
+			},
+			hollowButton : {
+				buttonTitle : "Toy Boy",
+				buttonClass : "hollowButton sexualityButton",
+				buttonDisplay : "flex"
+			}
+		},
+		{
+			sexualityType : "Category",
+			basicButton : {
+				buttonTitle : "Toy Girl",
+				buttonClass : "basicButton sexualityButton",
+				buttonDisplay : "none"
+			},
+			hollowButton : {
+				buttonTitle : "Toy Girl",
+				buttonClass : "hollowButton sexualityButton",
+				buttonDisplay : "flex"
+			}
+		}
+	];
+
+	sexualInterestButtons = [
+		{
+			sexualityType : "Interest",
+			basicButton : {
+				buttonTitle : "Bisexual",
+				buttonClass : "basicButton sexualityButton",
+				buttonDisplay : "none"
+			},
+			hollowButton : {
+				buttonTitle : "Bisexual",
+				buttonClass : "hollowButton sexualityButton",
+				buttonDisplay : "flex"
+			}
+		},
+		{
+			sexualityType : "Interest",
+			basicButton : {
+				buttonTitle : "Friendship",
+				buttonClass : "basicButton sexualityButton",
+				buttonDisplay : "none"
+			},
+			hollowButton : {
+				buttonTitle : "Friendship",
+				buttonClass : "hollowButton sexualityButton",
+				buttonDisplay : "flex"
+			}
+		},
+		{
+			sexualityType : "Interest",
+			basicButton : {
+				buttonTitle : "Gay",
+				buttonClass : "basicButton sexualityButton",
+				buttonDisplay : "none"
+			},
+			hollowButton : {
+				buttonTitle : "Gay",
+				buttonClass : "hollowButton sexualityButton",
+				buttonDisplay : "flex"
+			}
+		},
+		{
+			sexualityType : "Interest",
+			basicButton : {
+				buttonTitle : "Lesbian",
+				buttonClass : "basicButton sexualityButton",
+				buttonDisplay : "none"
+			},
+			hollowButton : {
+				buttonTitle : "Lesbian",
+				buttonClass : "hollowButton sexualityButton",
+				buttonDisplay : "flex"
+			}
+		},
+		{
+			sexualityType : "Interest",
+			basicButton : {
+				buttonTitle : "Relationship",
+				buttonClass : "basicButton sexualityButton",
+				buttonDisplay : "none"
+			},
+			hollowButton : {
+				buttonTitle : "Relationship",
+				buttonClass : "hollowButton sexualityButton",
+				buttonDisplay : "flex"
+			}
+		},
+		{
+			sexualityType : "Interest",
+			basicButton : {
+				buttonTitle : "Straight",
+				buttonClass : "basicButton sexualityButton",
+				buttonDisplay : "none"
+			},
+			hollowButton : {
+				buttonTitle : "Straight",
+				buttonClass : "hollowButton sexualityButton",
+				buttonDisplay : "flex"
+			}
+		},
+		{
+			sexualityType : "Interest",
+			basicButton : {
+				buttonTitle : "Sugar Daddy",
+				buttonClass : "basicButton sexualityButton",
+				buttonDisplay : "none"
+			},
+			hollowButton : {
+				buttonTitle : "Sugar Daddy",
+				buttonClass : "hollowButton sexualityButton",
+				buttonDisplay : "flex"
+			}
+		},
+		{
+			sexualityType : "Interest",
+			basicButton : {
+				buttonTitle : "Sugar Mommy",
+				buttonClass : "basicButton sexualityButton",
+				buttonDisplay : "none"
+			},
+			hollowButton : {
+				buttonTitle : "Sugar Mommy",
+				buttonClass : "hollowButton sexualityButton",
+				buttonDisplay : "flex"
+			}
+		},
+		{
+			sexualityType : "Interest",
+			basicButton : {
+				buttonTitle : "Toy Boy",
+				buttonClass : "basicButton sexualityButton",
+				buttonDisplay : "none"
+			},
+			hollowButton : {
+				buttonTitle : "Toy Boy",
+				buttonClass : "hollowButton sexualityButton",
+				buttonDisplay : "flex"
+			}
+		},
+		{
+			sexualityType : "Interest",
+			basicButton : {
+				buttonTitle : "Toy Girl",
+				buttonClass : "basicButton sexualityButton",
+				buttonDisplay : "none"
+			},
+			hollowButton : {
+				buttonTitle : "Toy Girl",
+				buttonClass : "hollowButton sexualityButton",
+				buttonDisplay : "flex"
+			}
+		}
+	];
+
+	sexualExperienceButtons = [
+		{
+			sexualityType : "Experience",
+			basicButton : {
+				buttonTitle : "69",
+				buttonClass : "basicButton sexualityButton",
+				buttonDisplay : "none"
+			},
+			hollowButton : {
+				buttonTitle : "69",
+				buttonClass : "hollowButton sexualityButton",
+				buttonDisplay : "flex"
+			}
+		},
+		{
+			sexualityType : "Experience",
+			basicButton : {
+				buttonTitle : "Anal Sex",
+				buttonClass : "basicButton sexualityButton",
+				buttonDisplay : "none"
+			},
+			hollowButton : {
+				buttonTitle : "Anal Sex",
+				buttonClass : "hollowButton sexualityButton",
+				buttonDisplay : "flex"
+			}
+		},
+		{
+			sexualityType : "Experience",
+			basicButton : {
+				buttonTitle : "Given Head",
+				buttonClass : "basicButton sexualityButton",
+				buttonDisplay : "none"
+			},
+			hollowButton : {
+				buttonTitle : "Given Head",
+				buttonClass : "hollowButton sexualityButton",
+				buttonDisplay : "flex"
+			}
+		},
+		{
+			sexualityType : "Experience",
+			basicButton : {
+				buttonTitle : "Missionary",
+				buttonClass : "basicButton sexualityButton",
+				buttonDisplay : "none"
+			},
+			hollowButton : {
+				buttonTitle : "Missionary",
+				buttonClass : "hollowButton sexualityButton",
+				buttonDisplay : "flex"
+			}
+		},
+		{
+			sexualityType : "Experience",
+			basicButton : {
+				buttonTitle : "One-night Stand",
+				buttonClass : "basicButton sexualityButton",
+				buttonDisplay : "none"
+			},
+			hollowButton : {
+				buttonTitle : "One-night Stand",
+				buttonClass : "hollowButton sexualityButton",
+				buttonDisplay : "flex"
+			}
+		},
+		{
+			sexualityType : "Experience",
+			basicButton : {
+				buttonTitle : "Orgy Sex",
+				buttonClass : "basicButton sexualityButton",
+				buttonDisplay : "none"
+			},
+			hollowButton : {
+				buttonTitle : "Orgy Sex",
+				buttonClass : "hollowButton sexualityButton",
+				buttonDisplay : "flex"
+			}
+		},
+		{
+			sexualityType : "Experience",
+			basicButton : {
+				buttonTitle : "Pool Sex",
+				buttonClass : "basicButton sexualityButton",
+				buttonDisplay : "none"
+			},
+			hollowButton : {
+				buttonTitle : "Pool Sex",
+				buttonClass : "hollowButton sexualityButton",
+				buttonDisplay : "flex"
+			}
+		},
+		{
+			sexualityType : "Experience",
+			basicButton : {
+				buttonTitle : "Received Head",
+				buttonClass : "basicButton sexualityButton",
+				buttonDisplay : "none"
+			},
+			hollowButton : {
+				buttonTitle : "Received Head",
+				buttonClass : "hollowButton sexualityButton",
+				buttonDisplay : "flex"
+			}
+		},
+		{
+			sexualityType : "Experience",
+			basicButton : {
+				buttonTitle : "Sexed In Car",
+				buttonClass : "basicButton sexualityButton",
+				buttonDisplay : "none"
+			},
+			hollowButton : {
+				buttonTitle : "Sexed In Car",
+				buttonClass : "hollowButton sexualityButton",
+				buttonDisplay : "flex"
+			}
+		},
+		{
+			sexualityType : "Experience",
+			basicButton : {
+				buttonTitle : "Sexed In Public",
+				buttonClass : "basicButton sexualityButton",
+				buttonDisplay : "none"
+			},
+			hollowButton : {
+				buttonTitle : "Sexed In Public",
+				buttonClass : "hollowButton sexualityButton",
+				buttonDisplay : "flex"
+			}
+		},
+		{
+			sexualityType : "Experience",
+			basicButton : {
+				buttonTitle : "Sexed With Camera",
+				buttonClass : "basicButton sexualityButton",
+				buttonDisplay : "none"
+			},
+			hollowButton : {
+				buttonTitle : "Sexed With Camera",
+				buttonClass : "hollowButton sexualityButton",
+				buttonDisplay : "flex"
+			}
+		},
+		{
+			sexualityType : "Experience",
+			basicButton : {
+				buttonTitle : "Threesome",
+				buttonClass : "basicButton sexualityButton",
+				buttonDisplay : "none"
+			},
+			hollowButton : {
+				buttonTitle : "Threesome",
+				buttonClass : "hollowButton sexualityButton",
+				buttonDisplay : "flex"
+			}
+		},
+		{
+			sexualityType : "Experience",
+			basicButton : {
+				buttonTitle : "Used Sex Toys",
+				buttonClass : "basicButton sexualityButton",
+				buttonDisplay : "none"
+			},
+			hollowButton : {
+				buttonTitle : "Used Sex Toys",
+				buttonClass : "hollowButton sexualityButton",
+				buttonDisplay : "flex"
+			}
+		},
+		{
+			sexualityType : "Experience",
+			basicButton : {
+				buttonTitle : "Video Sex Chat",
+				buttonClass : "basicButton sexualityButton",
+				buttonDisplay : "none"
+			},
+			hollowButton : {
+				buttonTitle : "Video Sex Chat",
+				buttonClass : "hollowButton sexualityButton",
+				buttonDisplay : "flex"
+			}
+		}
+	];
+	buttonLoaderToggle = {
+      	uploadButtonDisplay : "flex",
+	    loadingPuzzleDisplay : "none"
+	};
+	state = {contextData : {
+			sexualCategoryButtons : this.sexualCategoryButtons,
+			sexualInterestButtons : this.sexualInterestButtons,
+			sexualExperienceButtons : this.sexualExperienceButtons
+		}
+	};
 	currentUser = {};
 	sexualityRequestData = {
 	    memberId : 0,
-	    userLevel : "displayMatchedUsers",
+	    // userLevel : "displayMatchedUsers",
+	    userLevel : "selectSexualityInterest",
 	    bisexualCategory : 0,
 	    gayCategory : 0,
 	    lesbianCategory : 0,
@@ -43,465 +479,120 @@ class Sexuality extends React.Component {
 	    sexToyExperience : 0,
 	    videoSexExperience : 0
 	};
-	sexualityButtonSelect = {
-	    bisexualCategory : {basicButtonDisplay : "none", hollowButtonDisplay : "flex"},
-	    gayCategory : {basicButtonDisplay : "none", hollowButtonDisplay : "flex"},
-	    lesbianCategory : {basicButtonDisplay : "none", hollowButtonDisplay : "flex"},
-	    straightCategory : {basicButtonDisplay : "none", hollowButtonDisplay : "flex"},
-	    sugarDaddyCategory : {basicButtonDisplay : "none", hollowButtonDisplay : "flex"},
-	    sugarMommyCategory : {basicButtonDisplay : "none", hollowButtonDisplay : "flex"},
-	    toyBoyCategory : {basicButtonDisplay : "none", hollowButtonDisplay : "flex"},
-	    toyGirlCategory : {basicButtonDisplay : "none", hollowButtonDisplay : "flex"},
-	    bisexualInterest : {basicButtonDisplay : "none", hollowButtonDisplay : "flex"},
-	    gayInterest : {basicButtonDisplay : "none", hollowButtonDisplay : "flex"},
-	    lesbianInterest : {basicButtonDisplay : "none", hollowButtonDisplay : "flex"},
-	    straightInterest : {basicButtonDisplay : "none", hollowButtonDisplay : "flex"},
-	    friendshipInterest : {basicButtonDisplay : "none", hollowButtonDisplay : "flex"},
-	    sugarDaddyInterest : {basicButtonDisplay : "none", hollowButtonDisplay : "flex"},
-	    sugarMommyInterest : {basicButtonDisplay : "none", hollowButtonDisplay : "flex"},
-	    relationshipInterest : {basicButtonDisplay : "none", hollowButtonDisplay : "flex"},
-	    toyBoyInterest : {basicButtonDisplay : "none", hollowButtonDisplay : "flex"},
-	    toyGirlInterest : {basicButtonDisplay : "none", hollowButtonDisplay : "flex"},
-	    sixtyNineExperience : {basicButtonDisplay : "none", hollowButtonDisplay : "flex"},
-	    analSexExperience : {basicButtonDisplay : "none", hollowButtonDisplay : "flex"},
-	    givenHeadExperience : {basicButtonDisplay : "none", hollowButtonDisplay : "flex"},
-	    missionaryExperience : {basicButtonDisplay : "none", hollowButtonDisplay : "flex"},
-	    oneNightStandExperience : {basicButtonDisplay : "none", hollowButtonDisplay : "flex"},
-	    orgySexExperience : {basicButtonDisplay : "none", hollowButtonDisplay : "flex"},
-	    poolSexExperience : {basicButtonDisplay : "none", hollowButtonDisplay : "flex"},
-	    receivedHeadExperience : {basicButtonDisplay : "none", hollowButtonDisplay : "flex"},
-	    carSexExperience : {basicButtonDisplay : "none", hollowButtonDisplay : "flex"},
-	    publicSexExperience : {basicButtonDisplay : "none", hollowButtonDisplay : "flex"},
-	    cameraSexExperience : {basicButtonDisplay : "none", hollowButtonDisplay : "flex"},
-	    threesomeExperience : {basicButtonDisplay : "none", hollowButtonDisplay : "flex"},
-	    sexToyExperience : {basicButtonDisplay : "none", hollowButtonDisplay : "flex"},
-	    videoSexExperience : {basicButtonDisplay : "none", hollowButtonDisplay : "flex"}
-	};
 
 	constructor(props) {
 		super(props);
 		// localStorage.setItem("currentUser", "{}");
+		this.submitSexualitySelections = this.submitSexualitySelections.bind(this);
+		this.updateSexualityCollection = this.updateSexualityCollection.bind(this);
 	}
 
 	componentDidMount() {
 		this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
-		console.log("The value of currentUser in Sexuality class is " + JSON.stringify(this.currentUser));
 		this.sexualityRequestData.memberId = this.currentUser.memberId; 
 	}
 
 	componentWillUnmount() {
 
 	}
-  
+
+	updateSexualityCollection(sexualityButtonData) {
+		if (sexualityButtonData[0].sexualityType === "Category") {
+			this.sexualCategoryButtons = sexualityButtonData;
+			this.sexualInterestButtons = this.state.contextData.sexualInterestButtons;
+			this.sexualExperienceButtons = this.state.contextData.sexualExperienceButtons;
+		} else if (sexualityButtonData[0].sexualityType === "Interest") {
+			this.sexualCategoryButtons = this.state.contextData.sexualCategoryButtons;
+			this.sexualInterestButtons = sexualityButtonData;
+			this.sexualExperienceButtons = this.state.contextData.sexualExperienceButtons;
+		} else if (sexualityButtonData[0].sexualityType === "Experience") {
+			this.sexualCategoryButtons = this.state.contextData.sexualCategoryButtons;
+			this.sexualInterestButtons = this.state.contextData.sexualInterestButtons;
+			this.sexualExperienceButtons = sexualityButtonData;
+		}
+
+		this.setState(function(state) {
+			return {contextData : {
+				sexualCategoryButtons : this.sexualCategoryButtons,
+				sexualInterestButtons : this.sexualInterestButtons,
+				sexualExperienceButtons : this.sexualExperienceButtons
+			}
+		}});       
+	}
+
+	submitSexualitySelections(buttonClicked) {
+		if (buttonClicked) {
+			this.buttonLoaderToggle.uploadButtonDisplay = "none";
+			this.buttonLoaderToggle.loadingPuzzleDisplay = "flex";
+		    this.sexualityRequestData.bisexualCategory = (this.state.contextData.sexualCategoryButtons[0].basicButton.buttonDisplay === "none") ? 0 : 1;
+		    this.sexualityRequestData.gayCategory = (this.state.contextData.sexualCategoryButtons[1].basicButton.buttonDisplay === "none") ? 0 : 1;
+		    this.sexualityRequestData.lesbianCategory = (this.state.contextData.sexualCategoryButtons[2].basicButton.buttonDisplay === "none") ? 0 : 1;
+		    this.sexualityRequestData.straightCategory = (this.state.contextData.sexualCategoryButtons[3].basicButton.buttonDisplay === "none") ? 0 : 1;
+		    this.sexualityRequestData.sugarDaddyCategory = (this.state.contextData.sexualCategoryButtons[4].basicButton.buttonDisplay === "none") ? 0 : 1;
+		    this.sexualityRequestData.sugarMommyCategory = (this.state.contextData.sexualCategoryButtons[5].basicButton.buttonDisplay === "none") ? 0 : 1;
+		    this.sexualityRequestData.toyBoyCategory = (this.state.contextData.sexualCategoryButtons[6].basicButton.buttonDisplay === "none") ? 0 : 1;
+		    this.sexualityRequestData.toyGirlCategory = (this.state.contextData.sexualCategoryButtons[7].basicButton.buttonDisplay === "none") ? 0 : 1;
+		    this.sexualityRequestData.bisexualInterest = (this.state.contextData.sexualInterestButtons[0].basicButton.buttonDisplay === "none") ? 0 : 1;
+		    this.sexualityRequestData.gayInterest = (this.state.contextData.sexualInterestButtons[1].basicButton.buttonDisplay === "none") ? 0 : 1;
+		    this.sexualityRequestData.lesbianInterest = (this.state.contextData.sexualInterestButtons[2].basicButton.buttonDisplay === "none") ? 0 : 1;
+		    this.sexualityRequestData.straightInterest = (this.state.contextData.sexualInterestButtons[3].basicButton.buttonDisplay === "none") ? 0 : 1;
+		    this.sexualityRequestData.friendshipInterest = (this.state.contextData.sexualInterestButtons[4].basicButton.buttonDisplay === "none") ? 0 : 1;
+		    this.sexualityRequestData.sugarDaddyInterest = (this.state.contextData.sexualInterestButtons[5].basicButton.buttonDisplay === "none") ? 0 : 1;
+		    this.sexualityRequestData.sugarMommyInterest = (this.state.contextData.sexualInterestButtons[6].basicButton.buttonDisplay === "none") ? 0 : 1;
+		    this.sexualityRequestData.relationshipInterest = (this.state.contextData.sexualInterestButtons[7].basicButton.buttonDisplay === "none") ? 0 : 1;
+		    this.sexualityRequestData.toyBoyInterest = (this.state.contextData.sexualInterestButtons[8].basicButton.buttonDisplay === "none") ? 0 : 1;
+		    this.sexualityRequestData.toyGirlInterest = (this.state.contextData.sexualInterestButtons[9].basicButton.buttonDisplay === "none") ? 0 : 1;
+		    this.sexualityRequestData.sixtyNineExperience = (this.state.contextData.sexualExperienceButtons[0].basicButton.buttonDisplay === "none") ? 0 : 1;
+		    this.sexualityRequestData.analSexExperience = (this.state.contextData.sexualExperienceButtons[1].basicButton.buttonDisplay === "none") ? 0 : 1;
+		    this.sexualityRequestData.givenHeadExperience = (this.state.contextData.sexualExperienceButtons[2].basicButton.buttonDisplay === "none") ? 0 : 1;
+		    this.sexualityRequestData.missionaryExperience = (this.state.contextData.sexualExperienceButtons[3].basicButton.buttonDisplay === "none") ? 0 : 1;
+		    this.sexualityRequestData.oneNightStandExperience = (this.state.contextData.sexualExperienceButtons[4].basicButton.buttonDisplay === "none") ? 0 : 1;
+		    this.sexualityRequestData.orgySexExperience = (this.state.contextData.sexualExperienceButtons[5].basicButton.buttonDisplay === "none") ? 0 : 1;
+		    this.sexualityRequestData.poolSexExperience = (this.state.contextData.sexualExperienceButtons[6].basicButton.buttonDisplay === "none") ? 0 : 1;
+		    this.sexualityRequestData.receivedHeadExperience = (this.state.contextData.sexualExperienceButtons[7].basicButton.buttonDisplay === "none") ? 0 : 1;
+		    this.sexualityRequestData.carSexExperience = (this.state.contextData.sexualExperienceButtons[8].basicButton.buttonDisplay === "none") ? 0 : 1;
+		    this.sexualityRequestData.publicSexExperience = (this.state.contextData.sexualExperienceButtons[9].basicButton.buttonDisplay === "none") ? 0 : 1;
+		    this.sexualityRequestData.cameraSexExperience = (this.state.contextData.sexualExperienceButtons[10].basicButton.buttonDisplay === "none") ? 0 : 1;
+		    this.sexualityRequestData.threesomeExperience = (this.state.contextData.sexualExperienceButtons[11].basicButton.buttonDisplay === "none") ? 0 : 1;
+		    this.sexualityRequestData.sexToyExperience = (this.state.contextData.sexualExperienceButtons[12].basicButton.buttonDisplay === "none") ? 0 : 1;
+		    this.sexualityRequestData.videoSexExperience = (this.state.contextData.sexualExperienceButtons[13].basicButton.buttonDisplay === "none") ? 0 : 1;
+      
+			axios.post("https://datemomo.com/service/userbiometrics.php", this.sexualityRequestData)
+		    	.then(response => {     
+		    		this.buttonLoaderToggle.uploadButtonDisplay = "flex";
+					this.buttonLoaderToggle.loadingPuzzleDisplay = "none";
+					this.currentUser.userLevel = response.data.userLevel;
+					localStorage.setItem("currentUser", JSON.stringify(this.currentUser));
+					window.location.replace("/");
+		        }, error => {    
+		    		this.buttonLoaderToggle.uploadButtonDisplay = "flex";
+					this.buttonLoaderToggle.loadingPuzzleDisplay = "none";						
+		        	console.log(error);
+		        });
+		}
+	}
+
 	render() { 
 		var basicButton = {
 			buttonTitle : "Submit",
-			buttonClass : "basicButton customTopMargin fullWidth"
+			buttonClass : "basicButton customTopMargin fullWidth",
+			buttonDisplay : this.buttonLoaderToggle.uploadButtonDisplay
 		}
-                        
-		var sexualCategoryButtons = [
-			{
-				basicButton : {
-					buttonTitle : "Bisexual",
-					buttonClass : "basicButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.bisexualCategory.basicButtonDisplay
-				},
-				hollowButton : {
-					buttonTitle : "Bisexual",
-					buttonClass : "hollowButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.bisexualCategory.hollowButtonDisplay
-				}
-			},
-			{
-				basicButton : {
-					buttonTitle : "Gay",
-					buttonClass : "basicButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.gayCategory.basicButtonDisplay
-				},
-				hollowButton : {
-					buttonTitle : "Gay",
-					buttonClass : "hollowButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.gayCategory.hollowButtonDisplay
-				}
-			},
-			{
-				basicButton : {
-					buttonTitle : "Lesbian",
-					buttonClass : "basicButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.lesbianCategory.basicButtonDisplay
-				},
-				hollowButton : {
-					buttonTitle : "Lesbian",
-					buttonClass : "hollowButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.lesbianCategory.hollowButtonDisplay
-				}
-			},
-			{
-				basicButton : {
-					buttonTitle : "Straight",
-					buttonClass : "basicButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.straightCategory.basicButtonDisplay
-				},
-				hollowButton : {
-					buttonTitle : "Straight",
-					buttonClass : "hollowButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.straightCategory.hollowButtonDisplay
-				}
-			},
-			{
-				basicButton : {
-					buttonTitle : "Sugar Daddy",
-					buttonClass : "basicButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.sugarDaddyCategory.basicButtonDisplay
-				},
-				hollowButton : {
-					buttonTitle : "Sugar Daddy",
-					buttonClass : "hollowButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.sugarDaddyCategory.hollowButtonDisplay
-				}
-			},
-			{
-				basicButton : {
-					buttonTitle : "Sugar Mommy",
-					buttonClass : "basicButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.sugarMommyCategory.basicButtonDisplay
-				},
-				hollowButton : {
-					buttonTitle : "Sugar Mommy",
-					buttonClass : "hollowButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.sugarMommyCategory.hollowButtonDisplay
-				}
-			},
-			{
-				basicButton : {
-					buttonTitle : "Toy Boy",
-					buttonClass : "basicButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.toyBoyCategory.basicButtonDisplay
-				},
-				hollowButton : {
-					buttonTitle : "Toy Boy",
-					buttonClass : "hollowButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.toyBoyCategory.hollowButtonDisplay
-				}
-			},
-			{
-				basicButton : {
-					buttonTitle : "Toy Girl",
-					buttonClass : "basicButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.toyGirlCategory.basicButtonDisplay
-				},
-				hollowButton : {
-					buttonTitle : "Toy Girl",
-					buttonClass : "hollowButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.toyGirlCategory.hollowButtonDisplay
-				}
-			}
-		];
-
-		var sexualInterestButtons = [
-			{
-				basicButton : {
-					buttonTitle : "Bisexual",
-					buttonClass : "basicButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.bisexualInterest.basicButtonDisplay
-				},
-				hollowButton : {
-					buttonTitle : "Bisexual",
-					buttonClass : "hollowButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.bisexualInterest.hollowButtonDisplay
-				}
-			},
-			{
-				basicButton : {
-					buttonTitle : "Friendship",
-					buttonClass : "basicButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.friendshipInterest.basicButtonDisplay
-				},
-				hollowButton : {
-					buttonTitle : "Friendship",
-					buttonClass : "hollowButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.friendshipInterest.hollowButtonDisplay
-				}
-			},
-			{
-				basicButton : {
-					buttonTitle : "Gay",
-					buttonClass : "basicButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.gayInterest.basicButtonDisplay
-				},
-				hollowButton : {
-					buttonTitle : "Gay",
-					buttonClass : "hollowButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.gayInterest.hollowButtonDisplay
-				}
-			},
-			{
-				basicButton : {
-					buttonTitle : "Lesbian",
-					buttonClass : "basicButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.lesbianInterest.basicButtonDisplay
-				},
-				hollowButton : {
-					buttonTitle : "Lesbian",
-					buttonClass : "hollowButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.lesbianInterest.hollowButtonDisplay
-				}
-			},
-			{
-				basicButton : {
-					buttonTitle : "Relationship",
-					buttonClass : "basicButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.relationshipInterest.basicButtonDisplay
-				},
-				hollowButton : {
-					buttonTitle : "Relationship",
-					buttonClass : "hollowButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.relationshipInterest.hollowButtonDisplay
-				}
-			},
-			{
-				basicButton : {
-					buttonTitle : "Straight",
-					buttonClass : "basicButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.straightInterest.basicButtonDisplay
-				},
-				hollowButton : {
-					buttonTitle : "Straight",
-					buttonClass : "hollowButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.straightInterest.hollowButtonDisplay
-				}
-			},
-			{
-				basicButton : {
-					buttonTitle : "Sugar Daddy",
-					buttonClass : "basicButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.sugarDaddyInterest.basicButtonDisplay
-				},
-				hollowButton : {
-					buttonTitle : "Sugar Daddy",
-					buttonClass : "hollowButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.sugarDaddyInterest.hollowButtonDisplay
-				}
-			},
-			{
-				basicButton : {
-					buttonTitle : "Sugar Mommy",
-					buttonClass : "basicButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.sugarMommyInterest.basicButtonDisplay
-				},
-				hollowButton : {
-					buttonTitle : "Sugar Mommy",
-					buttonClass : "hollowButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.sugarMommyInterest.hollowButtonDisplay
-				}
-			},
-			{
-				basicButton : {
-					buttonTitle : "Toy Boy",
-					buttonClass : "basicButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.toyBoyInterest.basicButtonDisplay
-				},
-				hollowButton : {
-					buttonTitle : "Toy Boy",
-					buttonClass : "hollowButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.toyBoyInterest.hollowButtonDisplay
-				}
-			},
-			{
-				basicButton : {
-					buttonTitle : "Toy Girl",
-					buttonClass : "basicButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.toyGirlInterest.basicButtonDisplay
-				},
-				hollowButton : {
-					buttonTitle : "Toy Girl",
-					buttonClass : "hollowButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.toyGirlInterest.hollowButtonDisplay
-				}
-			}
-		];
-    
-		var sexualExperienceButtons = [
-			{
-				basicButton : {
-					buttonTitle : "69",
-					buttonClass : "basicButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.sixtyNineExperience.basicButtonDisplay
-				},
-				hollowButton : {
-					buttonTitle : "69",
-					buttonClass : "hollowButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.sixtyNineExperience.hollowButtonDisplay
-				}
-			},
-			{
-				basicButton : {
-					buttonTitle : "Anal Sex",
-					buttonClass : "basicButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.analSexExperience.basicButtonDisplay
-				},
-				hollowButton : {
-					buttonTitle : "Anal Sex",
-					buttonClass : "hollowButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.analSexExperience.hollowButtonDisplay
-				}
-			},
-			{
-				basicButton : {
-					buttonTitle : "Given Head",
-					buttonClass : "basicButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.givenHeadExperience.basicButtonDisplay
-				},
-				hollowButton : {
-					buttonTitle : "Given Head",
-					buttonClass : "hollowButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.givenHeadExperience.hollowButtonDisplay
-				}
-			},
-			{
-				basicButton : {
-					buttonTitle : "Missionary",
-					buttonClass : "basicButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.missionaryExperience.basicButtonDisplay
-				},
-				hollowButton : {
-					buttonTitle : "Missionary",
-					buttonClass : "hollowButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.missionaryExperience.hollowButtonDisplay
-				}
-			},
-			{
-				basicButton : {
-					buttonTitle : "One-night Stand",
-					buttonClass : "basicButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.oneNightStandExperience.basicButtonDisplay
-				},
-				hollowButton : {
-					buttonTitle : "One-night Stand",
-					buttonClass : "hollowButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.oneNightStandExperience.hollowButtonDisplay
-				}
-			},
-			{
-				basicButton : {
-					buttonTitle : "Orgy Sex",
-					buttonClass : "basicButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.orgySexExperience.basicButtonDisplay
-				},
-				hollowButton : {
-					buttonTitle : "Orgy Sex",
-					buttonClass : "hollowButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.orgySexExperience.hollowButtonDisplay
-				}
-			},
-			{
-				basicButton : {
-					buttonTitle : "Pool Sex",
-					buttonClass : "basicButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.poolSexExperience.basicButtonDisplay
-				},
-				hollowButton : {
-					buttonTitle : "Pool Sex",
-					buttonClass : "hollowButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.poolSexExperience.hollowButtonDisplay
-				}
-			},
-			{
-				basicButton : {
-					buttonTitle : "Received Head",
-					buttonClass : "basicButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.receivedHeadExperience.basicButtonDisplay
-				},
-				hollowButton : {
-					buttonTitle : "Received Head",
-					buttonClass : "hollowButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.receivedHeadExperience.hollowButtonDisplay
-				}
-			},
-			{
-				basicButton : {
-					buttonTitle : "Sexed In Car",
-					buttonClass : "basicButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.carSexExperience.basicButtonDisplay
-				},
-				hollowButton : {
-					buttonTitle : "Sexed In Car",
-					buttonClass : "hollowButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.carSexExperience.hollowButtonDisplay
-				}
-			},
-			{
-				basicButton : {
-					buttonTitle : "Sexed In Public",
-					buttonClass : "basicButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.publicSexExperience.basicButtonDisplay
-				},
-				hollowButton : {
-					buttonTitle : "Sexed In Public",
-					buttonClass : "hollowButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.publicSexExperience.hollowButtonDisplay
-				}
-			},
-			{
-				basicButton : {
-					buttonTitle : "Sexed With Camera",
-					buttonClass : "basicButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.cameraSexExperience.basicButtonDisplay
-				},
-				hollowButton : {
-					buttonTitle : "Sexed With Camera",
-					buttonClass : "hollowButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.cameraSexExperience.hollowButtonDisplay
-				}
-			},
-			{
-				basicButton : {
-					buttonTitle : "Threesome",
-					buttonClass : "basicButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.threesomeExperience.basicButtonDisplay
-				},
-				hollowButton : {
-					buttonTitle : "Threesome",
-					buttonClass : "hollowButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.threesomeExperience.hollowButtonDisplay
-				}
-			},
-			{
-				basicButton : {
-					buttonTitle : "Used Sex Toys",
-					buttonClass : "basicButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.sexToyExperience.basicButtonDisplay
-				},
-				hollowButton : {
-					buttonTitle : "Used Sex Toys",
-					buttonClass : "hollowButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.sexToyExperience.hollowButtonDisplay
-				}
-			},
-			{
-				basicButton : {
-					buttonTitle : "Video Sex Chat",
-					buttonClass : "basicButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.videoSexExperience.basicButtonDisplay
-				},
-				hollowButton : {
-					buttonTitle : "Video Sex Chat",
-					buttonClass : "hollowButton sexualityButton",
-					buttonDisplay : this.sexualityButtonSelect.videoSexExperience.hollowButtonDisplay
-				}
-			}
-		];
            
 		return (
 			<div className="login">
 				<div className="loginWidget">
 					<div className="sexualCategoryHeader">Your Sexual Category</div>
-					<SexualityOptions sexualityButtons={sexualCategoryButtons} />
+					<SexualityOptions onSexualityChange={this.updateSexualityCollection} sexualityButtons={this.sexualCategoryButtons} />
 					<div className="sexualCategoryHeader">You are interested in</div>
-					<SexualityOptions sexualityButtons={sexualInterestButtons} />
+					<SexualityOptions onSexualityChange={this.updateSexualityCollection} sexualityButtons={this.sexualInterestButtons} />
 					<div className="sexualCategoryHeader">Things you have tried or can do in sex</div>
-					<SexualityOptions sexualityButtons={sexualExperienceButtons} />
-					<BasicButton buttonParts={basicButton} />
+					<SexualityOptions onSexualityChange={this.updateSexualityCollection} sexualityButtons={this.sexualExperienceButtons} />
+					<BasicButton onButtonClicked={this.submitSexualitySelections} buttonParts={basicButton} />
+					<div className="progressLoadingLayout customTopMargin" 
+						style={{display : this.buttonLoaderToggle.loadingPuzzleDisplay}}>
+						<img className="progressLoadingIcon" src={loading_puzzle} alt="" />
+					</div>
 				</div>
 			</div>
 		);

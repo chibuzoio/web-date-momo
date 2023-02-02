@@ -10,9 +10,22 @@ class BasicHollowButton extends React.Component {
 	constructor(props) {
 		super(props);
 		this.updateState = this.updateState.bind(this);
-		console.log("The value of props from basicHollowButton is " + JSON.stringify(props));
+		this.selectButtonContent = this.selectButtonContent.bind(this);
+		this.removeButtonContent = this.removeButtonContent.bind(this);
 	}
  
+	selectButtonContent(buttonClicked) {
+		if (buttonClicked) {
+			this.props.onButtonSelected(true);
+		}
+	}
+
+	removeButtonContent(buttonClicked) {
+		if (buttonClicked) {
+			this.props.onButtonSelected(false);
+		}
+	}
+
 	// Remember this method type for setting state using props values  
 	updateState() {
 		this.setState(function(state, props) {
