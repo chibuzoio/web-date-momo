@@ -6,7 +6,43 @@ import BasicButton from '../component/basic_button';
 import SexualityOptions from '../widget/sexuality_options';
 
 class Sexuality extends React.Component {
-	state = {userNames : []};
+	currentUser = {};
+	sexualityRequestData = {
+	    memberId : 0,
+	    userLevel : "",
+	    bisexualCategory : 0,
+	    gayCategory : 0,
+	    lesbianCategory : 0,
+	    straightCategory : 0,
+	    sugarDaddyCategory : 0,
+	    sugarMommyCategory : 0,
+	    toyBoyCategory : 0,
+	    toyGirlCategory : 0,
+	    bisexualInterest : 0,
+	    gayInterest : 0,
+	    lesbianInterest : 0,
+	    straightInterest : 0,
+	    friendshipInterest : 0,
+	    sugarDaddyInterest : 0,
+	    sugarMommyInterest : 0,
+	    relationshipInterest : 0,
+	    toyBoyInterest : 0,
+	    toyGirlInterest : 0,
+	    sixtyNineExperience : 0,
+	    analSexExperience : 0,
+	    givenHeadExperience : 0,
+	    missionaryExperience : 0,
+	    oneNightStandExperience : 0,
+	    orgySexExperience : 0,
+	    poolSexExperience : 0,
+	    receivedHeadExperience : 0,
+	    carSexExperience : 0,
+	    publicSexExperience : 0,
+	    cameraSexExperience : 0,
+	    threesomeExperience : 0,
+	    sexToyExperience : 0,
+	    videoSexExperience : 0
+	};
 
 	constructor(props) {
 		super(props);
@@ -14,7 +50,10 @@ class Sexuality extends React.Component {
 	}
 
 	componentDidMount() {
-	
+		this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
+		console.log("The value of currentUser in Sexuality class is " + JSON.stringify(this.currentUser));
+		this.sexualityRequestData.memberId = this.currentUser.memberId;
+		this.sexualityRequestData.userLevel = this.currentUser.userLevel;
 	}
 
 	componentWillUnmount() {

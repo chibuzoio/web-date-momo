@@ -14,7 +14,7 @@ class SexualityOptions extends React.Component {
 	updateState() {
 		this.setState(function(state, props) {
 			return {
-				sexualityButtons : this.props.sexualityButtons
+				sexualityButtons : props.sexualityButtons
 			}
 		});
 	}

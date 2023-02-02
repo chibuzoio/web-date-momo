@@ -23,7 +23,7 @@ class BasicFormField extends React.Component {
 	updateState() {
 		this.setState(function(state, props) {
 			return {
-				formParts : this.props.formParts
+				formParts : props.formParts
 			}
 		});
 	}
