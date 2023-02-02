@@ -1,3 +1,8 @@
+.basicHollowButton {
+	flex-direction: column;
+	display: inline-flex;
+}
+
 .menuIconClass {
 	width: 70%;
 }

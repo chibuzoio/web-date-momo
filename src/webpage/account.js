@@ -96,7 +96,7 @@ class Account extends React.Component {
 	logoutCurrentUser(menuClicked) {
 		if (menuClicked) {
 			localStorage.setItem("currentUser", "{}");
-			window.location.replace("/");
+			window.location.replace("/login");
 		}
 	}
 

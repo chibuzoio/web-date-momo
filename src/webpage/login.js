@@ -85,7 +85,18 @@ class Login extends React.Component {
 
 		    		if (response.data.authenticated) {
 		    			localStorage.setItem("currentUser", JSON.stringify(response.data));
-			    		window.location.reload(true);
+
+		    			var currentUser = response.data;
+
+		    			if (currentUser.authenticated) {
+					        if (currentUser.userLevel === "uploadProfilePicture") { 
+								window.location.replace("/picture_upload");
+					        } else if (currentUser.userLevel === "selectSexualityInterest") { 
+								window.location.replace("/sexuality");
+					        } else if (currentUser.userLevel === "displayMatchedUsers") { 
+					        	window.location.replace("/");
+					        } 
+					    }          
 		    		} else {
 		    			localStorage.setItem("currentUser", JSON.stringify({}));
 
@@ -259,7 +270,7 @@ class Login extends React.Component {
 							style={{display : this.state.contextData.loadingPuzzleDisplay}}>
 							<img className="progressLoadingIcon" src={loading_puzzle} alt="" />
 						</div>
-						<Link to="register">
+						<Link to="/register">
 							<button className="hollowButton buttonTopMargin fullWidth" type="button">Sign Up</button>
 						</Link>
 						<div className="inputErrorMessage incorrectCredential"  

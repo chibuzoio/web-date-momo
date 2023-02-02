@@ -15,7 +15,7 @@ class CloseLayoutIcon extends React.Component {
 	updateState() {
 		this.setState(function(state, props) {
 			return {
-				menuIconParts : this.props.menuIconParts
+				menuIconParts : props.menuIconParts
 			}
 		});
 	}

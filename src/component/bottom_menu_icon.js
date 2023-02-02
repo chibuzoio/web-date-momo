@@ -13,7 +13,7 @@ class BottomMenuIcon extends React.Component {
 	updateState() {
 		this.setState(function(state, props) {
 			return {
-				menuParts : this.props.menuParts
+				menuParts : props.menuParts
 			}
 		});
 	}

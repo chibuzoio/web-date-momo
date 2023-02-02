@@ -24,12 +24,19 @@ class HomePage extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state.userNames = props.userNames;
 		this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
 	}
 
 	componentDidMount() {
-		
+		if (this.currentUser.authenticated) {
+			if (this.currentUser.userLevel === "uploadProfilePicture") { 
+				window.location.replace("/picture_upload");
+			} else if (this.currentUser.userLevel === "selectSexualityInterest") { 
+				window.location.replace("/sexuality");
+			}
+		} else {
+			window.location.replace("/login");
+		}
 	}
 
 	componentWillUnmount() {

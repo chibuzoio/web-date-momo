@@ -19,7 +19,7 @@ class HollowButton extends React.Component {
 	updateState() {
 		this.setState(function(state, props) {
 			return {
-				buttonParts : this.props.buttonParts
+				buttonParts : props.buttonParts
 			}
 		});
 	}

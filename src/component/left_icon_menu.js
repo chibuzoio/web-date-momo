@@ -19,7 +19,7 @@ class LeftIconMenu extends React.Component {
 	updateState() {
 		this.setState(function(state, props) {
 			return {
-				iconMenuParts : this.props.iconMenuParts
+				iconMenuParts : props.iconMenuParts
 			}
 		});
 	}

@@ -16,7 +16,7 @@ class UserLikerContent extends React.Component {
 	updateState() {
 		this.setState(function(state, props) {
 			return {
-				userLikerData : this.props.userLikerData
+				userLikerData : props.userLikerData
 			}
 		});
 	}

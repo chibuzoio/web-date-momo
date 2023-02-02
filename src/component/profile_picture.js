@@ -14,7 +14,7 @@ class ProfilePicture extends React.Component {
 	updateState() {
 		this.setState(function(state, props) {
 			return {
-				pictureParts : this.props.pictureParts
+				pictureParts : props.pictureParts
 			}
 		});
 	}

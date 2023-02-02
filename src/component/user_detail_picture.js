@@ -14,7 +14,7 @@ class UserDetailPicture extends React.Component {
 	updateState() {
 		this.setState(function(state, props) {
 			return {
-				userDetailParts : this.props.userDetailParts
+				userDetailParts : props.userDetailParts
 			}
 		});
 	}
