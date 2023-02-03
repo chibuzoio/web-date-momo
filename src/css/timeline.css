@@ -2,36 +2,48 @@
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
 	.timelineWidget {
-		background: white;
+		background: white !important;
 	}
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
 	.timelineWidget {
-		background: white;
+/*		background: pink !important;*/
+		width: 65vw !important;
 	}               
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
 	.timelineWidget {
-		background: green;
+/*		background: green !important;*/
 	}               
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
 	.timelineWidget {
-		background: red;
+/*		background: red !important;*/
 	}               
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
 	.timelineWidget {
-		background: blue;
+/*		background: blue !important;*/
 	}               
+}
+
+.timelineCover {
+	background: #E5E7E9;
+	position: fixed;
+	display: flex;
+	height: 100vh;
+	width: 100vw;
+	z-index: 1;
+	left: 0px;
+	top: 0px;
 }
 
 .colorLoaderLayout {
@@ -115,6 +127,7 @@
 	padding-right: 1.5vw;
 	padding-bottom: 8vh;
 	padding-left: 1.5vw;
+	align-items: center;
 	padding-top: 9vh;
 	overflow-y: auto;
 	display: flex;

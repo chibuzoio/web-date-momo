@@ -54,6 +54,7 @@ class Timeline extends React.Component {
 			totalAvailablePages : 0,
 			lastDisplayPage : 0
 		},
+		displayTimelineCover : "flex",
 		stateLoaded : false
 	}}; 
 
@@ -128,6 +129,7 @@ class Timeline extends React.Component {
 	    					totalAvailablePages : response.data.homeDisplayResponses.length,
 	    					lastDisplayPage : response.data.homeDisplayResponses.length - 1
 	    				},
+	    				displayTimelineCover : state.contextData.displayTimelineCover,
 	    				stateLoaded : true
 	    			}
 	    		}});  
@@ -155,6 +157,7 @@ class Timeline extends React.Component {
 				},
 				closeLayoutIcon : state.contextData.closeLayoutIcon,
 				infiniteScrollingPage : state.contextData.infiniteScrollingPage,
+				displayTimelineCover : state.contextData.displayTimelineCover,
 				stateLoaded : state.contextData.stateLoaded
 			}
 		}});  
@@ -174,6 +177,7 @@ class Timeline extends React.Component {
 				},
 				closeLayoutIcon : state.contextData.closeLayoutIcon,
 				infiniteScrollingPage : state.contextData.infiniteScrollingPage,
+				displayTimelineCover : state.contextData.displayTimelineCover,
 				stateLoaded : state.contextData.stateLoaded
 			}
 		}});  
@@ -214,6 +218,7 @@ class Timeline extends React.Component {
 					menuLayoutDisplay : "flex",
 				},
 				infiniteScrollingPage : state.contextData.infiniteScrollingPage,
+				displayTimelineCover : state.contextData.displayTimelineCover,
 				stateLoaded : state.contextData.stateLoaded
 			}
 		}});  
@@ -369,6 +374,19 @@ class Timeline extends React.Component {
 		var currentUserPosition = event.currentTarget.getAttribute("data-current-user");
 		event.currentTarget.src = "https://datemomo.com/client/image/" 
 			+ this.state.contextData.userComposite.homeDisplayResponses[currentUserPosition].profilePicture;
+
+		event.currentTarget.onload = function() {
+	 		this.setState(function(state) { 
+				return {contextData : {
+					userComposite : state.contextData.userComposite,
+					floatingAccountData : state.contextData.floatingAccountData,
+					closeLayoutIcon : state.contextData.closeLayoutIcon,
+					infiniteScrollingPage : state.contextData.infiniteScrollingPage,
+					displayTimelineCover : "none",
+					stateLoaded : true
+				}
+			}});  
+		}.bind(this);
 	}
 
 	closeFloatingLayout(menuLayoutDisplay) {
@@ -391,6 +409,7 @@ class Timeline extends React.Component {
 						menuLayoutDisplay : "none",
 					},
 					infiniteScrollingPage : state.contextData.infiniteScrollingPage,
+					displayTimelineCover : state.contextData.displayTimelineCover,
 					stateLoaded : state.contextData.stateLoaded
 				}
 			}});  
@@ -417,6 +436,7 @@ class Timeline extends React.Component {
 				floatingAccountData : state.contextData.floatingAccountData,
 				closeLayoutIcon : state.contextData.closeLayoutIcon,
 				infiniteScrollingPage : state.contextData.infiniteScrollingPage,
+				displayTimelineCover : state.contextData.displayTimelineCover,
 				stateLoaded : state.contextData.stateLoaded
 			}
 		}});  
@@ -453,6 +473,7 @@ class Timeline extends React.Component {
 							totalAvailablePages : state.contextData.infiniteScrollingPage.totalAvailablePages,
 							lastDisplayPage : state.contextData.infiniteScrollingPage.lastDisplayPage
 						},
+						displayTimelineCover : state.contextData.displayTimelineCover,
 						stateLoaded : false
 					}
 				}});  
@@ -505,6 +526,7 @@ class Timeline extends React.Component {
 									totalAvailablePages : totalAvailablePages,
 									lastDisplayPage : lastDisplayPage
 								},
+								displayTimelineCover : state.contextData.displayTimelineCover,
 								stateLoaded : true
 							}
 						}});  
@@ -521,6 +543,7 @@ class Timeline extends React.Component {
 									totalAvailablePages : state.contextData.infiniteScrollingPage.totalAvailablePages,
 									lastDisplayPage : state.contextData.infiniteScrollingPage.lastDisplayPage
 								},
+								displayTimelineCover : state.contextData.displayTimelineCover,
 								stateLoaded : true
 							}
 						}});  
@@ -541,6 +564,7 @@ class Timeline extends React.Component {
 							totalAvailablePages : state.contextData.infiniteScrollingPage.totalAvailablePages,
 							lastDisplayPage : state.contextData.infiniteScrollingPage.lastDisplayPage
 						},
+						displayTimelineCover : state.contextData.displayTimelineCover,
 						stateLoaded : true
 					}
 				}});  
@@ -640,7 +664,11 @@ class Timeline extends React.Component {
 				</div>
 
 				<CloseLayoutIcon menuIconParts={this.state.contextData.closeLayoutIcon} onChangeIconDisplay={this.closeFloatingLayout} />
-
+				<div className="timelineCover" style={{display : this.state.contextData.displayTimelineCover}}>
+					<div className="colorLoaderLayout">
+						<img className="colorLoader" src={color_loader} alt="" />
+					</div>
+				</div>
 			</div>
 		);
 	}
