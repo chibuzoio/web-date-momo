@@ -116,7 +116,7 @@ class Timeline extends React.Component {
 
 		window.addEventListener('resize', this.updateGradientHeight);
 		window.addEventListener('scroll', this.detectScrollBottom);
- 
+
 		axios.post("https://datemomo.com/service/matcheduserdata.php", this.requestData)
 			.then(response => {
 	    		this.setState(function(state) { 
@@ -494,9 +494,9 @@ class Timeline extends React.Component {
                         break
                     }
 				}
-       
+
 				axios.post("https://datemomo.com/service/morematcheduserdata.php", moreMatchedUserRequest)
-			    	.then(response => {
+					.then(response => {
 			    		var homeDisplayResponsesData = this.state.contextData.userComposite.homeDisplayResponses.concat(response.data);
 
 			    		var memberIdArray = [];
@@ -595,36 +595,44 @@ class Timeline extends React.Component {
               
 		return (
 			<div>
-				<div className="scrollView" ref={(homeDisplayScroller) => 
-					{this.homeDisplayScroller = homeDisplayScroller}} onScroll={this.detectScrollBottom}>
-					{ 
-						this.state.contextData.userComposite.homeDisplayResponses.map((homeDisplayUser, index) => ( 
-							<div className="timelineWidget"> 
-								<img className="centerCropped" onClick={this.displayFloatingLayout} 
-									data-current-user={index} src={motion_placeholder} alt="" 
-									onLoad={this.replaceImagePlaceholder} /> 
-								<div className="bottomContentLayout">
-									<div className="userNameLayout" data-current-user={index}  
-										onClick={this.displayFloatingLayout}>
-										<div className="userNameText">
-											{homeDisplayUser.userName.charAt(0).toUpperCase() 
-											+ homeDisplayUser.userName.slice(1)}, {homeDisplayUser.age}
+				<div className="outerParentLayout">
+
+					<div className="leftMenuLayout">
+
+					</div>
+
+					<div className="scrollView" ref={(homeDisplayScroller) => 
+						{this.homeDisplayScroller = homeDisplayScroller}} onScroll={this.detectScrollBottom}>
+						{ 
+							this.state.contextData.userComposite.homeDisplayResponses.map((homeDisplayUser, index) => ( 
+								<div className="timelineWidget"> 
+									<img className="centerCropped" onClick={this.displayFloatingLayout} 
+										data-current-user={index} src={motion_placeholder} alt="" 
+										onLoad={this.replaceImagePlaceholder} /> 
+									<div className="bottomContentLayout">
+										<div className="userNameLayout" data-current-user={index}  
+											onClick={this.displayFloatingLayout}>
+											<div className="userNameText">
+												{homeDisplayUser.userName.charAt(0).toUpperCase() 
+												+ homeDisplayUser.userName.slice(1)}, {homeDisplayUser.age}
+											</div>
+											<div className="locationText">{homeDisplayUser.currentLocation}</div>
 										</div>
-										<div className="locationText">{homeDisplayUser.currentLocation}</div>
-									</div>
-									<div className="likeIconLayout" ref={(userTimelineLiker) => 
-										{this.userTimelineLiker = userTimelineLiker}} data-current-user={index} 
-										onClick={this.clickLikeUser}>
-										{this.changeLikedIcon(homeDisplayUser.liked)}
+										<div className="likeIconLayout" ref={(userTimelineLiker) => 
+											{this.userTimelineLiker = userTimelineLiker}} data-current-user={index} 
+											onClick={this.clickLikeUser}>
+											{this.changeLikedIcon(homeDisplayUser.liked)}
+										</div>
 									</div>
 								</div>
-							</div>
-						))
-					}
-					<div className="colorLoaderLayout" style={{display : 
-						this.state.contextData.infiniteScrollingPage.colorLoadingDisplay}}>
-						<img className="colorLoader" src={color_loader} alt="" />
+							))
+						}
+						<div className="colorLoaderLayout" style={{display : 
+							this.state.contextData.infiniteScrollingPage.colorLoadingDisplay}}>
+							<img className="colorLoader" src={color_loader} alt="" />
+						</div>
 					</div>
+
 				</div>
 
 				<div className="floatingUserAccountLayout" 
