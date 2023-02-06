@@ -20,11 +20,19 @@
 	}
 
 	.outerParentLayout {
+		justify-content: space-between !important;
+		padding-right: 1.5vw !important;
 		padding-bottom: 1vh !important;
+		padding-left: 1.5vw !important; 
 	}
 
 	.scrollView {
 		width: 60% !important;
+	}
+
+	.heartIcon {
+		height: 4vmin !important;
+		width: 4vmin !important;
 	}
 }
 
@@ -88,17 +96,18 @@
 }
 
 .locationText {
-	font-size: calc(10px + 0.5vmin);
-	margin-right: 5vmin;
-	margin-left: 5vmin;
+	font-size: calc(10px + 0.3vmin);
+	margin-right: 5%;
+	margin-left: 5%;
+	margin-top: 1px;
 	float: left;	
 }
 
 .userNameText {
-	font-size: calc(10px + 2vmin);
-	margin-right: 5vmin;
-	margin-left: 5vmin;
-	font-style: bold;
+	font-size: calc(10px + 1vmin);
+	margin-right: 5%;
+	font-weight: 500;
+	margin-left: 5%;
 	float: left;
 }
 
@@ -116,8 +125,9 @@
 	margin-top: -0.5vmin;
 	flex-direction: row;
 	display: flex;
+/*	background: pink;*/
 	width: 100%;
-	height: 12%;
+	height: 10%;
 }
 
 .centerCropped {
@@ -126,16 +136,14 @@
 	border-radius: 25px;
 	object-fit: cover;
 	cursor: pointer;
-	height: 87%;
+	height: 89%;
 	width: 100%;
 }
 
 .outerParentLayout {
-	justify-content: space-between;
-	padding-right: 1.5vw;
-	padding-bottom: 8vh;
+	justify-content: center;
 	flex-direction: row;
-	padding-left: 1.5vw;
+	padding-bottom: 8vh;
 	padding-top: 9vh;
 	display: flex;
 	height: 100vh;
@@ -155,7 +163,7 @@
 	overflow-y: auto;
 	display: flex;
 	height: 100%;
-	width: 100%;
+	width: 97%;
 }
    
 .leftMenuLayout {
@@ -171,7 +179,7 @@
 	border-radius: 25px;
 	background: white;
 	height: 87vmin;
-	width: 97%;
+	width: 100%;
 }
 
 * { 
