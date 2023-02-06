@@ -6,7 +6,10 @@ import '../css/timeline.css';
 import '../css/floating_account.css';
 import placeholder from '../image/placeholder.jpg';
 import icon_menu_black from '../image/icon_menu_black.png';
+import icon_gallery_blue from '../image/icon_gallery_blue.png'; 
 import RoundPicture from '../component/round_picture';
+import BottomMenuIcon from '../component/bottom_menu_icon';
+import IconProfilePicture from '../component/icon_profile_picture';
 import RightIconFormField from '../component/right_icon_form_field';
 import icon_heart_hollow from '../image/icon_heart_hollow.png';
 import icon_heart_red from '../image/icon_heart_red.png';
@@ -17,6 +20,7 @@ import SexualityBiometrics from '../widget/sexuality_biometrics';
 import LeftIconHollowButton from '../component/left_icon_hollow_button';
 import motion_placeholder from '../image/motion_placeholder.gif';
 import icon_close_white from '../image/icon_close_white.png';
+import icon_edit_white from '../image/icon_edit_white.png';
 import icon_view_blue from '../image/icon_view_blue.png';
 import color_loader from '../image/color_loader.gif';
 import logo from '../image/datemomo.png';
@@ -593,12 +597,68 @@ class Timeline extends React.Component {
 			leftHollowButtonTitleClass : "leftHollowButtonTitle"
 		}
               
+		var profilePictureParts = {
+			roundPicture : "https://datemomo.com/client/image/" + 
+				this.currentUser.profilePicture,
+			pictureLayoutClass : "profilePictureLayout pictureLayoutClass",
+			profilePictureClass : "profilePictureImage profilePictureClass",
+			pictureChangeClass : "profilePictureIcon pictureChangeClass"
+		}
+
+		var leftMenuProfileButton = {
+			buttonTitle : "View Profile",
+			buttonIcon : icon_view_blue,
+			leftIconHollowButtonClass : "leftIconHollowButtonClass hollowButton",
+			leftHollowButtonContentClass : "leftHollowButtonContentClass",
+			hollowButtonLeftIconClass : "hollowButtonLeftIconClass",
+			leftHollowButtonTitleClass : "leftHollowButtonTitleClass"
+		}
+
+		var leftMenuPhotoButton = {
+			buttonTitle : "Photos",
+			buttonIcon : icon_gallery_blue,
+			leftIconHollowButtonClass : "leftIconHollowButtonClass hollowButton leftMenuPhotoButton",
+			leftHollowButtonContentClass : "leftHollowButtonContentClass",
+			hollowButtonLeftIconClass : "hollowButtonLeftIconClass",
+			leftHollowButtonTitleClass : "leftHollowButtonTitleClass"	
+		}
+
+		var leftMenuEditorButton = {
+			bottomMenuClass : "bottomMenuLayout bottomMenuClass selectedMenuLayout",
+			menuIcon : icon_edit_white
+		}
+
 		return (
 			<div>
 				<div className="outerParentLayout">
 
 					<div className="leftMenuLayout">
+						<div className="profileMenuLayout leftMenuContent">
+							<div className="profileMenuUpperLayout">
+								<IconProfilePicture pictureParts={profilePictureParts} />
+								<div className="leftUpperPhotoButtons">
+									<LeftIconHollowButton buttonParts={leftMenuPhotoButton} />
+									<BottomMenuIcon menuParts={leftMenuEditorButton} />
+								</div>
+							</div>
+							<div className="profileMenuLowerLayout">
+								<div className="leftMenuUserName">
+									{this.currentUser.userName.charAt(0).toUpperCase() + 
+										this.currentUser.userName.slice(1)}
+								</div>
+								<div className="leftMenuLocation">
+									{(this.currentUser.currentLocation === "") ? 
+										"Location not Set" : this.currentUser.currentLocation}
+								</div>
+								<LeftIconHollowButton buttonParts={leftMenuProfileButton} />
+							</div>
+						</div>
+						<div className="messengerMenuLayout leftMenuContent">
 
+						</div>
+						<div className="notificationMenuLayout leftMenuContent">
+
+						</div>
 					</div>
 
 					<div className="scrollView" ref={(homeDisplayScroller) => 
