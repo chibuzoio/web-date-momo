@@ -8,6 +8,7 @@ import placeholder from '../image/placeholder.jpg';
 import icon_menu_black from '../image/icon_menu_black.png';
 import icon_gallery_blue from '../image/icon_gallery_blue.png'; 
 import RoundPicture from '../component/round_picture';
+import ActiveMessenger from '../widget/active_messenger';
 import BottomMenuIcon from '../component/bottom_menu_icon';
 import IconProfilePicture from '../component/icon_profile_picture';
 import RightIconFormField from '../component/right_icon_form_field';
@@ -33,6 +34,7 @@ class Timeline extends React.Component {
 			homeDisplayResponses : [],
 			thousandRandomCounter : []
 		},
+		messengerResponses : [],
 		floatingAccountData : {
 			sexualExperienceButtons : [],
 			sexualInterestButtons : [],
@@ -69,6 +71,7 @@ class Timeline extends React.Component {
 		this.buildSexualInterestButtons = this.buildSexualInterestButtons.bind(this);
 		this.buildSexualCategoryButtons = this.buildSexualCategoryButtons.bind(this);
 		this.replaceImagePlaceholder = this.replaceImagePlaceholder.bind(this);
+		this.displayMessengerContent = this.displayMessengerContent.bind(this);
 		this.displayFloatingLayout = this.displayFloatingLayout.bind(this);
 		this.updateGradientHeight = this.updateGradientHeight.bind(this);
 		this.closeFloatingLayout = this.closeFloatingLayout.bind(this);
@@ -126,6 +129,7 @@ class Timeline extends React.Component {
 	    		this.setState(function(state) { 
 	    			return {contextData : {
 	    				userComposite : response.data,
+	    				messengerResponses : state.contextData.messengerResponses,
 	    				floatingAccountData : state.contextData.floatingAccountData,
 	    				closeLayoutIcon : state.contextData.closeLayoutIcon,
 	    				infiniteScrollingPage : {
@@ -140,6 +144,23 @@ class Timeline extends React.Component {
 	        }, error => {
 	        	console.log(error);
 	        });
+
+		axios.post("https://datemomo.com/service/usermessengersdata.php", this.requestData)
+	    	.then(response => {
+	    		this.setState(function(state) { 
+	    			return {contextData : {
+	    				userComposite : state.contextData.userComposite,
+	    				messengerResponses : response.data,
+	    				floatingAccountData : state.contextData.floatingAccountData,
+	    				closeLayoutIcon : state.contextData.closeLayoutIcon,
+	    				infiniteScrollingPage : state.contextData.infiniteScrollingPage,
+	    				displayTimelineCover : state.contextData.displayTimelineCover,
+	    				stateLoaded : state.contextData.stateLoaded
+		    		}
+	    		}});
+	        }, error => {
+	        	console.log(error);
+	        });
 	}
 
 	componentWillUnmount() {
@@ -151,6 +172,7 @@ class Timeline extends React.Component {
 		this.setState(function(state) { 
 			return {contextData : {
 				userComposite : state.contextData.userComposite,
+				messengerResponses : state.contextData.messengerResponses,
 				floatingAccountData : {
 					sexualExperienceButtons : state.contextData.floatingAccountData.sexualExperienceButtons,
 					sexualInterestButtons : state.contextData.floatingAccountData.sexualInterestButtons,
@@ -171,6 +193,7 @@ class Timeline extends React.Component {
 		this.setState(function(state) { 
 			return {contextData : {
 				userComposite : state.contextData.userComposite,
+				messengerResponses : state.contextData.messengerResponses,
 				floatingAccountData : {
 					sexualExperienceButtons : state.contextData.floatingAccountData.sexualExperienceButtons,
 					sexualInterestButtons : state.contextData.floatingAccountData.sexualInterestButtons,
@@ -201,6 +224,7 @@ class Timeline extends React.Component {
 		this.setState(function(state) { 
 			return {contextData : {
 				userComposite : state.contextData.userComposite,
+				messengerResponses : state.contextData.messengerResponses,
 				floatingAccountData : {
 					sexualExperienceButtons : this.buildSexualExperienceButtons(currentUserPosition),
 					sexualInterestButtons : this.buildSexualInterestButtons(currentUserPosition),
@@ -383,6 +407,7 @@ class Timeline extends React.Component {
 	 		this.setState(function(state) { 
 				return {contextData : {
 					userComposite : state.contextData.userComposite,
+					messengerResponses : state.contextData.messengerResponses,
 					floatingAccountData : state.contextData.floatingAccountData,
 					closeLayoutIcon : state.contextData.closeLayoutIcon,
 					infiniteScrollingPage : state.contextData.infiniteScrollingPage,
@@ -398,6 +423,7 @@ class Timeline extends React.Component {
 			this.setState(function(state) { 
 				return {contextData : {
 					userComposite : state.contextData.userComposite,
+					messengerResponses : state.contextData.messengerResponses,
 					floatingAccountData : {
 						sexualExperienceButtons : state.contextData.floatingAccountData.sexualExperienceButtons,
 						sexualInterestButtons : state.contextData.floatingAccountData.sexualInterestButtons,
@@ -437,6 +463,7 @@ class Timeline extends React.Component {
 					homeDisplayResponses : homeDisplayResponses,
 					thousandRandomCounter : state.contextData.userComposite.thousandRandomCounter
 				},
+				messengerResponses : state.contextData.messengerResponses,
 				floatingAccountData : state.contextData.floatingAccountData,
 				closeLayoutIcon : state.contextData.closeLayoutIcon,
 				infiniteScrollingPage : state.contextData.infiniteScrollingPage,
@@ -470,6 +497,7 @@ class Timeline extends React.Component {
 				this.setState(function(state) { 
 					return {contextData : {
 						userComposite : state.contextData.userComposite,
+						messengerResponses : state.contextData.messengerResponses,
 						floatingAccountData : state.contextData.floatingAccountData,
 						closeLayoutIcon : state.contextData.closeLayoutIcon,
 						infiniteScrollingPage : {
@@ -523,6 +551,7 @@ class Timeline extends React.Component {
 									homeDisplayResponses : homeDisplayResponses,
 									thousandRandomCounter : state.contextData.userComposite.thousandRandomCounter
 								},
+								messengerResponses : state.contextData.messengerResponses,
 								floatingAccountData : state.contextData.floatingAccountData,
 								closeLayoutIcon : state.contextData.closeLayoutIcon,
 								infiniteScrollingPage : {
@@ -540,6 +569,7 @@ class Timeline extends React.Component {
 						this.setState(function(state) { 
 							return {contextData : {
 								userComposite : state.contextData.userComposite,
+								messengerResponses : state.contextData.messengerResponses,
 								floatingAccountData : state.contextData.floatingAccountData,
 								closeLayoutIcon : state.contextData.closeLayoutIcon,
 								infiniteScrollingPage : {
@@ -561,6 +591,7 @@ class Timeline extends React.Component {
 				this.setState(function(state) { 
 					return {contextData : {
 						userComposite : state.contextData.userComposite,
+						messengerResponses : state.contextData.messengerResponses,
 						floatingAccountData : state.contextData.floatingAccountData,
 						closeLayoutIcon : state.contextData.closeLayoutIcon,
 						infiniteScrollingPage : {
@@ -573,6 +604,42 @@ class Timeline extends React.Component {
 					}
 				}});  
 			}
+		}
+	}
+
+	displayMessengerContent() {
+		if (this.state.contextData.messengerResponses.length > 0) {
+			var messengerComposite = [];
+			var messengerContent = {
+				messengerResponse : {},
+				messengerClasses : {
+					messengerContentLayout : "activeMessengerContent",
+					chatMateUserName : "chatMateUserName",
+					roundPictureClass : "emptyMessengerPicture",
+					roundPictureLayout : "roundPictureContainer",
+					userNameMessageLayout : "userNameMessageLayout",
+					messagePropertiesLayout : "messagePropertiesLayout",
+					unreadMessageCounter : "unreadMessageCounter basicButton",
+					lastMessageDate : "lastMessageDate"
+				}
+			}
+
+			for (var i = 0; i < this.state.contextData.messengerResponses.length; i++) {
+				messengerContent.messengerResponse = this.state.contextData.messengerResponses[i];
+				messengerComposite.push(messengerContent);
+
+				if (i > 2) {
+					break;
+				}
+			}
+       
+			return (
+				<ActiveMessenger activeMessengerComposite={messengerComposite} />
+			);
+		} else {
+			// return (
+
+			// );
 		}
 	}
 
@@ -648,15 +715,18 @@ class Timeline extends React.Component {
 								</div>
 								<div className="leftMenuLocation">
 									{(this.currentUser.currentLocation === "") ? 
-										"Location not Set" : this.currentUser.currentLocation}
+										"Location Not Set" : this.currentUser.currentLocation}
 								</div>
 								<LeftIconHollowButton buttonParts={leftMenuProfileButton} />
 							</div>
 						</div>
 						<div className="messengerMenuLayout leftMenuContent">
-
+							<div className="leftMenuHeader">Chats</div>
+							{this.displayMessengerContent()}
 						</div>
 						<div className="notificationMenuLayout leftMenuContent">
+							<div className="leftMenuHeader">Notifications</div>
+							{/* Load Notifications from the server here */}
 
 						</div>
 					</div>
@@ -676,7 +746,8 @@ class Timeline extends React.Component {
 												{homeDisplayUser.userName.charAt(0).toUpperCase() 
 												+ homeDisplayUser.userName.slice(1)}, {homeDisplayUser.age}
 											</div>
-											<div className="locationText">{homeDisplayUser.currentLocation}</div>
+											<div className="locationText">{(homeDisplayUser.currentLocation === "") ? 
+												"Location Not Set" : homeDisplayUser.currentLocation}</div>
 										</div>
 										<div className="likeIconLayout" ref={(userTimelineLiker) => 
 											{this.userTimelineLiker = userTimelineLiker}} data-current-user={index} 

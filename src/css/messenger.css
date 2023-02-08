@@ -205,6 +205,10 @@
 	height: 9%;
 }
       
+.activeMessengerLayout {
+	
+}
+
 .genericMessengerLayout {
 	font-size: calc(10px + 2vmin);
 	flex-direction: column;

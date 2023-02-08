@@ -202,22 +202,33 @@
 }
  
 .notificationMenuLayout {
-
+	padding-bottom: 1vmin;
+	padding-right: 2vmin;
+	padding-left: 2vmin;
+	padding-top: 1vmin;
 }
 
 .messengerMenuLayout {
-	
+	padding-bottom: 1vmin;
+	padding-right: 2vmin;
+	padding-left: 2vmin;
+	padding-top: 1vmin;
 }
 
 .profileMenuLayout {
 	justify-content: space-between;
-	flex-direction: column;
-	display: flex;
+}
+
+.leftMenuHeader {
+	font-size: calc(10px + 1vmin);
+	font-weight: 500;
 }
 
 .leftMenuContent {
+	flex-direction: column;
 	border-radius: 25px;
 	background: white;
+	display: flex;
 	height: 32.5%;
 	width: 100%;
 }
