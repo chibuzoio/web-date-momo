@@ -2,6 +2,7 @@ import React from 'react';
 import '../css/input.css';
 import '../css/messenger.css';
 import RoundPicture from '../component/round_picture';
+import {getTimeDifference} from '../utility/utility';
 import test_image from '../image/test_image.png';
 
 class ActiveMessengerContent extends React.Component {
@@ -33,7 +34,8 @@ class ActiveMessengerContent extends React.Component {
 					<div className={this.props.messengerComposite.messengerClasses.unreadMessageCounter}>
 						{this.props.messengerComposite.messengerResponse.unreadMessageCount}</div>
 					<div className={this.props.messengerComposite.messengerClasses.lastMessageDate}>
-						{this.props.messengerComposite.messengerResponse.lastMessageDate}</div>
+						{getTimeDifference(this.props.messengerComposite.messengerResponse.lastMessageDate, 
+						this.props.messengerComposite.messengerClasses.timeFullText)}</div>
 				</div>
 			</div>
 		);

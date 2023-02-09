@@ -57,6 +57,23 @@
 	}               
 }
 
+.messengerFooterLayout {
+	font-size: calc(10px + 0.5vmin);
+	justify-content: flex-end;
+	flex-direction: row;
+	align-items: center;
+	font-weight: 400;
+	cursor: pointer;
+	color: #097ECA;
+	display: flex;
+	height: 15%;
+}
+
+.messengerMessageLayout {
+/*	background: yellow;*/
+	height: 73%;
+}
+
 .leftMenuLocation {
 	font-size: calc(10px + 0.3vmin);
 	margin-bottom: 1vmin;

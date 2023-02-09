@@ -613,20 +613,22 @@ class Timeline extends React.Component {
 			var messengerContent = {
 				messengerResponse : {},
 				messengerClasses : {
-					messengerContentLayout : "activeMessengerContent",
-					chatMateUserName : "chatMateUserName",
-					roundPictureClass : "emptyMessengerPicture",
+					messengerContentLayout : "activeMessengerContent messengerContentTimeline",
+					chatMateUserName : "chatMateUserName chatMateUserNameTimeline",
+					roundPictureClass : "emptyMessengerPicture messengerPictureTimeline",
 					roundPictureLayout : "roundPictureContainer",
-					userNameMessageLayout : "userNameMessageLayout",
+					userNameMessageLayout : "userNameMessageLayout userNameMessageLayoutTimeline",
 					messagePropertiesLayout : "messagePropertiesLayout",
-					unreadMessageCounter : "unreadMessageCounter basicButton",
-					lastMessageDate : "lastMessageDate"
+					unreadMessageCounter : "unreadMessageCounter unreadMessageCounterTimeline basicButton",
+					lastMessageDate : "lastMessageDate",
+					timeFullText : false
 				}
 			}
 
 			for (var i = 0; i < this.state.contextData.messengerResponses.length; i++) {
 				messengerContent.messengerResponse = this.state.contextData.messengerResponses[i];
 				messengerComposite.push(messengerContent);
+				// messengerComposite.push(messengerContent); // Remove later
 
 				if (i > 2) {
 					break;
@@ -722,12 +724,21 @@ class Timeline extends React.Component {
 						</div>
 						<div className="messengerMenuLayout leftMenuContent">
 							<div className="leftMenuHeader">Chats</div>
-							{this.displayMessengerContent()}
+							<div className="messengerMessageLayout">
+								{this.displayMessengerContent()}
+							</div>
+							<div className="messengerFooterLayout">
+								<u>Messenger</u>
+							</div>
 						</div>
 						<div className="notificationMenuLayout leftMenuContent">
 							<div className="leftMenuHeader">Notifications</div>
-							{/* Load Notifications from the server here */}
-
+							<div className="messengerMessageLayout">
+								
+							</div>
+							<div className="messengerFooterLayout">
+								<u>Notification</u>
+							</div>
 						</div>
 					</div>
 

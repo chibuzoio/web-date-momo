@@ -47,6 +47,14 @@
 	color: #808B96;	
 }
 
+.unreadMessageCounterTimeline {
+	font-size: calc(10px + 0.3vmin) !important;
+	padding-bottom: 0.3vmin !important;
+	padding-right: 0.8vmin !important;
+	padding-top: 0.2vmin !important;
+	padding-left: 0.8vmin !important;
+}
+
 .unreadMessageCounter {
 	font-size: calc(10px + 0.7vmin);
 	padding-bottom: 0.5vmin;
@@ -68,12 +76,17 @@
 	justify-content: space-around;	
 }
 
+.userNameMessageLayoutTimeline {
+	margin-right: 1vmin;
+	margin-left: 1vmin;	
+}
+
 .userNameMessageLayout {
-	width: 65%;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
 	justify-content: space-around;
+	flex-direction: column;
+	display: flex;
+	height: 100%;
+	width: 65%;
 }
 
 .activeMessengerHeader {
@@ -93,18 +106,22 @@
 	font-size: calc(10px + 1.2vmin);	
 }
 
+.chatMateUserNameTimeline {
+	font-size: calc(10px + 0.7vmin) !important;
+}
+
 .chatMateUserName {
-	font-style: bold;
-	font-size: calc(10px + 1vmin);	
+	font-size: calc(10px + 1vmin);
+	font-weight: 500;
 }
 
 .messagePropertiesLayout {
-	width: 18%;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
 	justify-content: space-around;	
+	flex-direction: column;
 	align-items: center;
+	display: flex;
+	height: 100%;
+	width: 18%;
 }
 
 .wavingIconContainer {
@@ -117,12 +134,13 @@
 }
 
 .roundPictureContainer {
-	width: 17%;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
 	justify-content: center;
+	flex-direction: column;
 	align-items: center;
+	display: flex;
+	height: 100%;
+/*	background: yellow;*/
+	width: 17%;
 }
 
 .messengerWavingIcon { 
@@ -155,14 +173,21 @@
 	height: 14vmin;
 }
 
+.messengerContentTimeline {
+	justify-content: space-around !important;
+	margin-top: 0.5vmin !important;	
+	height: 9vmin !important;
+}
+
 .activeMessengerContent {
-	display: flex;	
-	cursor: pointer;
-	flex-direction: row;
 	justify-content: space-between;
-	width: 100%;
-	height: 15vmin;
+	flex-direction: row;
+/*	background: yellow;*/
 	margin-top: 1vmin;
+	cursor: pointer;
+	height: 15vmin;
+	display: flex;	
+	width: 100%;
 }
 
 .emptyMessengerContent {
