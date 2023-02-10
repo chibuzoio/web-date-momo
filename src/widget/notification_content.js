@@ -9,6 +9,19 @@ class NotificationContent extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.formatNotifierUserName = this.formatNotifierUserName.bind(this);
+	}
+
+	formatNotifierUserName() {
+		var gottenUserName = this.props.notificationComposite.notificationResponse.genericNotification
+			.substring((this.props.notificationComposite.notificationResponse.genericNotification.indexOf("{") + 1), 
+			this.props.notificationComposite.notificationResponse.genericNotification.indexOf("}"));
+		var notificationText = this.props.notificationComposite.notificationResponse.genericNotification
+			.substring(this.props.notificationComposite.notificationResponse.genericNotification.indexOf("}") + 1);
+	  
+		return (
+			<><span className={this.props.notificationComposite.notificationClasses.notifierUserName}>{gottenUserName}</span>{notificationText}</>
+		);
 	}
 
 	render() {
@@ -25,8 +38,10 @@ class NotificationContent extends React.Component {
 				</div>
 				<div className={this.props.notificationComposite.notificationClasses.notificationLayout}> 
 					<div className={this.props.notificationComposite.notificationClasses.notificationTitle}>
-						{this.props.notificationComposite.notificationResponse.genericNotification}</div> 
-					<div className="chatLastMessage">{getTimeDifference(this.props.notificationComposite.notificationResponse.notificationDate, true)}</div>
+						{this.formatNotifierUserName()}</div> 
+					<div className="chatLastMessage">
+						{getTimeDifference(this.props.notificationComposite.notificationResponse.notificationDate, 
+						true)}</div>
 				</div>   
 			</div>
 		);

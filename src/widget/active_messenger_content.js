@@ -28,7 +28,8 @@ class ActiveMessengerContent extends React.Component {
 						{this.props.messengerComposite.messengerResponse.userName.charAt(0).toUpperCase() + 
 							this.props.messengerComposite.messengerResponse.userName.slice(1)}</div>
 					<div className="chatLastMessage">{decodeURIComponent(this.props.messengerComposite
-						.messengerResponse.lastMessage).split("+").join(" ")}</div>
+						.messengerResponse.lastMessage).split("+").join(" ").substring(0, 35) + 
+						((this.props.messengerComposite.messengerResponse.lastMessage.length > 35) ? "..." : "")}</div>
 				</div>
 				<div className={this.props.messengerComposite.messengerClasses.messagePropertiesLayout}>				
 					<div className={this.props.messengerComposite.messengerClasses.unreadMessageCounter}>

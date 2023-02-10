@@ -691,10 +691,11 @@ class Timeline extends React.Component {
 					notificationResponse : this.state.contextData.notificationResponses[i],
 					notificationClasses : {
 						notificationContentLayout : "activeMessengerContent notificationContentTimeline",
-						notificationTitle : "chatMateUserName chatMateUserNameTimeline",
+						notificationTitle : "notificationTitleTimeline",
 						roundPictureClass : "emptyMessengerPicture messengerPictureTimeline",
 						roundPictureLayout : "roundPictureContainer",
-						notificationLayout : "notificationComponentLayout notificationTimeline"
+						notificationLayout : "notificationComponentLayout notificationTimeline",
+						notifierUserName : "notifierUserName"
 					}
 				}
 

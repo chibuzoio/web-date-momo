@@ -111,6 +111,15 @@
 	font-size: calc(10px + 1.2vmin);	
 }
 
+.notificationTitleTimeline {
+	font-size: calc(10px + 0.6vmin) !important;
+	font-weight: 400;
+}
+
+.notifierUserName {
+	font-weight: 500;
+}
+
 .chatMateUserNameTimeline {
 	font-size: calc(10px + 0.7vmin) !important;
 }
