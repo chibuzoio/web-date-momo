@@ -245,6 +245,7 @@
 	flex-direction: column;
 	border-radius: 25px;
 	background: white;
+	overflow: hidden;
 	display: flex;
 	height: 32.5%;
 	width: 100%;

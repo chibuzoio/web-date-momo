@@ -30,8 +30,6 @@ class Notification extends React.Component {
 	    			notificationResponses : response.data,
 	    			stateLoaded : true
 		    	}});
-
-	    		console.log("The response data here from querying all notifications here is " + JSON.stringify(response.data));
 	        }, error => {
 	        	console.log(error);
 	        });
