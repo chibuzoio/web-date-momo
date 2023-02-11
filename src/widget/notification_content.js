@@ -2,29 +2,46 @@ import React from 'react';
 import '../css/input.css';
 import '../css/messenger.css';
 import RoundPicture from '../component/round_picture';
+import {getTimeDifference} from '../utility/utility';
 import test_image from '../image/test_image.png';
 
 class NotificationContent extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {}; 
+		this.formatNotifierUserName = this.formatNotifierUserName.bind(this);
+	}
+
+	formatNotifierUserName() {
+		var gottenUserName = this.props.notificationComposite.notificationResponse.genericNotification
+			.substring((this.props.notificationComposite.notificationResponse.genericNotification.indexOf("{") + 1), 
+			this.props.notificationComposite.notificationResponse.genericNotification.indexOf("}"));
+		var notificationText = this.props.notificationComposite.notificationResponse.genericNotification
+			.substring(this.props.notificationComposite.notificationResponse.genericNotification.indexOf("}") + 1);
+	  
+		return (
+			<><span className={this.props.notificationComposite.notificationClasses.notifierUserName}>{gottenUserName}</span>{notificationText}</>
+		);
 	}
 
 	render() {
 		var roundPictureParts = {
-			roundPictureClass : "emptyMessengerPicture",
-			roundPicture : test_image
+			roundPictureClass : this.props.notificationComposite.notificationClasses.roundPictureClass, 
+			roundPicture : "https://datemomo.com/client/image/" + 
+				this.props.notificationComposite.notificationResponse.profilePicture
 		};
                
 		return (
-			<div className="notificationOuterLayout">
-				<div className="roundPictureContainer">
+			<div className={this.props.notificationComposite.notificationClasses.notificationContentLayout}> 
+				<div className={this.props.notificationComposite.notificationClasses.roundPictureLayout}> 
 					<RoundPicture pictureParts={roundPictureParts} />
 				</div>
-				<div className="notificationComponentLayout">
-					<div className="notificationTitle">Solution reacted to your profile picture</div>
-					<div className="chatLastMessage">8 days ago</div>
+				<div className={this.props.notificationComposite.notificationClasses.notificationLayout}> 
+					<div className={this.props.notificationComposite.notificationClasses.notificationTitle}>
+						{this.formatNotifierUserName()}</div> 
+					<div className="chatLastMessage">
+						{getTimeDifference(this.props.notificationComposite.notificationResponse.notificationDate, 
+						true)}</div>
 				</div>   
 			</div>
 		);

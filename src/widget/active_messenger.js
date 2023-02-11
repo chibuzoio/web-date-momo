@@ -6,28 +6,18 @@ class ActiveMessenger extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {}; 
 	}
 
 	render() {  
 		return (
-			<div className="genericMessengerLayout">
-				<div className="activeMessengerHeader">Chats</div>
-				<ActiveMessengerContent />
-				<ActiveMessengerContent />
-				<ActiveMessengerContent />
-				<ActiveMessengerContent />
-				<ActiveMessengerContent />
-				<ActiveMessengerContent />
-				<ActiveMessengerContent />
-				<ActiveMessengerContent />
-				<ActiveMessengerContent />
-				<ActiveMessengerContent />
-				<ActiveMessengerContent />
-				<ActiveMessengerContent />
-				<ActiveMessengerContent />
-				<ActiveMessengerContent />
-				<ActiveMessengerContent />
+			<div className="activeMessengerLayout">
+
+				{
+					this.props.activeMessengerComposite.map((messengerContent) => ( 
+						<ActiveMessengerContent messengerComposite={messengerContent} />
+					))
+				}
+
 				<div className="bottomPadding"><p></p></div>
 			</div>
 		);

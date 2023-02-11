@@ -278,14 +278,27 @@
 	width: 100%;
 }
 
+.pictureChangeClass {
+/*	margin-left: 65px !important;*/
+/*	margin-top: -27px !important;*/
+	height: 19.057px !important;
+	width: 19.057px !important;
+}
+
 .profilePictureIcon {
 	margin-left: 73px;
 	margin-top: -23px;
 	height: 23px;
 	width: 23px;
-	z-index: 2;
+	z-index: 1;
 	left: 0px;
 	top: 0px;
+}
+
+.profilePictureClass {
+	margin-top: -0.7vmin !important;
+	height: 78.714px !important;
+	width: 78.714px !important;
 }
 
 .profilePictureImage {
@@ -296,6 +309,13 @@
 	cursor: pointer;
 	height: 95px;
 	width: 95px;
+}
+
+.pictureLayoutClass {
+	height: 87px !important;
+	width: 87px !important;
+/*	margin-left: 2vmin !important;*/
+/*	margin-top: 2vmin !important;*/
 }
 
 .profilePictureLayout {

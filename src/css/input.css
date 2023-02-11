@@ -1,3 +1,33 @@
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+	
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+	.menuLayoutClass {    
+		margin-left: 93.5vw !important;
+		height: 4vmin !important;
+		width: 4vmin !important;
+	}	 
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+
+}
+
 .basicHollowButton {
 	flex-direction: column;
 	display: inline-flex;
@@ -85,6 +115,13 @@
 	width: 3.3vmin;
 }
 
+.bottomMenuClass {
+	margin-bottom: 0vmin !important;
+	border-radius: 11px !important;
+	height: 4.5vmin !important;
+	width: 3vmin !important;
+}
+
 .bottomMenuLayout {
 	justify-content: center;
 	flex-direction: row;
@@ -136,14 +173,31 @@
 	height: 7vmin;
 }
 
+.leftHollowButtonContentClass {
+	justify-content: space-around;
+	flex-direction: row;
+	align-items: center;
+	display: flex;
+}
+
 .leftHollowButtonContent {
 	justify-content: center;
 	display: inline-flex;
 }
 
+.leftHollowButtonTitleClass {
+	color: #097ECA;
+}
+
 .leftHollowButtonTitle {
 	display: inline-block;
 	color: #097ECA;
+}
+
+.hollowButtonLeftIconClass {
+	margin-right: 1vmin;
+	height: 3vmin;
+	width: 3vmin;	
 }
 
 .hollowButtonLeftIcon {
@@ -184,6 +238,22 @@
 	justify-content: center;
 	border-radius: 8px;
 	margin-bottom: 2vmin;
+}
+
+.leftMenuPhotoButton {
+	padding-right: 2vmin !important;
+	padding-left: 2vmin !important;
+}
+
+.leftIconHollowButtonClass {
+	height: 5vmin;
+	font-size: calc(10px + 0.7vmin);
+	border: none;
+	margin-top: 0vmin;
+	cursor: pointer;
+	padding-left: 3vmin;
+	padding-right: 3vmin;
+	border-radius: 25px;
 }
 
 .leftIconHollowButton {

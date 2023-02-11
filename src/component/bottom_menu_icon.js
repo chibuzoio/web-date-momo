@@ -7,6 +7,11 @@ class BottomMenuIcon extends React.Component {
 	constructor(props) {
 		super(props);
 		this.updateState = this.updateState.bind(this);
+		this.clickButtonMenuIcon = this.clickButtonMenuIcon.bind(this);
+	}
+
+	clickButtonMenuIcon(event) {
+		this.props.onButtonClicked(true);
 	}
 
 	// Remember this method type for setting state using props values  
@@ -20,7 +25,7 @@ class BottomMenuIcon extends React.Component {
 
 	render() {  
 		return (
-			<button className={this.props.menuParts.bottomMenuClass} type="button"> 
+			<button onClick={this.clickButtonMenuIcon} className={this.props.menuParts.bottomMenuClass} type="button"> 
 				<img className="bottomMenuIcon" alt="" src={this.props.menuParts.menuIcon} />
 			</button>
 		);

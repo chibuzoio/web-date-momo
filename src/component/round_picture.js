@@ -1,27 +1,34 @@
 import React from 'react';
 import '../css/style.css';
+import grey_placeholder from '../image/grey_placeholder.png';
 
 class RoundPicture extends React.Component {
-	state = {pictureParts : {}};
+	imageData = {};
+	state = {contextData : {
+		roundPictureImage : grey_placeholder
+	}};
 
 	constructor(props) {
 		super(props);
-		this.updateState = this.updateState.bind(this);
+		this.imageData = new Image();
 	}
 
-	// Remember this method type for setting state using props values  
-	updateState() {
-		this.setState(function(state, props) {
-			return {
-				pictureParts : props.pictureParts
-			}
-		});
-	}
+	componentDidMount() {
+		this.imageData.src = this.props.pictureParts.roundPicture;
 
+		this.imageData.onload = function() {
+			this.setState(function(state, props) {
+				return {contextData : {
+	          		roundPictureImage : props.pictureParts.roundPicture
+				}
+			}});  
+		}.bind(this);
+	}
+            
 	render() {  
 		return (
 			<img className={this.props.pictureParts.roundPictureClass} 
-				alt="" src={this.props.pictureParts.roundPicture} />
+				alt="" src={this.state.contextData.roundPictureImage} />
 		);
 	}
 }

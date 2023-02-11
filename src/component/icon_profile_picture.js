@@ -22,10 +22,11 @@ class IconProfilePicture extends React.Component {
 
 	render() {  
 		return (
-			<div className="profilePictureLayout">
-				<img className="profilePictureImage" 
+			<div className={this.props.pictureParts.pictureLayoutClass}>
+				<img className={this.props.pictureParts.profilePictureClass} 
 				alt="" src={this.props.pictureParts.roundPicture} />
-				<img className="profilePictureIcon" alt="" src={icon_camera_blue} />
+				<img className={this.props.pictureParts.pictureChangeClass} 
+					alt="" src={icon_camera_blue} />
 			</div>
 		);
 	}
