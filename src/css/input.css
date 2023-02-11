@@ -111,8 +111,8 @@
 }
 
 .bottomMenuIcon {
-	height: 3.3vmin;
-	width: 3.3vmin;
+	height: 4.3vmin;
+	width: 4.3vmin;
 }
 
 .bottomMenuClass {
@@ -129,11 +129,11 @@
 	align-items: center;
 	border-radius: 5px;
 	margin-top: auto;
-	height: 5.5vmin;
 	display: flex;
 	outline: none;
-	width: 4vmin;
+	height: 7vmin;
 	border: none;
+	width: 7vmin;
 }
 
 .formFieldClass {

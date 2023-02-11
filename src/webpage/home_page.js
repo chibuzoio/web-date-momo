@@ -5,6 +5,7 @@ import '../css/header.css';
 import '../css/footer.css';
 import '../css/home_page.css';
 import { Outlet, Link } from "react-router-dom";
+import Footer from '../widget/footer';
 import BottomMenuIcon from '../component/bottom_menu_icon';
 import icon_notification_blue from '../image/icon_notification_blue.png';
 import icon_message_blue from '../image/icon_message_blue.png';
@@ -17,6 +18,9 @@ import RightIconFormField from '../component/right_icon_form_field';
 import icon_search from '../image/icon_search.png';
 import test_image from '../image/test_image.png';
 import logo from '../image/datemomo.png';
+
+/* This home page has to serve as the only page where widgets are coupled, decoupled, removed and replaced */
+/* So, modify the home page so that everything will happen here. Then, use all other pages and widgets as dependencies */
 
 class HomePage extends React.Component {
 	currentUser = {};
@@ -52,28 +56,7 @@ class HomePage extends React.Component {
 			fieldLayoutClass : "rightIconFieldLayout",
 			fieldIconClass : "rightFieldIcon"
 		};
-   
-		// For footer 
-		var homeBottomMenu = {
-			bottomMenuClass : "bottomMenuLayout selectedMenuLayout",
-			menuIcon : icon_home_white
-		};
-
-		var messengerBottomMenu = {
-			bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
-			menuIcon : icon_message_blue
-		};
-
-		var userAccountBottomMenu = {
-			bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
-			menuIcon : icon_account_blue
-		};
-
-		var notificationBottomMenu = {
-			bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
-			menuIcon : icon_notification_blue
-		};
-
+         
 		return (
 			<div className="homePage">
 				<div className="header">
@@ -88,21 +71,8 @@ class HomePage extends React.Component {
 				</div>
 		
 				<Outlet />
-				
-				<div className="footer">
-					<Link className="footerLink" to="/">
-						<BottomMenuIcon menuParts={homeBottomMenu} />
-					</Link>
-					<Link className="footerLink" to="messenger">
-						<BottomMenuIcon menuParts={messengerBottomMenu} />
-					</Link>
-					<Link className="footerLink" to="profile">
-						<BottomMenuIcon menuParts={userAccountBottomMenu} />
-					</Link>
-					<Link className="footerLink" to="notification">
-						<BottomMenuIcon menuParts={notificationBottomMenu} />
-					</Link>
-				</div>
+
+				<Footer />
 			</div>
 		);
 	}
