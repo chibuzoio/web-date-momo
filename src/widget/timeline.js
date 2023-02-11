@@ -81,6 +81,9 @@ class Timeline extends React.Component {
 		this.closeFloatingLayout = this.closeFloatingLayout.bind(this);
 		this.detectScrollBottom = this.detectScrollBottom.bind(this);
 		this.setGradientHeight = this.setGradientHeight.bind(this);
+		this.openUserProfile = this.openUserProfile.bind(this);
+		this.openUserGallery = this.openUserGallery.bind(this);
+		this.editUserProfile = this.editUserProfile.bind(this);
 		this.changeLikedIcon = this.changeLikedIcon.bind(this);
 		this.clickLikeUser = this.clickLikeUser.bind(this);
 	}
@@ -716,6 +719,24 @@ class Timeline extends React.Component {
 		}
 	}
 
+	openUserGallery(buttonClicked) {
+		if (buttonClicked) {
+			// navigate to user gallery
+		}
+	}
+
+	editUserProfile(buttonClicked) {
+		if (buttonClicked) {
+			// window.location.assign("/profile");
+		}
+	}
+
+	openUserProfile(buttonClicked) {
+		if (buttonClicked) {
+			window.location.assign("/profile");
+		}
+	}
+
 	render() {           
 		var viewProfileButton = {
 			buttonTitle : "View Profile",
@@ -777,8 +798,8 @@ class Timeline extends React.Component {
 							<div className="profileMenuUpperLayout">
 								<IconProfilePicture pictureParts={profilePictureParts} />
 								<div className="leftUpperPhotoButtons">
-									<LeftIconHollowButton buttonParts={leftMenuPhotoButton} />
-									<BottomMenuIcon menuParts={leftMenuEditorButton} />
+									<LeftIconHollowButton onButtonClicked={this.openUserGallery} buttonParts={leftMenuPhotoButton} />
+									<BottomMenuIcon onButtonClicked={this.editUserProfile} menuParts={leftMenuEditorButton} />
 								</div>
 							</div>
 							<div className="profileMenuLowerLayout">
@@ -790,7 +811,7 @@ class Timeline extends React.Component {
 									{(this.currentUser.currentLocation === "") ? 
 										"Location Not Set" : this.currentUser.currentLocation}
 								</div>
-								<LeftIconHollowButton buttonParts={leftMenuProfileButton} />
+								<LeftIconHollowButton onButtonClicked={this.openUserProfile} buttonParts={leftMenuProfileButton} />
 							</div>
 						</div>
 						<div className="messengerMenuLayout leftMenuContent">
