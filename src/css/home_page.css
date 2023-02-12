@@ -1,24 +1,14 @@
-/* Display properties with 'inline' prefix (E.g. inline-block, inline-flex, inline-table and so on)  
-allows setting of width, height, padding and margin properties, but inline alone does not. So, 
-inline-block aligns items horizontally just like inline, but with inline-block, you can set 
-width, height, padding and margin properties, but can't do so for inline alone.     
-*/
 
-/*
-1. inline = horizontal arrangement, without width, height, padding and margin properties
-2. inline-block = horizontal arrangement, with width, height, padding and margin properties
-3. block = vertical arragement, with width, height, padding and margin properties
-4. flex = for flexible arrangement of elements horizontally or vertically, so as to span out 
-completely in the parent container in the laid out direction, just like the weight property 
-in Android with zero (0) width or height. To use the flex display property, set display: flex
-for the container element (E.g. div) and set flex-direction to column or row.          
-*/
-
-/* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 600px) {
-            
+/* Extra small devices (phones, 400px and down) */
+@media only screen and (max-width: 400px) {
+	
 }
 
+/* Extra small devices (phones, 400px and up) */
+@media only screen and (min-width: 400px) {
+	
+}
+    
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
                 
