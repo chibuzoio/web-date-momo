@@ -239,7 +239,7 @@ class Login extends React.Component {
 			<div className="login"> 
 				<div className="loginWidget">
 					<img className="logo" alt="Logo" src={logo}/>
-					<div>
+					<div className="registerInputLayout">
 						<label>User Name</label>
 						<div className="fieldLayout iconMargin">
 						    <img className="leftFieldIcon" alt="" src={icon_person} />
