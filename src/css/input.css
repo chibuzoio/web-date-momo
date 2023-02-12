@@ -1,6 +1,11 @@
 
 /* Extra small devices (phones, 400px and down) */
 @media only screen and (max-width: 400px) {
+	button {
+		font-size: calc(10px + 1.5vmin) !important;
+		height: 10vmin !important;
+	}
+
 	.fieldLayout {  
 		height: 10vmin;
 	}	
@@ -278,17 +283,17 @@
 }
 
 button {
-	height: 7vmin;
 	font-size: calc(10px + 1vmin);
-	width: fit-content;
   border: 0.3vmin solid #097ECA;
-	cursor: pointer;
-	padding-left: 3vmin;
+	justify-content: center;
 	padding-right: 3vmin;
 	border-radius: 25px;
-	margin-top: 2vmin;	
-	justify-content: center;
+	padding-left: 3vmin;
 	align-items: center;
+	width: fit-content;
+	margin-top: 2vmin;	
+	cursor: pointer;
+	height: 7vmin;
 }
 
 input[type="text"], input[type="number"], input[type="password"] {

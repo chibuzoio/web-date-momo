@@ -27,7 +27,6 @@ class BasicButton extends React.Component {
 	render() {  
 		return (
 			<button className={this.props.buttonParts.buttonClass} 
-				style={{display: this.props.buttonParts.buttonDisplay}}
 				onClick={this.clickBasicButton} type="button"> 
 				{this.props.buttonParts.buttonTitle}
 			</button>

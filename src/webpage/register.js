@@ -9,6 +9,8 @@ import icon_person from '../image/icon_person.png';
 import logo from '../image/datemomo.png';
 
 class Register extends React.Component {
+	visibleButtonClass = "basicButton fullWidth";
+	hiddenButtonClass = this.visibleButtonClass + " hideComponent";
 	passwordShortError = "Password is too short";
 	passwordEmptyError = "Password field is empty";
 	userNameShortError = "User name is too short";
@@ -33,7 +35,10 @@ class Register extends React.Component {
 				passwordValid : false,
 				errorDisplay : "none"
 			},
-			registerButtonDisplay : "flex",
+			registerButtonParts : {
+				buttonTitle : "Sign Up",
+				buttonClass : this.visibleButtonClass
+			},
 			loadingPuzzleDisplay : "none"
 		}
 	};
@@ -57,7 +62,7 @@ class Register extends React.Component {
 			          	registerRequestData : state.contextData.registerRequestData,
 			          	userNameValidity : state.contextData.userNameValidity,
 			          	passwordValidity : state.contextData.passwordValidity,
-			          	registerButtonDisplay : state.contextData.registerButtonDisplay,
+			          	registerButtonParts : state.contextData.registerButtonParts,
 			          	loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
 		          	}
 		        }});
@@ -96,7 +101,7 @@ class Register extends React.Component {
 					passwordValid : passwordValid,
 					errorDisplay : errorDisplayStyle
 				},
-	          	registerButtonDisplay : state.contextData.registerButtonDisplay,
+	          	registerButtonParts : state.contextData.registerButtonParts,
 	          	loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
 			}
 		}});
@@ -146,7 +151,7 @@ class Register extends React.Component {
 					errorDisplay : errorDisplayStyle
 				},
 		      	passwordValidity : state.contextData.passwordValidity,
-	          	registerButtonDisplay : state.contextData.registerButtonDisplay,
+	          	registerButtonParts : state.contextData.registerButtonParts,
 	          	loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
 			}
 		}});
@@ -174,7 +179,10 @@ class Register extends React.Component {
 					passwordValid : state.contextData.passwordValidity.passwordValid,
 					errorDisplay : "none"
 				},
-	          	registerButtonDisplay : "flex",
+	          	registerButtonParts : {
+					buttonTitle : "Sign Up",
+					buttonClass : this.visibleButtonClass
+				},
 	          	loadingPuzzleDisplay : "none"
 			}
 		}});
@@ -204,7 +212,10 @@ class Register extends React.Component {
 					passwordValid : state.contextData.passwordValidity.passwordValid,
 					errorDisplay : "none"
 				},
-	          	registerButtonDisplay : "flex",
+	          	registerButtonParts : {
+					buttonTitle : "Sign Up",
+					buttonClass : this.visibleButtonClass
+				},
 	          	loadingPuzzleDisplay : "none"
 			}
 		}});
@@ -227,7 +238,10 @@ class Register extends React.Component {
 			          	registerRequestData : state.contextData.registerRequestData,
 			          	userNameValidity : state.contextData.userNameValidity,
 			          	passwordValidity : state.contextData.passwordValidity,
-			          	registerButtonDisplay : "none",
+			          	registerButtonParts : {
+							buttonTitle : "Sign Up",
+							buttonClass : this.hiddenButtonClass
+						},
 			          	loadingPuzzleDisplay : "flex"
 		          	}
 		        }});
@@ -240,7 +254,10 @@ class Register extends React.Component {
 					          	registerRequestData : state.contextData.registerRequestData,
 					          	userNameValidity : state.contextData.userNameValidity,
 					          	passwordValidity : state.contextData.passwordValidity,
-					          	registerButtonDisplay : "flex",
+					          	registerButtonParts : {
+									buttonTitle : "Sign Up",
+									buttonClass : this.visibleButtonClass
+								},
 					          	loadingPuzzleDisplay : "none"
 				          	}
 				        }});
@@ -258,7 +275,10 @@ class Register extends React.Component {
 					          	registerRequestData : state.contextData.registerRequestData,
 					          	userNameValidity : state.contextData.userNameValidity,
 					          	passwordValidity : state.contextData.passwordValidity,
-					          	registerButtonDisplay : "flex",
+					          	registerButtonParts : {
+									buttonTitle : "Sign Up",
+									buttonClass : this.visibleButtonClass
+								},
 					          	loadingPuzzleDisplay : "none"
 				          	}
 				        }});
@@ -289,13 +309,7 @@ class Register extends React.Component {
 			fieldLayoutClass : "fieldLayout",
 			fieldIconClass : "leftFieldIcon"
 		};
-
-		var basicButton = {
-			buttonTitle : "Sign Up",
-			buttonClass : "basicButton fullWidth",
-			buttonDisplay : this.state.contextData.registerButtonDisplay
-		}
- 
+       
 		return (
 			<div className="login">
 				<div className="loginWidget">
@@ -315,7 +329,7 @@ class Register extends React.Component {
 							{this.state.contextData.passwordValidity.passwordError}
 						</div>
 					</div>
-					<BasicButton onButtonClicked={this.processRegistration} buttonParts={basicButton} />
+					<BasicButton onButtonClicked={this.processRegistration} buttonParts={this.state.contextData.registerButtonParts} />
 					<div className="progressLoadingLayout" 
 						style={{display : this.state.contextData.loadingPuzzleDisplay}}>
 						<img className="progressLoadingIcon" src={loading_puzzle} alt="" />

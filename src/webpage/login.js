@@ -15,6 +15,8 @@ import Register from '../webpage/register';
 import logo from '../image/datemomo.png';
 
 class Login extends React.Component {
+	visibleButtonClass = "basicButton fullWidth";
+	hiddenButtonClass = this.visibleButtonClass + " hideComponent";
 	passwordEmptyError = "Password field is empty";
 	userNameEmptyError = "User name field is empty";
 	incorrectCredentialError = "User name or password is incorrect";
@@ -34,7 +36,10 @@ class Login extends React.Component {
 			incorrectCredential : {
 				errorDisplay : "none"
 			},
-			loginButtonDisplay : "flex",
+			loginButtonParts : {
+				buttonTitle : "Log In",
+				buttonClass : this.visibleButtonClass
+			},
 			loadingPuzzleDisplay : "none"
 		}
 	};
@@ -68,7 +73,10 @@ class Login extends React.Component {
 						userNameValidity : state.contextData.userNameValidity,
 						passwordValidity : state.contextData.passwordValidity,
 						incorrectCredential : state.contextData.incorrectCredential,
-						loginButtonDisplay : "none",
+						loginButtonParts : {
+							buttonTitle : "Log In",
+							buttonClass : this.hiddenButtonClass
+						},
 						loadingPuzzleDisplay : "flex"
 					}
 				}});
@@ -81,7 +89,10 @@ class Login extends React.Component {
 								userNameValidity : state.contextData.userNameValidity,
 								passwordValidity : state.contextData.passwordValidity,
 								incorrectCredential : state.contextData.incorrectCredential,
-					 			loginButtonDisplay : "flex",
+					 			loginButtonParts : {
+									buttonTitle : "Log In",
+									buttonClass : this.visibleButtonClass
+								},
 					 			loadingPuzzleDisplay : "none"
 					   		}
 					    }}); 
@@ -111,7 +122,7 @@ class Login extends React.Component {
 									incorrectCredential : {
 										errorDisplay : "flex"
 									},
-						 			loginButtonDisplay : state.contextData.loginButtonDisplay,
+						 			loginButtonParts : state.contextData.loginButtonParts,
 						 			loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
 						   		}
 						    }}); 
@@ -123,7 +134,10 @@ class Login extends React.Component {
 								userNameValidity : state.contextData.userNameValidity,
 								passwordValidity : state.contextData.passwordValidity,
 								incorrectCredential : state.contextData.incorrectCredential,
-					 			loginButtonDisplay : "flex",
+					 			loginButtonParts : {
+									buttonTitle : "Log In",
+									buttonClass : this.visibleButtonClass
+								},
 					 			loadingPuzzleDisplay : "none"
 					   		}
 					    }}); 
@@ -154,7 +168,7 @@ class Login extends React.Component {
 					errorDisplay : errorDisplayStyle
 				},
 				incorrectCredential : state.contextData.incorrectCredential,
-				loginButtonDisplay : state.contextData.loginButtonDisplay,
+				loginButtonParts : state.contextData.loginButtonParts,
 				loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
 			}
 		}});
@@ -182,7 +196,7 @@ class Login extends React.Component {
 				},
 				passwordValidity : state.contextData.passwordValidity,
 				incorrectCredential : state.contextData.incorrectCredential,
-				loginButtonDisplay : state.contextData.loginButtonDisplay,
+				loginButtonParts : state.contextData.loginButtonParts,
 				loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
 			}
 		}});
@@ -208,7 +222,7 @@ class Login extends React.Component {
 				incorrectCredential : {
 					errorDisplay : "none"
 				},
-				loginButtonDisplay : state.contextData.loginButtonDisplay,
+				loginButtonParts : state.contextData.loginButtonParts,
 				loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
 			}
 		}});
@@ -237,7 +251,7 @@ class Login extends React.Component {
 				incorrectCredential : {
 					errorDisplay : "none"
 				},
-				loginButtonDisplay : state.contextData.loginButtonDisplay,
+				loginButtonParts : state.contextData.loginButtonParts,
 				loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
 			}
 		}});
@@ -268,12 +282,6 @@ class Login extends React.Component {
 			fieldIconClass : "leftFieldIcon"
 		};
 
-		var basicButton = {
-			buttonTitle : "Log In",
-			buttonClass : "basicButton fullWidth",
-			buttonDisplay : this.state.contextData.loginButtonDisplay
-		}
-     
 		return (
 			<div className="login"> 
 				<div className="loginWidget">
@@ -290,7 +298,7 @@ class Login extends React.Component {
 							{this.passwordEmptyError}
 						</div>
 						{/* If you click on this button, fetch data, store it in localStorage and reload */}
-						<BasicButton onButtonClicked={this.authenticateCurrentUser} buttonParts={basicButton} />
+						<BasicButton onButtonClicked={this.authenticateCurrentUser} buttonParts={this.state.contextData.loginButtonParts} />
 						<div className="progressLoadingLayout" 
 							style={{display : this.state.contextData.loadingPuzzleDisplay}}>
 							<img className="progressLoadingIcon" src={loading_puzzle} alt="" />
