@@ -1,6 +1,6 @@
 
-/* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 600px) {
+/* Extra small devices (phones, 400px and down) */
+@media only screen and (max-width: 400px) {
 	.loginWidget {
 		margin-bottom: 5%;
 		margin-top: 5%;
@@ -8,6 +8,11 @@
 	}            
 }
 
+/* Extra small devices (phones, 400px and up) */
+@media only screen and (min-width: 400px) {
+	
+}
+      
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
                 

@@ -1,9 +1,25 @@
 
-/* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 600px) {
-	
+/* Extra small devices (phones, 400px and down) */
+@media only screen and (max-width: 400px) {
+	button {
+		font-size: calc(10px + 1.5vmin) !important;
+		height: 10vmin !important;
+	}
+
+	.fieldLayout {  
+		height: 10vmin;
+	}	
+
+	.inputFieldLocal {
+		height: 100% !important;
+	}
 }
 
+/* Extra small devices (phones, 400px and up) */
+@media only screen and (min-width: 400px) {
+	
+}
+    
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
 	.menuLayoutClass {    
@@ -225,19 +241,17 @@
 }
 
 .fieldLayout {
-	display: flex;
+	justify-content: center;
+	padding-bottom: 0.5vmin;
+	padding-right: 2vmin;
+	margin-bottom: 2vmin;
+	padding-top: 0.5vmin;
 	flex-direction: row;
-	padding-left: 0.5vmin;
-	padding-right: 1.5vmin;
+	padding-left: 2vmin;
 	align-items: center;
 	background: #EAEDED;
-	padding-top: 0.5vmin;
-	padding-bottom: 0.5vmin;
-	padding-left: 2vmin;
-	padding-right: 2vmin;
-	justify-content: center;
 	border-radius: 8px;
-	margin-bottom: 2vmin;
+	display: flex;
 }
 
 .leftMenuPhotoButton {
@@ -269,17 +283,17 @@
 }
 
 button {
-	height: 7vmin;
 	font-size: calc(10px + 1vmin);
-	width: fit-content;
   border: 0.3vmin solid #097ECA;
-	cursor: pointer;
-	padding-left: 3vmin;
+	justify-content: center;
 	padding-right: 3vmin;
 	border-radius: 25px;
-	margin-top: 2vmin;	
-	justify-content: center;
+	padding-left: 3vmin;
 	align-items: center;
+	width: fit-content;
+	margin-top: 2vmin;	
+	cursor: pointer;
+	height: 7vmin;
 }
 
 input[type="text"], input[type="number"], input[type="password"] {

@@ -5,14 +5,18 @@ import '../css/login.css';
 import '../css/style.css';
 import { Link } from "react-router-dom";
 import icon_person from '../image/icon_person.png';
+import LeftIconFormField from '../component/left_icon_form_field';
 import google_play_download from '../image/google_play_download.png';
 import icon_gallery_blue from '../image/icon_gallery_blue.png';
 import loading_puzzle from '../image/loading_puzzle.gif';
 import icon_password from '../image/icon_password.png';
+import BasicButton from '../component/basic_button';
 import Register from '../webpage/register';
 import logo from '../image/datemomo.png';
 
 class Login extends React.Component {
+	visibleButtonClass = "basicButton fullWidth";
+	hiddenButtonClass = this.visibleButtonClass + " hideComponent";
 	passwordEmptyError = "Password field is empty";
 	userNameEmptyError = "User name field is empty";
 	incorrectCredentialError = "User name or password is incorrect";
@@ -32,18 +36,21 @@ class Login extends React.Component {
 			incorrectCredential : {
 				errorDisplay : "none"
 			},
-			loginButtonDisplay : "flex",
+			loginButtonParts : {
+				buttonTitle : "Log In",
+				buttonClass : this.visibleButtonClass
+			},
 			loadingPuzzleDisplay : "none"
 		}
 	};
 
 	constructor(props) {
 		super(props);
+		this.authenticateCurrentUser = this.authenticateCurrentUser.bind(this);
+		this.updateInputUserName = this.updateInputUserName.bind(this);		
+		this.updateInputPassword = this.updateInputPassword.bind(this);
 		this.validatePassword = this.validatePassword.bind(this);
 		this.validateUserName = this.validateUserName.bind(this);
-		this.updateInputPassword = this.updateInputPassword.bind(this);
-		this.updateInputUserName = this.updateInputUserName.bind(this);
-		this.authenticateCurrentUser = this.authenticateCurrentUser.bind(this);
 	}
 
 	componentDidMount() {
@@ -54,79 +61,90 @@ class Login extends React.Component {
 
 	}
 
-	authenticateCurrentUser() {
-		var passwordValid = this.validatePassword();
-		var userNameValid = this.validateUserName();
-          
-		if (passwordValid && userNameValid) {
-			this.setState(function(state) {
-				return {contextData : {
-					loginRequestData : state.contextData.loginRequestData,
-					userNameValidity : state.contextData.userNameValidity,
-					passwordValidity : state.contextData.passwordValidity,
-					incorrectCredential : state.contextData.incorrectCredential,
-					loginButtonDisplay : "none",
-					loadingPuzzleDisplay : "flex"
-				}
-			}});
+	authenticateCurrentUser(buttonClicked) {
+		if (buttonClicked) {
+			var passwordValid = this.validatePassword();
+			var userNameValid = this.validateUserName();
+	          
+			if (passwordValid && userNameValid) {
+				this.setState(function(state) {
+					return {contextData : {
+						loginRequestData : state.contextData.loginRequestData,
+						userNameValidity : state.contextData.userNameValidity,
+						passwordValidity : state.contextData.passwordValidity,
+						incorrectCredential : state.contextData.incorrectCredential,
+						loginButtonParts : {
+							buttonTitle : "Log In",
+							buttonClass : this.hiddenButtonClass
+						},
+						loadingPuzzleDisplay : "flex"
+					}
+				}});
 
-			axios.post("https://datemomo.com/service/loginmember.php", this.state.contextData.loginRequestData)
-		    	.then(response => {
-		    		this.setState(function(state) {
-		    			return {contextData : {
-							loginRequestData : state.contextData.loginRequestData,
-							userNameValidity : state.contextData.userNameValidity,
-							passwordValidity : state.contextData.passwordValidity,
-							incorrectCredential : state.contextData.incorrectCredential,
-				 			loginButtonDisplay : "flex",
-				 			loadingPuzzleDisplay : "none"
-				   		}
-				    }}); 
-
-		    		if (response.data.authenticated) {
-		    			localStorage.setItem("currentUser", JSON.stringify(response.data));
-
-		    			var currentUser = response.data;
-
-		    			if (currentUser.authenticated) {
-					        if (currentUser.userLevel === "uploadProfilePicture") { 
-								window.location.replace("/picture_upload");
-					        } else if (currentUser.userLevel === "selectSexualityInterest") { 
-								window.location.replace("/sexuality");
-					        } else if (currentUser.userLevel === "displayMatchedUsers") { 
-					        	window.location.replace("/");
-					        } 
-					    }          
-		    		} else {
-		    			localStorage.setItem("currentUser", JSON.stringify({}));
-
-		    			this.setState(function(state) {
+				axios.post("https://datemomo.com/service/loginmember.php", this.state.contextData.loginRequestData)
+			    	.then(response => {
+			    		this.setState(function(state) {
 			    			return {contextData : {
 								loginRequestData : state.contextData.loginRequestData,
 								userNameValidity : state.contextData.userNameValidity,
 								passwordValidity : state.contextData.passwordValidity,
-								incorrectCredential : {
-									errorDisplay : "flex"
+								incorrectCredential : state.contextData.incorrectCredential,
+					 			loginButtonParts : {
+									buttonTitle : "Log In",
+									buttonClass : this.visibleButtonClass
 								},
-					 			loginButtonDisplay : state.contextData.loginButtonDisplay,
-					 			loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
+					 			loadingPuzzleDisplay : "none"
 					   		}
 					    }}); 
-		    		}
-		        }, error => {		        	
-					this.setState(function(state) {
-		    			return {contextData : {
-							loginRequestData : state.contextData.loginRequestData,
-							userNameValidity : state.contextData.userNameValidity,
-							passwordValidity : state.contextData.passwordValidity,
-							incorrectCredential : state.contextData.incorrectCredential,
-				 			loginButtonDisplay : "flex",
-				 			loadingPuzzleDisplay : "none"
-				   		}
-				    }}); 
 
-		        	console.log(error);
-		        });
+			    		if (response.data.authenticated) {
+			    			localStorage.setItem("currentUser", JSON.stringify(response.data));
+
+			    			var currentUser = response.data;
+
+			    			if (currentUser.authenticated) {
+						        if (currentUser.userLevel === "uploadProfilePicture") { 
+									window.location.replace("/picture_upload");
+						        } else if (currentUser.userLevel === "selectSexualityInterest") { 
+									window.location.replace("/sexuality");
+						        } else if (currentUser.userLevel === "displayMatchedUsers") { 
+						        	window.location.replace("/");
+						        } 
+						    }          
+			    		} else {
+			    			localStorage.setItem("currentUser", JSON.stringify({}));
+
+			    			this.setState(function(state) {
+				    			return {contextData : {
+									loginRequestData : state.contextData.loginRequestData,
+									userNameValidity : state.contextData.userNameValidity,
+									passwordValidity : state.contextData.passwordValidity,
+									incorrectCredential : {
+										errorDisplay : "flex"
+									},
+						 			loginButtonParts : state.contextData.loginButtonParts,
+						 			loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
+						   		}
+						    }}); 
+			    		}
+			        }, error => {		        	
+						this.setState(function(state) {
+			    			return {contextData : {
+								loginRequestData : state.contextData.loginRequestData,
+								userNameValidity : state.contextData.userNameValidity,
+								passwordValidity : state.contextData.passwordValidity,
+								incorrectCredential : state.contextData.incorrectCredential,
+					 			loginButtonParts : {
+									buttonTitle : "Log In",
+									buttonClass : this.visibleButtonClass
+								},
+					 			loadingPuzzleDisplay : "none"
+					   		}
+					    }}); 
+
+			        	console.log(error);
+			        });
+			}
 		}
 	}
 
@@ -150,7 +168,7 @@ class Login extends React.Component {
 					errorDisplay : errorDisplayStyle
 				},
 				incorrectCredential : state.contextData.incorrectCredential,
-				loginButtonDisplay : state.contextData.loginButtonDisplay,
+				loginButtonParts : state.contextData.loginButtonParts,
 				loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
 			}
 		}});
@@ -178,7 +196,7 @@ class Login extends React.Component {
 				},
 				passwordValidity : state.contextData.passwordValidity,
 				incorrectCredential : state.contextData.incorrectCredential,
-				loginButtonDisplay : state.contextData.loginButtonDisplay,
+				loginButtonParts : state.contextData.loginButtonParts,
 				loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
 			}
 		}});
@@ -186,12 +204,12 @@ class Login extends React.Component {
 		return userNameValid;
   	}
 
-  	updateInputPassword(event) {
+  	updateInputPassword(passwordValue, isBlurred) {
   		this.setState(function(state) {
 			return {contextData : {
 				loginRequestData : {
 					userName : state.contextData.loginRequestData.userName,
-					password : event.target.value
+					password : passwordValue
 				},
 				userNameValidity : {
 					userNameValid : state.contextData.userNameValidity.userNameValid,
@@ -204,17 +222,22 @@ class Login extends React.Component {
 				incorrectCredential : {
 					errorDisplay : "none"
 				},
-				loginButtonDisplay : state.contextData.loginButtonDisplay,
+				loginButtonParts : state.contextData.loginButtonParts,
 				loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
 			}
 		}});
+
+		if (isBlurred) {
+			this.validateUserName();
+			this.validatePassword();
+		}
   	}
 
-  	updateInputUserName(event) {
+  	updateInputUserName(userNameValue, isBlurred) {
 		this.setState(function(state) {
 			return {contextData : {
 				loginRequestData : {
-					userName : event.target.value.toLowerCase().trim(),
+					userName : userNameValue.toLowerCase().trim(),
 					password : state.contextData.loginRequestData.password					
 				},
 				userNameValidity : {
@@ -228,44 +251,54 @@ class Login extends React.Component {
 				incorrectCredential : {
 					errorDisplay : "none"
 				},
-				loginButtonDisplay : state.contextData.loginButtonDisplay,
+				loginButtonParts : state.contextData.loginButtonParts,
 				loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
 			}
 		}});
+
+		if (isBlurred) {
+			this.validateUserName();
+		}
   	}
 
-	render() {          
+	render() {      
+		var firstFormPartsValue = {
+			fieldIcon : icon_person,
+			placeholder : "User Name",
+			label : "User Name",
+			type : "text",
+			inputFieldClass : "inputFieldLocal",
+			fieldLayoutClass : "fieldLayout",
+			fieldIconClass : "leftFieldIcon"
+		};
+
+		var secondFormPartsValue = {
+			fieldIcon : icon_password,
+			placeholder : "Password",
+			label : "Password",
+			type : "password",
+			inputFieldClass : "inputFieldLocal",
+			fieldLayoutClass : "fieldLayout",
+			fieldIconClass : "leftFieldIcon"
+		};
+
 		return (
 			<div className="login"> 
 				<div className="loginWidget">
 					<img className="logo" alt="Logo" src={logo}/>
 					<div className="registerInputLayout">
-						<label>User Name</label>
-						<div className="fieldLayout iconMargin">
-						    <img className="leftFieldIcon" alt="" src={icon_person} />
-						    <input type="text" name="name" onBlur={this.validateUserName} 
-						    	onChange={this.updateInputUserName} placeholder="User Name" />
-						</div>
+						<LeftIconFormField onFormValueChange={this.updateInputUserName} formParts={firstFormPartsValue} />
 						<div className="inputErrorMessage userNameError" 
 							style={{display: this.state.contextData.userNameValidity.errorDisplay}}>
 							{this.userNameEmptyError}
 						</div>
-						<label>Password</label>
-						<div className="fieldLayout bottomMargin">
-						    <img className="leftFieldIcon" alt="" src={icon_password} />
-						    <input type="password" name="name" onBlur={this.validatePassword}
-						    	onChange={this.updateInputPassword} placeholder="Password" />
-						</div>
+						<LeftIconFormField onFormValueChange={this.updateInputPassword} formParts={secondFormPartsValue} />
 						<div className="inputErrorMessage loginPasswordError" 
 							style={{display: this.state.contextData.passwordValidity.errorDisplay}}>
 							{this.passwordEmptyError}
 						</div>
 						{/* If you click on this button, fetch data, store it in localStorage and reload */}
-						<button 
-							className="basicButton fullWidth" 
-							style={{display : this.state.contextData.loginButtonDisplay}} 
-							onClick={this.authenticateCurrentUser} 
-							type="button">Log In</button>
+						<BasicButton onButtonClicked={this.authenticateCurrentUser} buttonParts={this.state.contextData.loginButtonParts} />
 						<div className="progressLoadingLayout" 
 							style={{display : this.state.contextData.loadingPuzzleDisplay}}>
 							<img className="progressLoadingIcon" src={loading_puzzle} alt="" />
