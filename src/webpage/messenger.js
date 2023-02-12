@@ -6,6 +6,7 @@ import '../css/messenger.css';
 import Header from '../widget/header';
 import Footer from '../widget/footer'; 
 import EmptyMessenger from '../widget/empty_messenger'; 
+import ActiveMessenger from '../widget/active_messenger';
 
 class Messenger extends React.Component {
 	currentUser = {};
@@ -17,12 +18,8 @@ class Messenger extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.displayRequiredPage = this.displayRequiredPage.bind(this);
 		this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
-		// var encodedString = encodeURIComponent("That's why development stalls. Moreover, due to personal reasons, I was away for approximately two months. That's why I was inactive for long".split(" ").join("+"));
-		// console.log("Value of the encoded string here is " + encodedString);
-		// var decodedString = decodeURIComponent(encodedString).split("+").join(" ");
-		// console.log("Value of decodedString here is " + decodedString);
+		this.displayMessengerContent = this.displayMessengerContent.bind(this);
 	}
 
 	componentDidMount() {
@@ -38,41 +35,37 @@ class Messenger extends React.Component {
 		    			stateLoaded : true
 		    		}
 	    		}});
-
-	    		console.log("The response data here from querying all messenger composites is " + JSON.stringify(response.data));
 	        }, error => {
 	        	console.log(error);
 	        });
 	}
-
-	displayRequiredPage() {
+      
+	displayMessengerContent() {
 		if (this.state.contextData.stateLoaded) {
 			if (this.state.contextData.messengerResponses.length > 0) {
+				var messengerComposite = [];
+
+				for (var i = 0; i < this.state.contextData.messengerResponses.length; i++) {
+					var messengerContent = {
+						messengerResponse : this.state.contextData.messengerResponses[i],
+						messengerClasses : {
+							messengerContentLayout : "activeMessengerContent messengerContentTimeline",
+							chatMateUserName : "chatMateUserName chatMateUserNameTimeline",
+							roundPictureClass : "emptyMessengerPicture messengerPictureTimeline",
+							roundPictureLayout : "roundPictureContainer",
+							userNameMessageLayout : "userNameMessageLayout userNameMessageLayoutTimeline",
+							messagePropertiesLayout : "messagePropertiesLayout",
+							unreadMessageCounter : "unreadMessageCounter unreadMessageCounterTimeline basicButton",
+							lastMessageDate : "lastMessageDate",
+							timeFullText : false
+						}
+					}
+	   
+					messengerComposite.push(messengerContent);
+				}
+	       
 				return (
-					<div className="genericMessengerLayout">
-						<div className="activeMessengerHeader">Chats</div>
-							{
-								this.state.contextData.messengerResponses.map((messengerResponse) => ( 
-									<div className="activeMessengerContent">
-										<div className="roundPictureContainer">
-											<img className="emptyMessengerPicture" 
-												alt="" src={"https://datemomo.com/client/image/" 
-												+ messengerResponse.profilePicture} />
-										</div>
-										<div className="userNameMessageLayout">
-											<div className="chatMateUserName">{messengerResponse.userName.charAt(0).toUpperCase() 
-												+ messengerResponse.userName.slice(1)}</div>
-											<div className="chatLastMessage">{decodeURIComponent(messengerResponse.lastMessage).split("+").join(" ")}</div>
-										</div>
-										<div className="messagePropertiesLayout">				
-											<div className="unreadMessageCounter basicButton">{messengerResponse.unreadMessageCount}</div>
-											<div className="lastMessageDate">{messengerResponse.lastMessageDate}</div>
-										</div>
-									</div>
-								))
-							}
-						<div className="bottomPadding"><p></p></div>
-					</div>
+					<ActiveMessenger activeMessengerComposite={messengerComposite} />
 				);
 			} else {
 				return (<EmptyMessenger />);
@@ -84,7 +77,7 @@ class Messenger extends React.Component {
 		return (
 			<div>
 				<div className="dateMomoMessengerLayout">
-					{this.displayRequiredPage()}
+					{this.displayMessengerContent()}
 				</div>
 			</div>
 		);

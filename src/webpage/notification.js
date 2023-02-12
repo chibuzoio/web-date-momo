@@ -4,6 +4,7 @@ import '../css/input.css';
 import '../css/style.css';
 import '../css/messenger.css';
 import grey_placeholder from '../image/grey_placeholder.png';
+import NotificationIterator from '../widget/notification_iterator';
 
 class Notification extends React.Component {
 	currentUser = {};
@@ -16,7 +17,7 @@ class Notification extends React.Component {
 	constructor(props) {
 		super(props);
 		this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
-		this.displayUserImage = this.displayUserImage.bind(this);
+		this.displayNotificationContent = this.displayNotificationContent.bind(this);
 	}
 
 	componentDidMount() {
@@ -35,14 +36,35 @@ class Notification extends React.Component {
 	        });
 	}
 
-	displayUserImage(userGottenPicture) {
-		if (userGottenPicture !== "") {
-			return (<img className="emptyMessengerPicture" 
-						alt="" src={"https://datemomo.com/client/image/" 
-						+ userGottenPicture} />);
-		} else {
-			return (<img className="emptyMessengerPicture" 
-						alt="" src={grey_placeholder} />);
+	displayNotificationContent() {
+		if (this.state.contextData.stateLoaded) {
+			if (this.state.contextData.notificationResponses.length > 0) {
+				var notificationComposite = [];
+				
+				for (var i = 0; i < this.state.contextData.notificationResponses.length; i++) {
+					var notificationContent = {
+						notificationResponse : this.state.contextData.notificationResponses[i],
+						notificationClasses : {
+							notificationContentLayout : "activeMessengerContent notificationContentTimeline",
+							notificationTitle : "notificationTitleTimeline",
+							roundPictureClass : "emptyMessengerPicture messengerPictureTimeline",
+							roundPictureLayout : "roundPictureContainer",
+							notificationLayout : "notificationComponentLayout notificationTimeline",
+							notifierUserName : "notifierUserName"
+						}
+					}
+
+					notificationComposite.push(notificationContent);
+				}
+	   
+				return (
+					<NotificationIterator notificationComposite={notificationComposite} />
+				);
+			} else {
+				// return (
+				// empty notification message 
+				// );
+			}
 		}
 	}
        
@@ -51,19 +73,7 @@ class Notification extends React.Component {
 			<div className="dateMomoMessengerLayout">
 				<div className="notificationHeader">Notifications</div>
 				<div className="notificationFlexLayout">
-					{
-						this.state.contextData.notificationResponses.map((notificationResponse) => (
-							<div className="notificationOuterLayout">
-								<div className="roundPictureContainer">
-									{this.displayUserImage(notificationResponse.profilePicture)}
-								</div>
-								<div className="notificationComponentLayout">
-									<div className="notificationTitle">{notificationResponse.genericNotification}</div>
-									<div className="chatLastMessage">{notificationResponse.notificationDate}</div>
-								</div>   
-							</div>
-						))
-					}
+					{this.displayNotificationContent()}
 				</div>
 			</div> 
 		);

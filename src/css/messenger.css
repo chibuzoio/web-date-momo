@@ -1,12 +1,21 @@
 
-/* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 600px) {
-            
+/* Extra small devices (phones, 400px and down) */
+@media only screen and (max-width: 400px) {
+	.activeMessengerContent {  
+		min-height: 14vmin;
+	}            
+}
+
+/* Extra small devices (phones, 400px and up) */
+@media only screen and (min-width: 400px) {
+	.activeMessengerContent {  
+		min-height: 12vmin;
+	}                        
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
-                
+    
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
