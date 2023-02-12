@@ -275,6 +275,7 @@ class Register extends React.Component {
 			placeholder : "User Name",
 			label : "User Name",
 			type : "text",
+			inputFieldClass : "inputFieldLocal",
 			fieldLayoutClass : "fieldLayout",
 			fieldIconClass : "leftFieldIcon"
 		};
@@ -284,6 +285,7 @@ class Register extends React.Component {
 			placeholder : "Password",
 			label : "Password",
 			type : "password",
+			inputFieldClass : "inputFieldLocal",
 			fieldLayoutClass : "fieldLayout",
 			fieldIconClass : "leftFieldIcon"
 		};

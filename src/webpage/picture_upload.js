@@ -413,7 +413,7 @@ class PictureUpload extends React.Component {
 		}
 
 		var ageFormField = {
-			ageFieldClass : "ageFormField",
+			inputFieldClass : "ageFormField",
 			placeholder : "Age",
 			type : "number"
 		}

@@ -253,6 +253,7 @@ class Login extends React.Component {
 			placeholder : "User Name",
 			label : "User Name",
 			type : "text",
+			inputFieldClass : "inputFieldLocal",
 			fieldLayoutClass : "fieldLayout",
 			fieldIconClass : "leftFieldIcon"
 		};
@@ -262,6 +263,7 @@ class Login extends React.Component {
 			placeholder : "Password",
 			label : "Password",
 			type : "password",
+			inputFieldClass : "inputFieldLocal",
 			fieldLayoutClass : "fieldLayout",
 			fieldIconClass : "leftFieldIcon"
 		};

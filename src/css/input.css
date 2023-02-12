@@ -1,7 +1,13 @@
 
 /* Extra small devices (phones, 400px and down) */
 @media only screen and (max-width: 400px) {
-	
+	.fieldLayout {  
+		height: 10vmin;
+	}	
+
+	.inputFieldLocal {
+		height: 100% !important;
+	}
 }
 
 /* Extra small devices (phones, 400px and up) */
@@ -230,19 +236,17 @@
 }
 
 .fieldLayout {
-	display: flex;
+	justify-content: center;
+	padding-bottom: 0.5vmin;
+	padding-right: 2vmin;
+	margin-bottom: 2vmin;
+	padding-top: 0.5vmin;
 	flex-direction: row;
-	padding-left: 0.5vmin;
-	padding-right: 1.5vmin;
+	padding-left: 2vmin;
 	align-items: center;
 	background: #EAEDED;
-	padding-top: 0.5vmin;
-	padding-bottom: 0.5vmin;
-	padding-left: 2vmin;
-	padding-right: 2vmin;
-	justify-content: center;
 	border-radius: 8px;
-	margin-bottom: 2vmin;
+	display: flex;
 }
 
 .leftMenuPhotoButton {

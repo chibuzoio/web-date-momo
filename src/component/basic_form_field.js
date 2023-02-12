@@ -30,7 +30,7 @@ class BasicFormField extends React.Component {
 
 	render() {     
 		return (
-			<input className={this.props.formParts.ageFieldClass} onBlur={this.checkFieldValue} 
+			<input className={this.props.formParts.inputFieldClass} onBlur={this.checkFieldValue} 
 				onChange={this.getInputValue} type={this.props.formParts.type} 
 				placeholder={this.props.formParts.placeholder} />
 		);
