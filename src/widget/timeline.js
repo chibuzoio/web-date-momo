@@ -826,7 +826,7 @@ class Timeline extends React.Component {
 						<div className="notificationMenuLayout leftMenuContent">
 							<div className="leftMenuHeader">Notifications</div>
 							<div className="messengerMessageLayout">
-								{this.displayNotificationContent()}								
+								{this.displayNotificationContent()}
 							</div>
 							<div className="messengerFooterLayout">
 								<u>Notification</u>
