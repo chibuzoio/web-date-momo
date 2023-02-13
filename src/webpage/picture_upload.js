@@ -16,13 +16,13 @@ import placeholder from '../image/placeholder.jpg';
 import logo from '../image/datemomo.png';
 
 class PictureUpload extends React.Component {
-	visibleErrorMessage = "inputErrorMessage";
 	visibleBasicButton = "basicButton fullWidth";
 	visibleHollowButton = "hollowButton fullWidth";
-	visibleUserAgeError = "inputErrorMessage centerMessage";
+	visibleErrorMessage = "inputErrorMessage errorMessageAlt";
 	visibleUploadButton = "basicButton customTopMargin fullWidth";
 	visibleAnimationClass = "progressLoadingLayout customTopMargin";
 	visibleFemaleHollowButton = "hollowButton uploadPicture fullWidth";
+	visibleUserAgeError = "inputErrorMessage centerMessage errorMessageAlt";
 	hiddenBasicButton = this.visibleBasicButton + " hideComponent";
 	hiddenErrorMessage = this.visibleErrorMessage + " hideComponent";
 	hiddenHollowButton = this.visibleHollowButton + " hideComponent";
@@ -237,33 +237,33 @@ class PictureUpload extends React.Component {
 			this.validateUserSex();
 			this.validateUserAge();
   
-			this.setState(function(state) {
-				return {contextData : {
-					pictureUpload : state.contextData.pictureUpload,
-					userSex : state.contextData.userSex,
-					userAge : state.contextData.userAge,
-					inputValidity : state.contextData.inputValidity,
-					pictureUploadButtons : {
-						maleBasicButton : state.contextData.pictureUploadButtons.maleBasicButton,
-						femaleBasicButton : state.contextData.pictureUploadButtons.femaleBasicButton,
-						maleHollowButton : state.contextData.pictureUploadButtons.maleHollowButton,
-						femaleHollowButton : state.contextData.pictureUploadButtons.femaleHollowButton,
-						uploadBasicButton : {
-							buttonTitle : state.contextData.pictureUploadButtons.uploadBasicButton.buttonTitle,
-							buttonClass : this.hiddenUploadButton
-						},
-						puzzleProgressAnimation : {
-							animationLayout : this.visibleAnimationClass,
-							animationImageClass : state.contextData.pictureUploadButtons.puzzleProgressAnimation.animationImageClass,
-							animationMotionIcon : state.contextData.pictureUploadButtons.puzzleProgressAnimation.animationMotionIcon
-						}
-					}
-				}
-			}});  
-
 			if (this.state.contextData.inputValidity.pictureValidity.pictureValid && 
 				this.state.contextData.inputValidity.userSexValidity.userSexValid && 
 				this.state.contextData.inputValidity.userAgeValidity.userAgeValid) {
+				this.setState(function(state) {
+					return {contextData : {
+						pictureUpload : state.contextData.pictureUpload,
+						userSex : state.contextData.userSex,
+						userAge : state.contextData.userAge,
+						inputValidity : state.contextData.inputValidity,
+						pictureUploadButtons : {
+							maleBasicButton : state.contextData.pictureUploadButtons.maleBasicButton,
+							femaleBasicButton : state.contextData.pictureUploadButtons.femaleBasicButton,
+							maleHollowButton : state.contextData.pictureUploadButtons.maleHollowButton,
+							femaleHollowButton : state.contextData.pictureUploadButtons.femaleHollowButton,
+							uploadBasicButton : {
+								buttonTitle : state.contextData.pictureUploadButtons.uploadBasicButton.buttonTitle,
+								buttonClass : this.hiddenUploadButton
+							},
+							puzzleProgressAnimation : {
+								animationLayout : this.visibleAnimationClass,
+								animationImageClass : state.contextData.pictureUploadButtons.puzzleProgressAnimation.animationImageClass,
+								animationMotionIcon : state.contextData.pictureUploadButtons.puzzleProgressAnimation.animationMotionIcon
+							}
+						}
+					}
+				}});  
+
 				axios.post("https://datemomo.com/service/postpicture.php", this.pictureUploadRequest)
 			    	.then(response => {     
 						this.setState(function(state) {
@@ -498,19 +498,17 @@ class PictureUpload extends React.Component {
 		var takePictureButton = {
 			buttonTitle : "Take Picture",
 			buttonIcon : icon_camera_blue,
-			leftIconHollowButtonClass : "leftIconHollowButton hollowButton buttonTopMargin",
-			leftHollowButtonContentClass : "leftHollowButtonContent",
-			hollowButtonLeftIconClass : "hollowButtonLeftIcon",
-			leftHollowButtonTitleClass : "leftHollowButtonTitle"
+			leftIconHollowButtonLayout : "leftIconHollowButton buttonTopMargin",
+			leftIconHollowButtonIcon : "hollowButtonLeftIcon",
+			leftIconHollowButtonTitle : "leftHollowButtonTitle buttonTitleSize"
 		}
 
 		var uploadPictureButton = {
 			buttonTitle : "Upload Picture",
 			buttonIcon : icon_gallery_blue,
-			leftIconHollowButtonClass : "leftIconHollowButton hollowButton buttonTopMargin uploadPicture",
-			leftHollowButtonContentClass : "leftHollowButtonContent",
-			hollowButtonLeftIconClass : "hollowButtonLeftIcon",
-			leftHollowButtonTitleClass : "leftHollowButtonTitle"
+			leftIconHollowButtonLayout : "leftIconHollowButton buttonTopMargin uploadPicture",
+			leftIconHollowButtonIcon : "hollowButtonLeftIcon",
+			leftIconHollowButtonTitle : "leftHollowButtonTitle buttonTitleSize"
 		}
 
 		var ageFormField = {
@@ -533,7 +531,7 @@ class PictureUpload extends React.Component {
 						<LeftIconHollowButton onButtonClicked={this.openDeviceCamera} buttonParts={takePictureButton} />
 						<LeftIconHollowButton onButtonClicked={this.openSystemGallery} buttonParts={uploadPictureButton} />
 					</div>
-					<InputErrorMessage errorMessageData={this.state.contextData.inputValidity.userNameValidity} />
+					<InputErrorMessage errorMessageData={this.state.contextData.inputValidity.pictureValidity} />
 					<div className="sexTitle">Sex</div>
 					<div className="pictureButtons">
 						<div className="maleSexButtons">

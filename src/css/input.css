@@ -13,6 +13,11 @@
 	.inputFieldLocal {
 		height: 100% !important;
 	}
+
+	.hollowButtonLeftIcon {
+		height: 4vmin !important;
+		width: 4vmin !important;
+	}
 }
 
 /* Extra small devices (phones, 400px and up) */
@@ -131,11 +136,22 @@
 	width: 4.3vmin;
 }
 
-.bottomMenuClass {
-	margin-bottom: 0vmin !important;
+.leftMenuBottomMenuIcon {
+	height: 3vmin;
+	width: 3vmin;
+}
+
+.leftMenuEditorButton {
 	border-radius: 11px !important;
-	height: 4.5vmin !important;
-	width: 3vmin !important;
+	max-height: 5vmin !important;
+	max-width: 3vmin !important;
+	justify-content: center;
+	flex-direction: column;
+	margin-bottom: 0vmin;
+	align-items: center;
+	display: flex;
+	outline: none;
+	border: none;
 }
 
 .bottomMenuLayout {
@@ -188,39 +204,27 @@
 	text-align: center;
 	height: 7vmin;
 }
-
-.leftHollowButtonContentClass {
-	justify-content: space-around;
+          
+.leftHollowButtonContent {
+	justify-content: center;
 	flex-direction: row;
 	align-items: center;
 	display: flex;
 }
-
-.leftHollowButtonContent {
-	justify-content: center;
-	display: inline-flex;
-}
-
-.leftHollowButtonTitleClass {
-	color: #097ECA;
+       
+.buttonTitleSize {
+	font-size: calc(10px + 0.5vmin);
 }
 
 .leftHollowButtonTitle {
-	display: inline-block;
+	margin-top: -0.3vmin !important;
 	color: #097ECA;
 }
-
-.hollowButtonLeftIconClass {
+   
+.hollowButtonLeftIcon {
 	margin-right: 1vmin;
 	height: 3vmin;
-	width: 3vmin;	
-}
-
-.hollowButtonLeftIcon {
-	display: inline-block;
-	margin-right: 1vmin;
-	height: 4vmin;
-	width: 4vmin;
+	width: 3vmin;
 }
 
 .rightIconFieldLayout {
@@ -254,32 +258,52 @@
 	display: flex;
 }
 
-.leftMenuPhotoButton {
-	padding-right: 2vmin !important;
-	padding-left: 2vmin !important;
+.leftMenuPhotoIcon {
+	margin-right: 0.5vmin;
+	height: 55%;
 }
 
-.leftIconHollowButtonClass {
-	height: 5vmin;
-	font-size: calc(10px + 0.7vmin);
-	border: none;
-	margin-top: 0vmin;
-	cursor: pointer;
-	padding-left: 3vmin;
-	padding-right: 3vmin;
+.leftMenuPhotoTitle {
+	font-size: calc(10px + 0.5vmin);
+	color: #097ECA;
+}
+
+.leftMenuPhotoButton {	
+	border: 0.3vmin solid #097ECA !important;
+	font-size: calc(10px + 1vmin); 
+	justify-content: center;
+	padding-right: 2vmin;
+	flex-direction: row;
 	border-radius: 25px;
+	padding-left: 2vmin;
+	align-items: center;
+	cursor: pointer;
+	color: #097ECA;
+	display: flex;
+	height: 5vmin;
+	border: none;	
+}
+ 
+.greyHollowButton {
+	background: #EAEDED !important;
 }
 
 .leftIconHollowButton {
-	height: 7vmin;
-	font-size: calc(10px + 1vmin);
-	width: 100%;
-	border: none;
-	cursor: pointer;
-	padding-left: 7vmin;
+	border: 0.3vmin solid #097ECA !important;
+	font-size: calc(10px + 1vmin) !important; 
+	justify-content: center;
 	padding-right: 7vmin;
+	flex-direction: row;
 	border-radius: 25px;
+	padding-left: 7vmin;
+	align-items: center;
 	margin-top: 2vmin;
+	cursor: pointer;
+	color: #097ECA;
+	display: flex;
+	height: 7vmin;
+	border: none;
+	width: 100%;
 }
 
 button {

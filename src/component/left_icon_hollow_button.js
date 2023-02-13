@@ -26,11 +26,9 @@ class LeftIconHollowButton extends React.Component {
 
 	render() {
 		return (
-			<button onClick={this.clickHollowButton} className={this.props.buttonParts.leftIconHollowButtonClass}>
-				<div className={this.props.buttonParts.leftHollowButtonContentClass}> 
-					<img className={this.props.buttonParts.hollowButtonLeftIconClass} src={this.props.buttonParts.buttonIcon}/>
-					<div className={this.props.buttonParts.leftHollowButtonTitleClass}>{this.props.buttonParts.buttonTitle}</div>
-				</div>
+			<button onClick={this.clickHollowButton} className={this.props.buttonParts.leftIconHollowButtonLayout}>
+				<img className={this.props.buttonParts.leftIconHollowButtonIcon} src={this.props.buttonParts.buttonIcon}/>
+				<div className={this.props.buttonParts.leftIconHollowButtonTitle}>{this.props.buttonParts.buttonTitle}</div>
 			</button>
 		);
 	}

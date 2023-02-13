@@ -768,21 +768,19 @@ class Timeline extends React.Component {
 		var viewProfileButton = {
 			buttonTitle : "View Profile",
 			buttonIcon : icon_view_blue,
-			leftIconHollowButtonClass : "leftIconHollowButton hollowButton buttonTopMargin " + 
+			leftIconHollowButtonLayout : "leftIconHollowButton buttonTopMargin " + 
 				"greyHollowButton floatingAccountButton",
-			leftHollowButtonContentClass : "leftHollowButtonContent",
-			hollowButtonLeftIconClass : "hollowButtonLeftIcon",
-			leftHollowButtonTitleClass : "leftHollowButtonTitle"
+			leftIconHollowButtonIcon : "hollowButtonLeftIcon",
+			leftIconHollowButtonTitle : "leftHollowButtonTitle"
 		}
 
 		var messageButton = {
 			buttonTitle : "Message",
 			buttonIcon : icon_message_blue,
-			leftIconHollowButtonClass : "leftIconHollowButton hollowButton buttonTopMargin " + 
+			leftIconHollowButtonLayout : "leftIconHollowButton buttonTopMargin " + 
 				"floatContentRight greyHollowButton floatingAccountButton",
-			leftHollowButtonContentClass : "leftHollowButtonContent",
-			hollowButtonLeftIconClass : "hollowButtonLeftIcon",
-			leftHollowButtonTitleClass : "leftHollowButtonTitle"
+			leftIconHollowButtonIcon : "hollowButtonLeftIcon",
+			leftIconHollowButtonTitle : "leftHollowButtonTitle"
 		}
               
 		var profilePictureParts = {
@@ -796,23 +794,22 @@ class Timeline extends React.Component {
 		var leftMenuProfileButton = {
 			buttonTitle : "View Profile",
 			buttonIcon : icon_view_blue,
-			leftIconHollowButtonClass : "leftIconHollowButtonClass hollowButton",
-			leftHollowButtonContentClass : "leftHollowButtonContentClass",
-			hollowButtonLeftIconClass : "hollowButtonLeftIconClass",
-			leftHollowButtonTitleClass : "leftHollowButtonTitleClass"
+			leftIconHollowButtonLayout : "leftMenuPhotoButton",
+			leftIconHollowButtonIcon : "leftMenuPhotoIcon",
+			leftIconHollowButtonTitle : "leftMenuPhotoTitle"
 		}
 
 		var leftMenuPhotoButton = {
 			buttonTitle : "Photos",
 			buttonIcon : icon_gallery_blue,
-			leftIconHollowButtonClass : "leftIconHollowButtonClass hollowButton leftMenuPhotoButton",
-			leftHollowButtonContentClass : "leftHollowButtonContentClass",
-			hollowButtonLeftIconClass : "hollowButtonLeftIconClass",
-			leftHollowButtonTitleClass : "leftHollowButtonTitleClass"	
+			leftIconHollowButtonLayout : "leftMenuPhotoButton",
+			leftIconHollowButtonIcon : "leftMenuPhotoIcon",
+			leftIconHollowButtonTitle : "leftMenuPhotoTitle"	
 		}
 
 		var leftMenuEditorButton = {
-			bottomMenuClass : "bottomMenuLayout bottomMenuClass selectedMenuLayout",
+			bottomMenuClass : "leftMenuEditorButton selectedMenuLayout",
+			bottomMenuIcon : "leftMenuBottomMenuIcon",
 			menuIcon : icon_edit_white
 		}
 

@@ -33,6 +33,15 @@
 
 }
 
+.activeMessengerHeader {
+	font-size: calc(10px + 3vmin);	
+	padding-right: 1.5vmin;
+	padding-left: 1.5vmin;
+	margin-bottom: 1vmin;
+	font-weight: 400;
+	width: 100%;
+}
+
 .sexualityButtonList {
 	flex-direction: row;
 	overflow-y: hidden;

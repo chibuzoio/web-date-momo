@@ -11,6 +11,7 @@ class ActiveMessenger extends React.Component {
 	render() {  
 		return (
 			<div className="activeMessengerLayout">
+				<div className="activeMessengerHeader">Chats</div>
 
 				{
 					this.props.activeMessengerComposite.map((messengerContent) => ( 
