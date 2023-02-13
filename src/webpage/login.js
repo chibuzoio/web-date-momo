@@ -5,6 +5,7 @@ import '../css/login.css';
 import '../css/style.css';
 import { Link } from "react-router-dom";
 import icon_person from '../image/icon_person.png';
+import ProgressAnimation from '../component/progress_animation';
 import LeftIconFormField from '../component/left_icon_form_field';
 import google_play_download from '../image/google_play_download.png';
 import icon_gallery_blue from '../image/icon_gallery_blue.png';
@@ -16,7 +17,9 @@ import logo from '../image/datemomo.png';
 
 class Login extends React.Component {
 	visibleButtonClass = "basicButton fullWidth";
+	visibleAnimationClass = "progressLoadingLayout";
 	hiddenButtonClass = this.visibleButtonClass + " hideComponent";
+	hiddenAnimationClass = this.visibleAnimationClass + " hideComponent";
 	passwordEmptyError = "Password field is empty";
 	userNameEmptyError = "User name field is empty";
 	incorrectCredentialError = "User name or password is incorrect";
@@ -40,7 +43,11 @@ class Login extends React.Component {
 				buttonTitle : "Log In",
 				buttonClass : this.visibleButtonClass
 			},
-			loadingPuzzleDisplay : "none"
+			puzzleProgressAnimation : {
+				animationLayout : this.hiddenAnimationClass,
+				animationImageClass : "progressLoadingIcon",
+				animationMotionIcon : loading_puzzle
+			}
 		}
 	};
 
@@ -77,7 +84,11 @@ class Login extends React.Component {
 							buttonTitle : "Log In",
 							buttonClass : this.hiddenButtonClass
 						},
-						loadingPuzzleDisplay : "flex"
+						puzzleProgressAnimation : {
+							animationLayout : this.visibleAnimationClass,
+							animationImageClass : state.contextData.puzzleProgressAnimation.animationImageClass,
+							animationMotionIcon : state.contextData.puzzleProgressAnimation.animationMotionIcon
+						}
 					}
 				}});
 
@@ -93,7 +104,11 @@ class Login extends React.Component {
 									buttonTitle : "Log In",
 									buttonClass : this.visibleButtonClass
 								},
-					 			loadingPuzzleDisplay : "none"
+								puzzleProgressAnimation : {
+									animationLayout : this.hiddenAnimationClass,
+									animationImageClass : state.contextData.puzzleProgressAnimation.animationImageClass,
+									animationMotionIcon : state.contextData.puzzleProgressAnimation.animationMotionIcon
+								}
 					   		}
 					    }}); 
 
@@ -123,7 +138,7 @@ class Login extends React.Component {
 										errorDisplay : "flex"
 									},
 						 			loginButtonParts : state.contextData.loginButtonParts,
-						 			loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
+						 			puzzleProgressAnimation : state.contextData.puzzleProgressAnimation
 						   		}
 						    }}); 
 			    		}
@@ -138,7 +153,11 @@ class Login extends React.Component {
 									buttonTitle : "Log In",
 									buttonClass : this.visibleButtonClass
 								},
-					 			loadingPuzzleDisplay : "none"
+								puzzleProgressAnimation : {
+									animationLayout : this.hiddenAnimationClass,
+									animationImageClass : state.contextData.puzzleProgressAnimation.animationImageClass,
+									animationMotionIcon : state.contextData.puzzleProgressAnimation.animationMotionIcon
+								}
 					   		}
 					    }}); 
 
@@ -169,7 +188,7 @@ class Login extends React.Component {
 				},
 				incorrectCredential : state.contextData.incorrectCredential,
 				loginButtonParts : state.contextData.loginButtonParts,
-				loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
+				puzzleProgressAnimation : state.contextData.puzzleProgressAnimation
 			}
 		}});
 
@@ -197,7 +216,7 @@ class Login extends React.Component {
 				passwordValidity : state.contextData.passwordValidity,
 				incorrectCredential : state.contextData.incorrectCredential,
 				loginButtonParts : state.contextData.loginButtonParts,
-				loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
+				puzzleProgressAnimation : state.contextData.puzzleProgressAnimation
 			}
 		}});
 
@@ -223,7 +242,7 @@ class Login extends React.Component {
 					errorDisplay : "none"
 				},
 				loginButtonParts : state.contextData.loginButtonParts,
-				loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
+				puzzleProgressAnimation : state.contextData.puzzleProgressAnimation
 			}
 		}});
 
@@ -252,7 +271,7 @@ class Login extends React.Component {
 					errorDisplay : "none"
 				},
 				loginButtonParts : state.contextData.loginButtonParts,
-				loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
+				puzzleProgressAnimation : state.contextData.puzzleProgressAnimation
 			}
 		}});
 
@@ -299,10 +318,7 @@ class Login extends React.Component {
 						</div>
 						{/* If you click on this button, fetch data, store it in localStorage and reload */}
 						<BasicButton onButtonClicked={this.authenticateCurrentUser} buttonParts={this.state.contextData.loginButtonParts} />
-						<div className="progressLoadingLayout" 
-							style={{display : this.state.contextData.loadingPuzzleDisplay}}>
-							<img className="progressLoadingIcon" src={loading_puzzle} alt="" />
-						</div>
+						<ProgressAnimation animationData={this.state.contextData.puzzleProgressAnimation} />
 						<Link to="/register">
 							<button className="hollowButton buttonTopMargin fullWidth" type="button">Sign Up</button>
 						</Link>

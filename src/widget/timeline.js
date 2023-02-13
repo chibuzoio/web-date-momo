@@ -9,6 +9,7 @@ import icon_menu_black from '../image/icon_menu_black.png';
 import icon_gallery_blue from '../image/icon_gallery_blue.png'; 
 import RoundPicture from '../component/round_picture';
 import ActiveMessenger from '../widget/active_messenger';
+import ProgressAnimation from '../component/progress_animation';
 import NotificationIterator from '../widget/notification_iterator';
 import BottomMenuIcon from '../component/bottom_menu_icon';
 import IconProfilePicture from '../component/icon_profile_picture';
@@ -789,9 +790,20 @@ class Timeline extends React.Component {
 			menuIcon : icon_edit_white
 		}
 
+		var colorLoaderData = {
+			animationLayout : "colorLoaderLayout",
+			animationImageClass : "colorLoader",
+			animationMotionIcon : color_loader
+		}
+
 		return (
 			<div>
 				<div className="outerParentLayout">
+
+				{/* For the three layouts on leftMenuLayout, make the height 
+				of the first two wrap contents, while the height of the last 
+				content stretch to the bottom, but if it's shorter than the screen, 
+				make it scroll in a scroll layout */}
 
 					<div className="leftMenuLayout">
 						<div className="profileMenuLayout leftMenuContent">
@@ -907,9 +919,7 @@ class Timeline extends React.Component {
 
 				<CloseLayoutIcon menuIconParts={this.state.contextData.closeLayoutIcon} onChangeIconDisplay={this.closeFloatingLayout} />
 				<div className="timelineCover" style={{display : this.state.contextData.displayTimelineCover}}>
-					<div className="colorLoaderLayout">
-						<img className="colorLoader" src={color_loader} alt="" />
-					</div>
+					<ProgressAnimation animationData={this.colorLoaderData} />
 				</div>
 			</div>
 		);

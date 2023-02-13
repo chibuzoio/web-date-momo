@@ -3,6 +3,7 @@ import axios from 'axios';
 import '../css/login.css';
 import '../css/picture_upload.css';
 import LeftIconHollowButton from '../component/left_icon_hollow_button';
+import ProgressAnimation from '../component/progress_animation';
 import BasicFormField from '../component/basic_form_field';
 import BasicButton from '../component/basic_button';
 import HollowButton from '../component/hollow_button';
@@ -17,16 +18,14 @@ class PictureUpload extends React.Component {
 	visibleBasicButton = "basicButton fullWidth";
 	visibleHollowButton = "hollowButton fullWidth";
 	visibleUploadButton = "basicButton customTopMargin fullWidth";
+	visibleAnimationClass = "progressLoadingLayout customTopMargin";
 	visibleFemaleHollowButton = "hollowButton uploadPicture fullWidth";
 	hiddenBasicButton = this.visibleBasicButton + " hideComponent";
 	hiddenHollowButton = this.visibleHollowButton + " hideComponent";
 	hiddenUploadButton = this.visibleUploadButton + " hideComponent";
+	hiddenAnimationClass = this.visibleAnimationClass + " hideComponent";
 	hiddenFemaleHollowButton = this.visibleFemaleHollowButton + " hideComponent";
 	currentUser = {};
-	buttonLoaderToggle = {
-      	uploadButtonDisplay : "flex",
-	    loadingPuzzleDisplay : "none"
-	};
 	ageMaximumError = "Age cannot be greater than 80";
 	ageMinimumError = "You must be 18 years old or older";
 	ageRequiredError = "Your age is required";
@@ -82,6 +81,11 @@ class PictureUpload extends React.Component {
 				uploadBasicButton : {
 					buttonTitle : "Next",
 					buttonClass : this.visibleUploadButton
+				},
+				puzzleProgressAnimation : {
+					animationLayout : this.hiddenAnimationClass,
+					animationImageClass : "progressLoadingIcon",
+					animationMotionIcon : loading_puzzle
 				}
 			}
 		}
@@ -140,7 +144,8 @@ class PictureUpload extends React.Component {
 							buttonTitle : "Female",
 							buttonClass : this.visibleFemaleHollowButton
 						},
-						uploadBasicButton : state.contextData.pictureUploadButtons.uploadBasicButton
+						uploadBasicButton : state.contextData.pictureUploadButtons.uploadBasicButton,
+						puzzleProgressAnimation : state.contextData.pictureUploadButtons.puzzleProgressAnimation
 					}
 				}
 			}});  
@@ -182,7 +187,8 @@ class PictureUpload extends React.Component {
 							buttonTitle : "Female",
 							buttonClass : this.hiddenFemaleHollowButton
 						},
-						uploadBasicButton : state.contextData.pictureUploadButtons.uploadBasicButton
+						uploadBasicButton : state.contextData.pictureUploadButtons.uploadBasicButton,
+						puzzleProgressAnimation : state.contextData.pictureUploadButtons.puzzleProgressAnimation
 					}
 				}
 			}});  
@@ -226,9 +232,7 @@ class PictureUpload extends React.Component {
 			this.validateUploadPicture();
 			this.validateUserSex();
 			this.validateUserAge();
-
-			this.buttonLoaderToggle.loadingPuzzleDisplay = "flex";
-
+  
 			this.setState(function(state) {
 				return {contextData : {
 					pictureUpload : state.contextData.pictureUpload,
@@ -245,6 +249,11 @@ class PictureUpload extends React.Component {
 						uploadBasicButton : {
 							buttonTitle : state.contextData.pictureUploadButtons.uploadBasicButton.buttonTitle,
 							buttonClass : this.hiddenUploadButton
+						},
+						puzzleProgressAnimation : {
+							animationLayout : this.visibleAnimationClass,
+							animationImageClass : state.contextData.pictureUploadButtons.puzzleProgressAnimation.animationImageClass,
+							animationMotionIcon : state.contextData.pictureUploadButtons.puzzleProgressAnimation.animationMotionIcon
 						}
 					}
 				}
@@ -255,8 +264,6 @@ class PictureUpload extends React.Component {
 				this.state.contextData.userAgeValidity.userAgeValid) {
 				axios.post("https://datemomo.com/service/postpicture.php", this.pictureUploadRequest)
 			    	.then(response => {     
-						this.buttonLoaderToggle.loadingPuzzleDisplay = "none";
-
 						this.setState(function(state) {
 							return {contextData : {
 								pictureUpload : state.contextData.pictureUpload,
@@ -273,7 +280,12 @@ class PictureUpload extends React.Component {
 									uploadBasicButton : {
 										buttonTitle : state.contextData.pictureUploadButtons.uploadBasicButton.buttonTitle,
 										buttonClass : this.visibleUploadButton
-									}
+									},
+									puzzleProgressAnimation : {
+										animationLayout : this.hiddenAnimationClass,
+										animationImageClass : state.contextData.pictureUploadButtons.puzzleProgressAnimation.animationImageClass,
+										animationMotionIcon : state.contextData.pictureUploadButtons.puzzleProgressAnimation.animationMotionIcon
+									}									
 								}
 							}
 						}});  
@@ -282,8 +294,6 @@ class PictureUpload extends React.Component {
 						localStorage.setItem("currentUser", JSON.stringify(this.currentUser));
 						window.location.replace("/sexuality");
 			        }, error => {    
-						this.buttonLoaderToggle.loadingPuzzleDisplay = "none";
-
 						this.setState(function(state) {
 							return {contextData : {
 								pictureUpload : state.contextData.pictureUpload,
@@ -300,7 +310,12 @@ class PictureUpload extends React.Component {
 									uploadBasicButton : {
 										buttonTitle : state.contextData.pictureUploadButtons.uploadBasicButton.buttonTitle,
 										buttonClass : this.visibleUploadButton
-									}
+									},
+									puzzleProgressAnimation : {
+										animationLayout : this.hiddenAnimationClass,
+										animationImageClass : state.contextData.pictureUploadButtons.puzzleProgressAnimation.animationImageClass,
+										animationMotionIcon : state.contextData.pictureUploadButtons.puzzleProgressAnimation.animationMotionIcon
+									}									
 								}
 							}
 						}});  
@@ -553,10 +568,7 @@ class PictureUpload extends React.Component {
 					</div>
 					<BasicButton onButtonClicked={this.handlePictureUpload} 
 						buttonParts={this.state.contextData.pictureUploadButtons.uploadBasicButton} />
-					<div className="progressLoadingLayout customTopMargin" 
-						style={{display : this.buttonLoaderToggle.loadingPuzzleDisplay}}>
-						<img className="progressLoadingIcon" src={loading_puzzle} alt="" />
-					</div>
+					<ProgressAnimation animationData={this.state.contextData.pictureUploadButtons.puzzleProgressAnimation} />
 				</div>
 			</div>
 		);
