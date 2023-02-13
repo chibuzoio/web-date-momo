@@ -17,18 +17,22 @@ class Footer extends React.Component {
 		footerBottomMenu : {
 			homeBottomMenu : {
 				bottomMenuClass : "bottomMenuLayout selectedMenuLayout",
+				bottomMenuIcon : "bottomMenuIcon",
 				menuIcon : icon_home_white
 			},
 			messengerBottomMenu : {
 				bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
+				bottomMenuIcon : "bottomMenuIcon",				
 				menuIcon : icon_message_blue
 			},
 			userAccountBottomMenu : {
 				bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
+				bottomMenuIcon : "bottomMenuIcon",				
 				menuIcon : icon_account_blue
 			},
 			notificationBottomMenu : {
 				bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
+				bottomMenuIcon : "bottomMenuIcon",				
 				menuIcon : icon_notification_blue
 			}
 		}
@@ -49,18 +53,22 @@ class Footer extends React.Component {
 					footerBottomMenu : {
 						homeBottomMenu : {
 							bottomMenuClass : "bottomMenuLayout selectedMenuLayout",
+							bottomMenuIcon : state.contextData.footerBottomMenu.homeBottomMenu.bottomMenuIcon,
 							menuIcon : icon_home_white
 						},
 						messengerBottomMenu : {
 							bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
+							bottomMenuIcon : state.contextData.footerBottomMenu.messengerBottomMenu.bottomMenuIcon,
 							menuIcon : icon_message_blue
 						},
 						userAccountBottomMenu : {
 							bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
+							bottomMenuIcon : state.contextData.footerBottomMenu.userAccountBottomMenu.bottomMenuIcon,
 							menuIcon : icon_account_blue
 						},
 						notificationBottomMenu : {
 							bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
+							bottomMenuIcon : state.contextData.footerBottomMenu.notificationBottomMenu.bottomMenuIcon,
 							menuIcon : icon_notification_blue
 						}						
 					}
@@ -76,18 +84,22 @@ class Footer extends React.Component {
 					footerBottomMenu : {
 						homeBottomMenu : {
 							bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
+							bottomMenuIcon : state.contextData.footerBottomMenu.homeBottomMenu.bottomMenuIcon,
 							menuIcon : icon_home_blue
 						},
 						messengerBottomMenu : {
 							bottomMenuClass : "bottomMenuLayout selectedMenuLayout",
+							bottomMenuIcon : state.contextData.footerBottomMenu.messengerBottomMenu.bottomMenuIcon,
 							menuIcon : icon_message_white
 						},
 						userAccountBottomMenu : {
 							bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
+							bottomMenuIcon : state.contextData.footerBottomMenu.userAccountBottomMenu.bottomMenuIcon,
 							menuIcon : icon_account_blue
 						},
 						notificationBottomMenu : {
 							bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
+							bottomMenuIcon : state.contextData.footerBottomMenu.notificationBottomMenu.bottomMenuIcon,
 							menuIcon : icon_notification_blue
 						}						
 					}
@@ -103,18 +115,22 @@ class Footer extends React.Component {
 					footerBottomMenu : {
 						homeBottomMenu : {
 							bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
+							bottomMenuIcon : state.contextData.footerBottomMenu.homeBottomMenu.bottomMenuIcon,
 							menuIcon : icon_home_blue
 						},
 						messengerBottomMenu : {
 							bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
+							bottomMenuIcon : state.contextData.footerBottomMenu.messengerBottomMenu.bottomMenuIcon,
 							menuIcon : icon_message_blue
 						},
 						userAccountBottomMenu : {
 							bottomMenuClass : "bottomMenuLayout selectedMenuLayout",
+							bottomMenuIcon : state.contextData.footerBottomMenu.userAccountBottomMenu.bottomMenuIcon,
 							menuIcon : icon_account_white
 						},
 						notificationBottomMenu : {
 							bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
+							bottomMenuIcon : state.contextData.footerBottomMenu.notificationBottomMenu.bottomMenuIcon,
 							menuIcon : icon_notification_blue
 						}						
 					}
@@ -130,18 +146,22 @@ class Footer extends React.Component {
 					footerBottomMenu : {
 						homeBottomMenu : {
 							bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
+							bottomMenuIcon : state.contextData.footerBottomMenu.homeBottomMenu.bottomMenuIcon,
 							menuIcon : icon_home_blue
 						},
 						messengerBottomMenu : {
 							bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
+							bottomMenuIcon : state.contextData.footerBottomMenu.messengerBottomMenu.bottomMenuIcon,
 							menuIcon : icon_message_blue
 						},
 						userAccountBottomMenu : {
 							bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
+							bottomMenuIcon : state.contextData.footerBottomMenu.userAccountBottomMenu.bottomMenuIcon,
 							menuIcon : icon_account_blue
 						},
 						notificationBottomMenu : {
 							bottomMenuClass : "bottomMenuLayout selectedMenuLayout",
+							bottomMenuIcon : state.contextData.footerBottomMenu.notificationBottomMenu.bottomMenuIcon,
 							menuIcon : icon_notification_white
 						}						
 					}

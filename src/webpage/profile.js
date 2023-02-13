@@ -416,21 +416,19 @@ class Profile extends React.Component {
 		var editProfileButton = {
 			buttonTitle : "Edit Profile",
 			buttonIcon : icon_edit_blue,
-			leftIconHollowButtonClass : "leftIconHollowButton hollowButton buttonTopMargin " + 
+			leftIconHollowButtonLayout : "leftIconHollowButton buttonTopMargin " + 
 				"greyHollowButton floatingAccountButton",
-			leftHollowButtonContentClass : "leftHollowButtonContent",
-			hollowButtonLeftIconClass : "hollowButtonLeftIcon",
-			leftHollowButtonTitleClass : "leftHollowButtonTitle"
+			leftIconHollowButtonIcon : "hollowButtonLeftIcon",
+			leftIconHollowButtonTitle : "leftHollowButtonTitle"
 		}
 
 		var pictureGalleryButton = {
 			buttonTitle : "Photos",
 			buttonIcon : icon_gallery_blue,
-			leftIconHollowButtonClass : "leftIconHollowButton hollowButton buttonTopMargin " + 
+			leftIconHollowButtonLayout : "leftIconHollowButton buttonTopMargin " + 
 				"greyHollowButton floatingAccountButton",
-			leftHollowButtonContentClass : "leftHollowButtonContent",
-			hollowButtonLeftIconClass : "hollowButtonLeftIcon",
-			leftHollowButtonTitleClass : "leftHollowButtonTitle"
+			leftIconHollowButtonIcon : "hollowButtonLeftIcon",
+			leftIconHollowButtonTitle : "leftHollowButtonTitle"
 		}
               
 		return ( 

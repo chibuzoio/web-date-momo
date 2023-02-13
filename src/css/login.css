@@ -54,6 +54,11 @@
   margin-top: -2vmin;
 }
 
+.errorMessageAlt {
+  margin-bottom: 0vmin !important;
+  padding-top: 2vmin;
+}
+
 .inputErrorMessage {
   font-size: calc(10px + 0.5vmin);
   margin-top: -1vmin !important;

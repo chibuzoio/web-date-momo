@@ -26,7 +26,7 @@ class BottomMenuIcon extends React.Component {
 	render() {  
 		return (
 			<button onClick={this.clickButtonMenuIcon} className={this.props.menuParts.bottomMenuClass} type="button"> 
-				<img className="bottomMenuIcon" alt="" src={this.props.menuParts.menuIcon} />
+				<img className={this.props.menuParts.bottomMenuIcon} alt="" src={this.props.menuParts.menuIcon} />
 			</button>
 		);
 	}
