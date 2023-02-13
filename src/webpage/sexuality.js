@@ -5,10 +5,13 @@ import '../css/sexuality.css';
 import BasicButton from '../component/basic_button';
 import loading_puzzle from '../image/loading_puzzle.gif';
 import SexualityOptions from '../widget/sexuality_options';
+import ProgressAnimation from '../component/progress_animation';
 
 class Sexuality extends React.Component {
 	visibleButtonClass = "basicButton customTopMargin fullWidth";
+	visibleAnimationClass = "progressLoadingLayout customTopMargin";
 	hiddenButtonClass = this.visibleButtonClass + " hideComponent";
+	hiddenAnimationClass = this.visibleAnimationClass + " hideComponent";
 	sexualCategoryButtons = [
 		{
 			sexualityType : "Category",
@@ -432,11 +435,7 @@ class Sexuality extends React.Component {
 				buttonDisplay : "flex"
 			}
 		}
-	];
-	buttonLoaderToggle = {
-      	uploadButtonDisplay : "flex",
-	    loadingPuzzleDisplay : "none"
-	};
+	]; 
 	state = {contextData : {
 		sexualCategoryButtons : this.sexualCategoryButtons,
 		sexualInterestButtons : this.sexualInterestButtons,
@@ -444,6 +443,11 @@ class Sexuality extends React.Component {
 		sexualityButtonParts : {
 			buttonTitle : "Submit",
 			buttonClass : this.visibleButtonClass
+		},
+		puzzleProgressAnimation : {
+			animationLayout : this.hiddenAnimationClass,
+			animationImageClass : "progressLoadingIcon",
+			animationMotionIcon : loading_puzzle
 		}
 	}};
 	currentUser = {};
@@ -524,7 +528,8 @@ class Sexuality extends React.Component {
 				sexualityButtonParts : {
 					buttonTitle : "Submit",
 					buttonClass : this.visibleButtonClass
-				}
+				},
+				puzzleProgressAnimation : state.contextData.puzzleProgressAnimation
 			}
 		}});       
 	}
@@ -539,11 +544,15 @@ class Sexuality extends React.Component {
 					sexualityButtonParts : {
 						buttonTitle : "Submit",
 						buttonClass : this.hiddenButtonClass
+					},
+					puzzleProgressAnimation : {
+						animationLayout : this.visibleAnimationClass,
+						animationImageClass : state.contextData.puzzleProgressAnimation.animationImageClass,
+						animationMotionIcon : state.contextData.puzzleProgressAnimation.animationMotionIcon
 					}
 				}
 			}});       
 
-			this.buttonLoaderToggle.loadingPuzzleDisplay = "flex";
 		    this.sexualityRequestData.bisexualCategory = (this.state.contextData.sexualCategoryButtons[0].basicButton.buttonDisplay === "none") ? 0 : 1;
 		    this.sexualityRequestData.gayCategory = (this.state.contextData.sexualCategoryButtons[1].basicButton.buttonDisplay === "none") ? 0 : 1;
 		    this.sexualityRequestData.lesbianCategory = (this.state.contextData.sexualCategoryButtons[2].basicButton.buttonDisplay === "none") ? 0 : 1;
@@ -578,9 +587,7 @@ class Sexuality extends React.Component {
 		    this.sexualityRequestData.videoSexExperience = (this.state.contextData.sexualExperienceButtons[13].basicButton.buttonDisplay === "none") ? 0 : 1;
       
 			axios.post("https://datemomo.com/service/userbiometrics.php", this.sexualityRequestData)
-		    	.then(response => {     
-					this.buttonLoaderToggle.loadingPuzzleDisplay = "none";
-
+		    	.then(response => { 
 					this.setState(function(state) {
 						return {contextData : {
 							sexualCategoryButtons : this.state.contextData.sexualCategoryButtons,
@@ -589,6 +596,11 @@ class Sexuality extends React.Component {
 							sexualityButtonParts : {
 								buttonTitle : "Submit",
 								buttonClass : this.visibleButtonClass
+							},
+							puzzleProgressAnimation : {
+								animationLayout : this.hiddenAnimationClass,
+								animationImageClass : state.contextData.puzzleProgressAnimation.animationImageClass,
+								animationMotionIcon : state.contextData.puzzleProgressAnimation.animationMotionIcon
 							}
 						}
 					}});       
@@ -596,9 +608,7 @@ class Sexuality extends React.Component {
 					this.currentUser.userLevel = response.data.userLevel;
 					localStorage.setItem("currentUser", JSON.stringify(this.currentUser));
 					window.location.replace("/");
-		        }, error => {    
-					this.buttonLoaderToggle.loadingPuzzleDisplay = "none";
-
+		        }, error => {     
 					this.setState(function(state) {
 						return {contextData : {
 							sexualCategoryButtons : this.state.contextData.sexualCategoryButtons,
@@ -607,6 +617,11 @@ class Sexuality extends React.Component {
 							sexualityButtonParts : {
 								buttonTitle : "Submit",
 								buttonClass : this.visibleButtonClass
+							},
+							puzzleProgressAnimation : {
+								animationLayout : this.hiddenAnimationClass,
+								animationImageClass : state.contextData.puzzleProgressAnimation.animationImageClass,
+								animationMotionIcon : state.contextData.puzzleProgressAnimation.animationMotionIcon
 							}
 						}
 					}});       
@@ -627,10 +642,7 @@ class Sexuality extends React.Component {
 					<div className="sexualCategoryHeader">Things you have tried or can do in sex</div>
 					<SexualityOptions onSexualityChange={this.updateSexualityCollection} sexualityButtons={this.sexualExperienceButtons} />
 					<BasicButton onButtonClicked={this.submitSexualitySelections} buttonParts={this.state.contextData.sexualityButtonParts} />
-					<div className="progressLoadingLayout customTopMargin" 
-						style={{display : this.buttonLoaderToggle.loadingPuzzleDisplay}}>
-						<img className="progressLoadingIcon" src={loading_puzzle} alt="" />
-					</div>
+					<ProgressAnimation animationData={this.state.contextData.puzzleProgressAnimation} />
 				</div>
 			</div>
 		);

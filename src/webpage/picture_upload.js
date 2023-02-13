@@ -3,6 +3,8 @@ import axios from 'axios';
 import '../css/login.css';
 import '../css/picture_upload.css';
 import LeftIconHollowButton from '../component/left_icon_hollow_button';
+import InputErrorMessage from '../component/input_error_message';
+import ProgressAnimation from '../component/progress_animation';
 import BasicFormField from '../component/basic_form_field';
 import BasicButton from '../component/basic_button';
 import HollowButton from '../component/hollow_button';
@@ -14,19 +16,22 @@ import placeholder from '../image/placeholder.jpg';
 import logo from '../image/datemomo.png';
 
 class PictureUpload extends React.Component {
+	visibleErrorMessage = "inputErrorMessage";
 	visibleBasicButton = "basicButton fullWidth";
 	visibleHollowButton = "hollowButton fullWidth";
+	visibleUserAgeError = "inputErrorMessage centerMessage";
 	visibleUploadButton = "basicButton customTopMargin fullWidth";
+	visibleAnimationClass = "progressLoadingLayout customTopMargin";
 	visibleFemaleHollowButton = "hollowButton uploadPicture fullWidth";
 	hiddenBasicButton = this.visibleBasicButton + " hideComponent";
+	hiddenErrorMessage = this.visibleErrorMessage + " hideComponent";
 	hiddenHollowButton = this.visibleHollowButton + " hideComponent";
 	hiddenUploadButton = this.visibleUploadButton + " hideComponent";
+	hiddenAnimationClass = this.visibleAnimationClass + " hideComponent";
 	hiddenFemaleHollowButton = this.visibleFemaleHollowButton + " hideComponent";
 	currentUser = {};
-	buttonLoaderToggle = {
-      	uploadButtonDisplay : "flex",
-	    loadingPuzzleDisplay : "none"
-	};
+	userSexErrorMessage = "Select your sex";
+	pictureErrorMessage = "Choose picture to upload";
 	ageMaximumError = "Age cannot be greater than 80";
 	ageMinimumError = "You must be 18 years old or older";
 	ageRequiredError = "Your age is required";
@@ -47,20 +52,22 @@ class PictureUpload extends React.Component {
 			},
 			userSex : "",
 			userAge : 0,
-			pictureValidity : {
-				pictureError : "Choose picture to upload",
-				errorDisplay : "none",
-				pictureValid : false
-			},
-			userSexValidity : {
-				userSexError : "Select your sex",
-				errorDisplay : "none",
-				userSexValid : false
-			},
-			userAgeValidity : {
-				userAgeError : this.ageRequiredError,
-				errorDisplay : "none",
-				userAgeValid : false
+			inputValidity : {
+				pictureValidity : {
+					errorMessage : this.pictureErrorMessage,
+					messageLayout : this.hiddenErrorMessage,
+					pictureValid : false
+				},
+				userSexValidity : {
+					errorMessage : this.userSexErrorMessage,
+					messageLayout : this.hiddenErrorMessage,
+					userSexValid : false
+				},
+				userAgeValidity : {
+					errorMessage : this.ageRequiredError,
+					messageLayout : this.hiddenErrorMessage,
+					userAgeValid : false
+				}
 			},
 			pictureUploadButtons : {
 				maleBasicButton : {
@@ -82,6 +89,11 @@ class PictureUpload extends React.Component {
 				uploadBasicButton : {
 					buttonTitle : "Next",
 					buttonClass : this.visibleUploadButton
+				},
+				puzzleProgressAnimation : {
+					animationLayout : this.hiddenAnimationClass,
+					animationImageClass : "progressLoadingIcon",
+					animationMotionIcon : loading_puzzle
 				}
 			}
 		}
@@ -120,9 +132,7 @@ class PictureUpload extends React.Component {
 					pictureUpload : state.contextData.pictureUpload,	
 					userSex : "Male",
 					userAge : state.contextData.userAge,
-					pictureValidity : state.contextData.pictureValidity,
-					userSexValidity : state.contextData.userSexValidity,
-					userAgeValidity : state.contextData.userAgeValidity,
+					inputValidity : state.contextData.inputValidity,
 					pictureUploadButtons : {
 						maleBasicButton : {
 							buttonTitle : "Male",
@@ -140,7 +150,8 @@ class PictureUpload extends React.Component {
 							buttonTitle : "Female",
 							buttonClass : this.visibleFemaleHollowButton
 						},
-						uploadBasicButton : state.contextData.pictureUploadButtons.uploadBasicButton
+						uploadBasicButton : state.contextData.pictureUploadButtons.uploadBasicButton,
+						puzzleProgressAnimation : state.contextData.pictureUploadButtons.puzzleProgressAnimation
 					}
 				}
 			}});  
@@ -162,9 +173,7 @@ class PictureUpload extends React.Component {
 					pictureUpload : state.contextData.pictureUpload,
 					userSex : "Female",
 					userAge : state.contextData.userAge,
-					pictureValidity : state.contextData.pictureValidity,
-					userSexValidity : state.contextData.userSexValidity,
-					userAgeValidity : state.contextData.userAgeValidity,
+					inputValidity : state.contextData.inputValidity,
 					pictureUploadButtons : {
 						maleBasicButton : {
 							buttonTitle : "Male",
@@ -182,7 +191,8 @@ class PictureUpload extends React.Component {
 							buttonTitle : "Female",
 							buttonClass : this.hiddenFemaleHollowButton
 						},
-						uploadBasicButton : state.contextData.pictureUploadButtons.uploadBasicButton
+						uploadBasicButton : state.contextData.pictureUploadButtons.uploadBasicButton,
+						puzzleProgressAnimation : state.contextData.pictureUploadButtons.puzzleProgressAnimation
 					}
 				}
 			}});  
@@ -226,17 +236,13 @@ class PictureUpload extends React.Component {
 			this.validateUploadPicture();
 			this.validateUserSex();
 			this.validateUserAge();
-
-			this.buttonLoaderToggle.loadingPuzzleDisplay = "flex";
-
+  
 			this.setState(function(state) {
 				return {contextData : {
 					pictureUpload : state.contextData.pictureUpload,
 					userSex : state.contextData.userSex,
 					userAge : state.contextData.userAge,
-					pictureValidity : state.contextData.pictureValidity,
-					userSexValidity : state.contextData.userSexValidity,
-					userAgeValidity : state.contextData.userAgeValidity,
+					inputValidity : state.contextData.inputValidity,
 					pictureUploadButtons : {
 						maleBasicButton : state.contextData.pictureUploadButtons.maleBasicButton,
 						femaleBasicButton : state.contextData.pictureUploadButtons.femaleBasicButton,
@@ -245,26 +251,27 @@ class PictureUpload extends React.Component {
 						uploadBasicButton : {
 							buttonTitle : state.contextData.pictureUploadButtons.uploadBasicButton.buttonTitle,
 							buttonClass : this.hiddenUploadButton
+						},
+						puzzleProgressAnimation : {
+							animationLayout : this.visibleAnimationClass,
+							animationImageClass : state.contextData.pictureUploadButtons.puzzleProgressAnimation.animationImageClass,
+							animationMotionIcon : state.contextData.pictureUploadButtons.puzzleProgressAnimation.animationMotionIcon
 						}
 					}
 				}
 			}});  
 
-			if (this.state.contextData.pictureValidity.pictureValid && 
-				this.state.contextData.userSexValidity.userSexValid && 
-				this.state.contextData.userAgeValidity.userAgeValid) {
+			if (this.state.contextData.inputValidity.pictureValidity.pictureValid && 
+				this.state.contextData.inputValidity.userSexValidity.userSexValid && 
+				this.state.contextData.inputValidity.userAgeValidity.userAgeValid) {
 				axios.post("https://datemomo.com/service/postpicture.php", this.pictureUploadRequest)
 			    	.then(response => {     
-						this.buttonLoaderToggle.loadingPuzzleDisplay = "none";
-
 						this.setState(function(state) {
 							return {contextData : {
 								pictureUpload : state.contextData.pictureUpload,
 								userSex : state.contextData.userSex,
-								userAge : state.contextData.userAge,
-								pictureValidity : state.contextData.pictureValidity,
-								userSexValidity : state.contextData.userSexValidity,
-								userAgeValidity : state.contextData.userAgeValidity,
+								userAge : state.contextData.userAge, 
+								inputValidity : state.contextData.inputValidity,								
 								pictureUploadButtons : {
 									maleBasicButton : state.contextData.pictureUploadButtons.maleBasicButton,
 									femaleBasicButton : state.contextData.pictureUploadButtons.femaleBasicButton,
@@ -273,7 +280,12 @@ class PictureUpload extends React.Component {
 									uploadBasicButton : {
 										buttonTitle : state.contextData.pictureUploadButtons.uploadBasicButton.buttonTitle,
 										buttonClass : this.visibleUploadButton
-									}
+									},
+									puzzleProgressAnimation : {
+										animationLayout : this.hiddenAnimationClass,
+										animationImageClass : state.contextData.pictureUploadButtons.puzzleProgressAnimation.animationImageClass,
+										animationMotionIcon : state.contextData.pictureUploadButtons.puzzleProgressAnimation.animationMotionIcon
+									}									
 								}
 							}
 						}});  
@@ -282,16 +294,12 @@ class PictureUpload extends React.Component {
 						localStorage.setItem("currentUser", JSON.stringify(this.currentUser));
 						window.location.replace("/sexuality");
 			        }, error => {    
-						this.buttonLoaderToggle.loadingPuzzleDisplay = "none";
-
 						this.setState(function(state) {
 							return {contextData : {
 								pictureUpload : state.contextData.pictureUpload,
 								userSex : state.contextData.userSex,
 								userAge : state.contextData.userAge,
-								pictureValidity : state.contextData.pictureValidity,
-								userSexValidity : state.contextData.userSexValidity,
-								userAgeValidity : state.contextData.userAgeValidity,
+								inputValidity : state.contextData.inputValidity,
 								pictureUploadButtons : {
 									maleBasicButton : state.contextData.pictureUploadButtons.maleBasicButton,
 									femaleBasicButton : state.contextData.pictureUploadButtons.femaleBasicButton,
@@ -300,7 +308,12 @@ class PictureUpload extends React.Component {
 									uploadBasicButton : {
 										buttonTitle : state.contextData.pictureUploadButtons.uploadBasicButton.buttonTitle,
 										buttonClass : this.visibleUploadButton
-									}
+									},
+									puzzleProgressAnimation : {
+										animationLayout : this.hiddenAnimationClass,
+										animationImageClass : state.contextData.pictureUploadButtons.puzzleProgressAnimation.animationImageClass,
+										animationMotionIcon : state.contextData.pictureUploadButtons.puzzleProgressAnimation.animationMotionIcon
+									}									
 								}
 							}
 						}});  
@@ -331,9 +344,7 @@ class PictureUpload extends React.Component {
 						},
 						userSex : state.contextData.userSex,
 						userAge : state.contextData.userAge,
-						pictureValidity : state.contextData.pictureValidity,
-						userSexValidity : state.contextData.userSexValidity,
-						userAgeValidity : state.contextData.userAgeValidity,
+						inputValidity : state.contextData.inputValidity,						
 						pictureUploadButtons : state.contextData.pictureUploadButtons
 					}
 				}});  
@@ -353,9 +364,7 @@ class PictureUpload extends React.Component {
 							},
 							userSex : state.contextData.userSex,
 							userAge : state.contextData.userAge,
-							pictureValidity : state.contextData.pictureValidity,
-							userSexValidity : state.contextData.userSexValidity,
-							userAgeValidity : state.contextData.userAgeValidity,
+							inputValidity : state.contextData.inputValidity,
 							pictureUploadButtons : state.contextData.pictureUploadButtons
 						}
 					}});  
@@ -377,22 +386,22 @@ class PictureUpload extends React.Component {
 
 	validateUserAge() {
 		var userAgeValidity = {
-			userAgeError : this.ageRequiredError,
-			errorDisplay : "flex",
+			errorMessage : this.ageRequiredError,
+			messageLayout : this.visibleUserAgeError,
 			userAgeValid : false
 		};
-    
+    	
 		if (this.state.contextData.userAge < 81 && this.state.contextData.userAge > 18) {
-			userAgeValidity.errorDisplay = "none";
+			userAgeValidity.messageLayout = this.hiddenErrorMessage;
 			userAgeValidity.userAgeValid = true;
 		}
     
 		if (this.state.contextData.userAge < 18 && this.state.contextData.userAge > 0) {
-			userAgeValidity.userAgeError = this.ageMinimumError;
+			userAgeValidity.errorMessage = this.ageMinimumError;
 		}
 
 		if (this.state.contextData.userAge > 80) {
-			userAgeValidity.userAgeError = this.ageMaximumError;
+			userAgeValidity.errorMessage = this.ageMaximumError;
 		}
 
 		this.setState(function(state) {
@@ -400,9 +409,11 @@ class PictureUpload extends React.Component {
 				pictureUpload : state.contextData.pictureUpload,
 				userSex : state.contextData.userSex,
 				userAge : state.contextData.userAge,
-				pictureValidity : state.contextData.pictureValidity,
-				userSexValidity : state.contextData.userSexValidity,
-				userAgeValidity : userAgeValidity,
+				inputValidity : {
+					pictureValidity : state.contextData.inputValidity.pictureValidity,
+					userSexValidity : state.contextData.inputValidity.userSexValidity,
+					userAgeValidity : userAgeValidity
+				},
 				pictureUploadButtons : state.contextData.pictureUploadButtons
 			}
 		}});  
@@ -410,13 +421,13 @@ class PictureUpload extends React.Component {
 
 	validateUserSex() {
 		var userSexValidity = {
-			userSexError : this.state.contextData.userSexValidity.userSexError,
-			errorDisplay : "flex",
+			userSexError : this.state.contextData.inputValidity.userSexValidity.errorMessage,
+			messageLayout : this.visibleErrorMessage,
 			userSexValid : false
 		};
 
 		if (this.state.contextData.userSex !== "") {
-			userSexValidity.errorDisplay = "none";
+			userSexValidity.messageLayout = this.hiddenErrorMessage;
 			userSexValidity.userSexValid = true;
 		}
 
@@ -425,9 +436,11 @@ class PictureUpload extends React.Component {
 				pictureUpload : state.contextData.pictureUpload,
 				userSex : state.contextData.userSex,
 				userAge : state.contextData.userAge,
-				pictureValidity : state.contextData.pictureValidity,
-				userSexValidity : userSexValidity,
-				userAgeValidity : state.contextData.userAgeValidity,
+				inputValidity : {
+					pictureValidity : state.contextData.inputValidity.pictureValidity,
+					userSexValidity : userSexValidity,
+					userAgeValidity : state.contextData.inputValidity.userAgeValidity
+				},
 				pictureUploadButtons : state.contextData.pictureUploadButtons
 			}
 		}});  
@@ -435,14 +448,14 @@ class PictureUpload extends React.Component {
 
 	validateUploadPicture() {
 		var pictureValidity = {
-			pictureError : "Choose picture to upload",
-			errorDisplay : "flex",
+			errorMessage : this.pictureErrorMessage,
+			messageLayout : this.visibleErrorMessage,
 			pictureValid : false
 		};
 
 		if (this.state.contextData.pictureUpload.imageWidth > 0 
 			&& this.state.contextData.pictureUpload.imageHeight > 0) {
-			pictureValidity.errorDisplay = "none";
+			pictureValidity.messageLayout = this.hiddenErrorMessage;
 			pictureValidity.pictureValid = true;
 		}
 
@@ -451,9 +464,11 @@ class PictureUpload extends React.Component {
 				pictureUpload : state.contextData.pictureUpload,
 				userSex : state.contextData.userSex,
 				userAge : state.contextData.userAge,
-				pictureValidity : pictureValidity,
-				userSexValidity : state.contextData.userSexValidity,
-				userAgeValidity : state.contextData.userAgeValidity,
+				inputValidity : {
+					pictureValidity : pictureValidity,
+					userSexValidity : state.contextData.inputValidity.userSexValidity,
+					userAgeValidity : state.contextData.inputValidity.userAgeValidity
+				},
 				pictureUploadButtons : state.contextData.pictureUploadButtons
 			}
 		}});  
@@ -465,9 +480,7 @@ class PictureUpload extends React.Component {
 				pictureUpload : state.contextData.pictureUpload,
 				userSex : state.contextData.userSex,
 				userAge : userAgeValue,
-				pictureValidity : state.contextData.pictureValidity,
-				userSexValidity : state.contextData.userSexValidity,
-				userAgeValidity : state.contextData.userAgeValidity,
+				inputValidity : state.contextData.inputValidity,
 				pictureUploadButtons : state.contextData.pictureUploadButtons
 			}
 		}});  
@@ -520,10 +533,7 @@ class PictureUpload extends React.Component {
 						<LeftIconHollowButton onButtonClicked={this.openDeviceCamera} buttonParts={takePictureButton} />
 						<LeftIconHollowButton onButtonClicked={this.openSystemGallery} buttonParts={uploadPictureButton} />
 					</div>
-					<div className="inputErrorMessage" 
-						style={{display: this.state.contextData.pictureValidity.errorDisplay}}>
-						{this.state.contextData.pictureValidity.pictureError}
-					</div>
+					<InputErrorMessage errorMessageData={this.state.contextData.inputValidity.userNameValidity} />
 					<div className="sexTitle">Sex</div>
 					<div className="pictureButtons">
 						<div className="maleSexButtons">
@@ -539,24 +549,15 @@ class PictureUpload extends React.Component {
 								buttonParts={this.state.contextData.pictureUploadButtons.femaleBasicButton} />
 						</div>
 					</div>
-					<div className="inputErrorMessage" 
-						style={{display: this.state.contextData.userSexValidity.errorDisplay}}>
-						{this.state.contextData.userSexValidity.userSexError}
-					</div>
+					<InputErrorMessage errorMessageData={this.state.contextData.inputValidity.userSexValidity} />
 					<div className="ageFormLayout">
 						<div className="ageFormTitle">Age</div>
 						<BasicFormField onFormValueChange={this.updateInputUserAge} formParts={ageFormField} />
 					</div>
-					<div className="inputErrorMessage centerMessage" 
-						style={{display: this.state.contextData.userAgeValidity.errorDisplay}}>
-						{this.state.contextData.userAgeValidity.userAgeError}
-					</div>
+					<InputErrorMessage errorMessageData={this.state.contextData.inputValidity.userAgeValidity} />
 					<BasicButton onButtonClicked={this.handlePictureUpload} 
 						buttonParts={this.state.contextData.pictureUploadButtons.uploadBasicButton} />
-					<div className="progressLoadingLayout customTopMargin" 
-						style={{display : this.buttonLoaderToggle.loadingPuzzleDisplay}}>
-						<img className="progressLoadingIcon" src={loading_puzzle} alt="" />
-					</div>
+					<ProgressAnimation animationData={this.state.contextData.pictureUploadButtons.puzzleProgressAnimation} />
 				</div>
 			</div>
 		);

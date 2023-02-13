@@ -139,7 +139,9 @@
 }
 
 .bottomMenuLayout {
+	height: 7vmin !important;
 	justify-content: center;
+	width: 7vmin !important;
 	flex-direction: row;
 	margin-bottom: auto;
 	align-items: center;
@@ -147,9 +149,7 @@
 	margin-top: auto;
 	display: flex;
 	outline: none;
-	height: 7vmin;
 	border: none;
-	width: 7vmin;
 }
 
 .formFieldClass {

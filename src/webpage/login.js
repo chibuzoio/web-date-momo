@@ -5,6 +5,8 @@ import '../css/login.css';
 import '../css/style.css';
 import { Link } from "react-router-dom";
 import icon_person from '../image/icon_person.png';
+import ProgressAnimation from '../component/progress_animation';
+import InputErrorMessage from '../component/input_error_message';
 import LeftIconFormField from '../component/left_icon_form_field';
 import google_play_download from '../image/google_play_download.png';
 import icon_gallery_blue from '../image/icon_gallery_blue.png';
@@ -15,8 +17,13 @@ import Register from '../webpage/register';
 import logo from '../image/datemomo.png';
 
 class Login extends React.Component {
+	visibleErrorMessage = "inputErrorMessage ";
 	visibleButtonClass = "basicButton fullWidth";
+	visibleAnimationClass = "progressLoadingLayout";
+	// visibleErrorMessage = "inputErrorMessage userNameError";
 	hiddenButtonClass = this.visibleButtonClass + " hideComponent";
+	hiddenErrorMessage = this.visibleErrorMessage + " hideComponent";
+	hiddenAnimationClass = this.visibleAnimationClass + " hideComponent";
 	passwordEmptyError = "Password field is empty";
 	userNameEmptyError = "User name field is empty";
 	incorrectCredentialError = "User name or password is incorrect";
@@ -25,22 +32,31 @@ class Login extends React.Component {
 				userName : "",
 				password : ""
 			},
-			userNameValidity : {
-				userNameValid : false,
-				errorDisplay : "none"
-			}, 
-			passwordValidity : {
-				passwordValid : false,
-				errorDisplay : "none"
-			},
-			incorrectCredential : {
-				errorDisplay : "none"
-			},
 			loginButtonParts : {
 				buttonTitle : "Log In",
 				buttonClass : this.visibleButtonClass
 			},
-			loadingPuzzleDisplay : "none"
+			puzzleProgressAnimation : {
+				animationLayout : this.hiddenAnimationClass,
+				animationImageClass : "progressLoadingIcon",
+				animationMotionIcon : loading_puzzle
+			},
+			inputValidity : {
+				userNameValidity : {
+					userNameValid : false,
+					messageLayout : this.hiddenErrorMessage,
+					errorMessage : this.userNameEmptyError
+				}, 
+				passwordValidity : {
+					passwordValid : false,
+					messageLayout : this.hiddenErrorMessage,
+					errorMessage : this.passwordEmptyError
+				},
+				credentialValidity : {
+					messageLayout : this.hiddenErrorMessage,
+					errorMessage : this.incorrectCredentialError
+				}
+			}
 		}
 	};
 
@@ -70,14 +86,16 @@ class Login extends React.Component {
 				this.setState(function(state) {
 					return {contextData : {
 						loginRequestData : state.contextData.loginRequestData,
-						userNameValidity : state.contextData.userNameValidity,
-						passwordValidity : state.contextData.passwordValidity,
-						incorrectCredential : state.contextData.incorrectCredential,
 						loginButtonParts : {
 							buttonTitle : "Log In",
 							buttonClass : this.hiddenButtonClass
 						},
-						loadingPuzzleDisplay : "flex"
+						puzzleProgressAnimation : {
+							animationLayout : this.visibleAnimationClass,
+							animationImageClass : state.contextData.puzzleProgressAnimation.animationImageClass,
+							animationMotionIcon : state.contextData.puzzleProgressAnimation.animationMotionIcon
+						},
+						inputValidity : state.contextData.inputValidity		
 					}
 				}});
 
@@ -86,14 +104,16 @@ class Login extends React.Component {
 			    		this.setState(function(state) {
 			    			return {contextData : {
 								loginRequestData : state.contextData.loginRequestData,
-								userNameValidity : state.contextData.userNameValidity,
-								passwordValidity : state.contextData.passwordValidity,
-								incorrectCredential : state.contextData.incorrectCredential,
 					 			loginButtonParts : {
 									buttonTitle : "Log In",
 									buttonClass : this.visibleButtonClass
 								},
-					 			loadingPuzzleDisplay : "none"
+								puzzleProgressAnimation : {
+									animationLayout : this.hiddenAnimationClass,
+									animationImageClass : state.contextData.puzzleProgressAnimation.animationImageClass,
+									animationMotionIcon : state.contextData.puzzleProgressAnimation.animationMotionIcon
+								},
+								inputValidity : state.contextData.inputValidity
 					   		}
 					    }}); 
 
@@ -117,13 +137,16 @@ class Login extends React.Component {
 			    			this.setState(function(state) {
 				    			return {contextData : {
 									loginRequestData : state.contextData.loginRequestData,
-									userNameValidity : state.contextData.userNameValidity,
-									passwordValidity : state.contextData.passwordValidity,
-									incorrectCredential : {
-										errorDisplay : "flex"
-									},
 						 			loginButtonParts : state.contextData.loginButtonParts,
-						 			loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
+						 			puzzleProgressAnimation : state.contextData.puzzleProgressAnimation,
+									inputValidity : {
+										userNameValidity : state.contextData.inputValidity.userNameValidity, 
+										passwordValidity : state.contextData.inputValidity.passwordValidity,
+										credentialValidity : {
+											messageLayout : this.visibleErrorMessage,
+											errorMessage : state.contextData.inputValidity.credentialValidity.errorMessage
+										}
+									}
 						   		}
 						    }}); 
 			    		}
@@ -131,14 +154,16 @@ class Login extends React.Component {
 						this.setState(function(state) {
 			    			return {contextData : {
 								loginRequestData : state.contextData.loginRequestData,
-								userNameValidity : state.contextData.userNameValidity,
-								passwordValidity : state.contextData.passwordValidity,
-								incorrectCredential : state.contextData.incorrectCredential,
 					 			loginButtonParts : {
 									buttonTitle : "Log In",
 									buttonClass : this.visibleButtonClass
 								},
-					 			loadingPuzzleDisplay : "none"
+								puzzleProgressAnimation : {
+									animationLayout : this.hiddenAnimationClass,
+									animationImageClass : state.contextData.puzzleProgressAnimation.animationImageClass,
+									animationMotionIcon : state.contextData.puzzleProgressAnimation.animationMotionIcon
+								},
+								inputValidity : state.contextData.inputValidity				
 					   		}
 					    }}); 
 
@@ -150,11 +175,11 @@ class Login extends React.Component {
 
 	validatePassword() {
 		var passwordValid = false;
-		var errorDisplayStyle = "none"; 
+		var passwordErrorStyle = this.hiddenErrorMessage; 
 		var passwordValue = this.state.contextData.loginRequestData.password;
 		
 		if (!passwordValue) {
-			errorDisplayStyle = "flex";
+			passwordErrorStyle = this.visibleErrorMessage;
 		} else {
 			passwordValid = true;
 		}		
@@ -162,14 +187,17 @@ class Login extends React.Component {
 		this.setState(function(state) {
 			return {contextData : {
 				loginRequestData : state.contextData.loginRequestData,
-				userNameValidity : state.contextData.userNameValidity,
-				passwordValidity : {
-					passwordValid : passwordValid,
-					errorDisplay : errorDisplayStyle
-				},
-				incorrectCredential : state.contextData.incorrectCredential,
 				loginButtonParts : state.contextData.loginButtonParts,
-				loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
+				puzzleProgressAnimation : state.contextData.puzzleProgressAnimation,
+				inputValidity : {
+					userNameValidity : state.contextData.inputValidity.userNameValidity, 
+					passwordValidity : {
+						passwordValid : passwordValid,
+						messageLayout : passwordErrorStyle,
+						errorMessage : state.contextData.inputValidity.passwordValidity.errorMessage
+					},
+					credentialValidity : state.contextData.inputValidity.credentialValidity
+				}				
 			}
 		}});
 
@@ -178,11 +206,11 @@ class Login extends React.Component {
   
   	validateUserName() {
 		var userNameValid = false; 
-		var errorDisplayStyle = "none"; 
+		var userNameErrorStyle = this.hiddenErrorMessage; 
 		var userNameValue = this.state.contextData.loginRequestData.userName;  		
 		
 		if (!userNameValue) {
-			errorDisplayStyle = "flex";
+			userNameErrorStyle = this.visibleErrorMessage;
 		} else {
 			userNameValid = true;
 		}		
@@ -190,14 +218,17 @@ class Login extends React.Component {
 		this.setState(function(state) {
 			return {contextData : {
 				loginRequestData : state.contextData.loginRequestData,
-				userNameValidity : {
-					userNameValid : userNameValid,
-					errorDisplay : errorDisplayStyle
-				},
-				passwordValidity : state.contextData.passwordValidity,
-				incorrectCredential : state.contextData.incorrectCredential,
 				loginButtonParts : state.contextData.loginButtonParts,
-				loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
+				puzzleProgressAnimation : state.contextData.puzzleProgressAnimation,
+				inputValidity : {
+					userNameValidity : {
+						userNameValid : userNameValid,
+						messageLayout : userNameErrorStyle,
+						errorMessage : state.contextData.inputValidity.userNameValidity.errorMessage
+					}, 
+					passwordValidity : state.contextData.inputValidity.passwordValidity,
+					credentialValidity : state.contextData.inputValidity.credentialValidity
+				}				
 			}
 		}});
 
@@ -211,19 +242,24 @@ class Login extends React.Component {
 					userName : state.contextData.loginRequestData.userName,
 					password : passwordValue
 				},
-				userNameValidity : {
-					userNameValid : state.contextData.userNameValidity.userNameValid,
-					errorDisplay : "none"
-				},
-				passwordValidity : {
-					passwordValid : state.contextData.passwordValidity.passwordValid,
-					errorDisplay : "none"
-				},
-				incorrectCredential : {
-					errorDisplay : "none"
-				},
 				loginButtonParts : state.contextData.loginButtonParts,
-				loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
+				puzzleProgressAnimation : state.contextData.puzzleProgressAnimation,
+				inputValidity : {
+					userNameValidity : {
+						userNameValid : false,
+						messageLayout : this.hiddenErrorMessage,
+						errorMessage : state.contextData.inputValidity.userNameValidity.errorMessage
+					}, 
+					passwordValidity : {
+						passwordValid : false,
+						messageLayout : this.hiddenErrorMessage,
+						errorMessage : state.contextData.inputValidity.passwordValidity.errorMessage
+					},
+					credentialValidity : {
+						messageLayout : this.hiddenErrorMessage,
+						errorMessage : state.contextData.inputValidity.credentialValidity.errorMessage
+					}
+				}
 			}
 		}});
 
@@ -240,19 +276,24 @@ class Login extends React.Component {
 					userName : userNameValue.toLowerCase().trim(),
 					password : state.contextData.loginRequestData.password					
 				},
-				userNameValidity : {
-					userNameValid : state.contextData.userNameValidity.userNameValid,
-					errorDisplay : "none"
-				},
-				passwordValidity : {
-					passwordValid : state.contextData.passwordValidity.passwordValid,
-					errorDisplay : "none"
-				},
-				incorrectCredential : {
-					errorDisplay : "none"
-				},
 				loginButtonParts : state.contextData.loginButtonParts,
-				loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
+				puzzleProgressAnimation : state.contextData.puzzleProgressAnimation,
+				inputValidity : {
+					userNameValidity : {
+						userNameValid : false,
+						messageLayout : this.hiddenErrorMessage,
+						errorMessage : state.contextData.inputValidity.userNameValidity.errorMessage
+					}, 
+					passwordValidity : {
+						passwordValid : false,
+						messageLayout : this.hiddenErrorMessage,
+						errorMessage : state.contextData.inputValidity.passwordValidity.errorMessage
+					},
+					credentialValidity : {
+						messageLayout : this.hiddenErrorMessage,
+						errorMessage : state.contextData.inputValidity.credentialValidity.errorMessage
+					}
+				}				
 			}
 		}});
 
@@ -281,35 +322,22 @@ class Login extends React.Component {
 			fieldLayoutClass : "fieldLayout",
 			fieldIconClass : "leftFieldIcon"
 		};
-
+         
 		return (
 			<div className="login"> 
 				<div className="loginWidget">
 					<img className="logo" alt="Logo" src={logo}/>
 					<div className="registerInputLayout">
 						<LeftIconFormField onFormValueChange={this.updateInputUserName} formParts={firstFormPartsValue} />
-						<div className="inputErrorMessage userNameError" 
-							style={{display: this.state.contextData.userNameValidity.errorDisplay}}>
-							{this.userNameEmptyError}
-						</div>
+						<InputErrorMessage errorMessageData={this.state.contextData.inputValidity.userNameValidity} />
 						<LeftIconFormField onFormValueChange={this.updateInputPassword} formParts={secondFormPartsValue} />
-						<div className="inputErrorMessage loginPasswordError" 
-							style={{display: this.state.contextData.passwordValidity.errorDisplay}}>
-							{this.passwordEmptyError}
-						</div>
-						{/* If you click on this button, fetch data, store it in localStorage and reload */}
+						<InputErrorMessage errorMessageData={this.state.contextData.inputValidity.passwordValidity} />
 						<BasicButton onButtonClicked={this.authenticateCurrentUser} buttonParts={this.state.contextData.loginButtonParts} />
-						<div className="progressLoadingLayout" 
-							style={{display : this.state.contextData.loadingPuzzleDisplay}}>
-							<img className="progressLoadingIcon" src={loading_puzzle} alt="" />
-						</div>
+						<ProgressAnimation animationData={this.state.contextData.puzzleProgressAnimation} />
 						<Link to="/register">
 							<button className="hollowButton buttonTopMargin fullWidth" type="button">Sign Up</button>
 						</Link>
-						<div className="inputErrorMessage incorrectCredential"  
-							style={{display: this.state.contextData.incorrectCredential.errorDisplay}}>
-							{this.incorrectCredentialError}
-						</div>
+						<InputErrorMessage errorMessageData={this.state.contextData.inputValidity.credentialValidity} />
 						<a href="https://play.google.com/store/apps/details?id=com.chibuzo.datemomo"> 
 							<div className="googlePlayLayout">
 								<img className="googlePlayDownload" src={google_play_download} alt="Google Play Download" />
