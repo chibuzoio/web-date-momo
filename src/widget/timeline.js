@@ -29,6 +29,8 @@ import color_loader from '../image/color_loader.gif';
 import logo from '../image/datemomo.png';
 
 class Timeline extends React.Component {
+	visibleAnimationClass = "colorLoaderLayout";
+	hiddenAnimationClass = this.visibleAnimationClass + " hideComponent";
 	currentUser = {};
 	requestData = {};
 	messengerRequestData = {};
@@ -60,14 +62,18 @@ class Timeline extends React.Component {
 			menuLayoutDisplay : "none",
 		},
 		infiniteScrollingPage : {
-			colorLoadingDisplay : "flex",
+			infiniteScrollLoader : {
+				animationLayout : this.hiddenAnimationClass,
+				animationImageClass : "colorLoader",
+				animationMotionIcon : color_loader
+			},
 			totalAvailablePages : 0,
 			lastDisplayPage : 0
 		},
 		displayTimelineCover : "flex",
 		stateLoaded : false
 	}}; 
-
+  
 	constructor(props) {
 		super(props);
 		this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
@@ -146,7 +152,11 @@ class Timeline extends React.Component {
 	    				floatingAccountData : state.contextData.floatingAccountData,
 	    				closeLayoutIcon : state.contextData.closeLayoutIcon,
 	    				infiniteScrollingPage : {
-	    					colorLoadingDisplay : "none",
+	    					infiniteScrollLoader : {
+								animationLayout : this.hiddenAnimationClass,
+								animationImageClass : state.contextData.infiniteScrollingPage.infiniteScrollLoader.animationImageClass,
+								animationMotionIcon : state.contextData.infiniteScrollingPage.infiniteScrollLoader.animationMotionIcon
+							},
 	    					totalAvailablePages : response.data.homeDisplayResponses.length,
 	    					lastDisplayPage : response.data.homeDisplayResponses.length - 1
 	    				},
@@ -540,7 +550,11 @@ class Timeline extends React.Component {
 						floatingAccountData : state.contextData.floatingAccountData,
 						closeLayoutIcon : state.contextData.closeLayoutIcon,
 						infiniteScrollingPage : {
-							colorLoadingDisplay : "flex",
+							infiniteScrollLoader : {
+								animationLayout : this.visibleAnimationClass,
+								animationImageClass : state.contextData.infiniteScrollingPage.infiniteScrollLoader.animationImageClass,
+								animationMotionIcon : state.contextData.infiniteScrollingPage.infiniteScrollLoader.animationMotionIcon
+							},
 							totalAvailablePages : state.contextData.infiniteScrollingPage.totalAvailablePages,
 							lastDisplayPage : state.contextData.infiniteScrollingPage.lastDisplayPage
 						},
@@ -595,7 +609,11 @@ class Timeline extends React.Component {
 								floatingAccountData : state.contextData.floatingAccountData,
 								closeLayoutIcon : state.contextData.closeLayoutIcon,
 								infiniteScrollingPage : {
-									colorLoadingDisplay : "none",
+									infiniteScrollLoader : {
+										animationLayout : this.hiddenAnimationClass,
+										animationImageClass : state.contextData.infiniteScrollingPage.infiniteScrollLoader.animationImageClass,
+										animationMotionIcon : state.contextData.infiniteScrollingPage.infiniteScrollLoader.animationMotionIcon
+									},
 									totalAvailablePages : totalAvailablePages,
 									lastDisplayPage : lastDisplayPage
 								},
@@ -614,7 +632,11 @@ class Timeline extends React.Component {
 								floatingAccountData : state.contextData.floatingAccountData,
 								closeLayoutIcon : state.contextData.closeLayoutIcon,
 								infiniteScrollingPage : {
-									colorLoadingDisplay : "none",
+									infiniteScrollLoader : {
+										animationLayout : this.hiddenAnimationClass,
+										animationImageClass : state.contextData.infiniteScrollingPage.infiniteScrollLoader.animationImageClass,
+										animationMotionIcon : state.contextData.infiniteScrollingPage.infiniteScrollLoader.animationMotionIcon
+									},
 									totalAvailablePages : state.contextData.infiniteScrollingPage.totalAvailablePages,
 									lastDisplayPage : state.contextData.infiniteScrollingPage.lastDisplayPage
 								},
@@ -637,7 +659,11 @@ class Timeline extends React.Component {
 						floatingAccountData : state.contextData.floatingAccountData,
 						closeLayoutIcon : state.contextData.closeLayoutIcon,
 						infiniteScrollingPage : {
-							colorLoadingDisplay : "none",
+							infiniteScrollLoader : {
+								animationLayout : this.hiddenAnimationClass,
+								animationImageClass : state.contextData.infiniteScrollingPage.infiniteScrollLoader.animationImageClass,
+								animationMotionIcon : state.contextData.infiniteScrollingPage.infiniteScrollLoader.animationMotionIcon
+							},
 							totalAvailablePages : state.contextData.infiniteScrollingPage.totalAvailablePages,
 							lastDisplayPage : state.contextData.infiniteScrollingPage.lastDisplayPage
 						},
@@ -873,12 +899,8 @@ class Timeline extends React.Component {
 								</div>
 							))
 						}
-						<div className="colorLoaderLayout" style={{display : 
-							this.state.contextData.infiniteScrollingPage.colorLoadingDisplay}}>
-							<img className="colorLoader" src={color_loader} alt="" />
-						</div>
+						<ProgressAnimation animationData={this.state.contextData.infiniteScrollingPage.infiniteScrollLoader} />
 					</div>
-
 				</div>
 
 				<div className="floatingUserAccountLayout" 
@@ -919,7 +941,7 @@ class Timeline extends React.Component {
 
 				<CloseLayoutIcon menuIconParts={this.state.contextData.closeLayoutIcon} onChangeIconDisplay={this.closeFloatingLayout} />
 				<div className="timelineCover" style={{display : this.state.contextData.displayTimelineCover}}>
-					<ProgressAnimation animationData={this.colorLoaderData} />
+					<ProgressAnimation animationData={colorLoaderData} />
 				</div>
 			</div>
 		);
