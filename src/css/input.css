@@ -18,6 +18,10 @@
 		height: 4vmin !important;
 		width: 4vmin !important;
 	}
+
+	.ageFormField {
+		height: 10vmin !important;
+	}       
 }
 
 /* Extra small devices (phones, 400px and up) */
