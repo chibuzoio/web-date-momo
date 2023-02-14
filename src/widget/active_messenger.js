@@ -11,14 +11,11 @@ class ActiveMessenger extends React.Component {
 	render() {  
 		return (
 			<div className="activeMessengerLayout">
-				<div className="activeMessengerHeader">Chats</div>
-
 				{
 					this.props.activeMessengerComposite.map((messengerContent) => ( 
 						<ActiveMessengerContent messengerComposite={messengerContent} />
 					))
 				}
-
 				<div className="bottomPadding"><p></p></div>
 			</div>
 		);
