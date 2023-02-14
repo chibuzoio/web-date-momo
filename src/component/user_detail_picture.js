@@ -22,15 +22,21 @@ class UserDetailPicture extends React.Component {
 	render() {   
 		return (
 			<div className="detailPictureLayout" style={{
-					height : this.props.userDetailParts.detailPictureHeight,
-					width : this.props.userDetailParts.detailPictureWidth}}>
-				<img className="detailPictureImage" style={{
-					height : this.props.userDetailParts.detailPictureHeight,
-					width : this.props.userDetailParts.detailPictureWidth}}
-					alt="" src={this.props.userDetailParts.roundPicture} />
-				<div className="userNameLabel" style={{
-					height : this.props.userDetailParts.userNameLabelHeight}}>
-					{this.props.userDetailParts.userNameAge}
+				height : this.props.userDetailParts.dimension.detailPictureHeight,
+				width : this.props.userDetailParts.dimension.detailPictureWidth}}>
+				<div className={this.props.userDetailParts.innerPictureClass}>
+					<img className="detailPictureImage" style={{
+						height : this.props.userDetailParts.dimension.detailPictureHeight,
+						width : this.props.userDetailParts.dimension.detailPictureWidth}}
+						alt="" src={"https://datemomo.com/client/image/" 
+						+ this.props.userDetailParts.userDetails.profilePicture} />
+					<div className="userNameLabel" style={{
+						marginTop : this.props.userDetailParts.dimension.topUserNameMargin,
+						height : this.props.userDetailParts.dimension.userNameLabelHeight}}>
+						{this.props.userDetailParts.userDetails.pictureUserName.charAt(0).toUpperCase() 
+						+ this.props.userDetailParts.userDetails.pictureUserName.slice(1)},&nbsp;
+						{this.props.userDetailParts.userDetails.pictureAge}
+					</div>
 				</div>
 			</div>
 		);
