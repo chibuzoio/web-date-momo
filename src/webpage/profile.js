@@ -19,7 +19,7 @@ class Profile extends React.Component {
 	visibleLikerUserLayout = "allLikerUserLayout";
 	hiddenFirstThree = this.visibleFirstThree + " hideComponent";
 	hiddenSecondThree = this.visibleSecondThree + " hideComponent";
-	hiddenLikerUserLayout = "allLikerUserLayout" + " hideComponent";
+	hiddenLikerUserLayout = this.visibleLikerUserLayout + " hideComponent";
 	generalLikerLayout = {
 		userLikerDisplayTitle : "",
 		generalLikerDisplayLayout : this.hiddenLikerUserLayout,
@@ -428,7 +428,7 @@ class Profile extends React.Component {
 		this.setState(function(state) { 
 			return {contextData : {
 				userLikerResponses : state.contextData.userLikerResponses,
-				userLikerLayout : this.generalLikerLayout,
+				userLikerLayout : state.contextData.userLikerLayout,
 				firstLikerUser : {
 					innerPictureClass : state.contextData.firstLikerUser.innerPictureClass, 
 					userDetails : state.contextData.firstLikerUser.userDetails,
