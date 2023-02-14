@@ -421,10 +421,10 @@ class PictureUpload extends React.Component {
 
 	validateUserSex() {
 		var userSexValidity = {
-			userSexError : this.state.contextData.inputValidity.userSexValidity.errorMessage,
+			errorMessage : this.state.contextData.inputValidity.userSexValidity.errorMessage,
 			messageLayout : this.visibleErrorMessage,
 			userSexValid : false
-		};
+		}
 
 		if (this.state.contextData.userSex !== "") {
 			userSexValidity.messageLayout = this.hiddenErrorMessage;

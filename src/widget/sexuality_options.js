@@ -6,6 +6,10 @@ import BasicHollowButton from '../component/basic_hollow_button';
 class SexualityOptions extends React.Component {
 	sexualitySelected = false;
 	state = {sexualityButtons : []};
+	visibleSexualBasicButton = "basicButton sexualityButton";  
+	visibleSexualHollowButton = "hollowButton sexualityButton";  
+	hiddenSexualBasicButton = this.visibleSexualBasicButton + " hideComponent";
+	hiddenSexualHollowButton = this.visibleSexualHollowButton + " hideComponent";
 
 	constructor(props) {
 		super(props);     
@@ -24,8 +28,9 @@ class SexualityOptions extends React.Component {
 		setTimeout(function() {
 			if (this.sexualitySelected) {
 				var localSexualityButtons = this.state.sexualityButtons;
-				localSexualityButtons[currentSelectedOption].basicButton.buttonDisplay = "flex";
-				localSexualityButtons[currentSelectedOption].hollowButton.buttonDisplay = "none";
+				localSexualityButtons[currentSelectedOption].basicButton.buttonClass = this.visibleSexualBasicButton;
+				localSexualityButtons[currentSelectedOption].hollowButton.buttonClass = this.hiddenSexualHollowButton;
+				localSexualityButtons[currentSelectedOption].sexualitySelected = 1;
 
 				this.setState(function(state) {
 					return {sexualityButtons : localSexualityButtons}
@@ -34,8 +39,9 @@ class SexualityOptions extends React.Component {
 				this.props.onSexualityChange(localSexualityButtons);
 			} else {
 				var localSexualityButtons = this.state.sexualityButtons;
-				localSexualityButtons[currentSelectedOption].basicButton.buttonDisplay = "none";
-				localSexualityButtons[currentSelectedOption].hollowButton.buttonDisplay = "flex";
+				localSexualityButtons[currentSelectedOption].basicButton.buttonClass = this.hiddenSexualBasicButton;
+				localSexualityButtons[currentSelectedOption].hollowButton.buttonClass = this.visibleSexualHollowButton;
+				localSexualityButtons[currentSelectedOption].sexualitySelected = 0;
 
 				this.setState(function(state) {
 					return {sexualityButtons : localSexualityButtons}
