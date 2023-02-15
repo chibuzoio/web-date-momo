@@ -169,7 +169,9 @@ class Profile extends React.Component {
 		    		}
 	    		}});
 
-				this.displayAvailableLiker();
+	    		setTimeout(function() {
+					this.displayAvailableLiker();
+	    		}.bind(this), 1000);
 	        }, error => {
 	        	console.log(error);
 	        });

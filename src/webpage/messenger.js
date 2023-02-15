@@ -65,7 +65,10 @@ class Messenger extends React.Component {
 				}
 	       
 				return (
-					<ActiveMessenger activeMessengerComposite={messengerComposite} />
+					<>
+						<div className="activeMessengerHeader">Chats</div>
+						<ActiveMessenger activeMessengerComposite={messengerComposite} />
+					</>
 				);
 			} else {
 				return (<EmptyMessenger />);

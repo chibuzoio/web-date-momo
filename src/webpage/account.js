@@ -132,7 +132,9 @@ class Account extends React.Component {
 		    		}
 		    	}});
 
-				this.displayAvailableLiked();
+	    		setTimeout(function() {
+					this.displayAvailableLiked();
+	    		}.bind(this), 1000);
 	        }, error => {
 	        	console.log(error);
 	        });
