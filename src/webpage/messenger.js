@@ -6,6 +6,7 @@ import '../css/messenger.css';
 import Header from '../widget/header';
 import Footer from '../widget/footer'; 
 import EmptyMessenger from '../widget/empty_messenger'; 
+import {checkNullInMessenger} from '../utility/utility';
 import ActiveMessenger from '../widget/active_messenger';
 
 class Messenger extends React.Component {
@@ -31,7 +32,7 @@ class Messenger extends React.Component {
 	    	.then(response => {
 	    		this.setState(function(state) { 
 	    			return {contextData : {
-		    			messengerResponses : response.data,
+		    			messengerResponses : checkNullInMessenger(response.data),
 		    			stateLoaded : true
 		    		}
 	    		}});
@@ -63,7 +64,7 @@ class Messenger extends React.Component {
 	   
 					messengerComposite.push(messengerContent);
 				}
-	       
+	          
 				return (
 					<>
 						<div className="activeMessengerHeader">Chats</div>

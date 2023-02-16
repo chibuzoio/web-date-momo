@@ -16,6 +16,7 @@ import IconProfilePicture from '../component/icon_profile_picture';
 import RightIconFormField from '../component/right_icon_form_field';
 import icon_heart_hollow from '../image/icon_heart_hollow.png';
 import icon_heart_red from '../image/icon_heart_red.png';
+import {checkNullInMessenger} from '../utility/utility';
 import icon_search from '../image/icon_search.png';
 import icon_message_blue from '../image/icon_message_blue.png';
 import CloseLayoutIcon from '../component/close_layout_icon';
@@ -173,7 +174,7 @@ class Timeline extends React.Component {
 	    		this.setState(function(state) { 
 	    			return {contextData : {
 	    				userComposite : state.contextData.userComposite,
-	    				messengerResponses : response.data,
+	    				messengerResponses : checkNullInMessenger(response.data),
 	    				notificationResponses : state.contextData.notificationResponses,
 	    				floatingAccountData : state.contextData.floatingAccountData,
 	    				closeLayoutIcon : state.contextData.closeLayoutIcon,
@@ -678,7 +679,7 @@ class Timeline extends React.Component {
 	displayMessengerContent() {
 		if (this.state.contextData.messengerResponses.length > 0) {
 			var messengerComposite = [];
-
+   
 			for (var i = 0; i < this.state.contextData.messengerResponses.length; i++) {
 				var messengerContent = {
 					messengerResponse : this.state.contextData.messengerResponses[i],

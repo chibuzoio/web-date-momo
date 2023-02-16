@@ -1,3 +1,21 @@
+export const checkNullInMessenger = (messengerComposite) => {
+    var nullIndices = [];
+
+    for (var i = 0; i < messengerComposite.length; i++) {
+        if (messengerComposite[i].userName === null
+            || messengerComposite[i].fullName === null
+            || messengerComposite[i].userStatus === null) {
+            nullIndices.push(i);
+        }
+    }
+
+    for (var i = 0; i < nullIndices.length; i++) {
+        messengerComposite.splice(nullIndices[i], 1);
+    }
+       
+    return messengerComposite;
+}
+
 export const getTimeDifference = (timeGottenInSeconds, timeFullText) => {
     var timeInSeconds = (Date.now() / 1000) - timeGottenInSeconds;
 
