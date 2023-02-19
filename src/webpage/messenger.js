@@ -11,7 +11,9 @@ import ActiveMessenger from '../widget/active_messenger';
 
 class Messenger extends React.Component {
 	currentUser = {};
-	requestData = {};
+	requestData = {
+		memberId : 0
+	};
 	state = {contextData : {
 		messengerResponses : [],
 		stateLoaded : false
@@ -32,7 +34,7 @@ class Messenger extends React.Component {
 	    	.then(response => {
 	    		this.setState(function(state) { 
 	    			return {contextData : {
-		    			messengerResponses : checkNullInMessenger(response.data),
+		    			messengerResponses : response.data,
 		    			stateLoaded : true
 		    		}
 	    		}});
@@ -43,12 +45,21 @@ class Messenger extends React.Component {
       
 	displayMessengerContent() {
 		if (this.state.contextData.stateLoaded) {
-			if (this.state.contextData.messengerResponses.length > 0) {
+			var localMessengerResponses = checkNullInMessenger(this.state.contextData.messengerResponses);
+
+			this.setState(function(state) { 
+				return {contextData : {
+	    			messengerResponses : localMessengerResponses,
+	    			stateLoaded : state.contextData.stateLoaded
+	    		}
+			}});
+
+			if (localMessengerResponses.length > 0) {
 				var messengerComposite = [];
 
-				for (var i = 0; i < this.state.contextData.messengerResponses.length; i++) {
+				for (var i = 0; i < localMessengerResponses.length; i++) {
 					var messengerContent = {
-						messengerResponse : this.state.contextData.messengerResponses[i],
+						messengerResponse : localMessengerResponses[i],
 						messengerClasses : {
 							messengerContentLayout : "activeMessengerContent messengerContentTimeline",
 							chatMateUserName : "chatMateUserName chatMateUserNameTimeline",

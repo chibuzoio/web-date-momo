@@ -174,7 +174,7 @@ class Timeline extends React.Component {
 	    		this.setState(function(state) { 
 	    			return {contextData : {
 	    				userComposite : state.contextData.userComposite,
-	    				messengerResponses : checkNullInMessenger(response.data),
+	    				messengerResponses : response.data,
 	    				notificationResponses : state.contextData.notificationResponses,
 	    				floatingAccountData : state.contextData.floatingAccountData,
 	    				closeLayoutIcon : state.contextData.closeLayoutIcon,
@@ -677,12 +677,27 @@ class Timeline extends React.Component {
 	}
 
 	displayMessengerContent() {
-		if (this.state.contextData.messengerResponses.length > 0) {
+		var localMessengerResponses = checkNullInMessenger(this.state.contextData.messengerResponses);
+
+		this.setState(function(state) { 
+			return {contextData : {
+				userComposite : state.contextData.userComposite,
+				messengerResponses : localMessengerResponses,
+				notificationResponses : state.contextData.notificationResponses,
+				floatingAccountData : state.contextData.floatingAccountData,
+				closeLayoutIcon : state.contextData.closeLayoutIcon,
+				infiniteScrollingPage : state.contextData.infiniteScrollingPage,
+				displayTimelineCover : state.contextData.displayTimelineCover,
+				stateLoaded : state.contextData.stateLoaded
+			}
+		}});
+
+		if (localMessengerResponses.length > 0) {
 			var messengerComposite = [];
    
-			for (var i = 0; i < this.state.contextData.messengerResponses.length; i++) {
+			for (var i = 0; i < localMessengerResponses.length; i++) {
 				var messengerContent = {
-					messengerResponse : this.state.contextData.messengerResponses[i],
+					messengerResponse : localMessengerResponses[i],
 					messengerClasses : {
 						messengerContentLayout : "activeMessengerContent messengerContentTimeline",
 						chatMateUserName : "chatMateUserName chatMateUserNameTimeline",
