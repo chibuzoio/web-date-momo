@@ -162,7 +162,7 @@ class Timeline extends React.Component {
 	    					lastDisplayPage : response.data.homeDisplayResponses.length - 1
 	    				},
 	    				displayTimelineCover : state.contextData.displayTimelineCover,
-	    				stateLoaded : true
+	    				stateLoaded : state.contextData.stateLoaded
 	    			}
 	    		}});  
 	        }, error => {
@@ -171,18 +171,22 @@ class Timeline extends React.Component {
 
 		axios.post("https://datemomo.com/service/usermessengersdata.php", this.messengerRequestData)
 	    	.then(response => {
-	    		this.setState(function(state) { 
-	    			return {contextData : {
-	    				userComposite : state.contextData.userComposite,
-	    				messengerResponses : response.data,
-	    				notificationResponses : state.contextData.notificationResponses,
-	    				floatingAccountData : state.contextData.floatingAccountData,
-	    				closeLayoutIcon : state.contextData.closeLayoutIcon,
-	    				infiniteScrollingPage : state.contextData.infiniteScrollingPage,
-	    				displayTimelineCover : state.contextData.displayTimelineCover,
-	    				stateLoaded : state.contextData.stateLoaded
-		    		}
-	    		}});
+				var localMessengerResponses = checkNullInMessenger(response.data);
+		
+				setTimeout(function() {			
+					this.setState(function(state) { 
+						return {contextData : {
+							userComposite : state.contextData.userComposite,
+							messengerResponses : localMessengerResponses,
+							notificationResponses : state.contextData.notificationResponses,
+							floatingAccountData : state.contextData.floatingAccountData,
+							closeLayoutIcon : state.contextData.closeLayoutIcon,
+							infiniteScrollingPage : state.contextData.infiniteScrollingPage,
+							displayTimelineCover : state.contextData.displayTimelineCover,
+							stateLoaded : true
+						}
+					}});
+				}.bind(this), 1000);			
 	        }, error => {
 	        	console.log(error);
 	        });
@@ -459,7 +463,7 @@ class Timeline extends React.Component {
 					closeLayoutIcon : state.contextData.closeLayoutIcon,
 					infiniteScrollingPage : state.contextData.infiniteScrollingPage,
 					displayTimelineCover : "none",
-					stateLoaded : true
+					stateLoaded : state.contextData.stateLoaded
 				}
 			}});  
 		}.bind(this);
@@ -560,7 +564,7 @@ class Timeline extends React.Component {
 							lastDisplayPage : state.contextData.infiniteScrollingPage.lastDisplayPage
 						},
 						displayTimelineCover : state.contextData.displayTimelineCover,
-						stateLoaded : false
+						stateLoaded : state.contextData.stateLoaded
 					}
 				}});  
 
@@ -619,7 +623,7 @@ class Timeline extends React.Component {
 									lastDisplayPage : lastDisplayPage
 								},
 								displayTimelineCover : state.contextData.displayTimelineCover,
-								stateLoaded : true
+								stateLoaded : state.contextData.stateLoaded
 							}
 						}});  
 
@@ -642,7 +646,7 @@ class Timeline extends React.Component {
 									lastDisplayPage : state.contextData.infiniteScrollingPage.lastDisplayPage
 								},
 								displayTimelineCover : state.contextData.displayTimelineCover,
-								stateLoaded : true
+								stateLoaded : state.contextData.stateLoaded
 							}
 						}});  
 
@@ -669,62 +673,49 @@ class Timeline extends React.Component {
 							lastDisplayPage : state.contextData.infiniteScrollingPage.lastDisplayPage
 						},
 						displayTimelineCover : state.contextData.displayTimelineCover,
-						stateLoaded : true
+						stateLoaded : state.contextData.stateLoaded
 					}
 				}});  
 			}
 		}
 	}
 
-	displayMessengerContent() {
-		var localMessengerResponses = checkNullInMessenger(this.state.contextData.messengerResponses);
-
-		this.setState(function(state) { 
-			return {contextData : {
-				userComposite : state.contextData.userComposite,
-				messengerResponses : localMessengerResponses,
-				notificationResponses : state.contextData.notificationResponses,
-				floatingAccountData : state.contextData.floatingAccountData,
-				closeLayoutIcon : state.contextData.closeLayoutIcon,
-				infiniteScrollingPage : state.contextData.infiniteScrollingPage,
-				displayTimelineCover : state.contextData.displayTimelineCover,
-				stateLoaded : state.contextData.stateLoaded
-			}
-		}});
-
-		if (localMessengerResponses.length > 0) {
-			var messengerComposite = [];
-   
-			for (var i = 0; i < localMessengerResponses.length; i++) {
-				var messengerContent = {
-					messengerResponse : localMessengerResponses[i],
-					messengerClasses : {
-						messengerContentLayout : "activeMessengerContent messengerContentTimeline",
-						chatMateUserName : "chatMateUserName chatMateUserNameTimeline",
-						roundPictureClass : "emptyMessengerPicture messengerPictureTimeline",
-						roundPictureLayout : "roundPictureContainer",
-						userNameMessageLayout : "userNameMessageLayout userNameMessageLayoutTimeline",
-						messagePropertiesLayout : "messagePropertiesLayout",
-						unreadMessageCounter : "unreadMessageCounter unreadMessageCounterTimeline basicButton",
-						lastMessageDate : "lastMessageDate",
-						timeFullText : false
+	displayMessengerContent() { 
+		if (this.state.contextData.stateLoaded) {
+			if (this.state.contextData.messengerResponses.length > 0) {
+				var messengerComposite = [];
+	   
+				for (var i = 0; i < this.state.contextData.messengerResponses.length; i++) {
+					var messengerContent = {
+						messengerResponse : this.state.contextData.messengerResponses[i],
+						messengerClasses : {
+							messengerContentLayout : "activeMessengerContent messengerContentTimeline",
+							chatMateUserName : "chatMateUserName chatMateUserNameTimeline",
+							roundPictureClass : "emptyMessengerPicture messengerPictureTimeline",
+							roundPictureLayout : "roundPictureContainer",
+							userNameMessageLayout : "userNameMessageLayout userNameMessageLayoutTimeline",
+							messagePropertiesLayout : "messagePropertiesLayout",
+							unreadMessageCounter : "unreadMessageCounter unreadMessageCounterTimeline basicButton",
+							lastMessageDate : "lastMessageDate",
+							timeFullText : false
+						}
+					}
+	   
+					messengerComposite.push(messengerContent);
+	              
+					if (i > 0) {
+						break;
 					}
 				}
-   
-				messengerComposite.push(messengerContent);
-              
-				if (i > 0) {
-					break;
-				}
-			}
-       
-			return (
-				<ActiveMessenger activeMessengerComposite={messengerComposite} />
-			);
-		} else {
-			// return (
-			// empty messenger message 
-			// );
+	       
+				return (
+					<ActiveMessenger activeMessengerComposite={messengerComposite} />
+				);
+			} else {
+				// return (
+				// empty messenger message 
+				// );
+			} 
 		}
 	}
 
