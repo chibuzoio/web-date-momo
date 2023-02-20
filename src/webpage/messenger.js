@@ -32,12 +32,16 @@ class Messenger extends React.Component {
 
 		axios.post("https://datemomo.com/service/usermessengersdata.php", this.requestData)
 	    	.then(response => {
-	    		this.setState(function(state) { 
-	    			return {contextData : {
-		    			messengerResponses : response.data,
-		    			stateLoaded : true
-		    		}
-	    		}});
+				var localMessengerResponses = checkNullInMessenger(response.data);
+
+				setTimeout(function() {
+					this.setState(function(state) { 
+						return {contextData : {
+			    			messengerResponses : localMessengerResponses,
+			    			stateLoaded : true
+			    		}
+					}});
+				}.bind(this), 1000);
 	        }, error => {
 	        	console.log(error);
 	        });
@@ -45,21 +49,12 @@ class Messenger extends React.Component {
       
 	displayMessengerContent() {
 		if (this.state.contextData.stateLoaded) {
-			var localMessengerResponses = checkNullInMessenger(this.state.contextData.messengerResponses);
-
-			this.setState(function(state) { 
-				return {contextData : {
-	    			messengerResponses : localMessengerResponses,
-	    			stateLoaded : state.contextData.stateLoaded
-	    		}
-			}});
-
-			if (localMessengerResponses.length > 0) {
+			if (this.state.contextData.messengerResponses.length > 0) {
 				var messengerComposite = [];
 
-				for (var i = 0; i < localMessengerResponses.length; i++) {
+				for (var i = 0; i < this.state.contextData.messengerResponses.length; i++) {
 					var messengerContent = {
-						messengerResponse : localMessengerResponses[i],
+						messengerResponse : this.state.contextData.messengerResponses[i],
 						messengerClasses : {
 							messengerContentLayout : "activeMessengerContent messengerContentTimeline",
 							chatMateUserName : "chatMateUserName chatMateUserNameTimeline",
