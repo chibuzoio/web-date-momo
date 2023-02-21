@@ -1,169 +1,61 @@
-Terms and Conditions for a Dating Mobile Application
+Terms and Conditions for DateMomo Application
 
-Welcome to our dating mobile application ("App"). These terms and conditions ("Terms") govern your use of the App and any services, features, or content provided by the App. By accessing or using the App, you agree to be bound by these Terms. If you do not agree to these Terms, you may not use the App.
+Welcome to DateMomo dating application. These Terms and Conditions govern your use of the application and any services, features, or content provided by the application. By accessing or using the application, you agree to be bound by these Terms. If you do not agree to these Terms and Conditions, you may not use the application.
 
-    1. Eligibility
-    To use the App, you must be at least 18 years of age or the age of majority in your jurisdiction, whichever is greater. By using the App, you represent and warrant that you meet these eligibility requirements.
+1. Eligibility
+You must be 18 years of age or older to use the application. By using the application, you represent and warrant that you are at least 18 years old and have the legal capacity to enter into and be bound by these Terms and Conditions.
 
-    2. User Content
-    You are solely responsible for any content, including text, photos, and other materials, that you upload, publish, or display on the App ("User Content"). By providing User Content, you grant us a non-exclusive, worldwide, royalty-free, perpetual, irrevocable, sublicensable, and transferable license to use, reproduce, distribute, display, and create derivative works of the User Content in connection with the App and our business.
+2. Account Creation
+By creating account on this application, you agree to provide accurate, current, and complete information during the registration process, and you agree to keep your account information up-to-date. You are solely responsible for maintaining the confidentiality of your account login information, and you agree not to share your account login information with anyone else. You are responsible for all activities that occur under your account.
 
-    3. Prohibited Content and Conduct
-    You agree not to use the App for any illegal or unauthorized purpose or in any manner that violates these Terms. Specifically, you agree not to:
+3. User Content
+You retain all rights in any text, photos, or other content you upload to the application. By uploading your contents, you grant us a non-exclusive, transferable, sub-licensable, royalty-free, worldwide license to use, display, reproduce, modify, and distribute your contents in connection with the application. You represent and warrant that you have all necessary rights to upload your contents to the application, and that your contents do not infringe the rights of any third party.
+
+4. "Tester" account 
+The account with "Tester" as user name is a public account. It is not owned by any particular entity. Using this application means that you have accepted to respond to messages from this account or ignore them, treat the account as an entity or nonentity, block the account or not and that we are not responsible for any ill treatment (such as stalk, harassment, threat or unauthorized use of your contents) you might receive from this account.  
+
+5. Prohibited Content and Conduct
+You agree not to use the application for any illegal or unauthorized purpose or in any manner that violates these Terms. Specifically, you agree not to:
 
 a. Post or transmit any User Content that is or could be deemed offensive, defamatory, pornographic, or otherwise inappropriate;
-b. Harass, threaten, or intimidate other users of the App;
-c. Use the App to solicit or promote any illegal activities;
+b. Harass, threaten, or intimidate other users of the application;
+c. Use the application to solicit or promote any illegal activities;
 d. Impersonate any person or entity, or falsely represent your affiliation with any person or entity;
-e. Use any automated means to access the App, including without limitation, robots, crawlers, and scrapers;
-f. Attempt to gain unauthorized access to the App or any portion thereof, or any other systems or networks connected to the App;
-g. Use the App to transmit any viruses, worms, or other harmful software; or
-h. Sell, rent, or lease access to the App.
+e. Use any automated means to access the application, including without limitation, robots, crawlers, and scrapers;
+f. Attempt to gain unauthorized access to the application or any portion thereof, or any other systems or networks connected to the application;
+g. Use the application to transmit any viruses, worms, or other harmful software; or
+h. Sell, rent, or lease access to the application.
 
-    4. Disclaimers and Limitations of Liability
-    The App is provided on an "as is" and "as available" basis. We make no warranties or representations of any kind, express or implied, as to the operation of the App or the information, content, materials, or products included on the App. To the fullest extent permissible by applicable law, we disclaim all warranties, express or implied, including but not limited to implied warranties of merchantability and fitness for a particular purpose. We will not be liable for any damages of any kind arising from the use of the App, including, but not limited to, direct, indirect, incidental, punitive, and consequential damages.
+6. Intellectual Property 
+All content and materials available through the application, including but not limited to text, graphics, logos, and software, are the property of the application or our licensors and are protected by copyright and other intellectual property laws. You may not copy, distribute, or modify any content or materials available through the application without our prior written consent.
 
-    5. Indemnification
-    You agree to indemnify, defend, and hold us harmless from and against any and all claims, damages, losses, liabilities, costs, and expenses, including reasonable attorneys' fees, arising out of or in connection with your use of the App or any breach of these Terms.
+7. Indemnification
+You agree to indemnify and hold us and our officers, directors, employees, and agents harmless from and against any and all claims, demands, losses, liabilities, costs, expenses or damages, including reasonable attorneys' fees, arising out of or in connection with your use of the application or your violation of these Terms.
 
-    6. Privacy Policy
-    We take your privacy seriously. Please review our Privacy Policy, which explains how we collect, use, and disclose information about you.
+8. Disclaimer of Warranties
+a. We make no representation or warranty that the application or any content or materials provided by or through the application will be accurate, complete, reliable, or error-free.
+b. We make no representation or warranty that the application will be available at all times or that your use of the application will be uninterrupted or error-free.
+c. The application and any content or materials provided by or through the application are provided "as is" and "as available" without any warranty of any kind.
 
-    7. Changes to Terms
-    We may update these Terms from time to time. We will notify you of any material changes by posting the updated Terms on the App. Your continued use of the App after the updated Terms have been posted constitutes your acceptance of the updated Terms.
+9. Limitations of Liability
+a. In no event will we be liable for any indirect, consequential, special, or punitive damages arising out of or in connection with your use of the application, even if we have been advised of the possibility of such damages.
+b. Our total liability to you for all claims arising out of or in connection with your use of the application will not exceed the amount you have paid to us, if any, for use of the application.
 
-    8. Termination
-    We may terminate your use of the App at any time for any reason, without notice or liability to you.
+10. Changes to Terms and Conditions
+We reserve the right to update these Terms and Conditions from time to time. We will notify you of any material changes to these Terms and Conditions by posting a notice on the application or by sending you an email. Your continued use of the application after the updated Terms and Conditions have been posted constitutes your acceptance of the updated Terms and Conditions.
 
-    9. Governing Law and Jurisdiction
-    These Terms shall be governed by and construed in accordance with the laws of [insert jurisdiction]. Any dispute arising out of or in connection with these Terms or
+11. Personal Safety 
+We strongly recommend that you exercise caution and common sense when communicating with other users of the application. You are solely responsible for your interactions with other users and any consequences that may arise from those interactions.
 
+12. Account Termination
+We may terminate your access to the application at any time and for any reason or suspend your account, without notice or liability if we believe that you have violated these Terms and Conditions or any applicable laws or regulations. You may terminate your use of the application at any time by uninstalling the application.
 
+13. Privacy Policy
+We take your privacy seriously. Our Privacy Policy explains how we collect, use, and disclose your personal information. By using the application, you agree to the terms of our Privacy Policy.
 
+14. Governing Law 
+These Terms and Conditions will be governed by and construed in accordance with the laws of the jurisdiction in which the application is based. Any disputes arising out of or in connection with these terms and conditions will be subject to the exclusive jurisdiction of the courts of that jurisdiction.
 
-
-
-
-Welcome to our dating mobile application ("the App"). By using the App, you agree to the following terms and conditions:
-
-    1. Eligibility: You must be 18 years of age or older to use the App.
-
-    2. User Information: You are responsible for providing accurate and complete information about yourself when registering with the App, and keeping your information up to date. We reserve the right to remove or suspend your account if we determine, in our sole discretion, that any of the information you provide is false, inaccurate, or incomplete.
-
-    3. Personal Safety: We strongly recommend that you exercise caution and common sense when communicating with other users of the App. You are solely responsible for your interactions with other users and any consequences that may arise from those interactions.
-
-    4. Prohibited Conduct: You agree not to use the App for any unlawful or fraudulent purpose, including but not limited to impersonating another person, harassing or stalking other users, or sharing pornographic or other offensive materials. You also agree not to engage in any activity that may harm or interfere with the proper functioning of the App.
-
-    5. Intellectual Property: All content and materials available through the App, including but not limited to text, graphics, logos, and software, are the property of the App or our licensors and are protected by copyright and other intellectual property laws. You may not copy, distribute, or modify any content or materials available through the App without our prior written consent.
-
-    6. Limitation of Liability: The App and its owners, affiliates, and licensors will not be liable for any damages arising out of or in connection with your use of the App, including but not limited to any direct, indirect, incidental, special, or consequential damages.
-
-    7. Indemnification: You agree to indemnify and hold harmless the App and its owners, affiliates, and licensors from any claims, damages, or other liabilities arising out of your use of the App or your violation of these terms and conditions.
-
-    8. Privacy: Your privacy is important to us. Please refer to our privacy policy for information on how we collect, use, and disclose information about our users.
-
-    9. Modifications: We reserve the right to modify these terms and conditions at any time. Your continued use of the App following any such modifications constitutes your acceptance of the modified terms and conditions.
-
-    10. Governing Law: These terms and conditions will be governed by and construed in accordance with the laws of the jurisdiction in which the App is based. Any disputes arising out of or in connection with these terms and conditions will be subject to the exclusive jurisdiction of the courts of that jurisdiction.
-
-By using the App, you agree to these terms and conditions in full. If you do not agree with any part of these terms and conditions, please do not use the App.
-
-
-
-
-
-
-Terms and Conditions for Dating Mobile Application
-
-Welcome to our dating mobile application! These terms and conditions ("Terms") govern your use of our dating mobile application (the "Application"), as well as any services, features, or content provided by or through the Application. By using the Application, you agree to be bound by these Terms. If you do not agree to these Terms, you may not use the Application.
-
-    1. Eligibility
-    You must be 18 years of age or older to use the Application. By using the Application, you represent and warrant that you are at least 18 years old and have the legal capacity to enter into and be bound by these Terms.
-
-    2. Use of the Application
-    a. The Application is for personal use only. You may not use the Application for any commercial purpose.
-    b. You are responsible for the accuracy and completeness of any information you provide to the Application, including your personal information and any content you post on the Application.
-    c. You must not use the Application to transmit or distribute any content that is unlawful, harmful, threatening, abusive, harassing, defamatory, vulgar, obscene, or otherwise objectionable.
-    d. You must not use the Application to engage in any activity that violates any law, regulation, or the rights of any third party.
-
-    3. User Content
-    a. You retain ownership of any content you post on the Application. However, by posting content on the Application, you grant us a non-exclusive, transferable, sub-licensable, royalty-free, worldwide license to use, modify, and distribute the content for the purposes of operating and promoting the Application.
-    b. You are solely responsible for any content you post on the Application, including its legality, reliability, and appropriateness.
-    c. We reserve the right to remove any content posted on the Application that we believe violates these Terms or is otherwise objectionable.
-
-    4. Intellectual Property
-    a. The Application and all content and materials provided by or through the Application, including text, graphics, logos, and images, are our property or the property of our licensors and are protected by intellectual property laws.
-    b. You may not use any content or materials provided by or through the Application for any commercial purpose without our express written consent.
-
-    5. Termination
-    We may terminate your access to the Application at any time and for any reason, without notice or liability. You may terminate your use of the Application at any time by uninstalling the Application.
-
-    6. Disclaimer of Warranties
-    a. We make no representation or warranty that the Application or any content or materials provided by or through the Application will be accurate, complete, reliable, or error-free.
-    b. We make no representation or warranty that the Application will be available at all times or that your use of the Application will be uninterrupted or error-free.
-    c. The Application and any content or materials provided by or through the Application are provided "as is" and "as available" without any warranty of any kind.
-
-    7. Limitation of Liability
-    a. In no event will we be liable for any indirect, consequential, special, or punitive damages arising out of or in connection with your use of the Application, even if we have been advised of the possibility of such damages.
-    b. Our total liability to you for all claims arising out of or in connection with your use of the Application will not exceed the amount you have paid to us, if any, for use of the Application.
-
-    8. Indemnification
-    You agree to indemnify and hold us and our officers, directors, employees, and agents harmless from any claim, demand, or damage, including reasonable attorneys' fees, arising out of or in connection with your use of the Application or your violation of these Terms.
-
-    9. Governing Law and Jur
-
-
-
-
-
-
-
-Terms and Conditions for a Dating Mobile Application:
-
-Welcome to our dating mobile application (“the App”). These terms and conditions (“Terms”) govern your use of the App, and by using the App, you accept these Terms in full. If you disagree with these Terms or any part of these Terms, you must not use the App.
-
-    1. Eligibility
-    The App is only available to individuals aged 18 years and over. By using the App, you represent and warrant that you are 18 years of age or older.
-
-    2. Account Creation
-    To use the App, you must create an account. You agree to provide accurate, current, and complete information during the registration process, and you agree to keep your account information up-to-date. You are solely responsible for maintaining the confidentiality of your account login information, and you agree not to share your account login information with anyone else. You are responsible for all activities that occur under your account.
-
-    3. Use of the App
-    The App is intended for personal and non-commercial use only. You may not use the App for any illegal or unauthorized purpose. You agree to comply with all applicable laws and regulations when using the App.
-
-    4. User Content
-    You retain all rights in any text, photos, or other content you upload to the App (“User Content”). By uploading User Content, you grant us a non-exclusive, transferable, sub-licensable, royalty-free, worldwide license to use, display, reproduce, modify, and distribute your User Content in connection with the App. You represent and warrant that you have all necessary rights to upload your User Content to the App, and that your User Content does not infringe the rights of any third party.
-
-    5. Prohibited Activities
-    You may not use the App to engage in any of the following activities:
-
-(a) Stalking, harassing, or threatening other users of the App;
-(b) Posting false, misleading, or defamatory information about other users of the App;
-(c) Uploading content that is pornographic, violent, or otherwise offensive;
-(d) Engaging in any illegal or unauthorized activities;
-(e) Attempting to impersonate another user or using another user’s account without permission;
-(f) Transmitting viruses or other malicious code;
-(g) Interfering with the operation of the App or attempting to gain unauthorized access to the App.
-
-    6. Privacy Policy
-    We take your privacy seriously. Our Privacy Policy explains how we collect, use, and disclose your personal information. By using the App, you agree to the terms of our Privacy Policy.
-
-    7. Termination
-    We may terminate or suspend your account at any time and without notice if we believe that you have violated these Terms or any applicable laws or regulations.
-
-    8. Disclaimer of Warranties
-    The App is provided on an “as is” and “as available” basis. We do not make any representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability, or availability with respect to the App or the information, products, services, or related graphics contained in the App for any purpose.
-
-    9. Limitation of Liability
-    We will not be liable to you for any direct, indirect, incidental, special, consequential, or punitive damages arising out of or relating to these Terms, the App, or your use of the App.
-
-    10. Changes to the Terms
-    We may change these Terms from time to time. We will notify you of any material changes to these Terms by posting a notice on the App or by sending you an email. Your continued use of the App after we make changes to these Terms will constitute your acceptance of the new Terms.
-
-    11. Governing Law
-    These Terms and your use of the App will be governed by and construed in accordance with the laws of the
-
-
-
+By using DateMomo application, you agree to these Terms and Conditions in full. If you do not agree with any part of these Terms and Conditions, please do not use the application.
 
 
