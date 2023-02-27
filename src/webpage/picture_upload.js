@@ -124,7 +124,7 @@ class PictureUpload extends React.Component {
 	componentWillUnmount() {
 
 	}
-
+	
 	chooseMaleSex(buttonClicked) {
 		if (buttonClicked) {
 			this.setState(function(state) {
