@@ -10,6 +10,7 @@ import Register from './webpage/register';
 import Messenger from './webpage/messenger';
 import Sexuality from './webpage/sexuality';
 import Notification from './webpage/notification';
+import FaceDetector from './webpage/face_detector';
 import PictureUpload from './webpage/picture_upload';
 import ProfileEditor from './webpage/profile_editor';
 import UserLikerList from './webpage/user_liker_list';
@@ -31,6 +32,7 @@ class App extends React.Component {
             <Route path="messenger" element={<Messenger />} />
             <Route path="user_information" element={<UserInformation />} />
             <Route path="notification" element={<Notification />} />
+            <Route path="face_detector" element={<FaceDetector />} />
             {/*<Route path="*" element={<EmptyPage />} />*/}
           </Route>
           <Route path="picture_upload" element={<PictureUpload />} />
