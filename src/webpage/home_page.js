@@ -32,11 +32,19 @@ class HomePage extends React.Component {
 	}
 
 	componentDidMount() {
-		if (this.currentUser.authenticated) {
-			if (this.currentUser.userLevel === "uploadProfilePicture") { 
-				window.location.replace("/picture_upload");
-			} else if (this.currentUser.userLevel === "selectSexualityInterest") { 
-				window.location.replace("/sexuality");
+		if (this.currentUser != null) {
+			if (Object.keys(this.currentUser).length > 0) {
+				if (this.currentUser.authenticated) {
+					if (this.currentUser.userLevel === "uploadProfilePicture") { 
+						window.location.replace("/picture_upload");
+					} else if (this.currentUser.userLevel === "selectSexualityInterest") { 
+						window.location.replace("/sexuality");
+					}
+				} else {
+					window.location.replace("/login");
+				}
+			} else {
+				window.location.replace("/login");
 			}
 		} else {
 			window.location.replace("/login");
