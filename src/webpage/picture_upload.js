@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import '../css/login.css';
 import '../css/picture_upload.css';
+import * as faceapi from 'face-api.js';
 import LeftIconHollowButton from '../component/left_icon_hollow_button';
 import InputErrorMessage from '../component/input_error_message';
 import ProgressAnimation from '../component/progress_animation';
@@ -31,10 +32,11 @@ class PictureUpload extends React.Component {
 	hiddenFemaleHollowButton = this.visibleFemaleHollowButton + " hideComponent";
 	currentUser = {};
 	userSexErrorMessage = "Select your sex";
+	ageRequiredError = "Your age is required";
 	pictureErrorMessage = "Choose picture to upload";
 	ageMaximumError = "Age cannot be greater than 80";
 	ageMinimumError = "You must be 18 years old or older";
-	ageRequiredError = "Your age is required";
+	noFaceInPictureErrorMessage = "The picture you are trying to upload has no human face in it or the face is not bold enough to be detected";
 	pictureUploadRequest = {
 		sex : "",
 		memberId : 0,
@@ -47,6 +49,7 @@ class PictureUpload extends React.Component {
 	state = {contextData : {
 			pictureUpload : {
 				picture : icon_picture_upload,
+				faceCountInPicture : 0,
 				imageWidth : 0,
 				imageHeight : 0
 			},
@@ -101,6 +104,7 @@ class PictureUpload extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.loadModels = this.loadModels.bind(this);
 		this.chooseMaleSex = this.chooseMaleSex.bind(this);
 		this.chooseFemaleSex = this.chooseFemaleSex.bind(this);
 		this.clickChosenMale = this.clickChosenMale.bind(this);
@@ -113,16 +117,31 @@ class PictureUpload extends React.Component {
 		this.updateInputUserAge = this.updateInputUserAge.bind(this);
 		this.handlePictureChange = this.handlePictureChange.bind(this);
 		this.handlePictureUpload = this.handlePictureUpload.bind(this);
+		this.processFaceDetection = this.processFaceDetection.bind(this);
 		this.validateUploadPicture = this.validateUploadPicture.bind(this);
 	}
 
 	componentDidMount() {
 		this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
 		this.pictureUploadRequest.memberId = this.currentUser.memberId;
+
+		const MODEL_URL = process.env.PUBLIC_URL + '/models';
+		this.loadModels(MODEL_URL);
 	}
 
 	componentWillUnmount() {
 
+	}
+
+	async loadModels(modelUrl) {
+	  	Promise.all([
+	    	faceapi.nets.tinyFaceDetector.loadFromUri(modelUrl),
+	    	faceapi.nets.faceLandmark68Net.loadFromUri(modelUrl),
+	    	faceapi.nets.faceRecognitionNet.loadFromUri(modelUrl),
+	    	faceapi.nets.faceExpressionNet.loadFromUri(modelUrl),
+	  	]).then(() => {
+	  		console.log("Models have been loaded here!!!!");
+	  	});
 	}
 	
 	chooseMaleSex(buttonClicked) {
@@ -339,6 +358,7 @@ class PictureUpload extends React.Component {
 					return {contextData : {
 						pictureUpload : {
 							picture : base64String,
+							faceCountInPicture : state.contextData.pictureUpload.faceCountInPicture,
 							imageWidth : state.contextData.pictureUpload.imageWidth,
 							imageHeight : state.contextData.pictureUpload.imageHeight
 						},
@@ -353,12 +373,15 @@ class PictureUpload extends React.Component {
 					base64String.substring(base64String.indexOf("base64,") + 7);
             
 				imageData.src = base64String;
-           
+
+				this.processFaceDetection(imageData);
+
 				imageData.onload = function() {
 					this.setState(function(state) {
 						return {contextData : {
 							pictureUpload : {
 								picture : state.contextData.pictureUpload.picture,
+								faceCountInPicture : state.contextData.pictureUpload.faceCountInPicture,
 								imageWidth : imageData.width,
 								imageHeight : imageData.height
 							},
@@ -382,6 +405,27 @@ class PictureUpload extends React.Component {
 				console.log("Error gotten here is: " + error);
 			}
 		}
+	}
+
+	async processFaceDetection(imageData) {
+   		var detections = await faceapi.detectAllFaces(imageData, 
+   			new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions()
+   		.then((response) => {     
+			this.setState(function(state) {
+				return {contextData : {
+					pictureUpload : {
+						picture : state.contextData.pictureUpload.picture,
+						faceCountInPicture : response.length,
+						imageWidth : state.contextData.pictureUpload.imageWidth,
+						imageHeight : state.contextData.pictureUpload.imageHeight
+					},
+					userSex : state.contextData.userSex,
+					userAge : state.contextData.userAge,
+					inputValidity : state.contextData.inputValidity,						
+					pictureUploadButtons : state.contextData.pictureUploadButtons
+				}
+			}});           
+   		});
 	}
 
 	validateUserAge() {
@@ -454,9 +498,14 @@ class PictureUpload extends React.Component {
 		};
 
 		if (this.state.contextData.pictureUpload.imageWidth > 0 
-			&& this.state.contextData.pictureUpload.imageHeight > 0) {
+			&& this.state.contextData.pictureUpload.imageHeight > 0 
+			&& this.state.contextData.pictureUpload.faceCountInPicture > 0) {
 			pictureValidity.messageLayout = this.hiddenErrorMessage;
 			pictureValidity.pictureValid = true;
+		} else {
+			if (this.state.contextData.pictureUpload.faceCountInPicture <= 0) {
+				pictureValidity.errorMessage = this.noFaceInPictureErrorMessage;
+			}      
 		}
 
 		this.setState(function(state) {
