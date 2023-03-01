@@ -94,6 +94,18 @@ class Timeline extends React.Component {
 		this.editUserProfile = this.editUserProfile.bind(this);
 		this.changeLikedIcon = this.changeLikedIcon.bind(this);
 		this.clickLikeUser = this.clickLikeUser.bind(this);
+
+		if (this.currentUser != null) {
+			if (Object.keys(this.currentUser).length > 0) {
+				if (this.currentUser.authenticated === false) {
+					window.location.replace("/login");
+				}     
+			} else {
+				window.location.replace("/login");
+			}
+		} else {
+			window.location.replace("/login");
+		}
 	}
 
 	componentDidMount() {

@@ -104,6 +104,10 @@ class PictureUpload extends React.Component {
 
 	constructor(props) {
 		super(props);
+
+/*		localStorage.setItem("currentUser", "{}");
+		window.location.replace("/login");
+*/
 		this.loadModels = this.loadModels.bind(this);
 		this.chooseMaleSex = this.chooseMaleSex.bind(this);
 		this.chooseFemaleSex = this.chooseFemaleSex.bind(this);

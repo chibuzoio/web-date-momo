@@ -4,6 +4,14 @@
   .loginWidget {
     width: 85% !important;
   }
+
+  .registerPageHeader {
+    font-size: calc(20px + 1vmin) !important;
+  }
+
+  .registerPageIcon {
+    height: 45px !important;   
+  }
 }
 
 /* Extra small devices (phones, 400px and up) */
@@ -109,7 +117,7 @@
   margin-bottom: 7vmin;
   flex-direction: row;
   align-items: center;
-  font-style: bold;
+  font-weight: 400;
   color: #1C2833;
   display: flex;
   width: 100%;
