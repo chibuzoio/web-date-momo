@@ -50,7 +50,7 @@ function FaceDetector() {
 
         		faceapi.matchDimensions(canvasRef.current, displaySize);
 
-        		const detections = await faceapi.detectAllFaces(videoRef.current, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions();
+        		const detections = await faceapi.detectAllFaces(videoRef.current /*Replace this with image*/, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions();
 
         		const resizedDetections = faceapi.resizeResults(detections, displaySize);
 

@@ -41,6 +41,11 @@
 
 .inputErrorMessage {
   font-size: calc(10px + 0.5vmin);
+  white-space: -moz-pre-wrap;
+  white-space: -o-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: pre-wrap;
+  word-wrap: break-word;
   margin-top: 1vmin;
   color: #E74C3C;
   width: 100%;
