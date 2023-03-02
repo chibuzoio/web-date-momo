@@ -29,9 +29,7 @@ class HomePage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
-	}
-
-	componentDidMount() {
+		
 		if (this.currentUser != null) {
 			if (Object.keys(this.currentUser).length > 0) {
 				if (this.currentUser.authenticated) {
@@ -49,6 +47,10 @@ class HomePage extends React.Component {
 		} else {
 			window.location.replace("/login");
 		}
+	}
+
+	componentDidMount() {
+
 	}
 
 	componentWillUnmount() {
