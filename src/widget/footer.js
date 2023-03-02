@@ -2,6 +2,7 @@ import React from 'react';
 import '../css/style.css';
 import '../css/footer.css';
 import { Outlet, Link } from "react-router-dom";
+import { getRefinedLocation } from '../utility/utility';
 import BottomMenuIcon from '../component/bottom_menu_icon';
 import icon_notification_white from '../image/icon_notification_white.png';
 import icon_notification_blue from '../image/icon_notification_blue.png';
@@ -13,6 +14,7 @@ import icon_home_white from '../image/icon_home_white.png';
 import icon_home_blue from '../image/icon_home_blue.png';
 
 class Footer extends React.Component {
+	locationIntervalId = {};
 	state = {contextData : {
 		footerBottomMenu : {
 			homeBottomMenu : {
@@ -35,7 +37,8 @@ class Footer extends React.Component {
 				bottomMenuIcon : "bottomMenuIcon",				
 				menuIcon : icon_notification_blue
 			}
-		}
+		},
+		currentLocation : ""
 	}};
 	
 	constructor(props) {
@@ -46,6 +49,74 @@ class Footer extends React.Component {
 		this.homeBottomMenuClicked = this.homeBottomMenuClicked.bind(this);
 	}
 	
+	componentDidMount() {
+		this.setState(function(state) {
+			return {contextData : {
+				footerBottomMenu : state.contextData.footerBottomMenu,
+				currentLocation : getRefinedLocation(window.location.href) 
+			}
+		}});		
+
+		this.locationIntervalId = setInterval(function() {  
+		    var localCurrentLocation = getRefinedLocation(window.location.href);
+
+		    if (this.state.contextData.currentLocation !== localCurrentLocation) {
+				this.setState(function(state) {
+					return {contextData : {
+						footerBottomMenu : state.contextData.footerBottomMenu,
+						currentLocation : localCurrentLocation
+					}
+				}});		
+
+			    switch (localCurrentLocation) {
+			    	case "home": 
+			    		this.homeBottomMenuClicked(true);
+			    		break;
+			    	case "messenger": 
+			    		this.messengerBottomMenuClicked(true);
+			    		break;
+			    	case "profile": 
+			    		this.userAccountBottomMenuClicked(true);
+			    		break;
+			    	case "notification": 
+			    		this.notificationBottomMenuClicked(true);
+			    		break;
+			    	default: 
+						this.setState(function(state) {
+							return {contextData : {
+								footerBottomMenu : {
+									homeBottomMenu : {
+										bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
+										bottomMenuIcon : state.contextData.footerBottomMenu.homeBottomMenu.bottomMenuIcon,
+										menuIcon : icon_home_blue
+									},
+									messengerBottomMenu : {
+										bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
+										bottomMenuIcon : state.contextData.footerBottomMenu.messengerBottomMenu.bottomMenuIcon,
+										menuIcon : icon_message_blue
+									},
+									userAccountBottomMenu : {
+										bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
+										bottomMenuIcon : state.contextData.footerBottomMenu.userAccountBottomMenu.bottomMenuIcon,
+										menuIcon : icon_account_blue
+									},
+									notificationBottomMenu : {
+										bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
+										bottomMenuIcon : state.contextData.footerBottomMenu.notificationBottomMenu.bottomMenuIcon,
+										menuIcon : icon_notification_blue
+									}						
+								}
+							}
+						}});
+			    }	
+		    }
+		}.bind(this), 1000);
+	}
+
+	componentWillUnmount() {
+		clearInterval(this.locationIntervalId);
+	}
+
 	homeBottomMenuClicked(buttonClicked) {
 		if (buttonClicked) {
 			this.setState(function(state) {
