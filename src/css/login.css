@@ -39,6 +39,42 @@
 
 }
 
+.privacyConditionHtml::-webkit-scrollbar { 
+    display: none;  
+}
+
+.privacyConditionHtml {
+  font-size: calc(10px + 1vmin);
+  -ms-overflow-style: none; 
+  scrollbar-width: none;
+  overflow-y: auto;
+}
+
+.termsAndConditionsLayout {
+  justify-content: space-between;
+  flex-direction: column;
+  padding-bottom: 3vmin;
+  padding-right: 3vmin;
+  padding-left: 3vmin;
+  background: white;
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+.termsAndConditionsSpan {
+  text-decoration: underline;
+  cursor: pointer;
+  color: #097ECA;
+}
+
+.termsAndConditionsLabel {
+  font-size: calc(10px + 0.7vmin);
+  text-align: center;
+  margin-top: 3vmin;
+  width: 100%;
+}
+
 .incorrectCredential {
   justify-content: center;
   margin-bottom: -1vmin;
