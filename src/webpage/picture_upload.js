@@ -47,60 +47,59 @@ class PictureUpload extends React.Component {
 		base64Picture : ""
 	};
 	state = {contextData : {
-			pictureUpload : {
-				picture : icon_picture_upload,
-				faceCountInPicture : 0,
-				imageWidth : 0,
-				imageHeight : 0
+		pictureUpload : {
+			picture : icon_picture_upload,
+			faceCountInPicture : 0,
+			imageWidth : 0,
+			imageHeight : 0
+		},
+		userSex : "",
+		userAge : 0,
+		inputValidity : {
+			pictureValidity : {
+				errorMessage : this.pictureErrorMessage,
+				messageLayout : this.hiddenErrorMessage,
+				pictureValid : false
 			},
-			userSex : "",
-			userAge : 0,
-			inputValidity : {
-				pictureValidity : {
-					errorMessage : this.pictureErrorMessage,
-					messageLayout : this.hiddenErrorMessage,
-					pictureValid : false
-				},
-				userSexValidity : {
-					errorMessage : this.userSexErrorMessage,
-					messageLayout : this.hiddenErrorMessage,
-					userSexValid : false
-				},
-				userAgeValidity : {
-					errorMessage : this.ageRequiredError,
-					messageLayout : this.hiddenErrorMessage,
-					userAgeValid : false
-				}
+			userSexValidity : {
+				errorMessage : this.userSexErrorMessage,
+				messageLayout : this.hiddenErrorMessage,
+				userSexValid : false
 			},
-			pictureUploadButtons : {
-				maleBasicButton : {
-					buttonTitle : "Male",
-					buttonClass : this.hiddenBasicButton
-				},
-				femaleBasicButton : {
-					buttonTitle : "Female",
-					buttonClass : this.hiddenBasicButton
-				},
-				maleHollowButton : {
-					buttonTitle : "Male",
-					buttonClass : this.visibleHollowButton
-				},
-				femaleHollowButton : {
-					buttonTitle : "Female",
-					buttonClass : this.visibleFemaleHollowButton
-				},
-				uploadBasicButton : {
-					buttonTitle : "Next",
-					buttonClass : this.visibleUploadButton
-				},
-				puzzleProgressAnimation : {
-					animationLayout : this.hiddenAnimationClass,
-					animationImageClass : "progressLoadingIcon",
-					animationMotionIcon : loading_puzzle
-				}
+			userAgeValidity : {
+				errorMessage : this.ageRequiredError,
+				messageLayout : this.hiddenErrorMessage,
+				userAgeValid : false
+			}
+		},
+		pictureUploadButtons : {
+			maleBasicButton : {
+				buttonTitle : "Male",
+				buttonClass : this.hiddenBasicButton
+			},
+			femaleBasicButton : {
+				buttonTitle : "Female",
+				buttonClass : this.hiddenBasicButton
+			},
+			maleHollowButton : {
+				buttonTitle : "Male",
+				buttonClass : this.visibleHollowButton
+			},
+			femaleHollowButton : {
+				buttonTitle : "Female",
+				buttonClass : this.visibleFemaleHollowButton
+			},
+			uploadBasicButton : {
+				buttonTitle : "Next",
+				buttonClass : this.visibleUploadButton
+			},
+			puzzleProgressAnimation : {
+				animationLayout : this.hiddenAnimationClass,
+				animationImageClass : "progressLoadingIcon",
+				animationMotionIcon : loading_puzzle
 			}
 		}
-	};
+	}};
 
 	constructor(props) {
 		super(props);

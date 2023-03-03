@@ -9,7 +9,7 @@ import EmptyMessenger from '../widget/empty_messenger';
 import {checkNullInMessenger} from '../utility/utility';
 import ActiveMessenger from '../widget/active_messenger';
 
-class Messenger extends React.Component {
+class Messenger extends React.Component {	
 	currentUser = {};
 	requestData = {
 		memberId : 0
@@ -48,29 +48,8 @@ class Messenger extends React.Component {
 	        });
 	}
       
-	clickMessengerComponent(messageResponse) {
-
-/*            val messageRequest = MessageRequest(
-                sharedPreferences.getInt("memberId", 0),
-                messengerResponses[position].chatmateId!!,
-                messengerResponses[position].fullName!!,
-                messengerResponses[position].userName!!,
-                "",
-                messengerResponses[position].profilePicture!!,
-                messengerResponses[position].userBlockedStatus!!
-            )
-
-							var senderId: Int,
-                          var receiverId: Int,
-                          var fullName: String,
-                          var userName: String,
-                          var lastActiveTime: String,
-                          var profilePicture: String,
-                          var userBlockedStatus: Int)
-*/
-		// prepare request data here. Set it in localStorage and navigate to message page 
-		// In message page, get the request data and use it to fetch all the messages for display 
-		localStorage.setItem("messageResponse", JSON.stringify(messageResponse));
+	clickMessengerComponent(messengerResponse) {
+		localStorage.setItem("messengerResponse", JSON.stringify(messengerResponse));
 		window.location.assign("/message");
 	}
 

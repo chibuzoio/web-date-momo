@@ -6,11 +6,35 @@ import RoundPicture from '../component/round_picture';
 import test_image from '../image/test_image.png';
 
 class MessageContent extends React.Component {
-	state = {messageData : {}};
+	visibleChatMateMessage = "baseMessage chatMateMessage";
+	visibleHostUserMessage = "baseMessage hostUserMessage";
+	hiddenChatMateMessage = this.visibleChatMateMessage + " hideComponent";
+	hiddenHostUserMessage = this.visibleHostUserMessage + " hideComponent";
+	state = {contextData : {
+		chatMateMessageLayout : this.hiddenChatMateMessage,
+		hostUserMessageLayout : this.hiddenHostUserMessage
+	}};
 
 	constructor(props) {
 		super(props);
-		this.state.messageData = props.messageData; 
+	}
+
+	componentDidMount() {
+		if (this.props.messageData.messenger === this.props.messengerData.chatmateId) {
+			this.setState(function(state) {
+				return {contextData : {
+					chatMateMessageLayout : this.visibleChatMateMessage,
+					hostUserMessageLayout : this.hiddenHostUserMessage
+				}
+			}});
+		} else {
+			this.setState(function(state) {
+				return {contextData : {
+					chatMateMessageLayout : this.hiddenChatMateMessage,
+					hostUserMessageLayout : this.visibleHostUserMessage
+				}
+			}});
+		}
 	}
 
 	render() {
@@ -18,14 +42,14 @@ class MessageContent extends React.Component {
 			roundPictureClass : "emptyMessengerPicture",
 			roundPicture : test_image
 		};
-               
+      
 		return (
 			<div className="chatMessageLayout">
-				<div className="baseMessage chatMateMessage">
-					{this.state.messageData.message}
+				<div className={this.state.contextData.chatMateMessageLayout}>
+					{decodeURIComponent(this.props.messageData.message).split("+").join(" ")}
 				</div>
-				<div className="baseMessage hostUserMessage">
-					{this.state.messageData.message}
+				<div className={this.state.contextData.hostUserMessageLayout}>
+					{decodeURIComponent(this.props.messageData.message).split("+").join(" ")}
 				</div>
 			</div>
 		);

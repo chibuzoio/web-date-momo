@@ -28,37 +28,36 @@ class Login extends React.Component {
 	userNameEmptyError = "User name field is empty";
 	incorrectCredentialError = "User name or password is incorrect";
 	state = {contextData : {
-			loginRequestData : {
-				userName : "",
-				password : ""
+		loginRequestData : {
+			userName : "",
+			password : ""
+		},
+		loginButtonParts : {
+			buttonTitle : "Log In",
+			buttonClass : this.visibleButtonClass
+		},
+		puzzleProgressAnimation : {
+			animationLayout : this.hiddenAnimationClass,
+			animationImageClass : "progressLoadingIcon",
+			animationMotionIcon : loading_puzzle
+		},
+		inputValidity : {
+			userNameValidity : {
+				userNameValid : false,
+				messageLayout : this.hiddenErrorMessage,
+				errorMessage : this.userNameEmptyError
+			}, 
+			passwordValidity : {
+				passwordValid : false,
+				messageLayout : this.hiddenErrorMessage,
+				errorMessage : this.passwordEmptyError
 			},
-			loginButtonParts : {
-				buttonTitle : "Log In",
-				buttonClass : this.visibleButtonClass
-			},
-			puzzleProgressAnimation : {
-				animationLayout : this.hiddenAnimationClass,
-				animationImageClass : "progressLoadingIcon",
-				animationMotionIcon : loading_puzzle
-			},
-			inputValidity : {
-				userNameValidity : {
-					userNameValid : false,
-					messageLayout : this.hiddenErrorMessage,
-					errorMessage : this.userNameEmptyError
-				}, 
-				passwordValidity : {
-					passwordValid : false,
-					messageLayout : this.hiddenErrorMessage,
-					errorMessage : this.passwordEmptyError
-				},
-				credentialValidity : {
-					messageLayout : this.hiddenErrorMessage,
-					errorMessage : this.incorrectCredentialError
-				}
+			credentialValidity : {
+				messageLayout : this.hiddenErrorMessage,
+				errorMessage : this.incorrectCredentialError
 			}
 		}
-	};
+	}};
 
 	constructor(props) {
 		super(props);

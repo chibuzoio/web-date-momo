@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import '../css/style.css';
 import '../css/message.css';   
 import test_image from '../image/test_image.png';
@@ -10,24 +11,47 @@ import icon_message_send from '../image/icon_message_send.png';
 import icon_left_arrow_blue from '../image/icon_left_arrow_blue.png';
 
 class Message extends React.Component {
+	currentUser = {};
+	messengerResponse = {};
+	state = {contextData : { 
+		messageResponses : [],
+		messengerResponse : this.messengerResponse
+	}};
 
 	constructor(props) {
 		super(props);
-		this.state = {}; 
+		this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
+		this.messengerResponse = JSON.parse(localStorage.getItem("messengerResponse"));
 	}
 
 	componentDidMount() {
+		var messageRequest = {
+			senderId : this.currentUser.memberId,
+			receiverId : this.messengerResponse.chatmateId,
+			fullName : this.messengerResponse.fullName,
+			userName : this.messengerResponse.userName,
+			lastActiveTime : "",
+			profilePicture : this.messengerResponse.profilePicture,
+			userBlockedStatus : this.messengerResponse.userBlockedStatus
+		};	
 
+		axios.post("https://datemomo.com/service/usermessagesdata.php", messageRequest)
+	    	.then(response => {
+	    		this.setState(function(state) {
+	    			return {contextData : {
+	    				messageResponses : response.data,
+	    				messengerResponse : this.messengerResponse
+	    			}
+	    		}});
+	        }, error => {
+	        	console.log(error);
+	        });
 	}
 
 	render() {
 		var userMessageEditor = {
 			basicTextarea : "dateMomoMessageEditor",
 			placeholder : "Write Message..."
-		}
-   
-		var gottenMessage = {
-			message : "Hello Bro! fsdjlfsjal djal jflajsfdlkjlalk jljsdf lasjflkj lkjfsdlakjf lksajfd lkasjf lkjaslkd jlkfjlsakj flkasjf lsj"
 		}
 
 		var roundPictureParts = {
@@ -55,7 +79,12 @@ class Message extends React.Component {
 						</div>
 					</div>
 					<div className="dateMomoMessageBody">
-						<MessageContent messageData={gottenMessage} />
+						{
+							this.state.contextData.messageResponses.map((messageResponse) => ( 
+								<MessageContent messageData={messageResponse} 
+									messengerData={this.state.contextData.messengerResponse} />
+							))
+						}
 					</div>
 					<div className="dateMomoMessageFooter">
 						<div className="messageInputField">

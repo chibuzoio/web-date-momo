@@ -63,8 +63,6 @@
 
 .chatMessageLayout {
 	width: 100%;
-	overflow-y: auto;
-	padding-bottom: 2vmin;
 }
 
 .messageSenderIcon {
@@ -141,8 +139,15 @@
 	width: 25px;
 }
 
+.dateMomoMessageBody::-webkit-scrollbar { 
+    display: none;  
+}
+
 .dateMomoMessageBody {
+	-ms-overflow-style: none; 
 	flex-direction: column;
+	scrollbar-width: none; 
+	overflow-y: auto;
 	display: flex;
 	height: 85%;
 	width: 100%;
