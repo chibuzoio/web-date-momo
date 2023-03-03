@@ -24,37 +24,36 @@ class Register extends React.Component {
 	userNameUsedError = "User name is already taken";
 	userNameSpaceError = "User name must not contain space";
 	state = {contextData : {
-			userNames : [],
-			registerRequestData : {
-				userName : "",
-				password : "",
-				userLevel : "uploadProfilePicture",
-				userStatus : "Hello dear! Welcome to my profile!"
-			},
-			userNameValidity : {
-				userNameError : this.userNameEmptyError,
-				userNameValid : false,
-				errorDisplay : "none"
-			}, 
-			passwordValidity : {
-				passwordError : this.passwordEmptyError,
-				passwordValid : false,
-				errorDisplay : "none"
-			},
-			registerButtonParts : {
-				buttonTitle : "Sign Up",
-				buttonClass : this.visibleButtonClass
-			},
-			toggleLayoutDisplay : {
-				privacyConditionHtml : parse(""),
-				privacyPolicyText : "",
-				termsConditionsText : "",
-				registerWidgetClass : this.visibleRegisterWidget,
-				termsConditionsClass : this.hiddenTermsConditions
-			},
-			loadingPuzzleDisplay : "none"
-		}
-	};
+		userNames : [],
+		registerRequestData : {
+			userName : "",
+			password : "",
+			userLevel : "uploadProfilePicture",
+			userStatus : "Hello dear! Welcome to my profile!"
+		},
+		userNameValidity : {
+			userNameError : this.userNameEmptyError,
+			userNameValid : false,
+			errorDisplay : "none"
+		}, 
+		passwordValidity : {
+			passwordError : this.passwordEmptyError,
+			passwordValid : false,
+			errorDisplay : "none"
+		},
+		registerButtonParts : {
+			buttonTitle : "Sign Up",
+			buttonClass : this.visibleButtonClass
+		},
+		toggleLayoutDisplay : {
+			privacyConditionHtml : parse(""),
+			privacyPolicyText : "",
+			termsConditionsText : "",
+			registerWidgetClass : this.visibleRegisterWidget,
+			termsConditionsClass : this.hiddenTermsConditions
+		},
+		loadingPuzzleDisplay : "none"
+	}};
 
 	constructor(props) {
 		super(props);
