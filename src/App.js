@@ -28,6 +28,7 @@ class App extends React.Component {
           <Route path="/" element={<HomePage />} >
             <Route index element={<Timeline />} />
             <Route path="account" element={<Account />} />
+            <Route path="message" element={<Message />} />
             <Route path="profile" element={<Profile />} />
             <Route path="messenger" element={<Messenger />} />
             <Route path="user_information" element={<UserInformation />} />

@@ -16,6 +16,10 @@ class Message extends React.Component {
 		this.state = {}; 
 	}
 
+	componentDidMount() {
+
+	}
+
 	render() {
 		var userMessageEditor = {
 			basicTextarea : "dateMomoMessageEditor",

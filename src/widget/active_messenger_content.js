@@ -9,6 +9,11 @@ class ActiveMessengerContent extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.clickMessengerContent = this.clickMessengerContent.bind(this);
+	}
+
+	clickMessengerContent(event) {
+		this.props.onMessengerClicked(this.props.messengerComposite.messengerResponse);
 	}
 
 	render() {
@@ -19,7 +24,8 @@ class ActiveMessengerContent extends React.Component {
 		};
            
 		return (
-			<div className={this.props.messengerComposite.messengerClasses.messengerContentLayout}>
+			<div className={this.props.messengerComposite.messengerClasses.messengerContentLayout} 
+				onClick={this.clickMessengerContent}>
 				<div className={this.props.messengerComposite.messengerClasses.roundPictureLayout}>
 					<RoundPicture pictureParts={roundPictureParts} />
 				</div>
