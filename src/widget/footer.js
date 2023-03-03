@@ -20,9 +20,9 @@ class Footer extends React.Component {
 	state = {contextData : {
 		footerBottomMenu : {
 			homeBottomMenu : {
-				bottomMenuClass : "bottomMenuLayout selectedMenuLayout",
+				bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
 				bottomMenuIcon : "bottomMenuIcon",
-				menuIcon : icon_home_white
+				menuIcon : icon_home_blue
 			},
 			messengerBottomMenu : {
 				bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
@@ -86,7 +86,15 @@ class Footer extends React.Component {
 							}
 						}});		
 			    		this.neutralizeAllBottomMenu();
+			    		break;
 			    	default: 
+						this.setState(function(state) {
+							return {contextData : {
+								footerBottomMenu : state.contextData.footerBottomMenu,
+								bottomMenuLayout : this.visibleBottomMenuLayout,
+								currentLocation : state.contextData.currentLocation
+							}
+						}});		
 			    		this.neutralizeAllBottomMenu();						
 			    }	
 		    }
@@ -154,7 +162,7 @@ class Footer extends React.Component {
 							menuIcon : icon_notification_blue
 						}						
 					},
-					bottomMenuLayout : state.contextData.bottomMenuLayout,
+					bottomMenuLayout : this.visibleBottomMenuLayout,
 					currentLocation : state.contextData.currentLocation
 				}
 			}});
@@ -187,7 +195,7 @@ class Footer extends React.Component {
 							menuIcon : icon_notification_blue
 						}						
 					},
-					bottomMenuLayout : state.contextData.bottomMenuLayout,
+					bottomMenuLayout : this.visibleBottomMenuLayout,
 					currentLocation : state.contextData.currentLocation
 				}
 			}});
@@ -220,7 +228,7 @@ class Footer extends React.Component {
 							menuIcon : icon_notification_blue
 						}						
 					},
-					bottomMenuLayout : state.contextData.bottomMenuLayout,
+					bottomMenuLayout : this.visibleBottomMenuLayout,
 					currentLocation : state.contextData.currentLocation
 				}
 			}});
@@ -253,7 +261,7 @@ class Footer extends React.Component {
 							menuIcon : icon_notification_white
 						}						
 					},
-					bottomMenuLayout : state.contextData.bottomMenuLayout,
+					bottomMenuLayout : this.visibleBottomMenuLayout,
 					currentLocation : state.contextData.currentLocation
 				}
 			}});
