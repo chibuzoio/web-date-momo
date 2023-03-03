@@ -6,6 +6,11 @@ class ActiveMessenger extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.clickActiveMessengerComponent = this.clickActiveMessengerComponent.bind(this);
+	}
+
+	clickActiveMessengerComponent(messageResponse) {
+		this.props.onActiveMessengerClicked(messageResponse);
 	}
 
 	render() {  
@@ -13,7 +18,8 @@ class ActiveMessenger extends React.Component {
 			<div className="activeMessengerLayout">
 				{
 					this.props.activeMessengerComposite.map((messengerContent) => ( 
-						<ActiveMessengerContent messengerComposite={messengerContent} />
+						<ActiveMessengerContent onMessengerClicked={this.clickActiveMessengerComponent} 
+							messengerComposite={messengerContent} />
 					))
 				}
 				<div className="bottomPadding"><p></p></div>

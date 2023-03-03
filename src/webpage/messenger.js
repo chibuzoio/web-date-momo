@@ -22,6 +22,7 @@ class Messenger extends React.Component {
 	constructor(props) {
 		super(props);
 		this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
+		this.clickMessengerComponent = this.clickMessengerComponent.bind(this);
 		this.displayMessengerContent = this.displayMessengerContent.bind(this);
 	}
 
@@ -47,6 +48,32 @@ class Messenger extends React.Component {
 	        });
 	}
       
+	clickMessengerComponent(messageResponse) {
+
+/*            val messageRequest = MessageRequest(
+                sharedPreferences.getInt("memberId", 0),
+                messengerResponses[position].chatmateId!!,
+                messengerResponses[position].fullName!!,
+                messengerResponses[position].userName!!,
+                "",
+                messengerResponses[position].profilePicture!!,
+                messengerResponses[position].userBlockedStatus!!
+            )
+
+							var senderId: Int,
+                          var receiverId: Int,
+                          var fullName: String,
+                          var userName: String,
+                          var lastActiveTime: String,
+                          var profilePicture: String,
+                          var userBlockedStatus: Int)
+*/
+		// prepare request data here. Set it in localStorage and navigate to message page 
+		// In message page, get the request data and use it to fetch all the messages for display 
+		localStorage.setItem("messageResponse", JSON.stringify(messageResponse));
+		window.location.assign("/message");
+	}
+
 	displayMessengerContent() {
 		if (this.state.contextData.stateLoaded) {
 			if (this.state.contextData.messengerResponses.length > 0) {
@@ -74,7 +101,8 @@ class Messenger extends React.Component {
 				return (
 					<>
 						<div className="activeMessengerHeader">Chats</div>
-						<ActiveMessenger activeMessengerComposite={messengerComposite} />
+						<ActiveMessenger onActiveMessengerClicked={this.clickMessengerComponent} 
+							activeMessengerComposite={messengerComposite} />
 					</>
 				);
 			} else {

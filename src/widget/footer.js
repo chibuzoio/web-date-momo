@@ -15,6 +15,8 @@ import icon_home_blue from '../image/icon_home_blue.png';
 
 class Footer extends React.Component {
 	locationIntervalId = {};
+	visibleBottomMenuLayout = "footer";
+	hiddenBottomMenuLayout = this.visibleBottomMenuLayout + " hideComponent";
 	state = {contextData : {
 		footerBottomMenu : {
 			homeBottomMenu : {
@@ -38,6 +40,7 @@ class Footer extends React.Component {
 				menuIcon : icon_notification_blue
 			}
 		},
+		bottomMenuLayout : this.visibleBottomMenuLayout,
 		currentLocation : ""
 	}};
 	
@@ -46,68 +49,45 @@ class Footer extends React.Component {
 		this.notificationBottomMenuClicked = this.notificationBottomMenuClicked.bind(this);
 		this.userAccountBottomMenuClicked = this.userAccountBottomMenuClicked.bind(this);
 		this.messengerBottomMenuClicked = this.messengerBottomMenuClicked.bind(this);  
+		this.neutralizeAllBottomMenu = this.neutralizeAllBottomMenu.bind(this);
 		this.homeBottomMenuClicked = this.homeBottomMenuClicked.bind(this);
 	}
 	
 	componentDidMount() {
-		this.setState(function(state) {
-			return {contextData : {
-				footerBottomMenu : state.contextData.footerBottomMenu,
-				currentLocation : getRefinedLocation(window.location.href) 
-			}
-		}});		
-
 		this.locationIntervalId = setInterval(function() {  
-		    var localCurrentLocation = getRefinedLocation(window.location.href);
-
-		    if (this.state.contextData.currentLocation !== localCurrentLocation) {
+		    if (this.state.contextData.currentLocation !== window.location.pathname) {
 				this.setState(function(state) {
 					return {contextData : {
 						footerBottomMenu : state.contextData.footerBottomMenu,
-						currentLocation : localCurrentLocation
+						bottomMenuLayout : state.contextData.bottomMenuLayout,
+						currentLocation : window.location.pathname
 					}
 				}});		
 
-			    switch (localCurrentLocation) {
-			    	case "home": 
+			    switch (window.location.pathname) {
+			    	case "/": 
 			    		this.homeBottomMenuClicked(true);
 			    		break;
-			    	case "messenger": 
+			    	case "/messenger": 
 			    		this.messengerBottomMenuClicked(true);
 			    		break;
-			    	case "profile": 
+			    	case "/profile": 
 			    		this.userAccountBottomMenuClicked(true);
 			    		break;
-			    	case "notification": 
+			    	case "/notification": 
 			    		this.notificationBottomMenuClicked(true);
 			    		break;
-			    	default: 
+			    	case "/message":
 						this.setState(function(state) {
 							return {contextData : {
-								footerBottomMenu : {
-									homeBottomMenu : {
-										bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
-										bottomMenuIcon : state.contextData.footerBottomMenu.homeBottomMenu.bottomMenuIcon,
-										menuIcon : icon_home_blue
-									},
-									messengerBottomMenu : {
-										bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
-										bottomMenuIcon : state.contextData.footerBottomMenu.messengerBottomMenu.bottomMenuIcon,
-										menuIcon : icon_message_blue
-									},
-									userAccountBottomMenu : {
-										bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
-										bottomMenuIcon : state.contextData.footerBottomMenu.userAccountBottomMenu.bottomMenuIcon,
-										menuIcon : icon_account_blue
-									},
-									notificationBottomMenu : {
-										bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
-										bottomMenuIcon : state.contextData.footerBottomMenu.notificationBottomMenu.bottomMenuIcon,
-										menuIcon : icon_notification_blue
-									}						
-								}
+								footerBottomMenu : state.contextData.footerBottomMenu,
+								bottomMenuLayout : this.hiddenBottomMenuLayout,
+								currentLocation : state.contextData.currentLocation
 							}
-						}});
+						}});		
+			    		this.neutralizeAllBottomMenu();
+			    	default: 
+			    		this.neutralizeAllBottomMenu();						
 			    }	
 		    }
 		}.bind(this), 1000);
@@ -115,6 +95,37 @@ class Footer extends React.Component {
 
 	componentWillUnmount() {
 		clearInterval(this.locationIntervalId);
+	}
+
+	neutralizeAllBottomMenu() {
+		this.setState(function(state) {
+			return {contextData : {
+				footerBottomMenu : {
+					homeBottomMenu : {
+						bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
+						bottomMenuIcon : state.contextData.footerBottomMenu.homeBottomMenu.bottomMenuIcon,
+						menuIcon : icon_home_blue
+					},
+					messengerBottomMenu : {
+						bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
+						bottomMenuIcon : state.contextData.footerBottomMenu.messengerBottomMenu.bottomMenuIcon,
+						menuIcon : icon_message_blue
+					},
+					userAccountBottomMenu : {
+						bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
+						bottomMenuIcon : state.contextData.footerBottomMenu.userAccountBottomMenu.bottomMenuIcon,
+						menuIcon : icon_account_blue
+					},
+					notificationBottomMenu : {
+						bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
+						bottomMenuIcon : state.contextData.footerBottomMenu.notificationBottomMenu.bottomMenuIcon,
+						menuIcon : icon_notification_blue
+					}						
+				},
+				bottomMenuLayout : state.contextData.bottomMenuLayout,
+				currentLocation : state.contextData.currentLocation
+			}
+		}});
 	}
 
 	homeBottomMenuClicked(buttonClicked) {
@@ -142,7 +153,9 @@ class Footer extends React.Component {
 							bottomMenuIcon : state.contextData.footerBottomMenu.notificationBottomMenu.bottomMenuIcon,
 							menuIcon : icon_notification_blue
 						}						
-					}
+					},
+					bottomMenuLayout : state.contextData.bottomMenuLayout,
+					currentLocation : state.contextData.currentLocation
 				}
 			}});
 		}
@@ -173,7 +186,9 @@ class Footer extends React.Component {
 							bottomMenuIcon : state.contextData.footerBottomMenu.notificationBottomMenu.bottomMenuIcon,
 							menuIcon : icon_notification_blue
 						}						
-					}
+					},
+					bottomMenuLayout : state.contextData.bottomMenuLayout,
+					currentLocation : state.contextData.currentLocation
 				}
 			}});
 		}
@@ -204,7 +219,9 @@ class Footer extends React.Component {
 							bottomMenuIcon : state.contextData.footerBottomMenu.notificationBottomMenu.bottomMenuIcon,
 							menuIcon : icon_notification_blue
 						}						
-					}
+					},
+					bottomMenuLayout : state.contextData.bottomMenuLayout,
+					currentLocation : state.contextData.currentLocation
 				}
 			}});
 		}
@@ -235,7 +252,9 @@ class Footer extends React.Component {
 							bottomMenuIcon : state.contextData.footerBottomMenu.notificationBottomMenu.bottomMenuIcon,
 							menuIcon : icon_notification_white
 						}						
-					}
+					},
+					bottomMenuLayout : state.contextData.bottomMenuLayout,
+					currentLocation : state.contextData.currentLocation
 				}
 			}});
 		}
@@ -243,7 +262,7 @@ class Footer extends React.Component {
 
 	render() {
 		return (
-			<div className="footer">
+			<div className={this.state.contextData.bottomMenuLayout}>
 				<Link onClick={this.homeBottomMenuClicked} className="footerLink" to="/">
 					<BottomMenuIcon onButtonClicked={this.homeBottomMenuClicked} menuParts={this.state.contextData.footerBottomMenu.homeBottomMenu} />
 				</Link>

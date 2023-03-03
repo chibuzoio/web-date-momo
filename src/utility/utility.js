@@ -1,20 +1,3 @@
-export const getRefinedLocation = (currentLocation) => {
-    if (((currentLocation.indexOf("localhost") !== -1) && (currentLocation.length > "http://localhost:3000/".length)) 
-        || ((currentLocation.indexOf("datemomo") !== -1) && (currentLocation.length > "https://datemomo.com/".length))) {
-        if (currentLocation.indexOf("messenger") !== -1) { 
-            return "messenger";
-        } else if (currentLocation.indexOf("profile") !== -1) { 
-            return "profile";
-        } else if (currentLocation.indexOf("notification") !== -1) { 
-            return "notification";
-        } else { 
-            return "other";
-        }
-    } else {
-        return "home";
-    }
-}
-
 export const checkNullInMessenger = (messengerComposite) => {
     var nullIndices = [];
 
