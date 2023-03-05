@@ -63,7 +63,6 @@ class LeftMenuSection extends React.Component {
 	    	.then(response => {
 				var localMessengerResponses = checkNullInMessenger(response.data);
 		
-				// setTimeout(function() {			
 				this.setState(function(state) { 
 					return {contextData : {
 						messengerResponses : localMessengerResponses,
@@ -71,8 +70,7 @@ class LeftMenuSection extends React.Component {
 						pictureUpload : state.contextData.pictureUpload,
 						stateLoaded : true
 					}
-				}});
-				// }.bind(this), 1000);			
+				}}); 		
 	        }, error => {
 	        	console.log(error);
 	        });
