@@ -5,20 +5,16 @@ import '../css/header.css';
 import '../css/timeline.css';
 import '../css/picture_upload.css';
 import '../css/floating_account.css';
-import * as faceapi from 'face-api.js';
-import placeholder from '../image/placeholder.jpg';
-import icon_menu_black from '../image/icon_menu_black.png';
-import icon_gallery_blue from '../image/icon_gallery_blue.png'; 
+import placeholder from '../image/placeholder.jpg'; 
 import RoundPicture from '../component/round_picture';
 import ActiveMessenger from '../widget/active_messenger';
+import LeftMenuSection from '../widget/left_menu_section';
 import ProgressAnimation from '../component/progress_animation';
-import NotificationIterator from '../widget/notification_iterator';
 import BottomMenuIcon from '../component/bottom_menu_icon';
 import IconProfilePicture from '../component/icon_profile_picture';
 import RightIconFormField from '../component/right_icon_form_field';
 import icon_heart_hollow from '../image/icon_heart_hollow.png';
 import icon_heart_red from '../image/icon_heart_red.png';
-import {checkNullInMessenger} from '../utility/utility';
 import icon_search from '../image/icon_search.png';
 import icon_message_blue from '../image/icon_message_blue.png';
 import CloseLayoutIcon from '../component/close_layout_icon';
@@ -26,7 +22,6 @@ import SexualityBiometrics from '../widget/sexuality_biometrics';
 import LeftIconHollowButton from '../component/left_icon_hollow_button';
 import motion_placeholder from '../image/motion_placeholder.gif';
 import icon_close_white from '../image/icon_close_white.png';
-import icon_edit_white from '../image/icon_edit_white.png';
 import icon_view_blue from '../image/icon_view_blue.png';
 import color_loader from '../image/color_loader.gif';
 import logo from '../image/datemomo.png';
@@ -36,21 +31,11 @@ class Timeline extends React.Component {
 	hiddenAnimationClass = this.visibleAnimationClass + " hideComponent";
 	currentUser = {};
 	requestData = {};
-	base64String = "";
-	messengerRequestData = {};
-	pictureUpdateRequest = {
-		memberId : 0,
-		imageWidth : 0,
-		imageHeight : 0,
-		base64Picture : ""
-	};
 	state = {contextData : {
 		userComposite : {
 			homeDisplayResponses : [],
 			thousandRandomCounter : []
-		},
-		messengerResponses : [],
-		notificationResponses : [],
+		},   
 		floatingAccountData : {
 			sexualExperienceButtons : [],
 			sexualInterestButtons : [],
@@ -64,12 +49,6 @@ class Timeline extends React.Component {
 				age : 0
 			},
 			gradientHeight : 0
-		},
-		pictureUpload : {
-			picture : "",
-			faceCountInPicture : 0,
-			imageWidth : 0,
-			imageHeight : 0
 		},
 		closeLayoutIcon : {
 			menuLayoutClass : "menuLayoutClass",
@@ -96,20 +75,14 @@ class Timeline extends React.Component {
 		this.buildSexualExperienceButtons = this.buildSexualExperienceButtons.bind(this);
 		this.buildSexualInterestButtons = this.buildSexualInterestButtons.bind(this);
 		this.buildSexualCategoryButtons = this.buildSexualCategoryButtons.bind(this);
-		this.displayNotificationContent = this.displayNotificationContent.bind(this);
 		this.replaceImagePlaceholder = this.replaceImagePlaceholder.bind(this);
-		this.displayMessengerContent = this.displayMessengerContent.bind(this);
 		this.displayFloatingLayout = this.displayFloatingLayout.bind(this);
-		this.updateProfilePicture = this.updateProfilePicture.bind(this);
 		this.updateGradientHeight = this.updateGradientHeight.bind(this);
-		this.changeProfilePicture = this.changeProfilePicture.bind(this);
-		this.handlePictureChange = this.handlePictureChange.bind(this);
 		this.closeFloatingLayout = this.closeFloatingLayout.bind(this);
 		this.detectScrollBottom = this.detectScrollBottom.bind(this);
 		this.setGradientHeight = this.setGradientHeight.bind(this);
 		this.openUserProfile = this.openUserProfile.bind(this);
 		this.openUserGallery = this.openUserGallery.bind(this);
-		this.editUserProfile = this.editUserProfile.bind(this);
 		this.changeLikedIcon = this.changeLikedIcon.bind(this);
 		this.clickLikeUser = this.clickLikeUser.bind(this);
 
@@ -127,9 +100,6 @@ class Timeline extends React.Component {
 	}
 
 	componentDidMount() {
-		const MODEL_URL = process.env.PUBLIC_URL + '/models';
-		this.loadModels(MODEL_URL);
-
 		this.requestData = {
 			memberId : this.currentUser.memberId,
 			age : this.currentUser.age,
@@ -169,10 +139,6 @@ class Timeline extends React.Component {
         	videoSexExperience : this.currentUser.videoSexExperience
 		};
 
-		this.messengerRequestData = {
-			memberId : this.currentUser.memberId
-		}
-
 		window.addEventListener('resize', this.updateGradientHeight);
 		window.addEventListener('scroll', this.detectScrollBottom);
 
@@ -180,11 +146,8 @@ class Timeline extends React.Component {
 			.then(response => {
 	    		this.setState(function(state) { 
 	    			return {contextData : {
-	    				userComposite : response.data,
-	    				messengerResponses : state.contextData.messengerResponses,
-	    				notificationResponses : state.contextData.notificationResponses,
+	    				userComposite : response.data, 
 	    				floatingAccountData : state.contextData.floatingAccountData,
-	    				pictureUpload : state.contextData.pictureUpload,
 	    				closeLayoutIcon : state.contextData.closeLayoutIcon,
 	    				infiniteScrollingPage : {
 	    					infiniteScrollLoader : {
@@ -202,48 +165,6 @@ class Timeline extends React.Component {
 	        }, error => {
 	        	console.log(error);
 	        });
-
-		axios.post("https://datemomo.com/service/usermessengersdata.php", this.messengerRequestData)
-	    	.then(response => {
-				var localMessengerResponses = checkNullInMessenger(response.data);
-		
-				setTimeout(function() {			
-					this.setState(function(state) { 
-						return {contextData : {
-							userComposite : state.contextData.userComposite,
-							messengerResponses : localMessengerResponses,
-							notificationResponses : state.contextData.notificationResponses,
-							floatingAccountData : state.contextData.floatingAccountData,
-							pictureUpload : state.contextData.pictureUpload,
-							closeLayoutIcon : state.contextData.closeLayoutIcon,
-							infiniteScrollingPage : state.contextData.infiniteScrollingPage,
-							displayTimelineCover : state.contextData.displayTimelineCover,
-							stateLoaded : true
-						}
-					}});
-				}.bind(this), 1000);			
-	        }, error => {
-	        	console.log(error);
-	        });
-
-		axios.post("https://datemomo.com/service/usernotifications.php", this.messengerRequestData) 
-	    	.then(response => {
-	    		this.setState(function(state) { 
-	    			return {contextData : {
-	    				userComposite : state.contextData.userComposite,
-	    				messengerResponses : state.contextData.messengerResponses,
-	    				notificationResponses : response.data,
-	    				floatingAccountData : state.contextData.floatingAccountData,
-	    				pictureUpload : state.contextData.pictureUpload,
-	    				closeLayoutIcon : state.contextData.closeLayoutIcon,
-	    				infiniteScrollingPage : state.contextData.infiniteScrollingPage,
-	    				displayTimelineCover : state.contextData.displayTimelineCover,
-	    				stateLoaded : state.contextData.stateLoaded
-		    		}
-	    		}});
-	        }, error => {
-	        	console.log(error);
-	        });
 	}
 
 	componentWillUnmount() {
@@ -251,23 +172,10 @@ class Timeline extends React.Component {
 		window.removeEventListener('scroll', this.detectScrollBottom);
 	}
 
-	async loadModels(modelUrl) {
-	  	Promise.all([
-	    	faceapi.nets.tinyFaceDetector.loadFromUri(modelUrl),
-	    	faceapi.nets.faceLandmark68Net.loadFromUri(modelUrl),
-	    	faceapi.nets.faceRecognitionNet.loadFromUri(modelUrl),
-	    	faceapi.nets.faceExpressionNet.loadFromUri(modelUrl),
-	  	]).then(() => {
-	  		console.log("Models have been loaded here!!!!");
-	  	});
-	}
-
 	updateGradientHeight() { 
 		this.setState(function(state) { 
 			return {contextData : {
 				userComposite : state.contextData.userComposite,
-				messengerResponses : state.contextData.messengerResponses,
-				notificationResponses : state.contextData.notificationResponses,
 				floatingAccountData : {
 					sexualExperienceButtons : state.contextData.floatingAccountData.sexualExperienceButtons,
 					sexualInterestButtons : state.contextData.floatingAccountData.sexualInterestButtons,
@@ -276,7 +184,6 @@ class Timeline extends React.Component {
 					userDisplayResponse : state.contextData.floatingAccountData.userDisplayResponse,
 					gradientHeight : this.userAccountImage.clientHeight
 				},
-				pictureUpload : state.contextData.pictureUpload,
 				closeLayoutIcon : state.contextData.closeLayoutIcon,
 				infiniteScrollingPage : state.contextData.infiniteScrollingPage,
 				displayTimelineCover : state.contextData.displayTimelineCover,
@@ -289,8 +196,6 @@ class Timeline extends React.Component {
 		this.setState(function(state) { 
 			return {contextData : {
 				userComposite : state.contextData.userComposite,
-				messengerResponses : state.contextData.messengerResponses,
-				notificationResponses : state.contextData.notificationResponses,
 				floatingAccountData : {
 					sexualExperienceButtons : state.contextData.floatingAccountData.sexualExperienceButtons,
 					sexualInterestButtons : state.contextData.floatingAccountData.sexualInterestButtons,
@@ -299,7 +204,6 @@ class Timeline extends React.Component {
 					userDisplayResponse : state.contextData.floatingAccountData.userDisplayResponse,
 					gradientHeight : event.target.clientHeight   
 				},
-				pictureUpload : state.contextData.pictureUpload,
 				closeLayoutIcon : state.contextData.closeLayoutIcon,
 				infiniteScrollingPage : state.contextData.infiniteScrollingPage,
 				displayTimelineCover : state.contextData.displayTimelineCover,
@@ -322,8 +226,6 @@ class Timeline extends React.Component {
 		this.setState(function(state) { 
 			return {contextData : {
 				userComposite : state.contextData.userComposite,
-				messengerResponses : state.contextData.messengerResponses,
-				notificationResponses : state.contextData.notificationResponses,
 				floatingAccountData : {
 					sexualExperienceButtons : this.buildSexualExperienceButtons(currentUserPosition),
 					sexualInterestButtons : this.buildSexualInterestButtons(currentUserPosition),
@@ -338,7 +240,6 @@ class Timeline extends React.Component {
 					},
 					gradientHeight : state.contextData.floatingAccountData.gradientHeight
 				},
-				pictureUpload : state.contextData.pictureUpload,
 				closeLayoutIcon : {
 					menuLayoutClass : state.contextData.closeLayoutIcon.menuLayoutClass,
 					menuIconClass : state.contextData.closeLayoutIcon.menuIconClass,
@@ -507,10 +408,7 @@ class Timeline extends React.Component {
 	 		this.setState(function(state) { 
 				return {contextData : {
 					userComposite : state.contextData.userComposite,
-					messengerResponses : state.contextData.messengerResponses,
-					notificationResponses : state.contextData.notificationResponses,
 					floatingAccountData : state.contextData.floatingAccountData,
-					pictureUpload : state.contextData.pictureUpload,
 					closeLayoutIcon : state.contextData.closeLayoutIcon,
 					infiniteScrollingPage : state.contextData.infiniteScrollingPage,
 					displayTimelineCover : "none",
@@ -525,8 +423,6 @@ class Timeline extends React.Component {
 			this.setState(function(state) { 
 				return {contextData : {
 					userComposite : state.contextData.userComposite,
-					messengerResponses : state.contextData.messengerResponses,
-					notificationResponses : state.contextData.notificationResponses,
 					floatingAccountData : {
 						sexualExperienceButtons : state.contextData.floatingAccountData.sexualExperienceButtons,
 						sexualInterestButtons : state.contextData.floatingAccountData.sexualInterestButtons,
@@ -535,7 +431,6 @@ class Timeline extends React.Component {
 						userDisplayResponse : state.contextData.floatingAccountData.userDisplayResponse,
 						gradientHeight : state.contextData.floatingAccountData.gradientHeight
 					},
-					pictureUpload : state.contextData.pictureUpload,
 					closeLayoutIcon : {
 						menuLayoutClass : state.contextData.closeLayoutIcon.menuLayoutClass,
 						menuIconClass : state.contextData.closeLayoutIcon.menuIconClass,
@@ -567,10 +462,7 @@ class Timeline extends React.Component {
 					homeDisplayResponses : homeDisplayResponses,
 					thousandRandomCounter : state.contextData.userComposite.thousandRandomCounter
 				},
-				messengerResponses : state.contextData.messengerResponses,
-				notificationResponses : state.contextData.notificationResponses,
 				floatingAccountData : state.contextData.floatingAccountData,
-				pictureUpload : state.contextData.pictureUpload,
 				closeLayoutIcon : state.contextData.closeLayoutIcon,
 				infiniteScrollingPage : state.contextData.infiniteScrollingPage,
 				displayTimelineCover : state.contextData.displayTimelineCover,
@@ -603,10 +495,7 @@ class Timeline extends React.Component {
 				this.setState(function(state) { 
 					return {contextData : {
 						userComposite : state.contextData.userComposite,
-						messengerResponses : state.contextData.messengerResponses,
-						notificationResponses : state.contextData.notificationResponses,
 						floatingAccountData : state.contextData.floatingAccountData,
-						pictureUpload : state.contextData.pictureUpload,
 						closeLayoutIcon : state.contextData.closeLayoutIcon,
 						infiniteScrollingPage : {
 							infiniteScrollLoader : {
@@ -663,10 +552,7 @@ class Timeline extends React.Component {
 									homeDisplayResponses : homeDisplayResponses,
 									thousandRandomCounter : state.contextData.userComposite.thousandRandomCounter
 								},
-								messengerResponses : state.contextData.messengerResponses,
-								notificationResponses : state.contextData.notificationResponses,
 								floatingAccountData : state.contextData.floatingAccountData,
-								pictureUpload : state.contextData.pictureUpload,
 								closeLayoutIcon : state.contextData.closeLayoutIcon,
 								infiniteScrollingPage : {
 									infiniteScrollLoader : {
@@ -687,10 +573,7 @@ class Timeline extends React.Component {
 						this.setState(function(state) { 
 							return {contextData : {
 								userComposite : state.contextData.userComposite,
-								messengerResponses : state.contextData.messengerResponses,
-								notificationResponses : state.contextData.notificationResponses,
 								floatingAccountData : state.contextData.floatingAccountData,
-								pictureUpload : state.contextData.pictureUpload,
 								closeLayoutIcon : state.contextData.closeLayoutIcon,
 								infiniteScrollingPage : {
 									infiniteScrollLoader : {
@@ -715,10 +598,7 @@ class Timeline extends React.Component {
 				this.setState(function(state) { 
 					return {contextData : {
 						userComposite : state.contextData.userComposite,
-						messengerResponses : state.contextData.messengerResponses,
-						notificationResponses : state.contextData.notificationResponses,
 						floatingAccountData : state.contextData.floatingAccountData,
-						pictureUpload : state.contextData.pictureUpload,
 						closeLayoutIcon : state.contextData.closeLayoutIcon,
 						infiniteScrollingPage : {
 							infiniteScrollLoader : {
@@ -737,79 +617,6 @@ class Timeline extends React.Component {
 		}
 	}
 
-	displayMessengerContent() { 
-		if (this.state.contextData.stateLoaded) {
-			if (this.state.contextData.messengerResponses.length > 0) {
-				var messengerComposite = [];
-	   
-				for (var i = 0; i < this.state.contextData.messengerResponses.length; i++) {
-					var messengerContent = {
-						messengerResponse : this.state.contextData.messengerResponses[i],
-						messengerClasses : {
-							messengerContentLayout : "activeMessengerContent messengerContentTimeline",
-							chatMateUserName : "chatMateUserName chatMateUserNameTimeline",
-							roundPictureClass : "emptyMessengerPicture messengerPictureTimeline",
-							roundPictureLayout : "roundPictureContainer",
-							userNameMessageLayout : "userNameMessageLayout userNameMessageLayoutTimeline",
-							messagePropertiesLayout : "messagePropertiesLayout",
-							unreadMessageCounter : "unreadMessageCounter unreadMessageCounterTimeline basicButton",
-							lastMessageDate : "lastMessageDate",
-							timeFullText : false
-						}
-					}
-	   
-					messengerComposite.push(messengerContent);
-	              
-					if (i > 0) {
-						break;
-					}
-				}
-	       
-				return (
-					<ActiveMessenger activeMessengerComposite={messengerComposite} />
-				);
-			} else {
-				// return (
-				// empty messenger message 
-				// );
-			} 
-		}
-	}
-
-	displayNotificationContent() {
-		if (this.state.contextData.notificationResponses.length > 0) {
-			var notificationComposite = [];
-			
-			for (var i = 0; i < this.state.contextData.notificationResponses.length; i++) {
-				var notificationContent = {
-					notificationResponse : this.state.contextData.notificationResponses[i],
-					notificationClasses : {
-						notificationContentLayout : "activeMessengerContent notificationContentTimeline",
-						notificationTitle : "notificationTitleTimeline",
-						roundPictureClass : "emptyMessengerPicture messengerPictureTimeline",
-						roundPictureLayout : "roundPictureContainer",
-						notificationLayout : "notificationComponentLayout notificationTimeline",
-						notifierUserName : "notifierUserName"
-					}
-				}
-
-				notificationComposite.push(notificationContent);
-
-				if (i > 0) {
-					break;
-				}
-			}
-   
-			return (
-				<NotificationIterator notificationComposite={notificationComposite} />
-			);
-		} else {
-			// return (
-			// empty notification message 
-			// );
-		}
-	}
-
 	openUserGallery(buttonClicked) {
 		if (buttonClicked) {
 			// navigate to user gallery
@@ -820,140 +627,9 @@ class Timeline extends React.Component {
 		}
 	}
 
-	editUserProfile(buttonClicked) {
-		if (buttonClicked) {
-			// window.location.assign("/profile");
-		}
-	}
-
 	openUserProfile(buttonClicked) {
 		if (buttonClicked) {
 			window.location.assign("/profile");
-		}
-	}
-
-	changeProfilePicture(changePictureClicked) {
-		if (changePictureClicked) {
-			this.selectPictureButton.click();			
-		}
-	}
-
-	handlePictureChange(event) {
-		if (event.target.files[0] != null) {
-			var imageReader = new FileReader();
-			imageReader.readAsDataURL(event.target.files[0]);
-
-			imageReader.onload = function(event) {
-				var imageData = new Image();
-				this.base64String = event.target.result;
-
-				// console.log("base64String gotten here is " + this.base64String.substring(5));
-
-				this.setState(function(state) {
-					return {contextData : {
-						userComposite : state.contextData.userComposite,
-						messengerResponses : state.contextData.messengerResponses,
-						notificationResponses : state.contextData.notificationResponses,
-						floatingAccountData : state.contextData.floatingAccountData,
-						pictureUpload : {
-							picture : this.base64String,
-							faceCountInPicture : state.contextData.pictureUpload.faceCountInPicture,
-							imageWidth : state.contextData.pictureUpload.imageWidth,
-							imageHeight : state.contextData.pictureUpload.imageHeight
-						},
-						closeLayoutIcon : state.contextData.closeLayoutIcon,
-						infiniteScrollingPage : state.contextData.infiniteScrollingPage,
-						displayTimelineCover : state.contextData.displayTimelineCover,
-						stateLoaded : state.contextData.stateLoaded
-					}
-				}});  
-
-				this.pictureUpdateRequest.base64Picture = 
-					this.base64String.substring(this.base64String.indexOf("base64,") + 7);
-            
-				imageData.src = this.base64String;
-
-				this.processFaceDetection(imageData);
-
-				imageData.onload = function() {
-					this.setState(function(state) {
-						return {contextData : {
-							userComposite : state.contextData.userComposite,
-							messengerResponses : state.contextData.messengerResponses,
-							notificationResponses : state.contextData.notificationResponses,
-							floatingAccountData : state.contextData.floatingAccountData,
-							pictureUpload : {
-								picture : state.contextData.pictureUpload.picture,
-								faceCountInPicture : state.contextData.pictureUpload.faceCountInPicture,
-								imageWidth : imageData.width,
-								imageHeight : imageData.height
-							},
-							closeLayoutIcon : state.contextData.closeLayoutIcon,
-							infiniteScrollingPage : state.contextData.infiniteScrollingPage,
-							displayTimelineCover : state.contextData.displayTimelineCover,
-							stateLoaded : state.contextData.stateLoaded
-						}
-					}});  
-    
-    				this.pictureUpdateRequest.imageWidth = imageData.width;
-    				this.pictureUpdateRequest.imageHeight = imageData.height;
-
-					setTimeout(function() {
-						this.updateProfilePicture();
-					}.bind(this), 1000);
-				}.bind(this);
-			}.bind(this);
-
-			imageReader.onerror = function(error) {
-				console.log("Error gotten here is: " + error);
-			}
-		}
-	}
-
-	async processFaceDetection(imageData) {
-   		var detections = await faceapi.detectAllFaces(imageData, 
-   			new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions()
-   		.then((response) => {     
-			this.setState(function(state) {
-				return {contextData : {
-					userComposite : state.contextData.userComposite,
-					messengerResponses : state.contextData.messengerResponses,
-					notificationResponses : state.contextData.notificationResponses,
-					floatingAccountData : state.contextData.floatingAccountData,
-					pictureUpload : {
-						picture : state.contextData.pictureUpload.picture,
-						faceCountInPicture : response.length,
-						imageWidth : state.contextData.pictureUpload.imageWidth,
-						imageHeight : state.contextData.pictureUpload.imageHeight
-					},
-					closeLayoutIcon : state.contextData.closeLayoutIcon,
-					infiniteScrollingPage : state.contextData.infiniteScrollingPage,
-					displayTimelineCover : state.contextData.displayTimelineCover,
-					stateLoaded : state.contextData.stateLoaded
-				}
-			}});           
-   		});
-	}
-
-	updateProfilePicture() {
-		this.pictureUpdateRequest.memberId = this.currentUser.memberId;
-   
-   		if (this.state.contextData.pictureUpload.imageWidth > 0 
-			&& this.state.contextData.pictureUpload.imageHeight > 0 
-			&& this.state.contextData.pictureUpload.faceCountInPicture > 0) {
-			axios.post("https://datemomo.com/service/updatepicture.php", this.pictureUpdateRequest)
-		    	.then(response => { 
-		    		this.currentUser.profilePicture = response.data.profilePicture;
-					localStorage.setItem("currentUser", JSON.stringify(this.currentUser));
-					window.location.reload(true);
-		        }, error => {
-		        	console.log(error);
-		        });
-		} else {
-			if (this.state.contextData.pictureUpload.faceCountInPicture <= 0) {
-				// Display no Face In Picture Error Message here
-
-			}      
 		}
 	}
 
@@ -975,37 +651,7 @@ class Timeline extends React.Component {
 			leftIconHollowButtonIcon : "hollowButtonLeftIcon",
 			leftIconHollowButtonTitle : "leftHollowButtonTitle"
 		}
-              
-		var profilePictureParts = {
-			roundPicture : "https://datemomo.com/client/image/" + 
-				this.currentUser.profilePicture,
-			pictureLayoutClass : "profilePictureLayout pictureLayoutClass",
-			profilePictureClass : "profilePictureImage profilePictureClass",
-			pictureChangeClass : "profilePictureIcon pictureChangeClass"
-		}
-
-		var leftMenuProfileButton = {
-			buttonTitle : "View Profile",
-			buttonIcon : icon_view_blue,
-			leftIconHollowButtonLayout : "leftMenuPhotoButton",
-			leftIconHollowButtonIcon : "leftMenuPhotoIcon",
-			leftIconHollowButtonTitle : "leftMenuPhotoTitle"
-		}
-
-		var leftMenuPhotoButton = {
-			buttonTitle : "Photos",
-			buttonIcon : icon_gallery_blue,
-			leftIconHollowButtonLayout : "leftMenuPhotoButton",
-			leftIconHollowButtonIcon : "leftMenuPhotoIcon",
-			leftIconHollowButtonTitle : "leftMenuPhotoTitle"	
-		}
-
-		var leftMenuEditorButton = {
-			bottomMenuClass : "leftMenuEditorButton selectedMenuLayout",
-			bottomMenuIcon : "leftMenuBottomMenuIcon",
-			menuIcon : icon_edit_white
-		}
-
+   
 		var colorLoaderData = {
 			animationLayout : "colorLoaderLayout",
 			animationImageClass : "colorLoader",
@@ -1016,55 +662,8 @@ class Timeline extends React.Component {
 			<div>
 				<div className="outerParentLayout">
 
-				{/* For the three layouts on leftMenuLayout, make the height 
-				of the first two wrap contents, while the height of the last 
-				content stretch to the bottom, but if it's shorter than the screen, 
-				make it scroll in a scroll layout */}
-
-					<div className="leftMenuLayout">
-						<div className="profileMenuLayout leftMenuContent">
-							<div className="profileMenuUpperLayout">
-								<input type="file" onChange={this.handlePictureChange} className="uploadPictureButton"
-									ref={(selectPictureButton) => {this.selectPictureButton = selectPictureButton}} accept="image/*" />
-								<IconProfilePicture onClickPictureChange={this.changeProfilePicture} 
-									pictureParts={profilePictureParts} />
-								<div className="leftUpperPhotoButtons">
-									<LeftIconHollowButton onButtonClicked={this.openUserGallery} buttonParts={leftMenuPhotoButton} />
-									<BottomMenuIcon onButtonClicked={this.editUserProfile} menuParts={leftMenuEditorButton} />
-								</div>
-							</div>
-							<div className="profileMenuLowerLayout">
-								<div className="leftMenuUserName">
-									{this.currentUser.userName.charAt(0).toUpperCase() + 
-										this.currentUser.userName.slice(1)}
-								</div>
-								<div className="leftMenuLocation">
-									{(this.currentUser.currentLocation === "") ? 
-										"Location Not Set" : this.currentUser.currentLocation}
-								</div>
-								<LeftIconHollowButton onButtonClicked={this.openUserProfile} buttonParts={leftMenuProfileButton} />
-							</div>
-						</div>
-						<div className="messengerMenuLayout leftMenuContent">
-							<div className="leftMenuHeader">Chats</div>
-							<div className="messengerMessageLayout">
-								{this.displayMessengerContent()}
-							</div>
-							<div className="messengerFooterLayout">
-								<u>Messenger</u>
-							</div>
-						</div>
-						<div className="notificationMenuLayout leftMenuContent">
-							<div className="leftMenuHeader">Notifications</div>
-							<div className="messengerMessageLayout">
-								{this.displayNotificationContent()}
-							</div>
-							<div className="messengerFooterLayout">
-								<u>Notification</u>
-							</div>
-						</div>
-					</div>
-
+					<LeftMenuSection />
+      
 					<div className="scrollView" ref={(homeDisplayScroller) => 
 						{this.homeDisplayScroller = homeDisplayScroller}} onScroll={this.detectScrollBottom}>
 						{ 
