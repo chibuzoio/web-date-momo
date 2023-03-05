@@ -945,6 +945,7 @@ class Timeline extends React.Component {
 		    	.then(response => { 
 		    		this.currentUser.profilePicture = response.data.profilePicture;
 					localStorage.setItem("currentUser", JSON.stringify(this.currentUser));
+					window.location.reload(true);
 		        }, error => {
 		        	console.log(error);
 		        });
