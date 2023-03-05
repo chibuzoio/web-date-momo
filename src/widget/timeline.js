@@ -3,7 +3,9 @@ import axios from 'axios';
 import '../css/style.css';
 import '../css/header.css';
 import '../css/timeline.css';
+import '../css/picture_upload.css';
 import '../css/floating_account.css';
+import * as faceapi from 'face-api.js';
 import placeholder from '../image/placeholder.jpg';
 import icon_menu_black from '../image/icon_menu_black.png';
 import icon_gallery_blue from '../image/icon_gallery_blue.png'; 
@@ -34,7 +36,14 @@ class Timeline extends React.Component {
 	hiddenAnimationClass = this.visibleAnimationClass + " hideComponent";
 	currentUser = {};
 	requestData = {};
+	base64String = "";
 	messengerRequestData = {};
+	pictureUpdateRequest = {
+		memberId : 0,
+		imageWidth : 0,
+		imageHeight : 0,
+		base64Picture : ""
+	};
 	state = {contextData : {
 		userComposite : {
 			homeDisplayResponses : [],
@@ -55,6 +64,12 @@ class Timeline extends React.Component {
 				age : 0
 			},
 			gradientHeight : 0
+		},
+		pictureUpload : {
+			picture : "",
+			faceCountInPicture : 0,
+			imageWidth : 0,
+			imageHeight : 0
 		},
 		closeLayoutIcon : {
 			menuLayoutClass : "menuLayoutClass",
@@ -85,7 +100,10 @@ class Timeline extends React.Component {
 		this.replaceImagePlaceholder = this.replaceImagePlaceholder.bind(this);
 		this.displayMessengerContent = this.displayMessengerContent.bind(this);
 		this.displayFloatingLayout = this.displayFloatingLayout.bind(this);
+		this.updateProfilePicture = this.updateProfilePicture.bind(this);
 		this.updateGradientHeight = this.updateGradientHeight.bind(this);
+		this.changeProfilePicture = this.changeProfilePicture.bind(this);
+		this.handlePictureChange = this.handlePictureChange.bind(this);
 		this.closeFloatingLayout = this.closeFloatingLayout.bind(this);
 		this.detectScrollBottom = this.detectScrollBottom.bind(this);
 		this.setGradientHeight = this.setGradientHeight.bind(this);
@@ -109,6 +127,9 @@ class Timeline extends React.Component {
 	}
 
 	componentDidMount() {
+		const MODEL_URL = process.env.PUBLIC_URL + '/models';
+		this.loadModels(MODEL_URL);
+
 		this.requestData = {
 			memberId : this.currentUser.memberId,
 			age : this.currentUser.age,
@@ -163,6 +184,7 @@ class Timeline extends React.Component {
 	    				messengerResponses : state.contextData.messengerResponses,
 	    				notificationResponses : state.contextData.notificationResponses,
 	    				floatingAccountData : state.contextData.floatingAccountData,
+	    				pictureUpload : state.contextData.pictureUpload,
 	    				closeLayoutIcon : state.contextData.closeLayoutIcon,
 	    				infiniteScrollingPage : {
 	    					infiniteScrollLoader : {
@@ -192,6 +214,7 @@ class Timeline extends React.Component {
 							messengerResponses : localMessengerResponses,
 							notificationResponses : state.contextData.notificationResponses,
 							floatingAccountData : state.contextData.floatingAccountData,
+							pictureUpload : state.contextData.pictureUpload,
 							closeLayoutIcon : state.contextData.closeLayoutIcon,
 							infiniteScrollingPage : state.contextData.infiniteScrollingPage,
 							displayTimelineCover : state.contextData.displayTimelineCover,
@@ -211,6 +234,7 @@ class Timeline extends React.Component {
 	    				messengerResponses : state.contextData.messengerResponses,
 	    				notificationResponses : response.data,
 	    				floatingAccountData : state.contextData.floatingAccountData,
+	    				pictureUpload : state.contextData.pictureUpload,
 	    				closeLayoutIcon : state.contextData.closeLayoutIcon,
 	    				infiniteScrollingPage : state.contextData.infiniteScrollingPage,
 	    				displayTimelineCover : state.contextData.displayTimelineCover,
@@ -227,6 +251,17 @@ class Timeline extends React.Component {
 		window.removeEventListener('scroll', this.detectScrollBottom);
 	}
 
+	async loadModels(modelUrl) {
+	  	Promise.all([
+	    	faceapi.nets.tinyFaceDetector.loadFromUri(modelUrl),
+	    	faceapi.nets.faceLandmark68Net.loadFromUri(modelUrl),
+	    	faceapi.nets.faceRecognitionNet.loadFromUri(modelUrl),
+	    	faceapi.nets.faceExpressionNet.loadFromUri(modelUrl),
+	  	]).then(() => {
+	  		console.log("Models have been loaded here!!!!");
+	  	});
+	}
+
 	updateGradientHeight() { 
 		this.setState(function(state) { 
 			return {contextData : {
@@ -241,6 +276,7 @@ class Timeline extends React.Component {
 					userDisplayResponse : state.contextData.floatingAccountData.userDisplayResponse,
 					gradientHeight : this.userAccountImage.clientHeight
 				},
+				pictureUpload : state.contextData.pictureUpload,
 				closeLayoutIcon : state.contextData.closeLayoutIcon,
 				infiniteScrollingPage : state.contextData.infiniteScrollingPage,
 				displayTimelineCover : state.contextData.displayTimelineCover,
@@ -263,6 +299,7 @@ class Timeline extends React.Component {
 					userDisplayResponse : state.contextData.floatingAccountData.userDisplayResponse,
 					gradientHeight : event.target.clientHeight   
 				},
+				pictureUpload : state.contextData.pictureUpload,
 				closeLayoutIcon : state.contextData.closeLayoutIcon,
 				infiniteScrollingPage : state.contextData.infiniteScrollingPage,
 				displayTimelineCover : state.contextData.displayTimelineCover,
@@ -301,6 +338,7 @@ class Timeline extends React.Component {
 					},
 					gradientHeight : state.contextData.floatingAccountData.gradientHeight
 				},
+				pictureUpload : state.contextData.pictureUpload,
 				closeLayoutIcon : {
 					menuLayoutClass : state.contextData.closeLayoutIcon.menuLayoutClass,
 					menuIconClass : state.contextData.closeLayoutIcon.menuIconClass,
@@ -472,6 +510,7 @@ class Timeline extends React.Component {
 					messengerResponses : state.contextData.messengerResponses,
 					notificationResponses : state.contextData.notificationResponses,
 					floatingAccountData : state.contextData.floatingAccountData,
+					pictureUpload : state.contextData.pictureUpload,
 					closeLayoutIcon : state.contextData.closeLayoutIcon,
 					infiniteScrollingPage : state.contextData.infiniteScrollingPage,
 					displayTimelineCover : "none",
@@ -496,6 +535,7 @@ class Timeline extends React.Component {
 						userDisplayResponse : state.contextData.floatingAccountData.userDisplayResponse,
 						gradientHeight : state.contextData.floatingAccountData.gradientHeight
 					},
+					pictureUpload : state.contextData.pictureUpload,
 					closeLayoutIcon : {
 						menuLayoutClass : state.contextData.closeLayoutIcon.menuLayoutClass,
 						menuIconClass : state.contextData.closeLayoutIcon.menuIconClass,
@@ -530,6 +570,7 @@ class Timeline extends React.Component {
 				messengerResponses : state.contextData.messengerResponses,
 				notificationResponses : state.contextData.notificationResponses,
 				floatingAccountData : state.contextData.floatingAccountData,
+				pictureUpload : state.contextData.pictureUpload,
 				closeLayoutIcon : state.contextData.closeLayoutIcon,
 				infiniteScrollingPage : state.contextData.infiniteScrollingPage,
 				displayTimelineCover : state.contextData.displayTimelineCover,
@@ -565,6 +606,7 @@ class Timeline extends React.Component {
 						messengerResponses : state.contextData.messengerResponses,
 						notificationResponses : state.contextData.notificationResponses,
 						floatingAccountData : state.contextData.floatingAccountData,
+						pictureUpload : state.contextData.pictureUpload,
 						closeLayoutIcon : state.contextData.closeLayoutIcon,
 						infiniteScrollingPage : {
 							infiniteScrollLoader : {
@@ -624,6 +666,7 @@ class Timeline extends React.Component {
 								messengerResponses : state.contextData.messengerResponses,
 								notificationResponses : state.contextData.notificationResponses,
 								floatingAccountData : state.contextData.floatingAccountData,
+								pictureUpload : state.contextData.pictureUpload,
 								closeLayoutIcon : state.contextData.closeLayoutIcon,
 								infiniteScrollingPage : {
 									infiniteScrollLoader : {
@@ -647,6 +690,7 @@ class Timeline extends React.Component {
 								messengerResponses : state.contextData.messengerResponses,
 								notificationResponses : state.contextData.notificationResponses,
 								floatingAccountData : state.contextData.floatingAccountData,
+								pictureUpload : state.contextData.pictureUpload,
 								closeLayoutIcon : state.contextData.closeLayoutIcon,
 								infiniteScrollingPage : {
 									infiniteScrollLoader : {
@@ -674,6 +718,7 @@ class Timeline extends React.Component {
 						messengerResponses : state.contextData.messengerResponses,
 						notificationResponses : state.contextData.notificationResponses,
 						floatingAccountData : state.contextData.floatingAccountData,
+						pictureUpload : state.contextData.pictureUpload,
 						closeLayoutIcon : state.contextData.closeLayoutIcon,
 						infiniteScrollingPage : {
 							infiniteScrollLoader : {
@@ -768,6 +813,10 @@ class Timeline extends React.Component {
 	openUserGallery(buttonClicked) {
 		if (buttonClicked) {
 			// navigate to user gallery
+
+// service/userpicture.php
+
+
 		}
 	}
 
@@ -780,6 +829,131 @@ class Timeline extends React.Component {
 	openUserProfile(buttonClicked) {
 		if (buttonClicked) {
 			window.location.assign("/profile");
+		}
+	}
+
+	changeProfilePicture(changePictureClicked) {
+		if (changePictureClicked) {
+			this.selectPictureButton.click();			
+		}
+	}
+
+	handlePictureChange(event) {
+		if (event.target.files[0] != null) {
+			var imageReader = new FileReader();
+			imageReader.readAsDataURL(event.target.files[0]);
+
+			imageReader.onload = function(event) {
+				var imageData = new Image();
+				this.base64String = event.target.result;
+
+				// console.log("base64String gotten here is " + this.base64String.substring(5));
+
+				this.setState(function(state) {
+					return {contextData : {
+						userComposite : state.contextData.userComposite,
+						messengerResponses : state.contextData.messengerResponses,
+						notificationResponses : state.contextData.notificationResponses,
+						floatingAccountData : state.contextData.floatingAccountData,
+						pictureUpload : {
+							picture : this.base64String,
+							faceCountInPicture : state.contextData.pictureUpload.faceCountInPicture,
+							imageWidth : state.contextData.pictureUpload.imageWidth,
+							imageHeight : state.contextData.pictureUpload.imageHeight
+						},
+						closeLayoutIcon : state.contextData.closeLayoutIcon,
+						infiniteScrollingPage : state.contextData.infiniteScrollingPage,
+						displayTimelineCover : state.contextData.displayTimelineCover,
+						stateLoaded : state.contextData.stateLoaded
+					}
+				}});  
+
+				this.pictureUpdateRequest.base64Picture = 
+					this.base64String.substring(this.base64String.indexOf("base64,") + 7);
+            
+				imageData.src = this.base64String;
+
+				this.processFaceDetection(imageData);
+
+				imageData.onload = function() {
+					this.setState(function(state) {
+						return {contextData : {
+							userComposite : state.contextData.userComposite,
+							messengerResponses : state.contextData.messengerResponses,
+							notificationResponses : state.contextData.notificationResponses,
+							floatingAccountData : state.contextData.floatingAccountData,
+							pictureUpload : {
+								picture : state.contextData.pictureUpload.picture,
+								faceCountInPicture : state.contextData.pictureUpload.faceCountInPicture,
+								imageWidth : imageData.width,
+								imageHeight : imageData.height
+							},
+							closeLayoutIcon : state.contextData.closeLayoutIcon,
+							infiniteScrollingPage : state.contextData.infiniteScrollingPage,
+							displayTimelineCover : state.contextData.displayTimelineCover,
+							stateLoaded : state.contextData.stateLoaded
+						}
+					}});  
+    
+    				this.pictureUpdateRequest.imageWidth = imageData.width;
+    				this.pictureUpdateRequest.imageHeight = imageData.height;
+
+					setTimeout(function() {
+						this.updateProfilePicture();
+					}.bind(this), 1000);
+				}.bind(this);
+			}.bind(this);
+
+			imageReader.onerror = function(error) {
+				console.log("Error gotten here is: " + error);
+			}
+		}
+	}
+
+	async processFaceDetection(imageData) {
+   		var detections = await faceapi.detectAllFaces(imageData, 
+   			new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions()
+   		.then((response) => {     
+			this.setState(function(state) {
+				return {contextData : {
+					userComposite : state.contextData.userComposite,
+					messengerResponses : state.contextData.messengerResponses,
+					notificationResponses : state.contextData.notificationResponses,
+					floatingAccountData : state.contextData.floatingAccountData,
+					pictureUpload : {
+						picture : state.contextData.pictureUpload.picture,
+						faceCountInPicture : response.length,
+						imageWidth : state.contextData.pictureUpload.imageWidth,
+						imageHeight : state.contextData.pictureUpload.imageHeight
+					},
+					closeLayoutIcon : state.contextData.closeLayoutIcon,
+					infiniteScrollingPage : state.contextData.infiniteScrollingPage,
+					displayTimelineCover : state.contextData.displayTimelineCover,
+					stateLoaded : state.contextData.stateLoaded
+				}
+			}});           
+   		});
+	}
+
+	updateProfilePicture() {
+		this.pictureUpdateRequest.memberId = this.currentUser.memberId;
+   
+   		if (this.state.contextData.pictureUpload.imageWidth > 0 
+			&& this.state.contextData.pictureUpload.imageHeight > 0 
+			&& this.state.contextData.pictureUpload.faceCountInPicture > 0) {
+			axios.post("https://datemomo.com/service/updatepicture.php", this.pictureUpdateRequest)
+		    	.then(response => { 
+		    		this.currentUser.profilePicture = response.data.profilePicture;
+					localStorage.setItem("currentUser", JSON.stringify(this.currentUser));
+					window.location.reload(true);
+		        }, error => {
+		        	console.log(error);
+		        });
+		} else {
+			if (this.state.contextData.pictureUpload.faceCountInPicture <= 0) {
+				// Display no Face In Picture Error Message here
+
+			}      
 		}
 	}
 
@@ -850,7 +1024,10 @@ class Timeline extends React.Component {
 					<div className="leftMenuLayout">
 						<div className="profileMenuLayout leftMenuContent">
 							<div className="profileMenuUpperLayout">
-								<IconProfilePicture pictureParts={profilePictureParts} />
+								<input type="file" onChange={this.handlePictureChange} className="uploadPictureButton"
+									ref={(selectPictureButton) => {this.selectPictureButton = selectPictureButton}} accept="image/*" />
+								<IconProfilePicture onClickPictureChange={this.changeProfilePicture} 
+									pictureParts={profilePictureParts} />
 								<div className="leftUpperPhotoButtons">
 									<LeftIconHollowButton onButtonClicked={this.openUserGallery} buttonParts={leftMenuPhotoButton} />
 									<BottomMenuIcon onButtonClicked={this.editUserProfile} menuParts={leftMenuEditorButton} />
