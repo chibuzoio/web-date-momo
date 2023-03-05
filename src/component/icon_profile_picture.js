@@ -9,6 +9,7 @@ class IconProfilePicture extends React.Component {
 	constructor(props) {
 		super(props);
 		this.updateState = this.updateState.bind(this);
+		this.changeProfilePicture = this.changeProfilePicture.bind(this);
 	}
 
 	// Remember this method type for setting state using props values  
@@ -20,13 +21,17 @@ class IconProfilePicture extends React.Component {
 		});
 	}
 
+	changeProfilePicture(event) {
+		this.props.onClickPictureChange(true);
+	}
+
 	render() {  
 		return (
 			<div className={this.props.pictureParts.pictureLayoutClass}>
 				<img className={this.props.pictureParts.profilePictureClass} 
 				alt="" src={this.props.pictureParts.roundPicture} />
 				<img className={this.props.pictureParts.pictureChangeClass} 
-					alt="" src={icon_camera_blue} />
+					onClick={this.changeProfilePicture} alt="" src={icon_camera_blue} />
 			</div>
 		);
 	}
