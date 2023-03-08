@@ -4,6 +4,7 @@ import '../css/input.css';
 import '../css/style.css';
 import '../css/profile.css';
 import '../css/sexuality.css';  
+import { getQueryParam } from '../utility/utility';
 import icon_edit_blue from '../image/icon_edit_blue.png'; 
 import icon_camera_blue from '../image/icon_camera_blue.png';
 import icon_gallery_blue from '../image/icon_gallery_blue.png'; 
@@ -141,8 +142,6 @@ class Profile extends React.Component {
 		this.buildSexualInterestButtons = this.buildSexualInterestButtons.bind(this);
 		this.buildSexualCategoryButtons = this.buildSexualCategoryButtons.bind(this);
 		this.buildSexualExperienceButtons = this.buildSexualExperienceButtons.bind(this);
-		// this.calculatePictureDimensions(); // Very very wrong to call this 
-		// method in the constructor because it sets state in itself      
 	}
 
 	componentDidMount() {

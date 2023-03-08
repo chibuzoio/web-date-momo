@@ -120,6 +120,7 @@ class LeftMenuSection extends React.Component {
 	openUserProfile(buttonClicked) {
 		if (buttonClicked) {
 			window.location.assign("/profile");
+			// window.location.assign("/profile?user=" + this.currentUser.memberId);
 		}
 	}
 
