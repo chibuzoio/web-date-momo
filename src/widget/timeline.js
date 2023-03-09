@@ -671,41 +671,39 @@ class Timeline extends React.Component {
 					<ProgressAnimation animationData={this.state.contextData.infiniteScrollingPage.infiniteScrollLoader} />
 				</div>
 
-				<div className="floatingUserAccountLayout" 
+				<div className="floatingUserAccountWidget" 
 					style={{display : this.state.contextData.floatingAccountData.floatingLayoutDisplay}}>
-					<div className="floatingUserAccountWidget">
-						<img className="floatingUserAccountImage" 
-							ref={(userAccountImage) => {this.userAccountImage = userAccountImage}} 
-							onLoad={this.setGradientHeight} alt="" src={"https://datemomo.com/client/image/" 
-							+ this.state.contextData.floatingAccountData.userDisplayResponse.profilePicture} />
-						<div className="gradientCover" ref={(gradientCover) => {this.gradientCover = gradientCover}} 
-							style={{height : this.state.contextData.floatingAccountData.gradientHeight}}>
-							<div className="gradientLayout">
-								<div className="gradientUserName">
-								{this.state.contextData.floatingAccountData.userDisplayResponse.userName.charAt(0).toUpperCase() 
-								+ this.state.contextData.floatingAccountData.userDisplayResponse.userName.slice(1)},&nbsp;
-								{this.state.contextData.floatingAccountData.userDisplayResponse.age}</div>
-								<div className="gradientLocation"> {this.state.contextData.floatingAccountData.userDisplayResponse.currentLocation}</div>
-							</div>
-						</div>
-						<div className="userStatusText"> {this.state.contextData.floatingAccountData.userDisplayResponse.userStatus}</div>
-						<div className="floatingLayoutButtons">
-							<LeftIconHollowButton buttonParts={viewProfileButton} />
-							<LeftIconHollowButton buttonParts={messageButton} />
-						</div>
-						<div className="floatingSexualityLayout">
-							<div className="sexualityHeader"> {this.state.contextData.floatingAccountData.userDisplayResponse.userName.charAt(0).toUpperCase() 
-								+ this.state.contextData.floatingAccountData.userDisplayResponse.userName.slice(1)} sexuality</div>
-							<SexualityBiometrics sexualityButtons={this.state.contextData.floatingAccountData.sexualCategoryButtons} />
-							<div className="sexualityHeader"> {this.state.contextData.floatingAccountData.userDisplayResponse.userName.charAt(0).toUpperCase() 
-								+ this.state.contextData.floatingAccountData.userDisplayResponse.userName.slice(1)} is looking for</div>
-							<SexualityBiometrics sexualityButtons={this.state.contextData.floatingAccountData.sexualInterestButtons} />
-							<div className="sexualityHeader"> {this.state.contextData.floatingAccountData.userDisplayResponse.userName.charAt(0).toUpperCase() 
-								+ this.state.contextData.floatingAccountData.userDisplayResponse.userName.slice(1)} sexual fantasies</div>
-							<SexualityBiometrics sexualityButtons={this.state.contextData.floatingAccountData.sexualExperienceButtons} />
+					<img className="floatingUserAccountImage" 
+						ref={(userAccountImage) => {this.userAccountImage = userAccountImage}} 
+						onLoad={this.setGradientHeight} alt="" src={"https://datemomo.com/client/image/" 
+						+ this.state.contextData.floatingAccountData.userDisplayResponse.profilePicture} />
+					<div className="gradientCover" ref={(gradientCover) => {this.gradientCover = gradientCover}} 
+						style={{height : this.state.contextData.floatingAccountData.gradientHeight}}>
+						<div className="gradientLayout">
+							<div className="gradientUserName">
+							{this.state.contextData.floatingAccountData.userDisplayResponse.userName.charAt(0).toUpperCase() 
+							+ this.state.contextData.floatingAccountData.userDisplayResponse.userName.slice(1)},&nbsp;
+							{this.state.contextData.floatingAccountData.userDisplayResponse.age}</div>
+							<div className="gradientLocation"> {this.state.contextData.floatingAccountData.userDisplayResponse.currentLocation}</div>
 						</div>
 					</div>
-				</div>
+					<div className="userStatusText"> {this.state.contextData.floatingAccountData.userDisplayResponse.userStatus}</div>
+					<div className="floatingLayoutButtons">
+						<LeftIconHollowButton buttonParts={viewProfileButton} />
+						<LeftIconHollowButton buttonParts={messageButton} />
+					</div>
+					<div className="floatingSexualityLayout">
+						<div className="sexualityHeader"> {this.state.contextData.floatingAccountData.userDisplayResponse.userName.charAt(0).toUpperCase() 
+							+ this.state.contextData.floatingAccountData.userDisplayResponse.userName.slice(1)} sexuality</div>
+						<SexualityBiometrics sexualityButtons={this.state.contextData.floatingAccountData.sexualCategoryButtons} />
+						<div className="sexualityHeader"> {this.state.contextData.floatingAccountData.userDisplayResponse.userName.charAt(0).toUpperCase() 
+							+ this.state.contextData.floatingAccountData.userDisplayResponse.userName.slice(1)} is looking for</div>
+						<SexualityBiometrics sexualityButtons={this.state.contextData.floatingAccountData.sexualInterestButtons} />
+						<div className="sexualityHeader"> {this.state.contextData.floatingAccountData.userDisplayResponse.userName.charAt(0).toUpperCase() 
+							+ this.state.contextData.floatingAccountData.userDisplayResponse.userName.slice(1)} sexual fantasies</div>
+						<SexualityBiometrics sexualityButtons={this.state.contextData.floatingAccountData.sexualExperienceButtons} />
+					</div>
+				</div>     
 
 				<CloseLayoutIcon menuIconParts={this.state.contextData.closeLayoutIcon} onChangeIconDisplay={this.closeFloatingLayout} />
 				<div className="timelineCover" style={{display : this.state.contextData.displayTimelineCover}}>
