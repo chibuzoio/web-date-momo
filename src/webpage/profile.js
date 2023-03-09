@@ -3,7 +3,9 @@ import axios from 'axios';
 import '../css/input.css';
 import '../css/style.css';
 import '../css/profile.css';
+import '../css/timeline.css';
 import '../css/sexuality.css';  
+import { getQueryParam } from '../utility/utility';
 import icon_edit_blue from '../image/icon_edit_blue.png'; 
 import icon_camera_blue from '../image/icon_camera_blue.png';
 import icon_gallery_blue from '../image/icon_gallery_blue.png'; 
@@ -141,8 +143,6 @@ class Profile extends React.Component {
 		this.buildSexualInterestButtons = this.buildSexualInterestButtons.bind(this);
 		this.buildSexualCategoryButtons = this.buildSexualCategoryButtons.bind(this);
 		this.buildSexualExperienceButtons = this.buildSexualExperienceButtons.bind(this);
-		// this.calculatePictureDimensions(); // Very very wrong to call this 
-		// method in the constructor because it sets state in itself      
 	}
 
 	componentDidMount() {
@@ -412,7 +412,7 @@ class Profile extends React.Component {
 	}
 
 	calculatePictureDimensions() {
-		var browserWidth = window.innerWidth;  
+		var browserWidth = this.profileLayout.clientWidth;  
 		var sumOfPictureMargins = (8 / 100) * browserWidth;
 		var totalPictureWidth = browserWidth - sumOfPictureMargins;
 		var eachPictureWidth = totalPictureWidth / 3;
@@ -631,48 +631,51 @@ class Profile extends React.Component {
 			leftIconHollowButtonTitle : "leftHollowButtonTitle"
 		}
               
-		return ( 
-			<div className="dateMomoProfileLayout">
-				<div className="pictureUserNameLayout">
-					<div className="profilePictureContainer">
-						<div className="profilePictureLayout">
-							<img className="profilePictureImage" 
-								alt="" src={"https://datemomo.com/client/image/" 
-								+ this.currentUser.profilePicture} />
-							<img className="profilePictureIcon" alt="" src={icon_camera_blue} />
+		return ( 			
+			<div className="scrollView">
+				<div className="dateMomoProfileLayout" 
+					ref={(profileLayout) => {this.profileLayout = profileLayout}}> 
+					<div className="pictureUserNameLayout">
+						<div className="profilePictureContainer">
+							<div className="profilePictureLayout">
+								<img className="profilePictureImage" 
+									alt="" src={"https://datemomo.com/client/image/" 
+									+ this.currentUser.profilePicture} />
+								<img className="profilePictureIcon" alt="" src={icon_camera_blue} />
+							</div>
+						</div>
+						<div className="userNameLocationLayout">
+							<div className="userNameAgeText">{this.currentUser.userName.charAt(0).toUpperCase() 
+								+ this.currentUser.userName.slice(1)}, {this.currentUser.age}</div>
+							<div className="userLocationText">{this.currentUser.currentLocation}</div>
+							<div className="currentStatusText">{this.currentUser.userStatus}</div>
 						</div>
 					</div>
-					<div className="userNameLocationLayout">
-						<div className="userNameAgeText">{this.currentUser.userName.charAt(0).toUpperCase() 
-							+ this.currentUser.userName.slice(1)}, {this.currentUser.age}</div>
-						<div className="userLocationText">{this.currentUser.currentLocation}</div>
-						<div className="currentStatusText">{this.currentUser.userStatus}</div>
+					<div className="profileButtonLayout">
+						<LeftIconHollowButton buttonParts={pictureGalleryButton} />
+						<LeftIconHollowButton buttonParts={editProfileButton} />
 					</div>
-				</div>
-				<div className="profileButtonLayout">
-					<LeftIconHollowButton buttonParts={pictureGalleryButton} />
-					<LeftIconHollowButton buttonParts={editProfileButton} />
-				</div>
-				<div className={this.state.contextData.userLikerLayout.generalLikerDisplayLayout}> 
-					<div className="userlikerCount">{this.state.contextData.userLikerLayout.userLikerDisplayTitle}</div>
-					<div className={this.state.contextData.userLikerLayout.firstThreeLikerDisplay}>
-						<UserDetailPicture userDetailParts={this.state.contextData.firstLikerUser} />
-						<UserDetailPicture userDetailParts={this.state.contextData.secondLikerUser} />
-						<UserDetailPicture userDetailParts={this.state.contextData.thirdLikerUser} />
+					<div className={this.state.contextData.userLikerLayout.generalLikerDisplayLayout}> 
+						<div className="userlikerCount">{this.state.contextData.userLikerLayout.userLikerDisplayTitle}</div>
+						<div className={this.state.contextData.userLikerLayout.firstThreeLikerDisplay}>
+							<UserDetailPicture userDetailParts={this.state.contextData.firstLikerUser} />
+							<UserDetailPicture userDetailParts={this.state.contextData.secondLikerUser} />
+							<UserDetailPicture userDetailParts={this.state.contextData.thirdLikerUser} />
+						</div>
+						<div className={this.state.contextData.userLikerLayout.secondThreeLikerDisplay}>
+							<UserDetailPicture userDetailParts={this.state.contextData.fourthLikerUser} />					
+							<UserDetailPicture userDetailParts={this.state.contextData.fifthLikerUser} />
+							<UserDetailPicture userDetailParts={this.state.contextData.sixthLikerUser} />
+						</div>
 					</div>
-					<div className={this.state.contextData.userLikerLayout.secondThreeLikerDisplay}>
-						<UserDetailPicture userDetailParts={this.state.contextData.fourthLikerUser} />					
-						<UserDetailPicture userDetailParts={this.state.contextData.fifthLikerUser} />
-						<UserDetailPicture userDetailParts={this.state.contextData.sixthLikerUser} />
+					<div className="userLikerSexualityLayout">
+						<div className="sexualityHeader">My sexuality</div>
+						<SexualityBiometrics sexualityButtons={this.buildSexualCategoryButtons()} />
+						<div className="sexualityHeader">My Interests</div>
+						<SexualityBiometrics sexualityButtons={this.buildSexualInterestButtons()} />
+						<div className="sexualityHeader">My Experiences</div>
+						<SexualityBiometrics sexualityButtons={this.buildSexualExperienceButtons()} />
 					</div>
-				</div>
-				<div className="userLikerSexualityLayout">
-					<div className="sexualityHeader">My sexuality</div>
-					<SexualityBiometrics sexualityButtons={this.buildSexualCategoryButtons()} />
-					<div className="sexualityHeader">My Interests</div>
-					<SexualityBiometrics sexualityButtons={this.buildSexualInterestButtons()} />
-					<div className="sexualityHeader">My Experiences</div>
-					<SexualityBiometrics sexualityButtons={this.buildSexualExperienceButtons()} />
 				</div>
 			</div>
 		);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import '../css/style.css';
 import '../css/header.css';
@@ -6,388 +6,341 @@ import '../css/timeline.css';
 import '../css/picture_upload.css';
 import '../css/floating_account.css';  
 import * as faceapi from 'face-api.js';
+import { Outlet, Link, useNavigate } from "react-router-dom";
 import icon_view_blue from '../image/icon_view_blue.png';
 import icon_edit_white from '../image/icon_edit_white.png';
 import icon_gallery_blue from '../image/icon_gallery_blue.png'; 
 import icon_message_blue from '../image/icon_message_blue.png';
-import {checkNullInMessenger} from '../utility/utility';
+import { checkNullInMessenger } from '../utility/utility';
 import ActiveMessenger from '../widget/active_messenger';
 import BottomMenuIcon from '../component/bottom_menu_icon';
 import IconProfilePicture from '../component/icon_profile_picture'; 
 import NotificationIterator from '../widget/notification_iterator';
 import LeftIconHollowButton from '../component/left_icon_hollow_button';
 
-class LeftMenuSection extends React.Component {
-	currentUser = {};
-	base64String = "";
-	pictureUpdateRequest = {
-		memberId : 0,
-		imageWidth : 0,
-		imageHeight : 0,
-		base64Picture : ""
-	};
-	messengerRequestData = {};
-	state = {contextData : {
-		messengerResponses : [],
-		notificationResponses : [],
-		pictureUpload : {
-			picture : "",
-			faceCountInPicture : 0,
-			imageWidth : 0,
-			imageHeight : 0
-		},
-		stateLoaded : false
-	}};
+var base64String = "";
+var pictureUpdateRequest = {
+	memberId : 0,
+	imageWidth : 0,
+	imageHeight : 0,
+	base64Picture : ""
+};
+var navigate = {};
+var selectPictureButton = {};
+var [pictureUpload, setPictureUpload] = [];
+var [messengerResponses, setMessengerResponses] = [];
+var [notificationResponses, setNotificationResponses] = [];
 
-	constructor(props) {
-		super(props);
-		this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
-		this.displayNotificationContent = this.displayNotificationContent.bind(this);
-		this.displayMessengerContent = this.displayMessengerContent.bind(this);
-		this.changeProfilePicture = this.changeProfilePicture.bind(this);
-		this.handlePictureChange = this.handlePictureChange.bind(this);
-		this.openUserProfile = this.openUserProfile.bind(this);
-		this.openUserGallery = this.openUserGallery.bind(this);
-		this.editUserProfile = this.editUserProfile.bind(this);
-	}
+const MODEL_URL = process.env.PUBLIC_URL + '/models';
+const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
-	componentDidMount() {
-		const MODEL_URL = process.env.PUBLIC_URL + '/models';
-		this.loadModels(MODEL_URL);
-
-		this.messengerRequestData = {
-			memberId : this.currentUser.memberId
-		}
-
-		axios.post("https://datemomo.com/service/usermessengersdata.php", this.messengerRequestData)
-	    	.then(response => {
-				var localMessengerResponses = checkNullInMessenger(response.data);
-		
-				this.setState(function(state) { 
-					return {contextData : {
-						messengerResponses : localMessengerResponses,
-						notificationResponses : state.contextData.notificationResponses,
-						pictureUpload : state.contextData.pictureUpload,
-						stateLoaded : true
-					}
-				}}); 		
-	        }, error => {
-	        	console.log(error);
-	        });
-
-		axios.post("https://datemomo.com/service/usernotifications.php", this.messengerRequestData) 
-	    	.then(response => {
-	    		this.setState(function(state) { 
-	    			return {contextData : { 
-	    				messengerResponses : state.contextData.messengerResponses,
-	    				notificationResponses : response.data,
-						pictureUpload : state.contextData.pictureUpload,
-						stateLoaded : true
-		    		}
-	    		}});
-	        }, error => {
-	        	console.log(error);
-	        });
-	}
-
-	async loadModels(modelUrl) {
-	  	Promise.all([
-	    	faceapi.nets.tinyFaceDetector.loadFromUri(modelUrl),
-	    	faceapi.nets.faceLandmark68Net.loadFromUri(modelUrl),
-	    	faceapi.nets.faceRecognitionNet.loadFromUri(modelUrl),
-	    	faceapi.nets.faceExpressionNet.loadFromUri(modelUrl),
-	  	]).then(() => {
-	  		console.log("Models have been loaded here!!!!");
-	  	});
-	}
-
-	openUserGallery(buttonClicked) {
-		if (buttonClicked) {
-			// navigate to user gallery
+const openUserGallery = (buttonClicked) => {
+	if (buttonClicked) {
+		// navigate to user gallery
 
 // service/userpicture.php
 
 
+	}
+}
+
+const editUserProfile = (buttonClicked) => {
+	if (buttonClicked) {
+		// window.location.assign("/profile");
+	}
+}
+
+const openUserProfile = (buttonClicked) => {
+	if (buttonClicked) {
+		navigate("/profile");
+	}
+}
+
+const changeProfilePicture = (changePictureClicked) => {
+	if (changePictureClicked) {
+		selectPictureButton.current.click();
+	}
+}
+
+const handlePictureChange = (event) => {
+	if (event.target.files[0] != null) {
+		var imageReader = new FileReader();
+		imageReader.readAsDataURL(event.target.files[0]);
+
+		imageReader.onload = (event) => {
+			var imageData = new Image();
+			base64String = event.target.result;
+
+			// console.log("base64String gotten here is " + this.base64String.substring(5));
+
+			setPictureUpload({
+				picture : base64String,
+				faceCountInPicture : pictureUpload.faceCountInPicture,
+				imageWidth : pictureUpload.imageWidth,
+				imageHeight : pictureUpload.imageHeight
+			});
+
+			pictureUpdateRequest.base64Picture = 
+				base64String.substring(base64String.indexOf("base64,") + 7);
+        
+			imageData.src = base64String;
+
+			processFaceDetection(imageData);
+
+			imageData.onload = () => {
+				setPictureUpload({
+					picture : pictureUpload.picture,
+					faceCountInPicture : pictureUpload.faceCountInPicture,
+					imageWidth : imageData.width,
+					imageHeight : imageData.height
+				});
+
+				pictureUpdateRequest.imageWidth = imageData.width;
+				pictureUpdateRequest.imageHeight = imageData.height;
+
+				setTimeout(function() {
+					updateProfilePicture();
+				}, 1000);
+			};
+		};
+
+		imageReader.onerror = (error) => {
+			console.log("Error gotten here is: " + error);
 		}
 	}
+}
 
-	editUserProfile(buttonClicked) {
-		if (buttonClicked) {
-			// window.location.assign("/profile");
-		}
+const processFaceDetection = async (imageData) => {
+	var detections = await faceapi.detectAllFaces(imageData, 
+		new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions()
+   		.then((response) => {     
+			setPictureUpload({
+				picture : pictureUpload.picture,
+				faceCountInPicture : response.length,
+				imageWidth : pictureUpload.imageWidth,
+				imageHeight : pictureUpload.imageHeight	
+			});
+   		});
+}
+
+const updateProfilePicture = () => {
+	pictureUpdateRequest.memberId = currentUser.memberId;
+
+	if (pictureUpload.imageWidth > 0 
+		&& pictureUpload.imageHeight > 0 && pictureUpload.faceCountInPicture > 0) {
+		axios.post("https://datemomo.com/service/updatepicture.php", pictureUpdateRequest)
+	    	.then(response => { 
+	    		currentUser.profilePicture = response.data.profilePicture;
+				localStorage.setItem("currentUser", JSON.stringify(currentUser));
+				window.location.reload(true);
+	        }, error => {
+	        	console.log(error);
+	        });
+	} else {
+		if (pictureUpload.faceCountInPicture <= 0) {
+			// Display no Face In Picture Error Message here
+
+		}      
 	}
+}
 
-	openUserProfile(buttonClicked) {
-		if (buttonClicked) {
-			window.location.assign("/profile");
-		}
-	}
+const displayMessengerContent = () => { 
+	if (messengerResponses.length > 0) {
+		var messengerComposite = [];
 
-	changeProfilePicture(changePictureClicked) {
-		if (changePictureClicked) {
-			this.selectPictureButton.click();			
-		}
-	}
-
-	handlePictureChange(event) {
-		if (event.target.files[0] != null) {
-			var imageReader = new FileReader();
-			imageReader.readAsDataURL(event.target.files[0]);
-
-			imageReader.onload = function(event) {
-				var imageData = new Image();
-				this.base64String = event.target.result;
-
-				// console.log("base64String gotten here is " + this.base64String.substring(5));
-
-				this.setState(function(state) {
-					return {contextData : {
-						messengerResponses : state.contextData.messengerResponses,
-						notificationResponses : state.contextData.notificationResponses, 
-						pictureUpload : {
-							picture : this.base64String,
-							faceCountInPicture : state.contextData.pictureUpload.faceCountInPicture,
-							imageWidth : state.contextData.pictureUpload.imageWidth,
-							imageHeight : state.contextData.pictureUpload.imageHeight
-						}, 
-						stateLoaded : state.contextData.stateLoaded
-					}
-				}});  
-
-				this.pictureUpdateRequest.base64Picture = 
-					this.base64String.substring(this.base64String.indexOf("base64,") + 7);
-            
-				imageData.src = this.base64String;
-
-				this.processFaceDetection(imageData);
-
-				imageData.onload = function() {
-					this.setState(function(state) {
-						return {contextData : {
-							messengerResponses : state.contextData.messengerResponses,
-							notificationResponses : state.contextData.notificationResponses, 
-							pictureUpload : {
-								picture : state.contextData.pictureUpload.picture,
-								faceCountInPicture : state.contextData.pictureUpload.faceCountInPicture,
-								imageWidth : imageData.width,
-								imageHeight : imageData.height
-							}, 
-							stateLoaded : state.contextData.stateLoaded
-						}
-					}});  
-    
-    				this.pictureUpdateRequest.imageWidth = imageData.width;
-    				this.pictureUpdateRequest.imageHeight = imageData.height;
-
-					setTimeout(function() {
-						this.updateProfilePicture();
-					}.bind(this), 1000);
-				}.bind(this);
-			}.bind(this);
-
-			imageReader.onerror = function(error) {
-				console.log("Error gotten here is: " + error);
-			}
-		}
-	}
-
-	async processFaceDetection(imageData) {
-   		var detections = await faceapi.detectAllFaces(imageData, 
-   			new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions()
-	   		.then((response) => {     
-				this.setState(function(state) {
-					return {contextData : {
-						messengerResponses : state.contextData.messengerResponses,
-						notificationResponses : state.contextData.notificationResponses,
-						pictureUpload : {
-							picture : state.contextData.pictureUpload.picture,
-							faceCountInPicture : response.length,
-							imageWidth : state.contextData.pictureUpload.imageWidth,
-							imageHeight : state.contextData.pictureUpload.imageHeight
-						},
-						stateLoaded : state.contextData.stateLoaded
-					}
-				}});           
-	   		});
-	}
-
-	updateProfilePicture() {
-		this.pictureUpdateRequest.memberId = this.currentUser.memberId;
-   
-   		if (this.state.contextData.pictureUpload.imageWidth > 0 
-			&& this.state.contextData.pictureUpload.imageHeight > 0 
-			&& this.state.contextData.pictureUpload.faceCountInPicture > 0) {
-			axios.post("https://datemomo.com/service/updatepicture.php", this.pictureUpdateRequest)
-		    	.then(response => { 
-		    		this.currentUser.profilePicture = response.data.profilePicture;
-					localStorage.setItem("currentUser", JSON.stringify(this.currentUser));
-					window.location.reload(true);
-		        }, error => {
-		        	console.log(error);
-		        });
-		} else {
-			if (this.state.contextData.pictureUpload.faceCountInPicture <= 0) {
-				// Display no Face In Picture Error Message here
-
-			}      
-		}
-	}
-
-	displayMessengerContent() { 
-		if (this.state.contextData.stateLoaded) {
-			if (this.state.contextData.messengerResponses.length > 0) {
-				var messengerComposite = [];
-	   
-				for (var i = 0; i < this.state.contextData.messengerResponses.length; i++) {
-					var messengerContent = {
-						messengerResponse : this.state.contextData.messengerResponses[i],
-						messengerClasses : {
-							messengerContentLayout : "activeMessengerContent messengerContentTimeline",
-							chatMateUserName : "chatMateUserName chatMateUserNameTimeline",
-							roundPictureClass : "emptyMessengerPicture messengerPictureTimeline",
-							roundPictureLayout : "roundPictureContainer",
-							userNameMessageLayout : "userNameMessageLayout userNameMessageLayoutTimeline",
-							messagePropertiesLayout : "messagePropertiesLayout",
-							unreadMessageCounter : "unreadMessageCounter unreadMessageCounterTimeline basicButton",
-							lastMessageDate : "lastMessageDate",
-							timeFullText : false
-						}
-					}
-	   
-					messengerComposite.push(messengerContent);
-	              
-					if (i > 0) {
-						break;
-					}
-				}
-	       
-				return (
-					<ActiveMessenger activeMessengerComposite={messengerComposite} />
-				);
-			} else {
-				// return (
-				// empty messenger message 
-				// );
-			} 
-		}
-	}
-
-	displayNotificationContent() {
-		if (this.state.contextData.notificationResponses.length > 0) {
-			var notificationComposite = [];
-			
-			for (var i = 0; i < this.state.contextData.notificationResponses.length; i++) {
-				var notificationContent = {
-					notificationResponse : this.state.contextData.notificationResponses[i],
-					notificationClasses : {
-						notificationContentLayout : "activeMessengerContent notificationContentTimeline",
-						notificationTitle : "notificationTitleTimeline",
-						roundPictureClass : "emptyMessengerPicture messengerPictureTimeline",
-						roundPictureLayout : "roundPictureContainer",
-						notificationLayout : "notificationComponentLayout notificationTimeline",
-						notifierUserName : "notifierUserName"
-					}
-				}
-
-				notificationComposite.push(notificationContent);
-
-				if (i > 0) {
-					break;
+		for (var i = 0; i < messengerResponses.length; i++) {
+			var messengerContent = {
+				messengerResponse : messengerResponses[i],
+				messengerClasses : {
+					messengerContentLayout : "activeMessengerContent messengerContentTimeline",
+					chatMateUserName : "chatMateUserName chatMateUserNameTimeline",
+					roundPictureClass : "emptyMessengerPicture messengerPictureTimeline",
+					roundPictureLayout : "roundPictureContainer",
+					userNameMessageLayout : "userNameMessageLayout userNameMessageLayoutTimeline",
+					messagePropertiesLayout : "messagePropertiesLayout",
+					unreadMessageCounter : "unreadMessageCounter unreadMessageCounterTimeline basicButton",
+					lastMessageDate : "lastMessageDate",
+					timeFullText : false
 				}
 			}
+
+			messengerComposite.push(messengerContent);
+          
+			if (i > 0) {
+				break;
+			}
+		}
    
-			return (
-				<NotificationIterator notificationComposite={notificationComposite} />
-			);
-		} else {
-			// return (
-			// empty notification message 
-			// );
-		}
-	}
+		return (
+			<ActiveMessenger activeMessengerComposite={messengerComposite} />
+		);
+	} else {
+		// return (
+		// empty messenger message 
+		// );
+	} 
+}
 
-	render() {           
-		var leftMenuPhotoButton = {
-			buttonTitle : "Photos",
-			buttonIcon : icon_gallery_blue,
-			leftIconHollowButtonLayout : "leftMenuPhotoButton",
-			leftIconHollowButtonIcon : "leftMenuPhotoIcon",
-			leftIconHollowButtonTitle : "leftMenuPhotoTitle"	
-		}
+const displayNotificationContent = () => {
+	if (notificationResponses.length > 0) {
+		var notificationComposite = [];
+		
+		for (var i = 0; i < notificationResponses.length; i++) {
+			var notificationContent = {
+				notificationResponse : notificationResponses[i],
+				notificationClasses : {
+					notificationContentLayout : "activeMessengerContent notificationContentTimeline",
+					notificationTitle : "notificationTitleTimeline",
+					roundPictureClass : "emptyMessengerPicture messengerPictureTimeline",
+					roundPictureLayout : "roundPictureContainer",
+					notificationLayout : "notificationComponentLayout notificationTimeline",
+					notifierUserName : "notifierUserName"
+				}
+			}
 
-		var profilePictureParts = {
-			roundPicture : "https://datemomo.com/client/image/" + 
-				this.currentUser.profilePicture,
-			pictureLayoutClass : "profilePictureLayout pictureLayoutClass",
-			profilePictureClass : "profilePictureImage profilePictureClass",
-			pictureChangeClass : "profilePictureIcon pictureChangeClass"
-		}
+			notificationComposite.push(notificationContent);
 
-		var leftMenuEditorButton = {
-			bottomMenuClass : "leftMenuEditorButton selectedMenuLayout",
-			bottomMenuIcon : "leftMenuBottomMenuIcon",
-			menuIcon : icon_edit_white
+			if (i > 0) {
+				break;
+			}
 		}
-
-		var leftMenuProfileButton = {
-			buttonTitle : "View Profile",
-			buttonIcon : icon_view_blue,
-			leftIconHollowButtonLayout : "leftMenuPhotoButton",
-			leftIconHollowButtonIcon : "leftMenuPhotoIcon",
-			leftIconHollowButtonTitle : "leftMenuPhotoTitle"
-		}
-
-		/* For the three layouts on leftMenuLayout, make the height 
-		of the first two wrap contents, while the height of the last 
-		content stretch to the bottom, but if it's shorter than the screen, 
-		make it scroll in a scroll layout */
 
 		return (
-			<div className="leftMenuLayout">
-				<div className="profileMenuLayout leftMenuContent">
-					<div className="profileMenuUpperLayout">
-						<input type="file" onChange={this.handlePictureChange} className="uploadPictureButton"
-							ref={(selectPictureButton) => {this.selectPictureButton = selectPictureButton}} accept="image/*" />
-						<IconProfilePicture onClickPictureChange={this.changeProfilePicture} 
-							pictureParts={profilePictureParts} />
-						<div className="leftUpperPhotoButtons">
-							<LeftIconHollowButton onButtonClicked={this.openUserGallery} buttonParts={leftMenuPhotoButton} />
-							<BottomMenuIcon onButtonClicked={this.editUserProfile} menuParts={leftMenuEditorButton} />
-						</div>
-					</div>
-					<div className="profileMenuLowerLayout">
-						<div className="leftMenuUserName">
-							{this.currentUser.userName.charAt(0).toUpperCase() + 
-								this.currentUser.userName.slice(1)}
-						</div>
-						<div className="leftMenuLocation">
-							{(this.currentUser.currentLocation === "") ? 
-								"Location Not Set" : this.currentUser.currentLocation}
-						</div>
-						<LeftIconHollowButton onButtonClicked={this.openUserProfile} buttonParts={leftMenuProfileButton} />
+			<NotificationIterator notificationComposite={notificationComposite} />
+		);
+	} else {
+		// return (
+		// empty notification message 
+		// );
+	}
+}
+
+function LeftMenuSection() {
+	var messengerRequestData = {};
+	var leftMenuPhotoButton = {
+		buttonTitle : "Photos",
+		buttonIcon : icon_gallery_blue,
+		leftIconHollowButtonLayout : "leftMenuPhotoButton",
+		leftIconHollowButtonIcon : "leftMenuPhotoIcon",
+		leftIconHollowButtonTitle : "leftMenuPhotoTitle"	
+	}
+
+	var profilePictureParts = {
+		roundPicture : "https://datemomo.com/client/image/" + currentUser.profilePicture,
+		pictureLayoutClass : "profilePictureLayout pictureLayoutClass",
+		profilePictureClass : "profilePictureImage profilePictureClass",
+		pictureChangeClass : "profilePictureIcon pictureChangeClass"
+	}
+
+	var leftMenuEditorButton = {
+		bottomMenuClass : "leftMenuEditorButton selectedMenuLayout",
+		bottomMenuIcon : "leftMenuBottomMenuIcon",
+		menuIcon : icon_edit_white
+	}
+
+	var leftMenuProfileButton = {
+		buttonTitle : "View Profile",
+		buttonIcon : icon_view_blue,
+		leftIconHollowButtonLayout : "leftMenuPhotoButton",
+		leftIconHollowButtonIcon : "leftMenuPhotoIcon",
+		leftIconHollowButtonTitle : "leftMenuPhotoTitle"
+	}
+
+	navigate = useNavigate();
+	selectPictureButton = useRef();
+	[pictureUpload, setPictureUpload] = useState({
+		picture : "",
+		faceCountInPicture : 0,
+		imageWidth : 0,
+		imageHeight : 0
+	});
+	[messengerResponses, setMessengerResponses] = useState([]);
+	[notificationResponses, setNotificationResponses] = useState([]);       
+	
+	useEffect(() => {
+		async function loadModels(modelUrl) {
+		  	Promise.all([
+		    	faceapi.nets.tinyFaceDetector.loadFromUri(modelUrl),
+		    	faceapi.nets.faceLandmark68Net.loadFromUri(modelUrl),
+		    	faceapi.nets.faceRecognitionNet.loadFromUri(modelUrl),
+		    	faceapi.nets.faceExpressionNet.loadFromUri(modelUrl),
+		  	]).then(() => {
+		  		console.log("Models have been loaded here!!!!");
+		  	});
+		};
+
+		loadModels(MODEL_URL);
+
+		var messengerRequestData = {
+			memberId : currentUser.memberId
+		}
+
+		axios.post("https://datemomo.com/service/usermessengersdata.php", messengerRequestData)
+	    	.then(response => {
+				var localMessengerResponses = checkNullInMessenger(response.data);
+				setMessengerResponses(localMessengerResponses);
+	        }, error => {
+	        	console.log(error);
+	        });
+
+		axios.post("https://datemomo.com/service/usernotifications.php", messengerRequestData) 
+	    	.then(response => {
+	    		setNotificationResponses(response.data);
+	        }, error => {
+	        	console.log(error);
+	        });		
+	}, []);
+
+	/* For the three layouts on leftMenuLayout, make the height 
+	of the first two wrap contents, while the height of the last 
+	content stretch to the bottom, but if it's shorter than the screen, 
+	make it scroll in a scroll layout */
+
+	return (
+		<div className="leftMenuLayout">
+			<div className="profileMenuLayout leftMenuContent">
+				<div className="profileMenuUpperLayout">
+					<input type="file" onChange={handlePictureChange} className="uploadPictureButton"
+						ref={selectPictureButton} accept="image/*" />
+					<IconProfilePicture onClickPictureChange={changeProfilePicture} 
+						pictureParts={profilePictureParts} />
+					<div className="leftUpperPhotoButtons">
+						<LeftIconHollowButton onButtonClicked={openUserGallery} buttonParts={leftMenuPhotoButton} />
+						<BottomMenuIcon onButtonClicked={editUserProfile} menuParts={leftMenuEditorButton} />
 					</div>
 				</div>
-				<div className="messengerMenuLayout leftMenuContent">
-					<div className="leftMenuHeader">Chats</div>
-					<div className="messengerMessageLayout">
-						{this.displayMessengerContent()}
+				<div className="profileMenuLowerLayout">
+					<div className="leftMenuUserName">
+						{currentUser.userName.charAt(0).toUpperCase() + 
+							currentUser.userName.slice(1)}
 					</div>
-					<div className="messengerFooterLayout">
-						<u>Messenger</u>
+					<div className="leftMenuLocation">
+						{(currentUser.currentLocation === "") ? 
+							"Location Not Set" : currentUser.currentLocation}
 					</div>
-				</div>
-				<div className="notificationMenuLayout leftMenuContent">
-					<div className="leftMenuHeader">Notifications</div>
-					<div className="messengerMessageLayout">
-						{this.displayNotificationContent()}
-					</div>
-					<div className="messengerFooterLayout">
-						<u>Notification</u>
-					</div>
+					<LeftIconHollowButton onButtonClicked={openUserProfile} buttonParts={leftMenuProfileButton} />
 				</div>
 			</div>
-		);
-	}
+			<div className="messengerMenuLayout leftMenuContent">
+				<div className="leftMenuHeader">Chats</div>
+				<div className="messengerMessageLayout">
+					{displayMessengerContent()}
+				</div>
+				<div className="messengerFooterLayout">
+					<u>Messenger</u>
+				</div>
+			</div>
+			<div className="notificationMenuLayout leftMenuContent">
+				<div className="leftMenuHeader">Notifications</div>
+				<div className="messengerMessageLayout">
+					{displayNotificationContent()}
+				</div>
+				<div className="messengerFooterLayout">
+					<u>Notification</u>
+				</div>
+			</div>
+		</div>
+	);
 }
 
 export default LeftMenuSection;   

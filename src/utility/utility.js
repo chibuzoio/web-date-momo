@@ -1,3 +1,8 @@
+export const getQueryParam = (urlParamKey) => {
+    var urlSearchParams = new URLSearchParams(window.location.search);
+    return urlSearchParams.get(urlParamKey);
+}
+
 export const checkNullInMessenger = (messengerComposite) => {
     var nullIndices = [];
 

@@ -336,6 +336,10 @@
 	width: 105px;	
 }
 
+.dateMomoProfileLayout::-webkit-scrollbar { 
+    display: none;  
+}
+
 .dateMomoProfileLayout {
 	-ms-overflow-style: none; 
 	flex-direction: column;
@@ -347,6 +351,7 @@
 	overflow-y: auto;
 	display: flex;
 	height: 100vh;
+	width: 100%;
 }
 
 * { 
