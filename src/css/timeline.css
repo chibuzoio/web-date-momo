@@ -235,6 +235,10 @@
 	padding-top: 1vmin;
 }
 
+.timelineLayout {
+	width: 100%;
+}
+
 .profileMenuLayout {
 /*	justify-content: space-between;*/
 }

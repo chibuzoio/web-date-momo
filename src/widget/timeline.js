@@ -8,7 +8,6 @@ import '../css/floating_account.css';
 import placeholder from '../image/placeholder.jpg'; 
 import RoundPicture from '../component/round_picture';
 import ActiveMessenger from '../widget/active_messenger';
-import LeftMenuSection from '../widget/left_menu_section';
 import ProgressAnimation from '../component/progress_animation';
 import BottomMenuIcon from '../component/bottom_menu_icon';
 import IconProfilePicture from '../component/icon_profile_picture';
@@ -641,40 +640,35 @@ class Timeline extends React.Component {
 		}
 
 		return (
-			<div>
-				<div className="outerParentLayout">
-
-					<LeftMenuSection />
-      
-					<div className="scrollView" ref={(homeDisplayScroller) => 
-						{this.homeDisplayScroller = homeDisplayScroller}} onScroll={this.detectScrollBottom}>
-						{ 
-							this.state.contextData.userComposite.homeDisplayResponses.map((homeDisplayUser, index) => ( 
-								<div className="timelineWidget"> 
-									<img className="centerCropped" onClick={this.displayFloatingLayout} 
-										data-current-user={index} src={motion_placeholder} alt="" 
-										onLoad={this.replaceImagePlaceholder} /> 
-									<div className="bottomContentLayout">
-										<div className="userNameLayout" data-current-user={index}  
-											onClick={this.displayFloatingLayout}>
-											<div className="userNameText">
-												{homeDisplayUser.userName.charAt(0).toUpperCase() 
-												+ homeDisplayUser.userName.slice(1)}, {homeDisplayUser.age}
-											</div>
-											<div className="locationText">{(homeDisplayUser.currentLocation === "") ? 
-												"Location Not Set" : homeDisplayUser.currentLocation}</div>
+			<div className="scrollView" ref={(homeDisplayScroller) => 
+				{this.homeDisplayScroller = homeDisplayScroller}} onScroll={this.detectScrollBottom}>
+				<div className="timelineLayout">
+					{ 
+						this.state.contextData.userComposite.homeDisplayResponses.map((homeDisplayUser, index) => ( 
+							<div className="timelineWidget">
+								<img className="centerCropped" onClick={this.displayFloatingLayout} 
+									data-current-user={index} src={motion_placeholder} alt="" 
+									onLoad={this.replaceImagePlaceholder} /> 
+								<div className="bottomContentLayout">
+									<div className="userNameLayout" data-current-user={index}  
+										onClick={this.displayFloatingLayout}>
+										<div className="userNameText">
+											{homeDisplayUser.userName.charAt(0).toUpperCase() 
+											+ homeDisplayUser.userName.slice(1)}, {homeDisplayUser.age}
 										</div>
-										<div className="likeIconLayout" ref={(userTimelineLiker) => 
-											{this.userTimelineLiker = userTimelineLiker}} data-current-user={index} 
-											onClick={this.clickLikeUser}>
-											{this.changeLikedIcon(homeDisplayUser.liked)}
-										</div>
+										<div className="locationText"> {(homeDisplayUser.currentLocation === "") ? 
+											"Location Not Set" : homeDisplayUser.currentLocation}</div>
+									</div>
+									<div className="likeIconLayout" ref={(userTimelineLiker) => 
+										{this.userTimelineLiker = userTimelineLiker}} data-current-user={index} 
+										onClick={this.clickLikeUser}>
+										{this.changeLikedIcon(homeDisplayUser.liked)}
 									</div>
 								</div>
-							))
-						}
-						<ProgressAnimation animationData={this.state.contextData.infiniteScrollingPage.infiniteScrollLoader} />
-					</div>
+							</div>
+						))
+					}
+					<ProgressAnimation animationData={this.state.contextData.infiniteScrollingPage.infiniteScrollLoader} />
 				</div>
 
 				<div className="floatingUserAccountLayout" 
@@ -691,22 +685,22 @@ class Timeline extends React.Component {
 								{this.state.contextData.floatingAccountData.userDisplayResponse.userName.charAt(0).toUpperCase() 
 								+ this.state.contextData.floatingAccountData.userDisplayResponse.userName.slice(1)},&nbsp;
 								{this.state.contextData.floatingAccountData.userDisplayResponse.age}</div>
-								<div className="gradientLocation">{this.state.contextData.floatingAccountData.userDisplayResponse.currentLocation}</div>
+								<div className="gradientLocation"> {this.state.contextData.floatingAccountData.userDisplayResponse.currentLocation}</div>
 							</div>
 						</div>
-						<div className="userStatusText">{this.state.contextData.floatingAccountData.userDisplayResponse.userStatus}</div>
+						<div className="userStatusText"> {this.state.contextData.floatingAccountData.userDisplayResponse.userStatus}</div>
 						<div className="floatingLayoutButtons">
 							<LeftIconHollowButton buttonParts={viewProfileButton} />
 							<LeftIconHollowButton buttonParts={messageButton} />
 						</div>
 						<div className="floatingSexualityLayout">
-							<div className="sexualityHeader">{this.state.contextData.floatingAccountData.userDisplayResponse.userName.charAt(0).toUpperCase() 
+							<div className="sexualityHeader"> {this.state.contextData.floatingAccountData.userDisplayResponse.userName.charAt(0).toUpperCase() 
 								+ this.state.contextData.floatingAccountData.userDisplayResponse.userName.slice(1)} sexuality</div>
 							<SexualityBiometrics sexualityButtons={this.state.contextData.floatingAccountData.sexualCategoryButtons} />
-							<div className="sexualityHeader">{this.state.contextData.floatingAccountData.userDisplayResponse.userName.charAt(0).toUpperCase() 
+							<div className="sexualityHeader"> {this.state.contextData.floatingAccountData.userDisplayResponse.userName.charAt(0).toUpperCase() 
 								+ this.state.contextData.floatingAccountData.userDisplayResponse.userName.slice(1)} is looking for</div>
 							<SexualityBiometrics sexualityButtons={this.state.contextData.floatingAccountData.sexualInterestButtons} />
-							<div className="sexualityHeader">{this.state.contextData.floatingAccountData.userDisplayResponse.userName.charAt(0).toUpperCase() 
+							<div className="sexualityHeader"> {this.state.contextData.floatingAccountData.userDisplayResponse.userName.charAt(0).toUpperCase() 
 								+ this.state.contextData.floatingAccountData.userDisplayResponse.userName.slice(1)} sexual fantasies</div>
 							<SexualityBiometrics sexualityButtons={this.state.contextData.floatingAccountData.sexualExperienceButtons} />
 						</div>

@@ -3,9 +3,11 @@ import axios from 'axios';
 import '../css/style.css';
 import '../css/header.css';
 import '../css/footer.css';
+import '../css/timeline.css';
 import '../css/home_page.css';
 import { Outlet, Link } from "react-router-dom";
 import Footer from '../widget/footer';
+import LeftMenuSection from '../widget/left_menu_section';
 import BottomMenuIcon from '../component/bottom_menu_icon';
 import icon_notification_blue from '../image/icon_notification_blue.png';
 import icon_message_blue from '../image/icon_message_blue.png';
@@ -79,9 +81,13 @@ class HomePage extends React.Component {
 							src={"https://datemomo.com/client/image/" + this.currentUser.profilePicture} />
 					</Link>
 				</div>
-		
-				<Outlet />
+				<div className="outerParentLayout">
 
+					<LeftMenuSection />
+
+					<Outlet />
+
+				</div>
 				<Footer />
 			</div>
 		);
