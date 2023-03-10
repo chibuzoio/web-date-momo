@@ -673,10 +673,14 @@ class Timeline extends React.Component {
 
 				<div className="floatingUserAccountWidget" 
 					style={{display : this.state.contextData.floatingAccountData.floatingLayoutDisplay}}>
-					<img className="floatingUserAccountImage" 
-						ref={(userAccountImage) => {this.userAccountImage = userAccountImage}} 
-						onLoad={this.setGradientHeight} alt="" src={"https://datemomo.com/client/image/" 
-						+ this.state.contextData.floatingAccountData.userDisplayResponse.profilePicture} />
+
+
+					<div className="floatingAccountImageContainer">
+						<img className="floatingUserAccountImage" 
+							ref={(userAccountImage) => {this.userAccountImage = userAccountImage}} 
+							onLoad={this.setGradientHeight} alt="" src={"https://datemomo.com/client/image/" 
+							+ this.state.contextData.floatingAccountData.userDisplayResponse.profilePicture} />
+					</div>					
 					<div className="gradientCover" ref={(gradientCover) => {this.gradientCover = gradientCover}} 
 						style={{height : this.state.contextData.floatingAccountData.gradientHeight}}>
 						<div className="gradientLayout">
