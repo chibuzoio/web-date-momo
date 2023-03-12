@@ -21,17 +21,12 @@ class CloseLayoutIcon extends React.Component {
 	}
 
 	changeIconDisplay() {
-		if (this.props.menuIconParts.menuLayoutDisplay === "none") {
-			this.props.onChangeIconDisplay("flex");
-		} else {
-			this.props.onChangeIconDisplay("none");
-		}
+		this.props.onChangeIconDisplay(true);
 	}
 
 	render() {  
 		return (
-			<div className={this.props.menuIconParts.menuLayoutClass} onClick={this.changeIconDisplay}
-				style={{display : this.props.menuIconParts.menuLayoutDisplay}}> 
+			<div className={this.props.menuIconParts.menuLayoutClass} onClick={this.changeIconDisplay}> 
 				<img className={this.props.menuIconParts.menuIconClass} 
 					src={this.props.menuIconParts.menuIcon} alt="" />
 			</div>
