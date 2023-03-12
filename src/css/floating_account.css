@@ -14,13 +14,6 @@
 	.floatingUserAccountWidget {
 		width: 60% !important;
 	}
-
-	.floatingUserAccountLayout {
-		justify-content: flex-end !important;
-		flex-direction: row !important;
-		margin-top: 7.5vh !important;
-		height: 93vh !important; 
-	}                
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
@@ -112,20 +105,26 @@
 }
 
 .gradientCover {
-	width: 100%;
-	height: 85%;
-	cursor: pointer;
-	top: 0;
-	left: 0;
-	z-index: 2;
 	border-radius: 25px;
 	position: absolute;
+	cursor: pointer;
+	height: 85%;
+	width: 100%;
+	z-index: 2;
+	left: 0;
+	top: 0;
 }
 
 .floatingUserAccountImage {
-	width: 100%;
-	position: relative;
 	border-radius: 25px;
+	position: relative; 
+	width: 100%;
+}
+
+.floatingAccountImageContainer {
+	border-radius: 25px;
+	position: relative;
+	width: 100%;
 }
 
 .floatingUserAccountWidget::-webkit-scrollbar { 
@@ -134,31 +133,18 @@
 
 .floatingUserAccountWidget {
 	-ms-overflow-style: none; 
+    flex-direction: column;
     scrollbar-width: none; 
 	border-radius: 25px;
-	position: relative;
 	background: white;
 	overflow-y: auto;
-	height: 100%;
-	width: 100%;
-}
-
-.floatingUserAccountLayout {
-	justify-content: center;
-	flex-direction: column;
-	align-items: center;
-	margin-bottom: 7vh;
-	padding: 1.5vmin;
-	margin-top: 8vh;
 	position: fixed;
-	display: flex;
-	height: 85vh;
-	width: 100vw;
+    display: flex;
+	height: 90%;
 	z-index: 2;
-	left: 0px;
-	top: 0px;
+	width: 97%;
 }
-
+    
 * { 
 	-moz-box-sizing: border-box; 
   	-webkit-box-sizing: border-box; 
