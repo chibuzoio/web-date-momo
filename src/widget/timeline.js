@@ -707,9 +707,9 @@ class Timeline extends React.Component {
 							+ this.state.contextData.floatingAccountData.userDisplayResponse.userName.slice(1)} sexual fantasies</div>
 						<SexualityBiometrics sexualityButtons={this.state.contextData.floatingAccountData.sexualExperienceButtons} />
 					</div>
+					<CloseLayoutIcon menuIconParts={this.state.contextData.closeLayoutIcon} onChangeIconDisplay={this.closeFloatingLayout} /> 
 				</div>     
 
-				<CloseLayoutIcon menuIconParts={this.state.contextData.closeLayoutIcon} onChangeIconDisplay={this.closeFloatingLayout} />
 				<div className="timelineCover" style={{display : this.state.contextData.displayTimelineCover}}>
 					<ProgressAnimation animationData={colorLoaderData} />
 				</div>
