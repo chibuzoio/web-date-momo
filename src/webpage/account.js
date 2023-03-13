@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import '../css/style.css';
 import '../css/profile.css';
@@ -9,145 +9,138 @@ import icon_logout from '../image/icon_logout.png';
 import LeftIconMenu from '../component/left_icon_menu'; 
 import ProfilePicture from '../component/profile_picture'; 
 import icon_suggestion from '../image/icon_suggestion.png';
+import { Outlet, Link, useNavigate } from "react-router-dom";
 import icon_announcement from '../image/icon_announcement.png';
 import UserDetailPicture from '../component/user_detail_picture';
 import icon_help_and_support from '../image/icon_help_and_support.png';
 import icon_terms_and_conditions from '../image/icon_terms_and_conditions.png';
 
-class Account extends React.Component {
-	currentUser = {};
-	requestData = {};
-	visibleFirstThree = "firstThreeLikerUsers";
-	visibleLikedUserLayout = "allLikerUserLayout";
-	hiddenFirstThree = this.visibleFirstThree + " hideComponent";
-	hiddenLikedUserLayout = this.visibleLikedUserLayout + " hideComponent";
-	generalLikedLayout = {
+function Account() {
+	var userProfilePicture = {
+		roundPicture : test_image
+	};
+
+	var friendReferenceMenu = {
+		iconMenuLayout : "bottomBorderIconMenu",
+		iconMenuImage : icon_announcement,
+		iconMenuTitle : "Refer A Friend"
+	};
+
+	var suggestionMenu = {
+		iconMenuLayout : "bottomBorderIconMenu",
+		iconMenuImage : icon_suggestion,
+		iconMenuTitle : "Suggestion"
+	};
+
+	var helpSupportMenu = {
+		iconMenuLayout : "bottomBorderIconMenu",
+		iconMenuImage : icon_help_and_support,
+		iconMenuTitle : "Help And Support"
+	};
+
+	var termsConditionMenu = {
+		iconMenuLayout : "bottomBorderIconMenu",
+		iconMenuImage : icon_terms_and_conditions,
+		iconMenuTitle : "Terms And Conditions"
+	};
+
+	var accountLogoutMenu = {
+		iconMenuLayout : "borderlessIconMenu",
+		iconMenuImage : icon_logout,
+		iconMenuTitle : "Logout"
+	};
+
+	var visibleFirstThree = "firstThreeLikerUsers";
+	var visibleLikedUserLayout = "allLikerUserLayout";
+	var hiddenFirstThree = visibleFirstThree + " hideComponent";
+	var hiddenLikedUserLayout = visibleLikedUserLayout + " hideComponent";
+	
+	const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+	const [userLikedResponses, setUserLikedResponses] = useState([]);
+	
+	const [userLikedLayout, setUserLikedLayout] = useState({
 		userLikedDisplayTitle : "",
-		generalLikedDisplayLayout : this.hiddenLikedUserLayout,
-		firstThreeLikedDisplay : this.hiddenFirstThree
-	}
-	userLikedDimensions = {
+		generalLikedDisplayLayout : hiddenLikedUserLayout,
+		firstThreeLikedDisplay : hiddenFirstThree
+	});
+
+	const [userLikedDimensions, setUserLikedDimensions] = useState({
 		detailPictureHeight : "0px",
 		detailPictureWidth : "0px",
 		userNameLabelHeight : "0px",
 		topUserNameMargin : "0px"
-	}
-	state = {contextData : {
-		userLikedResponses : [],
-		userLikedLayout : {
-			userLikedDisplayTitle : "",
-			generalLikedDisplayLayout : this.hiddenLikedUserLayout,
-			firstThreeLikedDisplay : this.hiddenFirstThree
-		},
-		firstLikedUser : {
-			innerPictureClass : "hideComponent", 
-			userDetails : {
-				profilePicture : "",
-				pictureUserName : "",
-				pictureAge : 0
-			},
-			dimension : {
-				detailPictureHeight : "0px",
-				detailPictureWidth : "0px",
-				userNameLabelHeight : "0px",
-				topUserNameMargin : "0px"
-			}
-		},	
-		secondLikedUser : {
-			innerPictureClass : "hideComponent", 
-			userDetails : {
-				profilePicture : "",
-				pictureUserName : "",
-				pictureAge : 0
-			},
-			dimension : {
-				detailPictureHeight : "0px",
-				detailPictureWidth : "0px",
-				userNameLabelHeight : "0px",
-				topUserNameMargin : "0px"
-			}
-		},
-		thirdLikedUser : {
-			innerPictureClass : "hideComponent", 
-			userDetails : {
-				profilePicture : "",
-				pictureUserName : "",
-				pictureAge : 0
-			},
-			dimension : {
-				detailPictureHeight : "0px",
-				detailPictureWidth : "0px",
-				userNameLabelHeight : "0px",
-				topUserNameMargin : "0px"
-			}
-		},
-		fourthLikedUser : {
-			innerPictureClass : "hideComponent", 
-			userDetails : {
-				profilePicture : "",
-				pictureUserName : "",
-				pictureAge : 0
-			},
-			dimension : {
-				detailPictureHeight : "0px",
-				detailPictureWidth : "0px",
-				userNameLabelHeight : "0px",
-				topUserNameMargin : "0px"
-			}
-		},
-		stateLoaded : false
-	}};
+	});
 
-	constructor(props) {
-		super(props);  
-		this.logoutCurrentUser = this.logoutCurrentUser.bind(this);
-		this.displayAvailableLiked = this.displayAvailableLiked.bind(this);
-		this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
-		this.initializeFirstLikedUser = this.initializeFirstLikedUser.bind(this);
-		this.initializeThirdLikedUser = this.initializeThirdLikedUser.bind(this);
-		this.initializeSecondLikedUser = this.initializeSecondLikedUser.bind(this);
-		this.initializeFourthLikedUser = this.initializeFourthLikedUser.bind(this);
-		this.calculatePictureDimensions = this.calculatePictureDimensions.bind(this);
-	}
-
-	componentDidMount() {
-		this.calculatePictureDimensions();
-		window.addEventListener('resize', this.calculatePictureDimensions);
-
-		this.requestData = {
-			memberId : this.currentUser.memberId
+	const [firstLikedUser, setFirstLikedUser] = useState({
+		innerPictureClass : "hideComponent", 
+		userDetails : {
+			profilePicture : "",
+			pictureUserName : "",
+			pictureAge : 0
 		}
+	});	
 
-		axios.post("https://datemomo.com/service/likedusersdata.php", this.requestData)
-	    	.then(response => {
-	    		this.setState(function(state) { 
-	    			return {contextData : {
-		    			userLikedResponses : response.data,
-		    			userLikedLayout : state.contextData.userLikedLayout,
-		    			firstLikedUser : state.contextData.firstLikedUser,
-		    			secondLikedUser : state.contextData.secondLikedUser,
-		    			thirdLikedUser : state.contextData.thirdLikedUser,
-		    			fourthLikedUser : state.contextData.fourthLikedUser,
-		    			stateLoaded : true
-		    		}
-		    	}});
+	const [secondLikedUser, setSecondLikedUser] = useState({
+		innerPictureClass : "hideComponent", 
+		userDetails : {
+			profilePicture : "",
+			pictureUserName : "",
+			pictureAge : 0
+		}
+	});
 
-	    		setTimeout(function() {
-					this.displayAvailableLiked();
-	    		}.bind(this), 1000);
-	        }, error => {
-	        	console.log(error);
-	        });
+	const [thirdLikedUser, setThirdLikedUser] = useState({
+		innerPictureClass : "hideComponent", 
+		userDetails : {
+			profilePicture : "",
+			pictureUserName : "",
+			pictureAge : 0
+		}
+	});
+
+	const [fourthLikedUser, setFourthLikedUser] = useState({
+		innerPictureClass : "hideComponent", 
+		userDetails : {
+			profilePicture : "",
+			pictureUserName : "",
+			pictureAge : 0
+		}
+	});
+
+	var requestData = {
+		memberId : currentUser.memberId
 	}
 
-	logoutCurrentUser(menuClicked) {
+	useEffect(() => {
+		calculatePictureDimensions();
+		window.addEventListener('resize', calculatePictureDimensions);
+
+		loadLikedUserComposite();
+
+		return () => {
+			window.removeEventListener('resize', calculatePictureDimensions);
+		};
+	}, [userLikedResponses]);
+
+	const loadLikedUserComposite = () => {
+		axios.post("https://datemomo.com/service/likedusersdata.php", requestData)
+			.then(response => {
+				setUserLikedResponses(response.data);
+				displayAvailableLiked();
+		    }, error => {
+		    	console.log(error);
+		    });
+	}
+
+	const logoutCurrentUser = (menuClicked) => {
 		if (menuClicked) {
 			localStorage.setItem("currentUser", "{}");
 			window.location.replace("/login");
 		}
 	}
 
-	calculatePictureDimensions() {
+	const calculatePictureDimensions = () => {
 		var browserWidth = window.innerWidth;  
 		var sumOfPictureMargins = (8 / 100) * browserWidth;
 		var totalPictureWidth = browserWidth - sumOfPictureMargins;
@@ -157,254 +150,144 @@ class Account extends React.Component {
 		var userNameTopMargin = (eachPictureHeight * (-34)) / 154; // (newHeight * oldMargin) / oldHeight
 
 		// console.log("Execution entered here with browserWidth = " + browserWidth);
-	
-		this.userLikedDimensions.detailPictureHeight = eachPictureHeight + "px";
-		this.userLikedDimensions.detailPictureWidth = eachPictureWidth + "px";
-		this.userLikedDimensions.userNameLabelHeight = userNameLabel + "px";
-		this.userLikedDimensions.topUserNameMargin = userNameTopMargin + "px";
 
-		this.setState(function(state) { 
-			return {contextData : {
-				userLikedResponses : state.contextData.userLikedResponses,
-				userLikedLayout : state.contextData.userLikedLayout,
-				firstLikedUser : {
-					innerPictureClass : state.contextData.firstLikedUser.innerPictureClass, 
-					userDetails : state.contextData.firstLikedUser.userDetails,
-					dimension : this.userLikedDimensions
-				},	
-				secondLikedUser : {
-					innerPictureClass : state.contextData.secondLikedUser.innerPictureClass, 
-					userDetails : state.contextData.secondLikedUser.userDetails,
-					dimension : this.userLikedDimensions
-				},
-				thirdLikedUser : {
-					innerPictureClass : state.contextData.thirdLikedUser.innerPictureClass, 
-					userDetails : state.contextData.thirdLikedUser.userDetails,
-					dimension : this.userLikedDimensions
-				},
-				fourthLikedUser : {
-					innerPictureClass : state.contextData.fourthLikedUser.innerPictureClass, 
-					userDetails : state.contextData.fourthLikedUser.userDetails,
-					dimension : this.userLikedDimensions
-				},
-				stateLoaded : state.contextData.stateLoaded
+		setUserLikedDimensions({
+			detailPictureHeight : eachPictureHeight + "px",
+			detailPictureWidth : eachPictureWidth + "px",
+			userNameLabelHeight : userNameLabel + "px",
+			topUserNameMargin : userNameTopMargin + "px"
+		});
+	}
+
+	const initializeFirstLikedUser = () => { 
+		setFirstLikedUser({
+			innerPictureClass : (userLikedResponses[0].userName.length > 0) ? "" : "hideComponent", 
+			userDetails : {
+				profilePicture : userLikedResponses[0].profilePicture,
+				pictureUserName : userLikedResponses[0].userName,
+				pictureAge : userLikedResponses[0].age
 			}
-		}});
+		});	
 	}
 
-	initializeFirstLikedUser() { 
-		this.setState(function(state) { 
-			return {contextData : {
-    			userLikedResponses : state.contextData.userLikedResponses,
-    			userLikedLayout : state.contextData.userLikedLayout,
-				firstLikedUser : {
-					innerPictureClass : (state.contextData.userLikedResponses[0].userName.length > 0) ? "" : "hideComponent", 
-					userDetails : {
-						profilePicture : state.contextData.userLikedResponses[0].profilePicture,
-						pictureUserName : state.contextData.userLikedResponses[0].userName,
-						pictureAge : state.contextData.userLikedResponses[0].age
-					},
-					dimension : state.contextData.firstLikedUser.dimension
-				},	
-				secondLikedUser : state.contextData.secondLikedUser,
-				thirdLikedUser : state.contextData.thirdLikedUser,
-				fourthLikedUser : state.contextData.fourthLikedUser,
-    			stateLoaded : state.contextData.stateLoaded
-    		}
-		}});
-	}
-
-	initializeSecondLikedUser() {      
-		this.setState(function(state) { 
-			return {contextData : {
-    			userLikedResponses : state.contextData.userLikedResponses,
-    			userLikedLayout : state.contextData.userLikedLayout,
-				firstLikedUser : state.contextData.firstLikedUser,	
-				secondLikedUser : {
-					innerPictureClass : (state.contextData.userLikedResponses[1].userName.length > 0) ? "" : "hideComponent", 
-					userDetails : {
-						profilePicture : state.contextData.userLikedResponses[1].profilePicture,
-						pictureUserName : state.contextData.userLikedResponses[1].userName,
-						pictureAge : state.contextData.userLikedResponses[1].age
-					},
-					dimension : state.contextData.secondLikedUser.dimension
-				},
-				thirdLikedUser : state.contextData.thirdLikedUser,
-				fourthLikedUser : state.contextData.fourthLikedUser, 
-    			stateLoaded : state.contextData.stateLoaded
-    		}
-		}});
-	}
-
-	initializeThirdLikedUser() {
-		this.setState(function(state) { 
-			return {contextData : {
-    			userLikedResponses : state.contextData.userLikedResponses,
-    			userLikedLayout : state.contextData.userLikedLayout,
-				firstLikedUser : state.contextData.firstLikedUser,	
-				secondLikedUser : state.contextData.secondLikedUser,
-				thirdLikedUser : {
-					innerPictureClass : (state.contextData.userLikedResponses[2].userName.length > 0) ? "" : "hideComponent", 
-					userDetails : {
-						profilePicture : state.contextData.userLikedResponses[2].profilePicture,
-						pictureUserName : state.contextData.userLikedResponses[2].userName,
-						pictureAge : state.contextData.userLikedResponses[2].age
-					},
-					dimension : state.contextData.thirdLikedUser.dimension
-				},
-				fourthLikedUser : state.contextData.fourthLikedUser, 
-    			stateLoaded : state.contextData.stateLoaded
-    		}
-		}});
-	}
-
-	initializeFourthLikedUser() {
-		this.setState(function(state) { 
-			return {contextData : {
-    			userLikedResponses : state.contextData.userLikedResponses,
-    			userLikedLayout : state.contextData.userLikedLayout,
-				firstLikedUser : state.contextData.firstLikedUser,	
-				secondLikedUser : state.contextData.secondLikedUser,
-				thirdLikedUser : state.contextData.thirdLikedUser,
-				fourthLikedUser : {
-					innerPictureClass : (state.contextData.userLikedResponses[3].userName.length > 0) ? "" : "hideComponent", 
-					userDetails : {
-						profilePicture : state.contextData.userLikedResponses[3].profilePicture,
-						pictureUserName : state.contextData.userLikedResponses[3].userName,
-						pictureAge : state.contextData.userLikedResponses[3].age
-					},
-					dimension : state.contextData.fourthLikedUser.dimension
-				},     
-    			stateLoaded : state.contextData.stateLoaded
-    		}
-		}});
-	}
-
-	displayAvailableLiked() {
-		if (this.state.contextData.stateLoaded) {
-			if (this.state.contextData.userLikedResponses.length > 0) {
-				this.generalLikedLayout.userLikedDisplayTitle = "People You Like";
+	const initializeSecondLikedUser = () => {      
+		setSecondLikedUser({
+			innerPictureClass : (userLikedResponses[1].userName.length > 0) ? "" : "hideComponent", 
+			userDetails : {
+				profilePicture : userLikedResponses[1].profilePicture,
+				pictureUserName : userLikedResponses[1].userName,
+				pictureAge : userLikedResponses[1].age
 			}
+		});
+	}
 
-			if (this.state.contextData.userLikedResponses.length <= 0) {
-				this.generalLikedLayout.generalLikedDisplayLayout = this.hiddenLikedUserLayout;
-				this.generalLikedLayout.firstThreeLikedDisplay = this.hiddenFirstThree;
-			} else {
-				this.generalLikedLayout.generalLikedDisplayLayout = this.visibleLikedUserLayout;
-				this.generalLikedLayout.firstThreeLikedDisplay = this.visibleFirstThree;
-
-				if (this.state.contextData.userLikedResponses.length === 1) {
-					this.initializeFirstLikedUser();
-				}
-
-				if (this.state.contextData.userLikedResponses.length === 2) {
-					this.initializeFirstLikedUser();
-					this.initializeSecondLikedUser();
-				}
-
-				if (this.state.contextData.userLikedResponses.length === 3) {
-					this.initializeFirstLikedUser();
-					this.initializeSecondLikedUser();
-					this.initializeThirdLikedUser();
-				}
-				
-				if (this.state.contextData.userLikedResponses.length === 4) { 
-					this.initializeFirstLikedUser();
-					this.initializeSecondLikedUser();
-					this.initializeThirdLikedUser();
-					this.initializeFourthLikedUser();
-				}
-    
-				if (this.state.contextData.userLikedResponses.length > 4) {
-					// display the count of users not displayed over the 6th user layout 
-					this.initializeFirstLikedUser();
-					this.initializeSecondLikedUser();
-					this.initializeThirdLikedUser();
-					this.initializeFourthLikedUser();
-				}
+	const initializeThirdLikedUser = () => {
+		setThirdLikedUser({
+			innerPictureClass : (userLikedResponses[2].userName.length > 0) ? "" : "hideComponent", 
+			userDetails : {
+				profilePicture : userLikedResponses[2].profilePicture,
+				pictureUserName : userLikedResponses[2].userName,
+				pictureAge : userLikedResponses[2].age
 			}
+		});		
+	}
 
-			this.setState(function(state) { 
-				return {contextData : {
-	    			userLikedResponses : state.contextData.userLikedResponses,
-	    			userLikedLayout : this.generalLikedLayout,
-					firstLikedUser : state.contextData.firstLikedUser,	
-					secondLikedUser : state.contextData.secondLikedUser,
-					thirdLikedUser : state.contextData.thirdLikedUser,
-					fourthLikedUser : state.contextData.fourthLikedUser,   
-	    			stateLoaded : state.contextData.stateLoaded
-	    		}
-			}});
+	const initializeFourthLikedUser = () => {
+		setFourthLikedUser({
+			innerPictureClass : (userLikedResponses[3].userName.length > 0) ? "" : "hideComponent", 
+			userDetails : {
+				profilePicture : userLikedResponses[3].profilePicture,
+				pictureUserName : userLikedResponses[3].userName,
+				pictureAge : userLikedResponses[3].age
+			}
+		});
+	}
+
+	const displayAvailableLiked = () => {
+		if (userLikedResponses.length > 0) {
+			setUserLikedLayout({
+				userLikedDisplayTitle : "People You Like",
+				generalLikedDisplayLayout : userLikedLayout.generalLikedDisplayLayout,
+				firstThreeLikedDisplay : userLikedLayout.firstThreeLikedDisplay
+			});
 		}
+
+		if (userLikedResponses.length <= 0) {
+			setUserLikedLayout({
+				userLikedDisplayTitle : userLikedLayout.userLikedDisplayTitle,
+				generalLikedDisplayLayout : hiddenLikedUserLayout,
+				firstThreeLikedDisplay : hiddenFirstThree
+			});
+		} else {
+			setUserLikedLayout({
+				userLikedDisplayTitle : userLikedLayout.userLikedDisplayTitle,
+				generalLikedDisplayLayout : visibleLikedUserLayout,
+				firstThreeLikedDisplay : visibleFirstThree
+			});
+
+			if (userLikedResponses.length === 1) {
+				initializeFirstLikedUser();
+			}
+
+			if (userLikedResponses.length === 2) {
+				initializeFirstLikedUser();
+				initializeSecondLikedUser();
+			}
+
+			if (userLikedResponses.length === 3) {
+				initializeFirstLikedUser();
+				initializeSecondLikedUser();
+				initializeThirdLikedUser();
+			}
+			
+			if (userLikedResponses.length === 4) { 
+				initializeFirstLikedUser();
+				initializeSecondLikedUser();
+				initializeThirdLikedUser();
+				initializeFourthLikedUser();
+			}
+
+			if (userLikedResponses.length > 4) {
+				// display the count of users not displayed over the 6th user layout 
+				initializeFirstLikedUser();
+				initializeSecondLikedUser();
+				initializeThirdLikedUser();
+				initializeFourthLikedUser();
+			}
+		}     
 	}
 
-	render() {             
-		var userProfilePicture = {
-			roundPicture : test_image
-		};
-
-		var friendReferenceMenu = {
-			iconMenuLayout : "bottomBorderIconMenu",
-			iconMenuImage : icon_announcement,
-			iconMenuTitle : "Refer A Friend"
-		};
-
-		var suggestionMenu = {
-			iconMenuLayout : "bottomBorderIconMenu",
-			iconMenuImage : icon_suggestion,
-			iconMenuTitle : "Suggestion"
-		};
-
-		var helpSupportMenu = {
-			iconMenuLayout : "bottomBorderIconMenu",
-			iconMenuImage : icon_help_and_support,
-			iconMenuTitle : "Help And Support"
-		};
-
-		var termsConditionMenu = {
-			iconMenuLayout : "bottomBorderIconMenu",
-			iconMenuImage : icon_terms_and_conditions,
-			iconMenuTitle : "Terms And Conditions"
-		};
-
-		var accountLogoutMenu = {
-			iconMenuLayout : "borderlessIconMenu",
-			iconMenuImage : icon_logout,
-			iconMenuTitle : "Logout"
-		};
-
-		return ( 
-			<div className="dateMomoProfileLayout">
-				<div className="profilePictureImpactCount">
-					<div className="accountPictureLayout">
-						<div className="profilePictureLayout">
-							<img className="profilePictureImage" 
-								alt="" src={"https://datemomo.com/client/image/" 
-								+ this.currentUser.profilePicture} />
-						</div>
-					</div>
-					<div className="impactCountLayout">
-						<div className="impactCountHeader">Impact</div>
-						<div className="impactCountNumber">{this.currentUser.impactCount}</div>
+	return ( 
+		<div className="dateMomoProfileLayout">
+			<div className="profilePictureImpactCount">
+				<div className="accountPictureLayout">
+					<div className="profilePictureLayout">
+						<img className="profilePictureImage" 
+							alt="" src={"https://datemomo.com/client/image/" 
+							+ currentUser.profilePicture} />
 					</div>
 				</div>
-				<div className="likedUsersTitle">People You Like</div>
-				<div className={this.state.contextData.userLikedLayout.firstThreeLikedDisplay}>
-					<UserDetailPicture userDetailParts={this.state.contextData.firstLikedUser} />
-					<UserDetailPicture userDetailParts={this.state.contextData.secondLikedUser} />
-					<UserDetailPicture userDetailParts={this.state.contextData.thirdLikedUser} />
-					<UserDetailPicture userDetailParts={this.state.contextData.fourthLikedUser} />					
-				</div>
-				<div className="accountMenuLayout">
-					<LeftIconMenu iconMenuParts={friendReferenceMenu} /> 
-					<LeftIconMenu iconMenuParts={suggestionMenu} /> 
-					<LeftIconMenu iconMenuParts={helpSupportMenu} /> 
-					<LeftIconMenu iconMenuParts={termsConditionMenu} /> 
-					<LeftIconMenu onMenuClicked={this.logoutCurrentUser} iconMenuParts={accountLogoutMenu} /> 
+				<div className="impactCountLayout">
+					<div className="impactCountHeader">Impact</div>
+					<div className="impactCountNumber">{currentUser.impactCount}</div>
 				</div>
 			</div>
-		);
-	}
+			<div className="likedUsersTitle">People You Like</div>
+			<div className={userLikedLayout.firstThreeLikedDisplay}>
+				<UserDetailPicture userDetailParts={firstLikedUser} dimension={userLikedDimensions} />
+				<UserDetailPicture userDetailParts={secondLikedUser} dimension={userLikedDimensions} />
+				<UserDetailPicture userDetailParts={thirdLikedUser} dimension={userLikedDimensions} />
+				<UserDetailPicture userDetailParts={fourthLikedUser} dimension={userLikedDimensions} />
+			</div>
+			<div className="accountMenuLayout">
+				<LeftIconMenu iconMenuParts={friendReferenceMenu} /> 
+				<LeftIconMenu iconMenuParts={suggestionMenu} /> 
+				<LeftIconMenu iconMenuParts={helpSupportMenu} /> 
+				<LeftIconMenu iconMenuParts={termsConditionMenu} /> 
+				<LeftIconMenu onMenuClicked={logoutCurrentUser} iconMenuParts={accountLogoutMenu} /> 
+			</div>
+		</div>
+	);
 }
 
 export default Account;   

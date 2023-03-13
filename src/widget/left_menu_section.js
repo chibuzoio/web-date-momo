@@ -69,7 +69,11 @@ function LeftMenuSection() {
 	});
 	const [messengerResponses, setMessengerResponses] = useState([]);
 	const [notificationResponses, setNotificationResponses] = useState([]);       
-	
+
+	var messengerRequestData = {
+		memberId : currentUser.memberId
+	}
+
 	useEffect(() => {
 		async function loadModels(modelUrl) {
 		  	Promise.all([
@@ -84,10 +88,10 @@ function LeftMenuSection() {
 
 		loadModels(MODEL_URL);
 
-		var messengerRequestData = {
-			memberId : currentUser.memberId
-		}
-
+		loadMessengerNotificationData();
+	}, []);
+	
+	const loadMessengerNotificationData = () => {
 		axios.post("https://datemomo.com/service/usermessengersdata.php", messengerRequestData)
 	    	.then(response => {
 				var localMessengerResponses = checkNullInMessenger(response.data);
@@ -101,9 +105,9 @@ function LeftMenuSection() {
 	    		setNotificationResponses(response.data);
 	        }, error => {
 	        	console.log(error);
-	        });		
-	}, []);
-	
+	        });		        
+	}
+
 	const openUserGallery = (buttonClicked) => {
 		if (buttonClicked) {
 			// navigate to user gallery
