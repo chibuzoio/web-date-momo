@@ -8,7 +8,7 @@ import '../css/floating_account.css';
 import placeholder from '../image/placeholder.jpg'; 
 import RoundPicture from '../component/round_picture';
 import ActiveMessenger from '../widget/active_messenger';
-import { Outlet, Link, useNavigate } from "react-router-dom";
+import { Outlet, Link, useNavigate, useLocation } from "react-router-dom";
 import ProgressAnimation from '../component/progress_animation';
 import BottomMenuIcon from '../component/bottom_menu_icon';
 import IconProfilePicture from '../component/icon_profile_picture';
@@ -27,7 +27,6 @@ import color_loader from '../image/color_loader.gif';
 import logo from '../image/datemomo.png';
 
 function Timeline() {
-	var requestData = {};
 	var visibleMenuLayout = "menuLayoutClass";
 	var visibleTimelineCover = "timelineCover";
 	var visibleAnimationClass = "colorLoaderLayout";
@@ -63,6 +62,7 @@ function Timeline() {
 
 	const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
+	const location = useLocation();
 	const navigate = useNavigate();
 	const userAccountImage = useRef();
 	const homeDisplayScroller = useRef();
@@ -121,49 +121,58 @@ function Timeline() {
 		window.location.replace("/login");
 	}
 
-	useEffect(() => {
-		requestData = {
-			memberId : currentUser.memberId,
-			age : currentUser.age,
-			sex : currentUser.sex,
-			registrationDate : currentUser.registrationDate,
-        	bisexualCategory : currentUser.bisexualCategory,
-        	gayCategory : currentUser.gayCategory,
-        	lesbianCategory : currentUser.lesbianCategory,
-        	straightCategory : currentUser.straightCategory,
-        	sugarDaddyCategory : currentUser.sugarDaddyCategory,
-        	sugarMommyCategory : currentUser.sugarMommyCategory,
-        	toyBoyCategory : currentUser.toyBoyCategory,
-        	toyGirlCategory : currentUser.toyGirlCategory,
-        	bisexualInterest : currentUser.bisexualInterest,
-        	gayInterest : currentUser.gayInterest,
-        	lesbianInterest : currentUser.lesbianInterest,
-        	straightInterest : currentUser.straightInterest,
-        	friendshipInterest : currentUser.friendshipInterest,
-        	sugarDaddyInterest : currentUser.sugarDaddyInterest,
-        	sugarMommyInterest : currentUser.sugarMommyInterest,
-        	relationshipInterest : currentUser.relationshipInterest,
-        	toyBoyInterest : currentUser.toyBoyInterest,
-        	toyGirlInterest : currentUser.toyGirlInterest,
-        	sixtyNineExperience : currentUser.sixtyNineExperience,
-        	analSexExperience : currentUser.analSexExperience,
-        	givenHeadExperience : currentUser.givenHeadExperience,
-        	missionaryExperience : currentUser.missionaryExperience,
-        	oneNightStandExperience : currentUser.oneNightStandExperience,
-        	orgySexExperience : currentUser.orgySexExperience,
-        	poolSexExperience : currentUser.poolSexExperience,
-        	receivedHeadExperience : currentUser.receivedHeadExperience,
-        	carSexExperience : currentUser.carSexExperience,
-        	publicSexExperience : currentUser.publicSexExperience,
-        	cameraSexExperience : currentUser.cameraSexExperience,
-        	threesomeExperience : currentUser.threesomeExperience,
-        	sexToyExperience : currentUser.sexToyExperience,
-        	videoSexExperience : currentUser.videoSexExperience
-		};
+	var requestData = {
+		memberId : currentUser.memberId,
+		age : currentUser.age,
+		sex : currentUser.sex,
+		registrationDate : currentUser.registrationDate,
+    	bisexualCategory : currentUser.bisexualCategory,
+    	gayCategory : currentUser.gayCategory,
+    	lesbianCategory : currentUser.lesbianCategory,
+    	straightCategory : currentUser.straightCategory,
+    	sugarDaddyCategory : currentUser.sugarDaddyCategory,
+    	sugarMommyCategory : currentUser.sugarMommyCategory,
+    	toyBoyCategory : currentUser.toyBoyCategory,
+    	toyGirlCategory : currentUser.toyGirlCategory,
+    	bisexualInterest : currentUser.bisexualInterest,
+    	gayInterest : currentUser.gayInterest,
+    	lesbianInterest : currentUser.lesbianInterest,
+    	straightInterest : currentUser.straightInterest,
+    	friendshipInterest : currentUser.friendshipInterest,
+    	sugarDaddyInterest : currentUser.sugarDaddyInterest,
+    	sugarMommyInterest : currentUser.sugarMommyInterest,
+    	relationshipInterest : currentUser.relationshipInterest,
+    	toyBoyInterest : currentUser.toyBoyInterest,
+    	toyGirlInterest : currentUser.toyGirlInterest,
+    	sixtyNineExperience : currentUser.sixtyNineExperience,
+    	analSexExperience : currentUser.analSexExperience,
+    	givenHeadExperience : currentUser.givenHeadExperience,
+    	missionaryExperience : currentUser.missionaryExperience,
+    	oneNightStandExperience : currentUser.oneNightStandExperience,
+    	orgySexExperience : currentUser.orgySexExperience,
+    	poolSexExperience : currentUser.poolSexExperience,
+    	receivedHeadExperience : currentUser.receivedHeadExperience,
+    	carSexExperience : currentUser.carSexExperience,
+    	publicSexExperience : currentUser.publicSexExperience,
+    	cameraSexExperience : currentUser.cameraSexExperience,
+    	threesomeExperience : currentUser.threesomeExperience,
+    	sexToyExperience : currentUser.sexToyExperience,
+    	videoSexExperience : currentUser.videoSexExperience
+	};
 
+	useEffect(() => {
 		window.addEventListener('resize', updateGradientHeight);
 		window.addEventListener('scroll', detectScrollBottom);
 
+		loadUserComposite();
+
+	    return () => {
+	    	window.removeEventListener('resize', updateGradientHeight);
+			window.removeEventListener('scroll', detectScrollBottom);
+	    };
+	}, []);
+
+	const loadUserComposite = () => {
 		axios.post("https://datemomo.com/service/matcheduserdata.php", requestData)
 			.then(response => {
 				setUserComposite(response.data);
@@ -181,13 +190,8 @@ function Timeline() {
 	        }, error => {
 	        	console.log(error);
 	        });
-
-	    return () => {
-	    	window.removeEventListener('resize', updateGradientHeight);
-			window.removeEventListener('scroll', detectScrollBottom);
-	    };
-	}, []);
-      
+	}
+             
 	const updateGradientHeight = () => { 
 		setFloatingLayoutSettings({
 			floatingLayoutDisplay : floatingLayoutSettings.floatingLayoutDisplay,
