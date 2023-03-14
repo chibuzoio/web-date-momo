@@ -126,15 +126,12 @@ function Profile() {
 		return () => {
 			window.removeEventListener('resize', calculatePictureDimensions);
 		};
-	}, []);
+	}, [userLikerResponses]);
 
 	const loadLikerUserComposite = () => {
 		axios.post("https://datemomo.com/service/userlikersdata.php", requestData)
 	    	.then(response => {
 	    		setUserLikerResponses(response.data);
-
-	    		console.log("The value of response data from here is " + JSON.stringify(response.data));
-
 				displayAvailableLiker();
 	        }, error => {
 	        	console.log(error);
@@ -208,9 +205,13 @@ function Profile() {
 	}
 
 	const displayAvailableLiker = () => {
+		var likerDisplayTitle = "";
+
 		if (userLikerResponses.length > 1) {
+			likerDisplayTitle = userLikerResponses.length + " People Like You";
+
 			setUserLikerLayout({
-				userLikerDisplayTitle : userLikerResponses.length + " People Like You",
+				userLikerDisplayTitle : likerDisplayTitle,
 				generalLikerDisplayLayout : userLikerLayout.generalLikerDisplayLayout,
 				firstThreeLikerDisplay : userLikerLayout.firstThreeLikerDisplay,
 				secondThreeLikerDisplay : userLikerLayout.secondThreeLikerDisplay
@@ -218,8 +219,10 @@ function Profile() {
 		}
 
 		if (userLikerResponses.length === 1) {
+			likerDisplayTitle = "1 Person Likes You";
+
 			setUserLikerLayout({
-				userLikerDisplayTitle : "1 Person Likes You",
+				userLikerDisplayTitle : likerDisplayTitle,
 				generalLikerDisplayLayout : userLikerLayout.generalLikerDisplayLayout,
 				firstThreeLikerDisplay : userLikerLayout.firstThreeLikerDisplay,
 				secondThreeLikerDisplay : userLikerLayout.secondThreeLikerDisplay
@@ -228,24 +231,24 @@ function Profile() {
 
 		if (userLikerResponses.length <= 0) {
 			setUserLikerLayout({
-				userLikerDisplayTitle : userLikerLayout.userLikerDisplayTitle,
+				userLikerDisplayTitle : likerDisplayTitle,
 				generalLikerDisplayLayout : hiddenLikerUserLayout,
 				firstThreeLikerDisplay : hiddenFirstThree,
-				secondThreeLikerDisplay : userLikerLayout.secondThreeLikerDisplay
+				secondThreeLikerDisplay : hiddenSecondThree
 			});
 		} else {
 			setUserLikerLayout({
-				userLikerDisplayTitle : userLikerLayout.userLikerDisplayTitle,
+				userLikerDisplayTitle : likerDisplayTitle,
 				generalLikerDisplayLayout : visibleLikerUserLayout,
 				firstThreeLikerDisplay : visibleFirstThree,
-				secondThreeLikerDisplay : userLikerLayout.secondThreeLikerDisplay
+				secondThreeLikerDisplay : hiddenSecondThree
 			});
 
 			if (userLikerResponses.length <= 3) {
 				setUserLikerLayout({
-					userLikerDisplayTitle : userLikerLayout.userLikerDisplayTitle,
-					generalLikerDisplayLayout : userLikerLayout.generalLikerDisplayLayout,
-					firstThreeLikerDisplay : userLikerLayout.firstThreeLikerDisplay,
+					userLikerDisplayTitle : likerDisplayTitle,
+					generalLikerDisplayLayout : visibleLikerUserLayout,
+					firstThreeLikerDisplay : visibleFirstThree,
 					secondThreeLikerDisplay : hiddenSecondThree
 				});
 
@@ -265,9 +268,9 @@ function Profile() {
 				}
 			} else {
 				setUserLikerLayout({
-					userLikerDisplayTitle : userLikerLayout.userLikerDisplayTitle,
-					generalLikerDisplayLayout : userLikerLayout.generalLikerDisplayLayout,
-					firstThreeLikerDisplay : userLikerLayout.firstThreeLikerDisplay,
+					userLikerDisplayTitle : likerDisplayTitle,
+					generalLikerDisplayLayout : visibleLikerUserLayout,
+					firstThreeLikerDisplay : visibleFirstThree,
 					secondThreeLikerDisplay : visibleSecondThree
 				});
 
@@ -316,8 +319,6 @@ function Profile() {
 		var eachPictureHeight = 1.1 * eachPictureWidth;
 		var userNameLabel = (19.48052 / 100) * eachPictureHeight;
 		var userNameTopMargin = (eachPictureHeight * (-34)) / 154; // (newHeight * oldMargin) / oldHeight
-
-		// console.log("Execution entered here with browserWidth = " + browserWidth);
 	
 		setUserLikerDimensions({
 			detailPictureHeight : eachPictureHeight + "px",
