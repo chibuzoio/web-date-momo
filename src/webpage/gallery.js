@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Outlet, Link, useNavigate, useParams } from "react-router-dom";
 import axios from 'axios';
 import '../css/style.css';
 import '../css/header.css';
@@ -25,11 +26,39 @@ import icon_view_blue from '../image/icon_view_blue.png';
 import color_loader from '../image/color_loader.gif';
 import logo from '../image/datemomo.png';
 
-class Gallery extends React.Component {
-	visibleAnimationClass = "colorLoaderLayout";
-	hiddenAnimationClass = this.visibleAnimationClass + " hideComponent";
-	currentUser = {};
-	requestData = {};
+/*
+// send data to another page like this: 
+const navigate = useNavigate();
+navigate('/other-page', { state: { id: 7, color: 'green' } });
+
+// Receive data from another page like this:  
+const {state} = useLocation();
+const { id, color } = state; // Read values passed on state
+*/
+
+function Gallery() {
+	var visibleAnimationClass = "colorLoaderLayout";
+	var hiddenAnimationClass = visibleAnimationClass + " hideComponent";
+	
+	var colorLoaderData = {
+		animationLayout : "colorLoaderLayout",
+		animationImageClass : "colorLoader",
+		animationMotionIcon : color_loader
+	}
+
+	// If useParams does not work with 
+	// gallery's router construct, use useLocation
+	const parameter = useParams();
+	const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+	var requestData = {
+        memberId = parameter.memberId,
+        currentPosition = parameter.currentPosition
+	};
+
+	console.log("Parameter values gotten in gallery page are memberId = " 
+		+ parameter.memberId + " and " + parameter.currentPosition);
+
 	state = {contextData : {
 		userComposite : {
 			homeDisplayResponses : [],
@@ -68,71 +97,8 @@ class Gallery extends React.Component {
 		stateLoaded : false
 	}}; 
   
-	constructor(props) {
-		super(props);
-		this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
-		this.replaceImagePlaceholder = this.replaceImagePlaceholder.bind(this);
-		this.displayFloatingLayout = this.displayFloatingLayout.bind(this);
-		this.updateGradientHeight = this.updateGradientHeight.bind(this);
-		this.closeFloatingLayout = this.closeFloatingLayout.bind(this);
-		this.detectScrollBottom = this.detectScrollBottom.bind(this);
-		this.setGradientHeight = this.setGradientHeight.bind(this);
-		this.changeLikedIcon = this.changeLikedIcon.bind(this);
-		this.clickLikeUser = this.clickLikeUser.bind(this);
-
-		if (this.currentUser != null) {
-			if (Object.keys(this.currentUser).length > 0) {
-				if (this.currentUser.authenticated === false) {
-					window.location.replace("/login");
-				}     
-			} else {
-				window.location.replace("/login");
-			}
-		} else {
-			window.location.replace("/login");
-		}
-	}
-
 	componentDidMount() {
-		this.requestData = {
-			memberId : this.currentUser.memberId,
-			age : this.currentUser.age,
-			sex : this.currentUser.sex,
-			registrationDate : this.currentUser.registrationDate,
-        	bisexualCategory : this.currentUser.bisexualCategory,
-        	gayCategory : this.currentUser.gayCategory,
-        	lesbianCategory : this.currentUser.lesbianCategory,
-        	straightCategory : this.currentUser.straightCategory,
-        	sugarDaddyCategory : this.currentUser.sugarDaddyCategory,
-        	sugarMommyCategory : this.currentUser.sugarMommyCategory,
-        	toyBoyCategory : this.currentUser.toyBoyCategory,
-        	toyGirlCategory : this.currentUser.toyGirlCategory,
-        	bisexualInterest : this.currentUser.bisexualInterest,
-        	gayInterest : this.currentUser.gayInterest,
-        	lesbianInterest : this.currentUser.lesbianInterest,
-        	straightInterest : this.currentUser.straightInterest,
-        	friendshipInterest : this.currentUser.friendshipInterest,
-        	sugarDaddyInterest : this.currentUser.sugarDaddyInterest,
-        	sugarMommyInterest : this.currentUser.sugarMommyInterest,
-        	relationshipInterest : this.currentUser.relationshipInterest,
-        	toyBoyInterest : this.currentUser.toyBoyInterest,
-        	toyGirlInterest : this.currentUser.toyGirlInterest,
-        	sixtyNineExperience : this.currentUser.sixtyNineExperience,
-        	analSexExperience : this.currentUser.analSexExperience,
-        	givenHeadExperience : this.currentUser.givenHeadExperience,
-        	missionaryExperience : this.currentUser.missionaryExperience,
-        	oneNightStandExperience : this.currentUser.oneNightStandExperience,
-        	orgySexExperience : this.currentUser.orgySexExperience,
-        	poolSexExperience : this.currentUser.poolSexExperience,
-        	receivedHeadExperience : this.currentUser.receivedHeadExperience,
-        	carSexExperience : this.currentUser.carSexExperience,
-        	publicSexExperience : this.currentUser.publicSexExperience,
-        	cameraSexExperience : this.currentUser.cameraSexExperience,
-        	threesomeExperience : this.currentUser.threesomeExperience,
-        	sexToyExperience : this.currentUser.sexToyExperience,
-        	videoSexExperience : this.currentUser.videoSexExperience
-		};
-
+	
 		window.addEventListener('resize', this.updateGradientHeight);
 		window.addEventListener('scroll', this.detectScrollBottom);
 
@@ -464,58 +430,50 @@ class Gallery extends React.Component {
 			}
 		}
 	}
-   
-	render() {
-		var colorLoaderData = {
-			animationLayout : "colorLoaderLayout",
-			animationImageClass : "colorLoader",
-			animationMotionIcon : color_loader
-		}
 
-		return (
-			<div>
-				<div className="outerParentLayout">
+	return (
+		<div>
+			<div className="outerParentLayout">
 
-					<LeftMenuSection />
- 
-					{/*Replace the declarations below with those for picture gallery*/}
-					<div className="scrollView" ref={(homeDisplayScroller) => 
-						{this.homeDisplayScroller = homeDisplayScroller}} onScroll={this.detectScrollBottom}>
-						{ 
-							this.state.contextData.userComposite.homeDisplayResponses.map((homeDisplayUser, index) => ( 
-								<div className="timelineWidget"> 
-									<img className="centerCropped" onClick={this.displayFloatingLayout} 
-										data-current-user={index} src={motion_placeholder} alt="" 
-										onLoad={this.replaceImagePlaceholder} /> 
-									<div className="bottomContentLayout">
-										<div className="userNameLayout" data-current-user={index}  
-											onClick={this.displayFloatingLayout}>
-											<div className="userNameText">
-												{homeDisplayUser.userName.charAt(0).toUpperCase() 
-												+ homeDisplayUser.userName.slice(1)}, {homeDisplayUser.age}
-											</div>
-											<div className="locationText">{(homeDisplayUser.currentLocation === "") ? 
-												"Location Not Set" : homeDisplayUser.currentLocation}</div>
+				<LeftMenuSection />
+
+				{/*Replace the declarations below with those for picture gallery*/}
+				<div className="scrollView" ref={(homeDisplayScroller) => 
+					{this.homeDisplayScroller = homeDisplayScroller}} onScroll={this.detectScrollBottom}>
+					{ 
+						this.state.contextData.userComposite.homeDisplayResponses.map((homeDisplayUser, index) => ( 
+							<div className="timelineWidget"> 
+								<img className="centerCropped" onClick={this.displayFloatingLayout} 
+									data-current-user={index} src={motion_placeholder} alt="" 
+									onLoad={this.replaceImagePlaceholder} /> 
+								<div className="bottomContentLayout">
+									<div className="userNameLayout" data-current-user={index}  
+										onClick={this.displayFloatingLayout}>
+										<div className="userNameText">
+											{homeDisplayUser.userName.charAt(0).toUpperCase() 
+											+ homeDisplayUser.userName.slice(1)}, {homeDisplayUser.age}
 										</div>
-										<div className="likeIconLayout" ref={(userTimelineLiker) => 
-											{this.userTimelineLiker = userTimelineLiker}} data-current-user={index} 
-											onClick={this.clickLikeUser}>
-											{this.changeLikedIcon(homeDisplayUser.liked)}
-										</div>
+										<div className="locationText">{(homeDisplayUser.currentLocation === "") ? 
+											"Location Not Set" : homeDisplayUser.currentLocation}</div>
+									</div>
+									<div className="likeIconLayout" ref={(userTimelineLiker) => 
+										{this.userTimelineLiker = userTimelineLiker}} data-current-user={index} 
+										onClick={this.clickLikeUser}>
+										{this.changeLikedIcon(homeDisplayUser.liked)}
 									</div>
 								</div>
-							))
-						}
-						<ProgressAnimation animationData={this.state.contextData.infiniteScrollingPage.infiniteScrollLoader} />
-					</div>
-				</div>
- 
-				<div className="timelineCover" style={{display : this.state.contextData.displayTimelineCover}}>
-					<ProgressAnimation animationData={colorLoaderData} />
+							</div>
+						))
+					}
+					<ProgressAnimation animationData={this.state.contextData.infiniteScrollingPage.infiniteScrollLoader} />
 				</div>
 			</div>
-		);
-	}
+
+			<div className="timelineCover" style={{display : this.state.contextData.displayTimelineCover}}>
+				<ProgressAnimation animationData={colorLoaderData} />
+			</div>
+		</div>
+	);
 }
 
 export default Gallery;   
