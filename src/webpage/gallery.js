@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Outlet, Link, useNavigate, useParams } from "react-router-dom";
 import axios from 'axios';
 import '../css/style.css';
 import '../css/header.css';
-import '../css/timeline.css';
+import '../css/profile.css';
 import '../css/picture_upload.css';
 import placeholder from '../image/placeholder.jpg'; 
 import RoundPicture from '../component/round_picture';
@@ -11,6 +12,7 @@ import LeftMenuSection from '../widget/left_menu_section';
 import ProgressAnimation from '../component/progress_animation';
 import BottomMenuIcon from '../component/bottom_menu_icon';
 import IconProfilePicture from '../component/icon_profile_picture';
+import UserGalleryPicture from '../component/user_gallery_picture';
 import RightIconFormField from '../component/right_icon_form_field';
 import icon_heart_hollow from '../image/icon_heart_hollow.png';
 import icon_heart_red from '../image/icon_heart_red.png';
@@ -25,497 +27,116 @@ import icon_view_blue from '../image/icon_view_blue.png';
 import color_loader from '../image/color_loader.gif';
 import logo from '../image/datemomo.png';
 
-class Gallery extends React.Component {
-	visibleAnimationClass = "colorLoaderLayout";
-	hiddenAnimationClass = this.visibleAnimationClass + " hideComponent";
-	currentUser = {};
-	requestData = {};
-	state = {contextData : {
-		userComposite : {
-			homeDisplayResponses : [],
-			thousandRandomCounter : []
-		},   
-		floatingAccountData : {
-			sexualExperienceButtons : [],
-			sexualInterestButtons : [],
-			sexualCategoryButtons : [],
-			floatingLayoutDisplay : "none",
-			userDisplayResponse : {
-				currentLocation : "",
-				profilePicture : "",
-				userStatus : "",
-				userName : "",
-				age : 0
-			},
-			gradientHeight : 0
-		},
-		closeLayoutIcon : {
-			menuLayoutClass : "menuLayoutClass",
-			menuIconClass : "menuIconClass",
-			menuIcon : icon_close_white,
-			menuLayoutDisplay : "none",
-		},
-		infiniteScrollingPage : {
-			infiniteScrollLoader : {
-				animationLayout : this.hiddenAnimationClass,
-				animationImageClass : "colorLoader",
-				animationMotionIcon : color_loader
-			},
-			totalAvailablePages : 0,
-			lastDisplayPage : 0
-		},
-		displayTimelineCover : "flex",
-		stateLoaded : false
-	}}; 
-  
-	constructor(props) {
-		super(props);
-		this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
-		this.replaceImagePlaceholder = this.replaceImagePlaceholder.bind(this);
-		this.displayFloatingLayout = this.displayFloatingLayout.bind(this);
-		this.updateGradientHeight = this.updateGradientHeight.bind(this);
-		this.closeFloatingLayout = this.closeFloatingLayout.bind(this);
-		this.detectScrollBottom = this.detectScrollBottom.bind(this);
-		this.setGradientHeight = this.setGradientHeight.bind(this);
-		this.changeLikedIcon = this.changeLikedIcon.bind(this);
-		this.clickLikeUser = this.clickLikeUser.bind(this);
+/*
+// send data to another page like this: 
+const navigate = useNavigate();
+navigate('/other-page', { state: { id: 7, color: 'green' } });
 
-		if (this.currentUser != null) {
-			if (Object.keys(this.currentUser).length > 0) {
-				if (this.currentUser.authenticated === false) {
-					window.location.replace("/login");
-				}     
-			} else {
-				window.location.replace("/login");
-			}
-		} else {
-			window.location.replace("/login");
-		}
+// Receive data from another page like this:  
+const {state} = useLocation();
+const { id, color } = state; // Read values passed on state
+*/
+
+function Gallery() {
+	var visibleAnimationClass = "colorLoaderLayout";
+	var hiddenAnimationClass = visibleAnimationClass + " hideComponent";
+	
+	var colorLoaderData = {
+		animationLayout : "colorLoaderLayout",
+		animationImageClass : "colorLoader",
+		animationMotionIcon : color_loader
 	}
 
-	componentDidMount() {
-		this.requestData = {
-			memberId : this.currentUser.memberId,
-			age : this.currentUser.age,
-			sex : this.currentUser.sex,
-			registrationDate : this.currentUser.registrationDate,
-        	bisexualCategory : this.currentUser.bisexualCategory,
-        	gayCategory : this.currentUser.gayCategory,
-        	lesbianCategory : this.currentUser.lesbianCategory,
-        	straightCategory : this.currentUser.straightCategory,
-        	sugarDaddyCategory : this.currentUser.sugarDaddyCategory,
-        	sugarMommyCategory : this.currentUser.sugarMommyCategory,
-        	toyBoyCategory : this.currentUser.toyBoyCategory,
-        	toyGirlCategory : this.currentUser.toyGirlCategory,
-        	bisexualInterest : this.currentUser.bisexualInterest,
-        	gayInterest : this.currentUser.gayInterest,
-        	lesbianInterest : this.currentUser.lesbianInterest,
-        	straightInterest : this.currentUser.straightInterest,
-        	friendshipInterest : this.currentUser.friendshipInterest,
-        	sugarDaddyInterest : this.currentUser.sugarDaddyInterest,
-        	sugarMommyInterest : this.currentUser.sugarMommyInterest,
-        	relationshipInterest : this.currentUser.relationshipInterest,
-        	toyBoyInterest : this.currentUser.toyBoyInterest,
-        	toyGirlInterest : this.currentUser.toyGirlInterest,
-        	sixtyNineExperience : this.currentUser.sixtyNineExperience,
-        	analSexExperience : this.currentUser.analSexExperience,
-        	givenHeadExperience : this.currentUser.givenHeadExperience,
-        	missionaryExperience : this.currentUser.missionaryExperience,
-        	oneNightStandExperience : this.currentUser.oneNightStandExperience,
-        	orgySexExperience : this.currentUser.orgySexExperience,
-        	poolSexExperience : this.currentUser.poolSexExperience,
-        	receivedHeadExperience : this.currentUser.receivedHeadExperience,
-        	carSexExperience : this.currentUser.carSexExperience,
-        	publicSexExperience : this.currentUser.publicSexExperience,
-        	cameraSexExperience : this.currentUser.cameraSexExperience,
-        	threesomeExperience : this.currentUser.threesomeExperience,
-        	sexToyExperience : this.currentUser.sexToyExperience,
-        	videoSexExperience : this.currentUser.videoSexExperience
+	const params = useParams();
+	const userGalleryLayout = useRef();
+	const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+	const [userPictureResponse, setUserPictureResponse] = useState([]);
+	const [userGalleryComposite, setUserGalleryComposite] = useState([]);
+	const [userPictureDimension, setUserPictureDimension] = useState({
+		detailPictureHeight : "0px",
+		detailPictureWidth : "0px"
+	});
+
+	var requestData = {
+        memberId : params.memberId,
+        currentPosition : params.position
+	};
+
+	console.log("Parameter values gotten in gallery page are memberId = " 
+		+ params.memberId + " and currentPosition = " + params.position);
+      
+	useEffect(() => {
+		calculatePictureDimensions();
+		window.addEventListener('resize', calculatePictureDimensions);
+
+		loadGalleryComposite();
+
+		return () => {
+			window.removeEventListener('resize', calculatePictureDimensions);
 		};
+	}, []);
 
-		window.addEventListener('resize', this.updateGradientHeight);
-		window.addEventListener('scroll', this.detectScrollBottom);
-
-		axios.post("https://datemomo.com/service/matcheduserdata.php", this.requestData)
+	const loadGalleryComposite = () => {
+		axios.post("https://datemomo.com/service/userpicture.php", requestData)
 			.then(response => {
-	    		this.setState(function(state) { 
-	    			return {contextData : {
-	    				userComposite : response.data, 
-	    				floatingAccountData : state.contextData.floatingAccountData,
-	    				closeLayoutIcon : state.contextData.closeLayoutIcon,
-	    				infiniteScrollingPage : {
-	    					infiniteScrollLoader : {
-								animationLayout : this.hiddenAnimationClass,
-								animationImageClass : state.contextData.infiniteScrollingPage.infiniteScrollLoader.animationImageClass,
-								animationMotionIcon : state.contextData.infiniteScrollingPage.infiniteScrollLoader.animationMotionIcon
-							},
-	    					totalAvailablePages : response.data.homeDisplayResponses.length,
-	    					lastDisplayPage : response.data.homeDisplayResponses.length - 1
-	    				},
-	    				displayTimelineCover : state.contextData.displayTimelineCover,
-	    				stateLoaded : state.contextData.stateLoaded
-	    			}
-	    		}});  
-	        }, error => {
-	        	console.log(error);
-	        });
+				setUserPictureResponse(response.data);
+
+	            var fourPictureContainer = [];
+	            var localGalleryComposite = [];
+
+	            for (var i = 0; i < response.data.length; i++) {
+	            	fourPictureContainer.push(response.data[i]);
+
+	            	if (fourPictureContainer.length > 3) {
+	            		localGalleryComposite.push(fourPictureContainer);
+	            		fourPictureContainer = [];
+	            	}
+	            }
+
+/*	            if (fourPictureContainer.length > 0) {
+	            	localGalleryComposite.push(fourPictureContainer);
+	            }
+*/
+				setUserGalleryComposite(localGalleryComposite);
+		    }, error => {
+		    	console.log(error);
+		    });		
 	}
 
-	componentWillUnmount() {
-		window.removeEventListener('resize', this.updateGradientHeight);
-		window.removeEventListener('scroll', this.detectScrollBottom);
+	const calculatePictureDimensions = () => {
+		var browserWidth = userGalleryLayout.current.clientWidth;  
+		var sumOfPictureMargins = (8 / 100) * browserWidth;
+		var totalPictureWidth = browserWidth - sumOfPictureMargins;
+		var eachPictureWidth = totalPictureWidth / 4;
+		var eachPictureHeight = 1.1 * eachPictureWidth;
+
+		setUserPictureDimension({
+			detailPictureHeight : eachPictureHeight + "px",
+			detailPictureWidth : eachPictureWidth + "px"
+		});
 	}
 
-	updateGradientHeight() { 
-		this.setState(function(state) { 
-			return {contextData : {
-				userComposite : state.contextData.userComposite,
-				floatingAccountData : {
-					sexualExperienceButtons : state.contextData.floatingAccountData.sexualExperienceButtons,
-					sexualInterestButtons : state.contextData.floatingAccountData.sexualInterestButtons,
-					sexualCategoryButtons : state.contextData.floatingAccountData.sexualCategoryButtons,
-					floatingLayoutDisplay : state.contextData.floatingAccountData.floatingLayoutDisplay,
-					userDisplayResponse : state.contextData.floatingAccountData.userDisplayResponse,
-					gradientHeight : this.userAccountImage.clientHeight
-				},
-				closeLayoutIcon : state.contextData.closeLayoutIcon,
-				infiniteScrollingPage : state.contextData.infiniteScrollingPage,
-				displayTimelineCover : state.contextData.displayTimelineCover,
-				stateLoaded : state.contextData.stateLoaded
-			}
-		}});  
+	const readPicturePart = (fourPicturePart) => {
+		console.log("The value of fourPicturePart here is " + JSON.stringify(fourPicturePart));
 	}
 
-	setGradientHeight(event) {         
-		this.setState(function(state) { 
-			return {contextData : {
-				userComposite : state.contextData.userComposite,
-				floatingAccountData : {
-					sexualExperienceButtons : state.contextData.floatingAccountData.sexualExperienceButtons,
-					sexualInterestButtons : state.contextData.floatingAccountData.sexualInterestButtons,
-					sexualCategoryButtons : state.contextData.floatingAccountData.sexualCategoryButtons,
-					floatingLayoutDisplay : state.contextData.floatingAccountData.floatingLayoutDisplay,
-					userDisplayResponse : state.contextData.floatingAccountData.userDisplayResponse,
-					gradientHeight : event.target.clientHeight   
-				},
-				closeLayoutIcon : state.contextData.closeLayoutIcon,
-				infiniteScrollingPage : state.contextData.infiniteScrollingPage,
-				displayTimelineCover : state.contextData.displayTimelineCover,
-				stateLoaded : state.contextData.stateLoaded
-			}
-		}});  
-	}
-
-	changeLikedIcon(liked) {
-		if (liked) {
-			return (<img className="heartIcon" alt="" src={icon_heart_red}/>);
-		} else {
-			return (<img className="heartIcon" alt="" src={icon_heart_hollow}/>);
-		}
-	}
-
-	displayFloatingLayout(event) {     
-		var currentUserPosition = event.currentTarget.getAttribute("data-current-user");
-            
-		this.setState(function(state) { 
-			return {contextData : {
-				userComposite : state.contextData.userComposite,
-				floatingAccountData : {
-					sexualExperienceButtons : this.buildSexualExperienceButtons(currentUserPosition),
-					sexualInterestButtons : this.buildSexualInterestButtons(currentUserPosition),
-					sexualCategoryButtons : this.buildSexualCategoryButtons(currentUserPosition),
-					floatingLayoutDisplay : "flex",
-					userDisplayResponse : {
-						currentLocation : state.contextData.userComposite.homeDisplayResponses[currentUserPosition].currentLocation,
-						profilePicture : state.contextData.userComposite.homeDisplayResponses[currentUserPosition].profilePicture,
-						userStatus : state.contextData.userComposite.homeDisplayResponses[currentUserPosition].userStatus,
-						userName : state.contextData.userComposite.homeDisplayResponses[currentUserPosition].userName,
-						age : state.contextData.userComposite.homeDisplayResponses[currentUserPosition].age
-					},
-					gradientHeight : state.contextData.floatingAccountData.gradientHeight
-				},
-				closeLayoutIcon : {
-					menuLayoutClass : state.contextData.closeLayoutIcon.menuLayoutClass,
-					menuIconClass : state.contextData.closeLayoutIcon.menuIconClass,
-					menuIcon : state.contextData.closeLayoutIcon.menuIcon,
-					menuLayoutDisplay : "flex",
-				},
-				infiniteScrollingPage : state.contextData.infiniteScrollingPage,
-				displayTimelineCover : state.contextData.displayTimelineCover,
-				stateLoaded : state.contextData.stateLoaded
-			}
-		}});  
-	}
-   
-	replaceImagePlaceholder(event) {
-		var currentUserPosition = event.currentTarget.getAttribute("data-current-user");
-		event.currentTarget.src = "https://datemomo.com/client/image/" 
-			+ this.state.contextData.userComposite.homeDisplayResponses[currentUserPosition].profilePicture;
-
-		event.currentTarget.onload = function() {
-	 		this.setState(function(state) { 
-				return {contextData : {
-					userComposite : state.contextData.userComposite,
-					floatingAccountData : state.contextData.floatingAccountData,
-					closeLayoutIcon : state.contextData.closeLayoutIcon,
-					infiniteScrollingPage : state.contextData.infiniteScrollingPage,
-					displayTimelineCover : "none",
-					stateLoaded : state.contextData.stateLoaded
+	return (
+		<div className="scrollView outerGalleryLayout" ref={userGalleryLayout}>
+			<div className="userGalleryLayout">
+				{ 
+					userGalleryComposite.map((fourPicturePart) => ( 
+						<div className="firstThreeLikerUsers">
+							<UserGalleryPicture galleryPictureParts={fourPicturePart[0]} dimension={userPictureDimension} />
+							<UserGalleryPicture galleryPictureParts={fourPicturePart[1]} dimension={userPictureDimension} />
+							<UserGalleryPicture galleryPictureParts={fourPicturePart[2]} dimension={userPictureDimension} />
+							<UserGalleryPicture galleryPictureParts={fourPicturePart[3]} dimension={userPictureDimension} />
+						</div>
+					))
 				}
-			}});  
-		}.bind(this);
-	}
-
-	closeFloatingLayout(menuLayoutDisplay) {
-		if (menuLayoutDisplay === "none") {
-			this.setState(function(state) { 
-				return {contextData : {
-					userComposite : state.contextData.userComposite,
-					floatingAccountData : {
-						sexualExperienceButtons : state.contextData.floatingAccountData.sexualExperienceButtons,
-						sexualInterestButtons : state.contextData.floatingAccountData.sexualInterestButtons,
-						sexualCategoryButtons : state.contextData.floatingAccountData.sexualCategoryButtons,
-						floatingLayoutDisplay : "none",
-						userDisplayResponse : state.contextData.floatingAccountData.userDisplayResponse,
-						gradientHeight : state.contextData.floatingAccountData.gradientHeight
-					},
-					closeLayoutIcon : {
-						menuLayoutClass : state.contextData.closeLayoutIcon.menuLayoutClass,
-						menuIconClass : state.contextData.closeLayoutIcon.menuIconClass,
-						menuIcon : state.contextData.closeLayoutIcon.menuIcon,
-						menuLayoutDisplay : "none",
-					},
-					infiniteScrollingPage : state.contextData.infiniteScrollingPage,
-					displayTimelineCover : state.contextData.displayTimelineCover,
-					stateLoaded : state.contextData.stateLoaded
-				}
-			}});  
-		}
-	}
-
-	clickLikeUser(event) {
-		var currentUserLiked = true;
-		var currentUserPosition = event.currentTarget.getAttribute("data-current-user");
-
-		if (this.state.contextData.userComposite.homeDisplayResponses[currentUserPosition].liked) {
-			currentUserLiked = false;
-		} 
-
-		var homeDisplayResponses = this.state.contextData.userComposite.homeDisplayResponses;
-		homeDisplayResponses[currentUserPosition].liked = currentUserLiked;
-
-		this.setState(function(state) { 
-			return {contextData : {
-				userComposite : {
-					homeDisplayResponses : homeDisplayResponses,
-					thousandRandomCounter : state.contextData.userComposite.thousandRandomCounter
-				},
-				floatingAccountData : state.contextData.floatingAccountData,
-				closeLayoutIcon : state.contextData.closeLayoutIcon,
-				infiniteScrollingPage : state.contextData.infiniteScrollingPage,
-				displayTimelineCover : state.contextData.displayTimelineCover,
-				stateLoaded : state.contextData.stateLoaded
-			}
-		}});  
-
-		var likeRequestData = {
-			memberId : this.currentUser.memberId,
-            liked : this.state.contextData.userComposite.homeDisplayResponses[currentUserPosition].liked,
-			likedUserId : this.state.contextData.userComposite.homeDisplayResponses[currentUserPosition].memberId
-		};
-
-		axios.post("https://datemomo.com/service/likeuser.php", likeRequestData)
-	    	.then(response => {
-	    		// console.log("Action proceeded with positive response from the server");
-	        }, error => {
-	        	console.log(error);
-	        });
-	}
-
-	detectScrollBottom() {        
-		if ((this.homeDisplayScroller.scrollHeight - 
-			this.homeDisplayScroller.scrollTop) <= (this.homeDisplayScroller.clientHeight 
-			+ (this.homeDisplayScroller.clientHeight / 2))) {
-			if (this.state.contextData.infiniteScrollingPage.totalAvailablePages < 
-				this.state.contextData.userComposite.thousandRandomCounter.length) {
-				window.removeEventListener('scroll', this.detectScrollBottom);
-
-				this.setState(function(state) { 
-					return {contextData : {
-						userComposite : state.contextData.userComposite,
-						floatingAccountData : state.contextData.floatingAccountData,
-						closeLayoutIcon : state.contextData.closeLayoutIcon,
-						infiniteScrollingPage : {
-							infiniteScrollLoader : {
-								animationLayout : this.visibleAnimationClass,
-								animationImageClass : state.contextData.infiniteScrollingPage.infiniteScrollLoader.animationImageClass,
-								animationMotionIcon : state.contextData.infiniteScrollingPage.infiniteScrollLoader.animationMotionIcon
-							},
-							totalAvailablePages : state.contextData.infiniteScrollingPage.totalAvailablePages,
-							lastDisplayPage : state.contextData.infiniteScrollingPage.lastDisplayPage
-						},
-						displayTimelineCover : state.contextData.displayTimelineCover,
-						stateLoaded : state.contextData.stateLoaded
-					}
-				}});  
-
-				var tenIterationCounter = 0;
-				var moreMatchedUserRequest = {
-					memberId : this.currentUser.memberId,
-					nextMatchedUsersIdArray : []
-				};				
-
-				var countStartindex = this.state.contextData.infiniteScrollingPage.lastDisplayPage + 1;
-        
-				for (var i = countStartindex; i < this.state.contextData.userComposite.thousandRandomCounter.length; i++) {
-					moreMatchedUserRequest.nextMatchedUsersIdArray.push(this.state.contextData.userComposite.thousandRandomCounter[i]);
-					tenIterationCounter++
-
-                    if (tenIterationCounter >= 10) {
-                        break
-                    }
-				}
-
-				axios.post("https://datemomo.com/service/morematcheduserdata.php", moreMatchedUserRequest)
-					.then(response => {
-			    		var homeDisplayResponsesData = this.state.contextData.userComposite.homeDisplayResponses.concat(response.data);
-
-			    		var memberIdArray = [];
-			    		var homeDisplayResponses = [];
-
-			    		for (var i = 0; i < homeDisplayResponsesData.length; i++) {
-			    			if (memberIdArray.indexOf(homeDisplayResponsesData[i].memberId) < 0) {
-			    				memberIdArray.push(homeDisplayResponsesData[i].memberId);
-			    				homeDisplayResponses.push(homeDisplayResponsesData[i]);
-			    			}
-			    		}
-
-			    		var totalAvailablePages = homeDisplayResponses.length;
-			    		var lastDisplayPage = this.state.contextData.userComposite.thousandRandomCounter
-			    			.indexOf(homeDisplayResponses[homeDisplayResponses.length - 1].memberId);
-       
-						this.setState(function(state) { 
-							return {contextData : {
-								userComposite : {
-									homeDisplayResponses : homeDisplayResponses,
-									thousandRandomCounter : state.contextData.userComposite.thousandRandomCounter
-								},
-								floatingAccountData : state.contextData.floatingAccountData,
-								closeLayoutIcon : state.contextData.closeLayoutIcon,
-								infiniteScrollingPage : {
-									infiniteScrollLoader : {
-										animationLayout : this.hiddenAnimationClass,
-										animationImageClass : state.contextData.infiniteScrollingPage.infiniteScrollLoader.animationImageClass,
-										animationMotionIcon : state.contextData.infiniteScrollingPage.infiniteScrollLoader.animationMotionIcon
-									},
-									totalAvailablePages : totalAvailablePages,
-									lastDisplayPage : lastDisplayPage
-								},
-								displayTimelineCover : state.contextData.displayTimelineCover,
-								stateLoaded : state.contextData.stateLoaded
-							}
-						}});  
-
-						window.addEventListener('scroll', this.detectScrollBottom);
-			        }, error => {              
-						this.setState(function(state) { 
-							return {contextData : {
-								userComposite : state.contextData.userComposite,
-								floatingAccountData : state.contextData.floatingAccountData,
-								closeLayoutIcon : state.contextData.closeLayoutIcon,
-								infiniteScrollingPage : {
-									infiniteScrollLoader : {
-										animationLayout : this.hiddenAnimationClass,
-										animationImageClass : state.contextData.infiniteScrollingPage.infiniteScrollLoader.animationImageClass,
-										animationMotionIcon : state.contextData.infiniteScrollingPage.infiniteScrollLoader.animationMotionIcon
-									},
-									totalAvailablePages : state.contextData.infiniteScrollingPage.totalAvailablePages,
-									lastDisplayPage : state.contextData.infiniteScrollingPage.lastDisplayPage
-								},
-								displayTimelineCover : state.contextData.displayTimelineCover,
-								stateLoaded : state.contextData.stateLoaded
-							}
-						}});  
-
-						window.addEventListener('scroll', this.detectScrollBottom);
-			        	console.log(error);
-			        });
-			} else {
-				window.addEventListener('scroll', this.detectScrollBottom);
-
-				this.setState(function(state) { 
-					return {contextData : {
-						userComposite : state.contextData.userComposite,
-						floatingAccountData : state.contextData.floatingAccountData,
-						closeLayoutIcon : state.contextData.closeLayoutIcon,
-						infiniteScrollingPage : {
-							infiniteScrollLoader : {
-								animationLayout : this.hiddenAnimationClass,
-								animationImageClass : state.contextData.infiniteScrollingPage.infiniteScrollLoader.animationImageClass,
-								animationMotionIcon : state.contextData.infiniteScrollingPage.infiniteScrollLoader.animationMotionIcon
-							},
-							totalAvailablePages : state.contextData.infiniteScrollingPage.totalAvailablePages,
-							lastDisplayPage : state.contextData.infiniteScrollingPage.lastDisplayPage
-						},
-						displayTimelineCover : state.contextData.displayTimelineCover,
-						stateLoaded : state.contextData.stateLoaded
-					}
-				}});  
-			}
-		}
-	}
-   
-	render() {
-		var colorLoaderData = {
-			animationLayout : "colorLoaderLayout",
-			animationImageClass : "colorLoader",
-			animationMotionIcon : color_loader
-		}
-
-		return (
-			<div>
-				<div className="outerParentLayout">
-
-					<LeftMenuSection />
- 
-					{/*Replace the declarations below with those for picture gallery*/}
-					<div className="scrollView" ref={(homeDisplayScroller) => 
-						{this.homeDisplayScroller = homeDisplayScroller}} onScroll={this.detectScrollBottom}>
-						{ 
-							this.state.contextData.userComposite.homeDisplayResponses.map((homeDisplayUser, index) => ( 
-								<div className="timelineWidget"> 
-									<img className="centerCropped" onClick={this.displayFloatingLayout} 
-										data-current-user={index} src={motion_placeholder} alt="" 
-										onLoad={this.replaceImagePlaceholder} /> 
-									<div className="bottomContentLayout">
-										<div className="userNameLayout" data-current-user={index}  
-											onClick={this.displayFloatingLayout}>
-											<div className="userNameText">
-												{homeDisplayUser.userName.charAt(0).toUpperCase() 
-												+ homeDisplayUser.userName.slice(1)}, {homeDisplayUser.age}
-											</div>
-											<div className="locationText">{(homeDisplayUser.currentLocation === "") ? 
-												"Location Not Set" : homeDisplayUser.currentLocation}</div>
-										</div>
-										<div className="likeIconLayout" ref={(userTimelineLiker) => 
-											{this.userTimelineLiker = userTimelineLiker}} data-current-user={index} 
-											onClick={this.clickLikeUser}>
-											{this.changeLikedIcon(homeDisplayUser.liked)}
-										</div>
-									</div>
-								</div>
-							))
-						}
-						<ProgressAnimation animationData={this.state.contextData.infiniteScrollingPage.infiniteScrollLoader} />
-					</div>
-				</div>
- 
-				<div className="timelineCover" style={{display : this.state.contextData.displayTimelineCover}}>
-					<ProgressAnimation animationData={colorLoaderData} />
-				</div>
 			</div>
-		);
-	}
+		</div>
+	);
 }
 
 export default Gallery;   

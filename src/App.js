@@ -3,6 +3,7 @@ import './css/App.css';
 import Login from './webpage/login';
 import Header from './widget/header';
 import Account from './webpage/account';
+import Gallery from './webpage/gallery';
 import Message from './webpage/message';
 import Profile from './webpage/profile';
 import Timeline from './widget/timeline';
@@ -31,6 +32,7 @@ class App extends React.Component {
             <Route path="message" element={<Message />} />
             <Route path="profile" element={<Profile />} />
             <Route path="messenger" element={<Messenger />} />
+            <Route path="gallery/:memberId/:position" element={<Gallery />} />
             <Route path="user_information" element={<UserInformation />} />
             <Route path="notification" element={<Notification />} />
             <Route path="face_detector" element={<FaceDetector />} />

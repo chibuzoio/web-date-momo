@@ -110,11 +110,7 @@ function LeftMenuSection() {
 
 	const openUserGallery = (buttonClicked) => {
 		if (buttonClicked) {
-			// navigate to user gallery
-
-	// service/userpicture.php
-
-
+			navigate("/gallery/" + currentUser.memberId + "/" + 0);
 		}
 	}
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import '../css/style.css';
 import '../css/profile.css';
+import '../css/timeline.css';
 import Header from '../widget/header';
 import Footer from '../widget/footer';
 import test_image from '../image/test_image.png';
@@ -55,6 +56,7 @@ function Account() {
 	var hiddenFirstThree = visibleFirstThree + " hideComponent";
 	var hiddenLikedUserLayout = visibleLikedUserLayout + " hideComponent";
 	
+	const profileLayout = useRef();
 	const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
 	const [userLikedResponses, setUserLikedResponses] = useState([]);
@@ -141,7 +143,7 @@ function Account() {
 	}
 
 	const calculatePictureDimensions = () => {
-		var browserWidth = window.innerWidth;  
+		var browserWidth = profileLayout.current.clientWidth;  
 		var sumOfPictureMargins = (8 / 100) * browserWidth;
 		var totalPictureWidth = browserWidth - sumOfPictureMargins;
 		var eachPictureWidth = totalPictureWidth / 4;
@@ -258,33 +260,35 @@ function Account() {
 	}
 
 	return ( 
-		<div className="dateMomoProfileLayout">
-			<div className="profilePictureImpactCount">
-				<div className="accountPictureLayout">
-					<div className="profilePictureLayout">
-						<img className="profilePictureImage" 
-							alt="" src={"https://datemomo.com/client/image/" 
-							+ currentUser.profilePicture} />
+		<div className="scrollView">
+			<div className="dateMomoProfileLayout" ref={profileLayout}>
+				<div className="profilePictureImpactCount">
+					<div className="accountPictureLayout">
+						<div className="profilePictureLayout">
+							<img className="profilePictureImage" 
+								alt="" src={"https://datemomo.com/client/image/" 
+								+ currentUser.profilePicture} />
+						</div>
+					</div>
+					<div className="impactCountLayout">
+						<div className="impactCountHeader">Impact</div>
+						<div className="impactCountNumber">{currentUser.impactCount}</div>
 					</div>
 				</div>
-				<div className="impactCountLayout">
-					<div className="impactCountHeader">Impact</div>
-					<div className="impactCountNumber">{currentUser.impactCount}</div>
+				<div className="likedUsersTitle">People You Like</div>
+				<div className={userLikedLayout.firstThreeLikedDisplay}>
+					<UserDetailPicture userDetailParts={firstLikedUser} dimension={userLikedDimensions} />
+					<UserDetailPicture userDetailParts={secondLikedUser} dimension={userLikedDimensions} />
+					<UserDetailPicture userDetailParts={thirdLikedUser} dimension={userLikedDimensions} />
+					<UserDetailPicture userDetailParts={fourthLikedUser} dimension={userLikedDimensions} />
 				</div>
-			</div>
-			<div className="likedUsersTitle">People You Like</div>
-			<div className={userLikedLayout.firstThreeLikedDisplay}>
-				<UserDetailPicture userDetailParts={firstLikedUser} dimension={userLikedDimensions} />
-				<UserDetailPicture userDetailParts={secondLikedUser} dimension={userLikedDimensions} />
-				<UserDetailPicture userDetailParts={thirdLikedUser} dimension={userLikedDimensions} />
-				<UserDetailPicture userDetailParts={fourthLikedUser} dimension={userLikedDimensions} />
-			</div>
-			<div className="accountMenuLayout">
-				<LeftIconMenu iconMenuParts={friendReferenceMenu} /> 
-				<LeftIconMenu iconMenuParts={suggestionMenu} /> 
-				<LeftIconMenu iconMenuParts={helpSupportMenu} /> 
-				<LeftIconMenu iconMenuParts={termsConditionMenu} /> 
-				<LeftIconMenu onMenuClicked={logoutCurrentUser} iconMenuParts={accountLogoutMenu} /> 
+				<div className="accountMenuLayout">
+					<LeftIconMenu iconMenuParts={friendReferenceMenu} /> 
+					<LeftIconMenu iconMenuParts={suggestionMenu} /> 
+					<LeftIconMenu iconMenuParts={helpSupportMenu} /> 
+					<LeftIconMenu iconMenuParts={termsConditionMenu} /> 
+					<LeftIconMenu onMenuClicked={logoutCurrentUser} iconMenuParts={accountLogoutMenu} /> 
+				</div>
 			</div>
 		</div>
 	);
