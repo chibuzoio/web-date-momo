@@ -31,8 +31,8 @@ class App extends React.Component {
             <Route path="account" element={<Account />} />
             <Route path="message" element={<Message />} />
             <Route path="profile" element={<Profile />} />
-            <Route path="gallery" element={<Gallery />} />
             <Route path="messenger" element={<Messenger />} />
+            <Route path="gallery/:memberId/:position" element={<Gallery />} />
             <Route path="user_information" element={<UserInformation />} />
             <Route path="notification" element={<Notification />} />
             <Route path="face_detector" element={<FaceDetector />} />

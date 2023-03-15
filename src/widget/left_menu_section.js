@@ -110,13 +110,7 @@ function LeftMenuSection() {
 
 	const openUserGallery = (buttonClicked) => {
 		if (buttonClicked) {
-			// service/userpicture.php
-			// If useParams refuses to work, get parameters using location.state of useLocation  
-			
-	        navigate("/gallery", {
-			    memberId : currentUser.memberId,
-			    currentPosition : 0
-		    });
+			navigate("/gallery/" + currentUser.memberId + "/" + 0);
 		}
 	}
 
