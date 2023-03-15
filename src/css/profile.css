@@ -344,8 +344,8 @@
 	-ms-overflow-style: none; 
 	flex-direction: column;
     scrollbar-width: none; 
-	padding-bottom: 9vmin;
-	padding-top: 13vmin;
+	padding-bottom: 3vmin;
+	padding-top: 5vmin;
 	overflow-x: hidden;
 	background: white;
 	overflow-y: auto;

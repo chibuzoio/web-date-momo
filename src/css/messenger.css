@@ -242,15 +242,10 @@
 	margin-top: 1vmin;
 }
 
-.dateMomoMessengerLayout {
-	-ms-overflow-style: none; 
-    scrollbar-width: none; 
-	padding-bottom: 9vmin;
-	overflow-x: hidden;
+.dateMomoMessengerLayout { 
 	background: white;
-    padding-top: 8vh;
-	overflow-y: auto;
-	height: 100vh;
+	height: 100%;
+	width: 100%;
 }
 
 .emptyMessengerDescriptionIcon {

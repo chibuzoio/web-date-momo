@@ -126,6 +126,14 @@ function LeftMenuSection() {
 		}
 	}
 
+	const openUserMessenger = (event) => {
+		navigate("/messenger");
+	}
+
+	const openUserNotification = (event) => {
+		navigate("/notification");
+	}
+
 	const changeProfilePicture = (changePictureClicked) => {
 		if (changePictureClicked) {
 			selectPictureButton.current.click();
@@ -320,7 +328,7 @@ function LeftMenuSection() {
 				<div className="messengerMessageLayout">
 					{displayMessengerContent()}
 				</div>
-				<div className="messengerFooterLayout">
+				<div className="messengerFooterLayout" onClick={openUserMessenger}>
 					<u>Messenger</u>
 				</div>
 			</div>
@@ -329,7 +337,7 @@ function LeftMenuSection() {
 				<div className="messengerMessageLayout">
 					{displayNotificationContent()}
 				</div>
-				<div className="messengerFooterLayout">
+				<div className="messengerFooterLayout" onClick={openUserNotification}>
 					<u>Notification</u>
 				</div>
 			</div>
