@@ -1,83 +1,75 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Outlet, Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import '../css/input.css';
 import '../css/style.css';
+import '../css/timeline.css';
 import '../css/messenger.css';
 import grey_placeholder from '../image/grey_placeholder.png';
 import NotificationIterator from '../widget/notification_iterator';
 
-class Notification extends React.Component {
-	currentUser = {};
-	requestData = {};
-	state = {contextData : {
-		notificationResponses : [],
-		stateLoaded : false
-	}}; 
+function Notification() {	
+	const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  
+	const [notificationResponses, setNotificationResponses] = useState([]);
 
-	constructor(props) {
-		super(props);
-		this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
-		this.displayNotificationContent = this.displayNotificationContent.bind(this);
-	}
+	useEffect(() => {
+		loadNotificationComposite();
+	}, []);	
 
-	componentDidMount() {
-		this.requestData = {
-			memberId : this.currentUser.memberId
+	const loadNotificationComposite = () => {
+		var requestData = {
+			memberId : currentUser.memberId
 		}
 
-		axios.post("https://datemomo.com/service/usernotifications.php", this.requestData)
+		axios.post("https://datemomo.com/service/usernotifications.php", requestData)
 	    	.then(response => {
-	    		this.setState({contextData : {
-	    			notificationResponses : response.data,
-	    			stateLoaded : true
-		    	}});
+	    		setNotificationResponses(response.data);
 	        }, error => {
 	        	console.log(error);
-	        });
+	        });		
 	}
 
-	displayNotificationContent() {
-		if (this.state.contextData.stateLoaded) {
-			if (this.state.contextData.notificationResponses.length > 0) {
-				var notificationComposite = [];
-				
-				for (var i = 0; i < this.state.contextData.notificationResponses.length; i++) {
-					var notificationContent = {
-						notificationResponse : this.state.contextData.notificationResponses[i],
-						notificationClasses : {
-							notificationContentLayout : "activeMessengerContent notificationContentTimeline",
-							notificationTitle : "notificationTitleTimeline",
-							roundPictureClass : "emptyMessengerPicture messengerPictureTimeline",
-							roundPictureLayout : "roundPictureContainer",
-							notificationLayout : "notificationComponentLayout notificationTimeline",
-							notifierUserName : "notifierUserName"
-						}
+	const displayNotificationContent = () => {
+		if (notificationResponses.length > 0) {
+			var notificationComposite = [];
+			
+			for (var i = 0; i < notificationResponses.length; i++) {
+				var notificationContent = {
+					notificationResponse : notificationResponses[i],
+					notificationClasses : {
+						notificationContentLayout : "activeMessengerContent notificationContentTimeline",
+						notificationTitle : "notificationTitleTimeline",
+						roundPictureClass : "emptyMessengerPicture messengerPictureTimeline",
+						roundPictureLayout : "roundPictureContainer",
+						notificationLayout : "notificationComponentLayout notificationTimeline",
+						notifierUserName : "notifierUserName"
 					}
-
-					notificationComposite.push(notificationContent);
 				}
-	   
-				return (
-					<NotificationIterator notificationComposite={notificationComposite} />
-				);
-			} else {
-				// return (
-				// empty notification message 
-				// );
+
+				notificationComposite.push(notificationContent);
 			}
+   
+			return (
+				<NotificationIterator notificationComposite={notificationComposite} />
+			);
+		} else {
+			// return (
+			// empty notification message 
+			// );
 		}
 	}
        
-	render() {             
-		return (
+	return (
+		<div className="scrollView">
 			<div className="dateMomoMessengerLayout">
 				<div className="notificationHeader">Notifications</div>
 				<div className="notificationFlexLayout">
-					{this.displayNotificationContent()}
+					{displayNotificationContent()}
 				</div>
 			</div> 
-		);
-	}
+		</div>
+	);
 }
 
 export default Notification;   
