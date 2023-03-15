@@ -3,7 +3,7 @@ import { Outlet, Link, useNavigate, useParams } from "react-router-dom";
 import axios from 'axios';
 import '../css/style.css';
 import '../css/header.css';
-import '../css/timeline.css';
+import '../css/profile.css';
 import '../css/picture_upload.css';
 import placeholder from '../image/placeholder.jpg'; 
 import RoundPicture from '../component/round_picture';
@@ -12,6 +12,7 @@ import LeftMenuSection from '../widget/left_menu_section';
 import ProgressAnimation from '../component/progress_animation';
 import BottomMenuIcon from '../component/bottom_menu_icon';
 import IconProfilePicture from '../component/icon_profile_picture';
+import UserGalleryPicture from '../component/user_gallery_picture';
 import RightIconFormField from '../component/right_icon_form_field';
 import icon_heart_hollow from '../image/icon_heart_hollow.png';
 import icon_heart_red from '../image/icon_heart_red.png';
@@ -46,8 +47,6 @@ function Gallery() {
 		animationMotionIcon : color_loader
 	}
 
-	// If useParams does not work with 
-	// gallery's router construct, use useLocation
 	const params = useParams();
 	const userGalleryLayout = useRef();
 	const currentUser = JSON.parse(localStorage.getItem("currentUser"));
@@ -82,12 +81,7 @@ function Gallery() {
 		axios.post("https://datemomo.com/service/userpicture.php", requestData)
 			.then(response => {
 				setUserPictureResponse(response.data);
-/*
-				var imageId: Int,
-	            var imageWidth: Int,
-	            var imageHeight: Int,
-	            var imageName: String
-*/
+
 	            var fourPictureContainer = [];
 	            var localGalleryComposite = [];
 
@@ -100,10 +94,10 @@ function Gallery() {
 	            	}
 	            }
 
-	            if (fourPictureContainer.length > 0) {
+/*	            if (fourPictureContainer.length > 0) {
 	            	localGalleryComposite.push(fourPictureContainer);
 	            }
-
+*/
 				setUserGalleryComposite(localGalleryComposite);
 		    }, error => {
 		    	console.log(error);
@@ -117,8 +111,6 @@ function Gallery() {
 		var eachPictureWidth = totalPictureWidth / 4;
 		var eachPictureHeight = 1.1 * eachPictureWidth;
 
-		// console.log("Execution entered here with browserWidth = " + browserWidth);
-
 		setUserPictureDimension({
 			detailPictureHeight : eachPictureHeight + "px",
 			detailPictureWidth : eachPictureWidth + "px"
@@ -130,12 +122,19 @@ function Gallery() {
 	}
 
 	return (
-		<div className="scrollView" ref={userGalleryLayout}>
-			{ 
-				userGalleryComposite.map((fourPicturePart) => ( 
-					readPicturePart(fourPicturePart)
-				))
-			}
+		<div className="scrollView outerGalleryLayout" ref={userGalleryLayout}>
+			<div className="userGalleryLayout">
+				{ 
+					userGalleryComposite.map((fourPicturePart) => ( 
+						<div className="firstThreeLikerUsers">
+							<UserGalleryPicture galleryPictureParts={fourPicturePart[0]} dimension={userPictureDimension} />
+							<UserGalleryPicture galleryPictureParts={fourPicturePart[1]} dimension={userPictureDimension} />
+							<UserGalleryPicture galleryPictureParts={fourPicturePart[2]} dimension={userPictureDimension} />
+							<UserGalleryPicture galleryPictureParts={fourPicturePart[3]} dimension={userPictureDimension} />
+						</div>
+					))
+				}
+			</div>
 		</div>
 	);
 }

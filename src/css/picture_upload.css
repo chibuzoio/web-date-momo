@@ -33,6 +33,15 @@
 
 }
 
+.outerGalleryLayout {
+	background: black;
+}
+
+.userGalleryLayout {
+	height: 100%;
+	width: 100%;
+}
+
 .centerMessage {
 	justify-content: center;
 	flex-direction: row;
