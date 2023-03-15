@@ -1,36 +1,11 @@
-import React from 'react';
-import '../css/style.css';
-import grey_placeholder from '../image/grey_placeholder.png';
+import React, { useState, useEffect, useRef } from 'react';
+import '../css/style.css';  
 
-class RoundPicture extends React.Component {
-	imageData = {};
-	state = {contextData : {
-		roundPictureImage : grey_placeholder
-	}};
-
-	constructor(props) {
-		super(props);
-		this.imageData = new Image();
-	}
-
-	componentDidMount() {
-		this.imageData.src = this.props.pictureParts.roundPicture;
-
-		this.imageData.onload = function() {
-			this.setState(function(state, props) {
-				return {contextData : {
-	          		roundPictureImage : props.pictureParts.roundPicture
-				}
-			}});  
-		}.bind(this);
-	}
-            
-	render() {  
-		return (
-			<img className={this.props.pictureParts.roundPictureClass} 
-				alt="" src={this.state.contextData.roundPictureImage} />
-		);
-	}
+function RoundPicture(props) {
+	return (
+		<img className={props.pictureParts.roundPictureClass} 
+			alt="" src={props.pictureParts.roundPicture} />
+	);
 }
 
 export default RoundPicture;   

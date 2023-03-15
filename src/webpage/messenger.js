@@ -37,8 +37,11 @@ function Messenger() {
     }
 
 	const clickMessengerComponent = (messengerResponse) => {
-		localStorage.setItem("messengerResponse", JSON.stringify(messengerResponse));
-		navigate("/message");
+		navigate("/message", {
+			state : {
+				messengerResponse : messengerResponse
+			}
+		});
 	}
 
 	const displayMessengerContent = () => {
