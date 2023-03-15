@@ -157,8 +157,7 @@
 	justify-content: space-between;
 	border-top: 1px solid #E5E7E9;
 	flex-direction: row;
-	align-items: center;
-	position: absolute;
+	align-items: center;   
 	background: white;
 	min-height: 7%;
 	display: flex;

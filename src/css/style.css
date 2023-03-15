@@ -13,9 +13,10 @@
 .bottomMargin {
 	margin-bottom: 4vmin;
 }
-
+     
 .messageHeaderPicture {
 	background-repeat: no-repeat;
+	position: relative;
 	border-radius: 50%;
 	cursor: pointer;
 	height: 35px;            
