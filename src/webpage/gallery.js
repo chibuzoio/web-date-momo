@@ -27,16 +27,6 @@ import icon_view_blue from '../image/icon_view_blue.png';
 import color_loader from '../image/color_loader.gif';
 import logo from '../image/datemomo.png';
 
-/*
-// send data to another page like this: 
-const navigate = useNavigate();
-navigate('/other-page', { state: { id: 7, color: 'green' } });
-
-// Receive data from another page like this:  
-const {state} = useLocation();
-const { id, color } = state; // Read values passed on state
-*/
-
 function Gallery() {
 	var visibleAnimationClass = "colorLoaderLayout";
 	var hiddenAnimationClass = visibleAnimationClass + " hideComponent";
@@ -62,9 +52,6 @@ function Gallery() {
         memberId : params.memberId,
         currentPosition : params.position
 	};
-
-	console.log("Parameter values gotten in gallery page are memberId = " 
-		+ params.memberId + " and currentPosition = " + params.position);
       
 	useEffect(() => {
 		calculatePictureDimensions();
@@ -94,10 +81,10 @@ function Gallery() {
 	            	}
 	            }
 
-/*	            if (fourPictureContainer.length > 0) {
+	            if (fourPictureContainer.length > 0) {
 	            	localGalleryComposite.push(fourPictureContainer);
 	            }
-*/
+
 				setUserGalleryComposite(localGalleryComposite);
 		    }, error => {
 		    	console.log(error);
@@ -117,21 +104,77 @@ function Gallery() {
 		});
 	}
 
-	const readPicturePart = (fourPicturePart) => {
-		console.log("The value of fourPicturePart here is " + JSON.stringify(fourPicturePart));
+	const readPicturePart = (fourPicturePart, index) => {
+		var dummyData = {
+			imageId : 0,
+			imageName : "", 
+			imageWidth : 0, 
+			imageHeight : 0
+		};
+
+		if (fourPicturePart.length === 1) {
+			return (
+				<>
+					<div className={(index === 0) ? "upperGalleryPadding" : "hideComponent"}></div>
+					<div className="firstThreeLikerUsers">
+						<UserGalleryPicture galleryPictureParts={fourPicturePart[0]} dimension={userPictureDimension} />
+						<UserGalleryPicture galleryPictureParts={dummyData} dimension={userPictureDimension} />
+						<UserGalleryPicture galleryPictureParts={dummyData} dimension={userPictureDimension} />
+						<UserGalleryPicture galleryPictureParts={dummyData} dimension={userPictureDimension} />
+					</div>
+				</>
+			);
+		}
+
+		if (fourPicturePart.length === 2) {
+			return (
+				<>
+					<div className={(index === 0) ? "upperGalleryPadding" : "hideComponent"}></div>
+					<div className="firstThreeLikerUsers">
+						<UserGalleryPicture galleryPictureParts={fourPicturePart[0]} dimension={userPictureDimension} />
+						<UserGalleryPicture galleryPictureParts={fourPicturePart[1]} dimension={userPictureDimension} />
+						<UserGalleryPicture galleryPictureParts={dummyData} dimension={userPictureDimension} />
+						<UserGalleryPicture galleryPictureParts={dummyData} dimension={userPictureDimension} />
+					</div>
+				</>
+			);
+		}
+
+		if (fourPicturePart.length === 3) {
+			return (
+				<>
+					<div className={(index === 0) ? "upperGalleryPadding" : "hideComponent"}></div>
+					<div className="firstThreeLikerUsers">
+						<UserGalleryPicture galleryPictureParts={fourPicturePart[0]} dimension={userPictureDimension} />
+						<UserGalleryPicture galleryPictureParts={fourPicturePart[1]} dimension={userPictureDimension} />
+						<UserGalleryPicture galleryPictureParts={fourPicturePart[2]} dimension={userPictureDimension} />
+						<UserGalleryPicture galleryPictureParts={dummyData} dimension={userPictureDimension} />
+					</div>
+				</>
+			);
+		}
+
+		if (fourPicturePart.length === 4) {
+			return (
+				<>
+					<div className={(index === 0) ? "upperGalleryPadding" : "hideComponent"}></div>
+					<div className="firstThreeLikerUsers">
+						<UserGalleryPicture galleryPictureParts={fourPicturePart[0]} dimension={userPictureDimension} />
+						<UserGalleryPicture galleryPictureParts={fourPicturePart[1]} dimension={userPictureDimension} />
+						<UserGalleryPicture galleryPictureParts={fourPicturePart[2]} dimension={userPictureDimension} />
+						<UserGalleryPicture galleryPictureParts={fourPicturePart[3]} dimension={userPictureDimension} />
+					</div>
+				</>
+			);
+		}
 	}
 
 	return (
 		<div className="scrollView outerGalleryLayout" ref={userGalleryLayout}>
 			<div className="userGalleryLayout">
 				{ 
-					userGalleryComposite.map((fourPicturePart) => ( 
-						<div className="firstThreeLikerUsers">
-							<UserGalleryPicture galleryPictureParts={fourPicturePart[0]} dimension={userPictureDimension} />
-							<UserGalleryPicture galleryPictureParts={fourPicturePart[1]} dimension={userPictureDimension} />
-							<UserGalleryPicture galleryPictureParts={fourPicturePart[2]} dimension={userPictureDimension} />
-							<UserGalleryPicture galleryPictureParts={fourPicturePart[3]} dimension={userPictureDimension} />
-						</div>
+					userGalleryComposite.map((fourPicturePart, index) => ( 
+						readPicturePart(fourPicturePart, index)
 					))
 				}
 			</div>
