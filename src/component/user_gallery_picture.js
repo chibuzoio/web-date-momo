@@ -9,21 +9,26 @@ function UserGalleryPicture(props) {
 	const [pictureImageClass, setPictureImageClass] = useState(visiblePictureImage);
 
 	useEffect(() => {
-		if (props.galleryPictureParts.imageName === "") {
+		if (props.galleryPictureParts.galleryPictureParts.imageName === "") {
 			setPictureImageClass(hiddenPictureImage);
 		} 
 	}, []);
 
+	const handlePictureClick = (event) => {
+		props.onPictureClicked(props.galleryPictureParts.picturePosition);
+	}
+
 	return (
 		<div className="detailPictureLayout" style={{
 			height : props.dimension.detailPictureHeight,
-			width : props.dimension.detailPictureWidth}}>
+			width : props.dimension.detailPictureWidth}} 
+			onClick={handlePictureClick}>
 			<div className="">
 				<img className={pictureImageClass} style={{
 					height : props.dimension.detailPictureHeight,
 					width : props.dimension.detailPictureWidth}}
 					alt="" src={"https://datemomo.com/client/image/" 
-					+ props.galleryPictureParts.imageName} />
+					+ props.galleryPictureParts.galleryPictureParts.imageName} />
 			</div>
 		</div>
 	);

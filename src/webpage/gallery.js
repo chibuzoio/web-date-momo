@@ -18,6 +18,9 @@ import icon_heart_hollow from '../image/icon_heart_hollow.png';
 import icon_heart_red from '../image/icon_heart_red.png';
 import icon_search from '../image/icon_search.png';
 import icon_message_blue from '../image/icon_message_blue.png';
+import icon_close_picture from '../image/icon_close_picture.png';
+import icon_previous from '../image/icon_previous.png';
+import icon_next from '../image/icon_next.png';
 import CloseLayoutIcon from '../component/close_layout_icon';
 import SexualityBiometrics from '../widget/sexuality_biometrics';
 import LeftIconHollowButton from '../component/left_icon_hollow_button';
@@ -29,7 +32,11 @@ import logo from '../image/datemomo.png';
 
 function Gallery() {
 	var visibleAnimationClass = "colorLoaderLayout";
+	var visiblePictureDisplay = "pictureDisplayLayout";
+	var visiblePictureBackground = "pictureDisplayBackground";
 	var hiddenAnimationClass = visibleAnimationClass + " hideComponent";
+	var hiddenPictureDisplay = visiblePictureDisplay + " hideComponent";
+	var hiddenPictureBackground = visiblePictureBackground + " hideComponent";
 	
 	var colorLoaderData = {
 		animationLayout : "colorLoaderLayout",
@@ -41,6 +48,12 @@ function Gallery() {
 	const userGalleryLayout = useRef();
 	const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
+	const [pictureDisplayImage, setPictureDisplayImage] = useState({
+		pictureDisplayImage : "",
+		pictureDisplayLayout : hiddenPictureDisplay,
+		pictureDisplayBackground : hiddenPictureBackground,
+		picturePosition : -1
+	});
 	const [userPictureResponse, setUserPictureResponse] = useState([]);
 	const [userGalleryComposite, setUserGalleryComposite] = useState([]);
 	const [userPictureDimension, setUserPictureDimension] = useState({
@@ -73,7 +86,10 @@ function Gallery() {
 	            var localGalleryComposite = [];
 
 	            for (var i = 0; i < response.data.length; i++) {
-	            	fourPictureContainer.push(response.data[i]);
+	            	fourPictureContainer.push({
+	            		galleryPictureParts : response.data[i],
+	            		picturePosition : i
+	            	});
 
 	            	if (fourPictureContainer.length > 3) {
 	            		localGalleryComposite.push(fourPictureContainer);
@@ -104,12 +120,26 @@ function Gallery() {
 		});
 	}
 
+	const displayGalleryPicture = (picturePosition) => {
+		if (picturePosition > -1) {
+			setPictureDisplayImage({
+				pictureDisplayImage : userPictureResponse[picturePosition].imageName,
+				pictureDisplayLayout : visiblePictureDisplay,
+				pictureDisplayBackground : visiblePictureBackground,
+				picturePosition : picturePosition
+			});
+		}
+	}
+
 	const readPicturePart = (fourPicturePart, index) => {
 		var dummyData = {
-			imageId : 0,
-			imageName : "", 
-			imageWidth : 0, 
-			imageHeight : 0
+			galleryPictureParts : {
+				imageId : 0,
+				imageName : "", 
+				imageWidth : 0, 
+				imageHeight : 0
+			},
+			picturePosition : -1
 		};
 
 		if (fourPicturePart.length === 1) {
@@ -117,10 +147,14 @@ function Gallery() {
 				<>
 					<div className={(index === 0) ? "upperGalleryPadding" : "hideComponent"}></div>
 					<div className="firstThreeLikerUsers">
-						<UserGalleryPicture galleryPictureParts={fourPicturePart[0]} dimension={userPictureDimension} />
-						<UserGalleryPicture galleryPictureParts={dummyData} dimension={userPictureDimension} />
-						<UserGalleryPicture galleryPictureParts={dummyData} dimension={userPictureDimension} />
-						<UserGalleryPicture galleryPictureParts={dummyData} dimension={userPictureDimension} />
+						<UserGalleryPicture onPictureClicked={displayGalleryPicture} 
+							galleryPictureParts={fourPicturePart[0]} dimension={userPictureDimension} />
+						<UserGalleryPicture onPictureClicked={displayGalleryPicture} 
+							galleryPictureParts={dummyData} dimension={userPictureDimension} />
+						<UserGalleryPicture onPictureClicked={displayGalleryPicture} 
+							galleryPictureParts={dummyData} dimension={userPictureDimension} />
+						<UserGalleryPicture onPictureClicked={displayGalleryPicture} 
+							galleryPictureParts={dummyData} dimension={userPictureDimension} />
 					</div>
 				</>
 			);
@@ -131,10 +165,14 @@ function Gallery() {
 				<>
 					<div className={(index === 0) ? "upperGalleryPadding" : "hideComponent"}></div>
 					<div className="firstThreeLikerUsers">
-						<UserGalleryPicture galleryPictureParts={fourPicturePart[0]} dimension={userPictureDimension} />
-						<UserGalleryPicture galleryPictureParts={fourPicturePart[1]} dimension={userPictureDimension} />
-						<UserGalleryPicture galleryPictureParts={dummyData} dimension={userPictureDimension} />
-						<UserGalleryPicture galleryPictureParts={dummyData} dimension={userPictureDimension} />
+						<UserGalleryPicture onPictureClicked={displayGalleryPicture} 
+							galleryPictureParts={fourPicturePart[0]} dimension={userPictureDimension} />
+						<UserGalleryPicture onPictureClicked={displayGalleryPicture} 
+							galleryPictureParts={fourPicturePart[1]} dimension={userPictureDimension} />
+						<UserGalleryPicture onPictureClicked={displayGalleryPicture} 
+							galleryPictureParts={dummyData} dimension={userPictureDimension} />
+						<UserGalleryPicture onPictureClicked={displayGalleryPicture} 
+							galleryPictureParts={dummyData} dimension={userPictureDimension} />
 					</div>
 				</>
 			);
@@ -145,10 +183,14 @@ function Gallery() {
 				<>
 					<div className={(index === 0) ? "upperGalleryPadding" : "hideComponent"}></div>
 					<div className="firstThreeLikerUsers">
-						<UserGalleryPicture galleryPictureParts={fourPicturePart[0]} dimension={userPictureDimension} />
-						<UserGalleryPicture galleryPictureParts={fourPicturePart[1]} dimension={userPictureDimension} />
-						<UserGalleryPicture galleryPictureParts={fourPicturePart[2]} dimension={userPictureDimension} />
-						<UserGalleryPicture galleryPictureParts={dummyData} dimension={userPictureDimension} />
+						<UserGalleryPicture onPictureClicked={displayGalleryPicture} 
+							galleryPictureParts={fourPicturePart[0]} dimension={userPictureDimension} />
+						<UserGalleryPicture onPictureClicked={displayGalleryPicture} 
+							galleryPictureParts={fourPicturePart[1]} dimension={userPictureDimension} />
+						<UserGalleryPicture onPictureClicked={displayGalleryPicture} 
+							galleryPictureParts={fourPicturePart[2]} dimension={userPictureDimension} />
+						<UserGalleryPicture onPictureClicked={displayGalleryPicture} 
+							galleryPictureParts={dummyData} dimension={userPictureDimension} />
 					</div>
 				</>
 			);
@@ -159,14 +201,59 @@ function Gallery() {
 				<>
 					<div className={(index === 0) ? "upperGalleryPadding" : "hideComponent"}></div>
 					<div className="firstThreeLikerUsers">
-						<UserGalleryPicture galleryPictureParts={fourPicturePart[0]} dimension={userPictureDimension} />
-						<UserGalleryPicture galleryPictureParts={fourPicturePart[1]} dimension={userPictureDimension} />
-						<UserGalleryPicture galleryPictureParts={fourPicturePart[2]} dimension={userPictureDimension} />
-						<UserGalleryPicture galleryPictureParts={fourPicturePart[3]} dimension={userPictureDimension} />
+						<UserGalleryPicture onPictureClicked={displayGalleryPicture} 
+							galleryPictureParts={fourPicturePart[0]} dimension={userPictureDimension} />
+						<UserGalleryPicture onPictureClicked={displayGalleryPicture} 
+							galleryPictureParts={fourPicturePart[1]} dimension={userPictureDimension} />
+						<UserGalleryPicture onPictureClicked={displayGalleryPicture} 
+							galleryPictureParts={fourPicturePart[2]} dimension={userPictureDimension} />
+						<UserGalleryPicture onPictureClicked={displayGalleryPicture} 
+							galleryPictureParts={fourPicturePart[3]} dimension={userPictureDimension} />
 					</div>
 				</>
 			);
 		}
+	}
+
+	const handlePictureClick = (event) => {
+		event.stopPropagation();
+	}
+
+	const handleLeftSpanClick = (event) => {
+		event.stopPropagation();
+
+		if (pictureDisplayImage.picturePosition > 0) {
+			setPictureDisplayImage({
+				pictureDisplayImage : userPictureResponse[pictureDisplayImage.picturePosition - 1].imageName,
+				pictureDisplayLayout : visiblePictureDisplay,
+				pictureDisplayBackground : visiblePictureBackground,
+				picturePosition : pictureDisplayImage.picturePosition - 1
+			});			
+		}
+	}
+
+	const handleRightSpanClick = (event) => {
+		event.stopPropagation();
+
+		if (pictureDisplayImage.picturePosition < (userPictureResponse.length - 1)) {
+			setPictureDisplayImage({
+				pictureDisplayImage : userPictureResponse[pictureDisplayImage.picturePosition + 1].imageName,
+				pictureDisplayLayout : visiblePictureDisplay,
+				pictureDisplayBackground : visiblePictureBackground,
+				picturePosition : pictureDisplayImage.picturePosition + 1
+			});			
+		}
+	}
+
+	const closePictureLayout = (event) => {
+		event.stopPropagation();
+
+		setPictureDisplayImage({
+			pictureDisplayImage : pictureDisplayImage.pictureDisplayImage,
+			pictureDisplayLayout : hiddenPictureDisplay,
+			pictureDisplayBackground : hiddenPictureBackground,
+			picturePosition : pictureDisplayImage.picturePosition
+		});
 	}
 
 	return (
@@ -177,6 +264,16 @@ function Gallery() {
 						readPicturePart(fourPicturePart, index)
 					))
 				}
+			</div>
+			<div className={pictureDisplayImage.pictureDisplayBackground}></div>
+			<div className={pictureDisplayImage.pictureDisplayLayout} onClick={closePictureLayout}>
+				<img className="pictureLayoutIcon pictureLayoutCloser" alt="" src={icon_close_picture} onClick={closePictureLayout} />
+				<img className="pictureLayoutIcon previousPictureSelector" alt="" src={icon_previous} onClick={handleLeftSpanClick} />
+				<img className="pictureLayoutIcon nextPictureSelector" alt="" src={icon_next} onClick={handleRightSpanClick} />
+				<div className="pictureLayoutIcon leftClickableSpan" onClick={handleLeftSpanClick}></div>
+				<div className="pictureLayoutIcon rightClickableSpan" onClick={handleRightSpanClick}></div>
+				<img className="pictureDisplayImage" alt="" src={"https://datemomo.com/client/image/" 
+					+ pictureDisplayImage.pictureDisplayImage} onClick={handlePictureClick} />
 			</div>
 		</div>
 	);
