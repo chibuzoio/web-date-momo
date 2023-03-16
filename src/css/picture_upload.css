@@ -33,6 +33,79 @@
 
 }
 
+.pictureDisplayImage {
+	cursor: pointer;
+	height: 100vh;
+}
+
+.previousPictureSelector {
+	height: 10vh !important;
+	width: 10vmin !important;
+	margin-top: 45vh;
+}
+
+.nextPictureSelector {
+	height: 10vh !important;
+	width: 10vmin !important;
+	margin-left: 95vw;
+	margin-top: 45vh;
+}
+
+.pictureLayoutCloser {
+	margin-left: 95vw;
+	margin-top: 2.5vh;
+}
+
+.pictureLayoutIcon {
+	position: fixed;
+	cursor: pointer;
+	height: 7vmin;
+	width: 7vmin;
+	z-index: 2;
+	left: 0;
+	top: 0;
+}
+
+.rightClickableSpan {
+	height: 40vh !important;
+	width: 15vw !important;
+	z-index: 1 !important;
+	margin-left: 85vw;
+	margin-top: 30vh; 
+}
+
+.leftClickableSpan {
+	height: 40vh !important;
+	width: 15vw !important;
+	z-index: 1 !important;
+	margin-top: 30vh; 
+}
+
+.pictureDisplayBackground {
+	background: black;
+	position: fixed;
+	height: 100vh;
+	width: 100vw;
+	opacity: 0.8;
+	z-index: 2;
+	left: 0;
+	top: 0;
+}
+
+.pictureDisplayLayout {
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	position: fixed;
+	cursor: pointer;
+	display: flex;
+	height: 100vh;
+	width: 100vw;
+	z-index: 3;
+	left: 0;
+	top: 0;
+}
+
 .upperGalleryPadding {
 	height: 2vmin;
 	width: 100%;
