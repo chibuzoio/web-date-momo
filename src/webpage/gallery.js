@@ -34,6 +34,8 @@ function Gallery() {
 	var visibleAnimationClass = "colorLoaderLayout";
 	var visiblePictureDisplay = "pictureDisplayLayout";
 	var visiblePictureBackground = "pictureDisplayBackground";
+	var portraitGalleryPicture = "pictureDisplayImage portraitLayout";
+	var landscapeGalleryPicture = "pictureDisplayImage landscapeLayout";
 	var hiddenAnimationClass = visibleAnimationClass + " hideComponent";
 	var hiddenPictureDisplay = visiblePictureDisplay + " hideComponent";
 	var hiddenPictureBackground = visiblePictureBackground + " hideComponent";
@@ -48,6 +50,7 @@ function Gallery() {
 	const userGalleryLayout = useRef();
 	const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
+	const [galleryPictureClass, setGalleryPictureClass] = useState(landscapeGalleryPicture);
 	const [pictureDisplayImage, setPictureDisplayImage] = useState({
 		pictureDisplayImage : "",
 		pictureDisplayLayout : hiddenPictureDisplay,
@@ -67,13 +70,20 @@ function Gallery() {
 	};
       
 	useEffect(() => {
+		setPictureDisplayLayout();
 		calculatePictureDimensions();
-		window.addEventListener('resize', calculatePictureDimensions);
+		window.addEventListener('resize', () => { 
+			calculatePictureDimensions();
+			setPictureDisplayLayout();
+		});
 
 		loadGalleryComposite();
 
 		return () => {
-			window.removeEventListener('resize', calculatePictureDimensions);
+			window.removeEventListener('resize', () => { 
+				calculatePictureDimensions();
+				setPictureDisplayLayout();
+			});
 		};
 	}, []);
 
@@ -105,6 +115,14 @@ function Gallery() {
 		    }, error => {
 		    	console.log(error);
 		    });		
+	}
+
+	const setPictureDisplayLayout = () => {
+		if (window.innerWidth > window.innerHeight) {
+			setGalleryPictureClass(landscapeGalleryPicture);
+		} else {
+			setGalleryPictureClass(portraitGalleryPicture);
+		}
 	}
 
 	const calculatePictureDimensions = () => {
@@ -256,6 +274,10 @@ function Gallery() {
 		});
 	}
 
+	// Use resize window event listener to toggle between pictureDisplayImage class.   
+	// If screen width is longer than screen height, set only image height to 100vh.
+	// If screen height is longer than screen width, set only image width to 100vw. 
+
 	return (
 		<div className="scrollView outerGalleryLayout" ref={userGalleryLayout}>
 			<div className="userGalleryLayout">
@@ -272,7 +294,7 @@ function Gallery() {
 				<img className="pictureLayoutIcon nextPictureSelector" alt="" src={icon_next} onClick={handleRightSpanClick} />
 				<div className="pictureLayoutIcon leftClickableSpan" onClick={handleLeftSpanClick}></div>
 				<div className="pictureLayoutIcon rightClickableSpan" onClick={handleRightSpanClick}></div>
-				<img className="pictureDisplayImage" alt="" src={"https://datemomo.com/client/image/" 
+				<img className={galleryPictureClass} alt="" src={"https://datemomo.com/client/image/" 
 					+ pictureDisplayImage.pictureDisplayImage} onClick={handlePictureClick} />
 			</div>
 		</div>

@@ -6,6 +6,14 @@
 		margin-top: 5%;
 		width: 70%;
 	}            
+
+	.nextPictureSelector {
+		margin-left: 90vw !important;
+	}
+
+	.pictureLayoutCloser {
+		margin-left: 90vw !important;
+	}
 }
 
 /* Extra small devices (phones, 400px and up) */
@@ -33,9 +41,16 @@
 
 }
 
+.portraitLayout {
+	width: 100vw;
+}
+
+.landscapeLayout {
+	height: 100vh;
+}
+
 .pictureDisplayImage {
 	cursor: pointer;
-	height: 100vh;
 }
 
 .previousPictureSelector {
@@ -87,7 +102,7 @@
 	height: 100vh;
 	width: 100vw;
 	opacity: 0.8;
-	z-index: 2;
+	z-index: 3;
 	left: 0;
 	top: 0;
 }
@@ -101,7 +116,7 @@
 	display: flex;
 	height: 100vh;
 	width: 100vw;
-	z-index: 3;
+	z-index: 4;
 	left: 0;
 	top: 0;
 }
