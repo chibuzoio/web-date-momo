@@ -30,7 +30,7 @@ class App extends React.Component {
             <Route index element={<Timeline />} />
             <Route path="account" element={<Account />} />
             <Route path="message" element={<Message />} />
-            <Route path="profile" element={<Profile />} />
+            <Route path="profile/:memberId" element={<Profile />} />
             <Route path="messenger" element={<Messenger />} />
             <Route path="gallery/:memberId/:position" element={<Gallery />} />
             <Route path="user_information" element={<UserInformation />} />
