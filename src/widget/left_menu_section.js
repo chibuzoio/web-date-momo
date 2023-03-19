@@ -103,6 +103,7 @@ function LeftMenuSection() {
 		axios.post("https://datemomo.com/service/usernotifications.php", messengerRequestData) 
 	    	.then(response => {
 	    		setNotificationResponses(response.data);
+	    		console.log("Notification responses here is " + JSON.stringify(response.data));
 	        }, error => {
 	        	console.log(error);
 	        });		        
@@ -221,6 +222,26 @@ function LeftMenuSection() {
 			}      
 		}
 	}
+  
+	const clickNotificationComponent = (notificationEffectorId) => {
+		// Use notificationEffectorId here to fetch all the 
+		// values of the notification effector user and display his 
+		// profile in the profile page 
+
+		navigate("/profile", {
+			state : {
+				notificationEffectorUser : notificationEffectorId
+			}
+		});
+	}
+
+	const clickMessengerComponent = (messengerResponse) => {
+		navigate("/message", {
+			state : {
+				messengerResponse : messengerResponse
+			}
+		});
+	}
 
 	const displayMessengerContent = () => { 
 		if (messengerResponses.length > 0) {
@@ -250,7 +271,8 @@ function LeftMenuSection() {
 			}
 	   
 			return (
-				<ActiveMessenger activeMessengerComposite={messengerComposite} />
+				<ActiveMessenger activeMessengerComposite={messengerComposite} 
+					onActiveMessengerClicked={clickMessengerComponent} />
 			);
 		} else {
 			// return (
@@ -284,7 +306,8 @@ function LeftMenuSection() {
 			}
 
 			return (
-				<NotificationIterator notificationComposite={notificationComposite} />
+				<NotificationIterator notificationComposite={notificationComposite} 
+					onNotificationIteratorClicked={clickNotificationComponent} />
 			);
 		} else {
 			// return (

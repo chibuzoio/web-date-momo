@@ -41,6 +41,9 @@ function Profile() {
 	var hiddenLikerUserLayout = visibleLikerUserLayout + " hideComponent";
 
 	const profileLayout = useRef();
+
+	// Make the data value of currentUser here flexible, 
+	// so that any user profile can be viewed, not only logged in user 
 	const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
 	const [userLikerResponses, setUserLikerResponses] = useState([]);

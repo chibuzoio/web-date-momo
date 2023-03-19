@@ -9,8 +9,8 @@ class ActiveMessenger extends React.Component {
 		this.clickActiveMessengerComponent = this.clickActiveMessengerComponent.bind(this);
 	}
 
-	clickActiveMessengerComponent(messageResponse) {
-		this.props.onActiveMessengerClicked(messageResponse);
+	clickActiveMessengerComponent(messengerResponse) {
+		this.props.onActiveMessengerClicked(messengerResponse);
 	}
 
 	render() {  
