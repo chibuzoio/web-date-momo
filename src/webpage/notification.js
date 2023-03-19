@@ -9,6 +9,8 @@ import grey_placeholder from '../image/grey_placeholder.png';
 import NotificationIterator from '../widget/notification_iterator';
 
 function Notification() {	
+	const navigate = useNavigate();
+	
 	const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   
 	const [notificationResponses, setNotificationResponses] = useState([]);
@@ -28,6 +30,10 @@ function Notification() {
 	        }, error => {
 	        	console.log(error);
 	        });		
+	}
+
+	const clickNotificationComponent = (notificationEffectorId) => {
+		navigate("/profile/" + notificationEffectorId);
 	}
 
 	const displayNotificationContent = () => {
@@ -51,7 +57,8 @@ function Notification() {
 			}
    
 			return (
-				<NotificationIterator notificationComposite={notificationComposite} />
+				<NotificationIterator notificationComposite={notificationComposite} 
+					onNotificationIteratorClicked={clickNotificationComponent} />
 			);
 		} else {
 			// return (

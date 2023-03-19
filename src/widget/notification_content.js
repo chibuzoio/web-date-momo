@@ -10,6 +10,11 @@ class NotificationContent extends React.Component {
 	constructor(props) {
 		super(props);
 		this.formatNotifierUserName = this.formatNotifierUserName.bind(this);
+		this.clickNotificationContent = this.clickNotificationContent.bind(this);
+	}
+
+	clickNotificationContent(event) {
+		this.props.onNotificationClicked(this.props.notificationComposite.notificationResponse.notificationEffectorId);
 	}
 
 	formatNotifierUserName() {
@@ -32,7 +37,8 @@ class NotificationContent extends React.Component {
 		};
                
 		return (
-			<div className={this.props.notificationComposite.notificationClasses.notificationContentLayout}> 
+			<div className={this.props.notificationComposite.notificationClasses.notificationContentLayout} 
+				onClick={this.clickNotificationContent}> 
 				<div className={this.props.notificationComposite.notificationClasses.roundPictureLayout}> 
 					<RoundPicture pictureParts={roundPictureParts} />
 				</div>

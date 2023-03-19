@@ -122,7 +122,7 @@ function LeftMenuSection() {
 
 	const openUserProfile = (buttonClicked) => {
 		if (buttonClicked) {
-			navigate("/profile");
+			navigate("/profile/" + currentUser.memberId);
 		}
 	}
 
@@ -221,6 +221,18 @@ function LeftMenuSection() {
 			}      
 		}
 	}
+  
+	const clickNotificationComponent = (notificationEffectorId) => {
+		navigate("/profile/" + notificationEffectorId);
+	}
+
+	const clickMessengerComponent = (messengerResponse) => {
+		navigate("/message", {
+			state : {
+				messengerResponse : messengerResponse
+			}
+		});
+	}
 
 	const displayMessengerContent = () => { 
 		if (messengerResponses.length > 0) {
@@ -250,7 +262,8 @@ function LeftMenuSection() {
 			}
 	   
 			return (
-				<ActiveMessenger activeMessengerComposite={messengerComposite} />
+				<ActiveMessenger activeMessengerComposite={messengerComposite} 
+					onActiveMessengerClicked={clickMessengerComponent} />
 			);
 		} else {
 			// return (
@@ -284,7 +297,8 @@ function LeftMenuSection() {
 			}
 
 			return (
-				<NotificationIterator notificationComposite={notificationComposite} />
+				<NotificationIterator notificationComposite={notificationComposite} 
+					onNotificationIteratorClicked={clickNotificationComponent} />
 			);
 		} else {
 			// return (

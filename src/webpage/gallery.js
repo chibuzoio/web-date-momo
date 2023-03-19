@@ -273,11 +273,7 @@ function Gallery() {
 			picturePosition : pictureDisplayImage.picturePosition
 		});
 	}
-
-	// Use resize window event listener to toggle between pictureDisplayImage class.   
-	// If screen width is longer than screen height, set only image height to 100vh.
-	// If screen height is longer than screen width, set only image width to 100vw. 
-
+ 
 	return (
 		<div className="scrollView outerGalleryLayout" ref={userGalleryLayout}>
 			<div className="userGalleryLayout">

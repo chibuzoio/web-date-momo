@@ -6,6 +6,11 @@ class NotificationIterator extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.clickNotificationIteratorComponent = this.clickNotificationIteratorComponent.bind(this);
+	}
+
+	clickNotificationIteratorComponent(notificationEffectorId) {
+		this.props.onNotificationIteratorClicked(notificationEffectorId);
 	}
 
 	render() {  
@@ -14,7 +19,8 @@ class NotificationIterator extends React.Component {
 
 				{
 					this.props.notificationComposite.map((notificationContent) => ( 
-						<NotificationContent notificationComposite={notificationContent} />
+						<NotificationContent notificationComposite={notificationContent} 
+							onNotificationClicked={this.clickNotificationIteratorComponent} />
 					))
 				}
 
