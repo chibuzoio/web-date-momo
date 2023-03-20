@@ -195,6 +195,11 @@
 	width: 100%;
 }
 
+.messageOuterParentLayout {
+	padding-bottom: 0.7vh !important;
+	padding-top: 0.7vh !important;
+}
+
 .outerParentLayout {
 	justify-content: center;
 	flex-direction: row;

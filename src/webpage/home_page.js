@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import '../css/style.css';
 import '../css/header.css';
 import '../css/footer.css';
 import '../css/timeline.css';
 import '../css/home_page.css';
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useLocation } from "react-router-dom";
 import Footer from '../widget/footer';
 import LeftMenuSection from '../widget/left_menu_section';
 import BottomMenuIcon from '../component/bottom_menu_icon';
@@ -21,23 +21,35 @@ import icon_search from '../image/icon_search.png';
 import test_image from '../image/test_image.png';
 import logo from '../image/datemomo.png';
 
-/* This home page has to serve as the only page where widgets are coupled, decoupled, removed and replaced */
-/* So, modify the home page so that everything will happen here. Then, use all other pages and widgets as dependencies */
+function HomePage() {
+	var visibleHeaderLayout = "header";
+	var contentParentLayout = "outerParentLayout";
+	var messageParentLayout = "messageOuterParentLayout outerParentLayout";
+	var hiddenHeaderLayout = visibleHeaderLayout + " hideComponent";
+  
+	var searchFormPartsValue = {
+		fieldIcon : icon_search,
+		placeholder : "Search",
+		type : "text",
+		formFieldClass : "formFieldClass",
+		fieldLayoutClass : "rightIconFieldLayout",
+		fieldIconClass : "rightFieldIcon"
+	};
 
-class HomePage extends React.Component {
-	currentUser = {};
-	state = {userNames : []};
+	const location = useLocation();
 
-	constructor(props) {
-		super(props);
-		this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
-		
-		if (this.currentUser != null) {
-			if (Object.keys(this.currentUser).length > 0) {
-				if (this.currentUser.authenticated) {
-					if (this.currentUser.userLevel === "uploadProfilePicture") { 
+	const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+	const [headerLayoutClass, setHeaderLayoutClass] = useState(visibleHeaderLayout);
+	const [contentOuterContainer, setContentOuterContainer] = useState(contentParentLayout);
+
+	useEffect(() => {
+		if (currentUser != null) {
+			if (Object.keys(currentUser).length > 0) {
+				if (currentUser.authenticated) {
+					if (currentUser.userLevel === "uploadProfilePicture") { 
 						window.location.replace("/picture_upload");
-					} else if (this.currentUser.userLevel === "selectSexualityInterest") { 
+					} else if (currentUser.userLevel === "selectSexualityInterest") { 
 						window.location.replace("/sexuality");
 					}
 				} else {
@@ -49,49 +61,38 @@ class HomePage extends React.Component {
 		} else {
 			window.location.replace("/login");
 		}
-	}
 
-	componentDidMount() {
-
-	}
-
-	componentWillUnmount() {
-
-	}
-  
-	render() {  
-		var searchFormPartsValue = {
-			fieldIcon : icon_search,
-			placeholder : "Search",
-			type : "text",
-			formFieldClass : "formFieldClass",
-			fieldLayoutClass : "rightIconFieldLayout",
-			fieldIconClass : "rightFieldIcon"
-		};
-         
-		return (
-			<div className="homePage">
-				<div className="header">
-					<Link className="companyLogoLink" to="/">
-						<img className="companyLogo" alt="Logo" src={logo} />
-					</Link>
-					<RightIconFormField formParts={searchFormPartsValue}/>
-					<Link className="companyLogoLink" to="account">
-						<img className="roundPictureClass" alt="" 
-							src={"https://datemomo.com/client/image/" + this.currentUser.profilePicture} />
-					</Link>
-				</div>
-				<div className="outerParentLayout">
-
-					<LeftMenuSection />
-
-					<Outlet />
-
-				</div>
-				<Footer />
+		if (location.pathname.indexOf("/message") > -1) {
+			setHeaderLayoutClass(hiddenHeaderLayout); 
+			setContentOuterContainer(messageParentLayout);
+		} else {
+			setHeaderLayoutClass(visibleHeaderLayout); 
+			setContentOuterContainer(contentParentLayout);
+		}
+	}, [location.pathname]);
+           
+	return (
+		<div className="homePage">
+			<div className={headerLayoutClass}>
+				<Link className="companyLogoLink" to="/">
+					<img className="companyLogo" alt="Logo" src={logo} />
+				</Link>
+				<RightIconFormField formParts={searchFormPartsValue}/>
+				<Link className="companyLogoLink" to="account">
+					<img className="roundPictureClass" alt="" 
+						src={"https://datemomo.com/client/image/" + currentUser.profilePicture} />
+				</Link>
 			</div>
-		);
-	}
+			<div className={contentOuterContainer}>
+
+				<LeftMenuSection />
+
+				<Outlet />
+
+			</div>
+			<Footer />
+		</div>
+	);
 }
 
 export default HomePage;
