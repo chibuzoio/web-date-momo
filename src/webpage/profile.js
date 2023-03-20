@@ -176,7 +176,7 @@ function Profile() {
 		return () => {
 			window.removeEventListener('resize', calculatePictureDimensions);
 		};
-	}, [userLikerResponses]);
+	}, [userProfileResponse]);
 
 	const loadUserProfileComposite = () => {
 		axios.post("https://datemomo.com/service/userinformation.php", requestData)
@@ -190,10 +190,17 @@ function Profile() {
 			axios.post("https://datemomo.com/service/userlikersdata.php", requestData)
 		    	.then(response => {
 		    		setUserLikerResponses(response.data);
-					displayAvailableLiker();
+		    		displayAvailableLiker();
 		        }, error => {
 		        	console.log(error);
 		        });
+		} else {
+			setUserLikerLayout({
+				userLikerDisplayTitle : userLikerLayout.userLikerDisplayTitle,
+				generalLikerDisplayLayout : hiddenLikerUserLayout,
+				firstThreeLikerDisplay : userLikerLayout.firstThreeLikerDisplay,
+				secondThreeLikerDisplay : userLikerLayout.secondThreeLikerDisplay
+			});
 		}
 	} 
 
