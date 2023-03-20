@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../css/style.css';
 import '../css/footer.css';
-import { Outlet, Link } from "react-router-dom";
-import { getRefinedLocation } from '../utility/utility';
+import { Outlet, Link, useLocation } from "react-router-dom";
 import BottomMenuIcon from '../component/bottom_menu_icon';
 import icon_notification_white from '../image/icon_notification_white.png';
 import icon_notification_blue from '../image/icon_notification_blue.png';
@@ -13,279 +12,230 @@ import icon_account_blue from '../image/icon_account_blue.png';
 import icon_home_white from '../image/icon_home_white.png';
 import icon_home_blue from '../image/icon_home_blue.png';
 
-class Footer extends React.Component {
-	locationIntervalId = {};
-	visibleBottomMenuLayout = "footer";
-	hiddenBottomMenuLayout = this.visibleBottomMenuLayout + " hideComponent";
-	state = {contextData : {
+function Footer() {
+	var visibleBottomMenuLayout = "footer";
+	var ignoredBottomMenuClass = "bottomMenuLayout ignoredMenuLayout";
+	var selectedBottomMenuClass = "bottomMenuLayout selectedMenuLayout";
+	var hiddenBottomMenuLayout = visibleBottomMenuLayout + " hideComponent";
+
+	const location = useLocation();
+
+	const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+	const [footerBottomState, setFooterBottomState] = useState({
 		footerBottomMenu : {
 			homeBottomMenu : {
-				bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
+				bottomMenuClass : ignoredBottomMenuClass,
 				bottomMenuIcon : "bottomMenuIcon",
 				menuIcon : icon_home_blue
 			},
 			messengerBottomMenu : {
-				bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
+				bottomMenuClass : ignoredBottomMenuClass,
 				bottomMenuIcon : "bottomMenuIcon",				
 				menuIcon : icon_message_blue
 			},
 			userAccountBottomMenu : {
-				bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
+				bottomMenuClass : ignoredBottomMenuClass,
 				bottomMenuIcon : "bottomMenuIcon",				
 				menuIcon : icon_account_blue
 			},
 			notificationBottomMenu : {
-				bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
+				bottomMenuClass : ignoredBottomMenuClass,
 				bottomMenuIcon : "bottomMenuIcon",				
 				menuIcon : icon_notification_blue
 			}
 		},
-		bottomMenuLayout : this.visibleBottomMenuLayout,
-		currentLocation : ""
-	}};
+		bottomMenuLayout : visibleBottomMenuLayout
+	});
+
+	useEffect(() => {   
+		if (location.pathname == "/") {   
+			homeBottomMenuClicked(true);
+		} else if (location.pathname.indexOf("/messenger") > -1) {
+			messengerBottomMenuClicked(true);
+		} else if (location.pathname.indexOf("/profile") > -1) {
+			userAccountBottomMenuClicked(true);
+		} else if (location.pathname.indexOf("/notification") > -1) { 
+			notificationBottomMenuClicked(true);
+		} else if (location.pathname.indexOf("/message") > -1) {
+			neutralizeAllBottomMenu();
+			setFooterBottomState({
+				footerBottomMenu : footerBottomState.footerBottomMenu,
+				bottomMenuLayout : hiddenBottomMenuLayout
+			}); 
+		} else {
+			neutralizeAllBottomMenu();
+			setFooterBottomState({
+				footerBottomMenu : footerBottomState.footerBottomMenu,
+				bottomMenuLayout : visibleBottomMenuLayout
+			}); 
+		}
+	}, [location.pathname]);
 	
-	constructor(props) {
-		super(props);
-		this.notificationBottomMenuClicked = this.notificationBottomMenuClicked.bind(this);
-		this.userAccountBottomMenuClicked = this.userAccountBottomMenuClicked.bind(this);
-		this.messengerBottomMenuClicked = this.messengerBottomMenuClicked.bind(this);  
-		this.neutralizeAllBottomMenu = this.neutralizeAllBottomMenu.bind(this);
-		this.homeBottomMenuClicked = this.homeBottomMenuClicked.bind(this);
-	}
-	
-	componentDidMount() {
-		this.locationIntervalId = setInterval(function() {  
-		    if (this.state.contextData.currentLocation !== window.location.pathname) {
-				this.setState(function(state) {
-					return {contextData : {
-						footerBottomMenu : state.contextData.footerBottomMenu,
-						bottomMenuLayout : state.contextData.bottomMenuLayout,
-						currentLocation : window.location.pathname
-					}
-				}});		
-
-			    switch (window.location.pathname) {
-			    	case "/": 
-			    		this.homeBottomMenuClicked(true);
-			    		break;
-			    	case "/messenger": 
-			    		this.messengerBottomMenuClicked(true);
-			    		break;
-			    	case "/profile": 
-			    		this.userAccountBottomMenuClicked(true);
-			    		break;
-			    	case "/notification": 
-			    		this.notificationBottomMenuClicked(true);
-			    		break;
-			    	case "/message":
-						this.setState(function(state) {
-							return {contextData : {
-								footerBottomMenu : state.contextData.footerBottomMenu,
-								bottomMenuLayout : this.hiddenBottomMenuLayout,
-								currentLocation : state.contextData.currentLocation
-							}
-						}});		
-			    		this.neutralizeAllBottomMenu();
-			    		break;
-			    	default: 
-						this.setState(function(state) {
-							return {contextData : {
-								footerBottomMenu : state.contextData.footerBottomMenu,
-								bottomMenuLayout : this.visibleBottomMenuLayout,
-								currentLocation : state.contextData.currentLocation
-							}
-						}});		
-			    		this.neutralizeAllBottomMenu();						
-			    }	
-		    }
-		}.bind(this), 1000);
+	const neutralizeAllBottomMenu = () => {
+		setFooterBottomState({
+			footerBottomMenu : {
+				homeBottomMenu : {
+					bottomMenuClass : ignoredBottomMenuClass,
+					bottomMenuIcon : footerBottomState.footerBottomMenu.homeBottomMenu.bottomMenuIcon,
+					menuIcon : icon_home_blue
+				},
+				messengerBottomMenu : {
+					bottomMenuClass : ignoredBottomMenuClass,
+					bottomMenuIcon : footerBottomState.footerBottomMenu.messengerBottomMenu.bottomMenuIcon,
+					menuIcon : icon_message_blue
+				},
+				userAccountBottomMenu : {
+					bottomMenuClass : ignoredBottomMenuClass,
+					bottomMenuIcon : footerBottomState.footerBottomMenu.userAccountBottomMenu.bottomMenuIcon,
+					menuIcon : icon_account_blue
+				},
+				notificationBottomMenu : {
+					bottomMenuClass : ignoredBottomMenuClass,
+					bottomMenuIcon : footerBottomState.footerBottomMenu.notificationBottomMenu.bottomMenuIcon,
+					menuIcon : icon_notification_blue
+				}						
+			},
+			bottomMenuLayout : footerBottomState.bottomMenuLayout
+		});   
 	}
 
-	componentWillUnmount() {
-		clearInterval(this.locationIntervalId);
-	}
-
-	neutralizeAllBottomMenu() {
-		this.setState(function(state) {
-			return {contextData : {
+	const homeBottomMenuClicked = (buttonClicked) => {
+		if (buttonClicked) {
+			setFooterBottomState({
 				footerBottomMenu : {
 					homeBottomMenu : {
-						bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
-						bottomMenuIcon : state.contextData.footerBottomMenu.homeBottomMenu.bottomMenuIcon,
-						menuIcon : icon_home_blue
+						bottomMenuClass : selectedBottomMenuClass,
+						bottomMenuIcon : footerBottomState.footerBottomMenu.homeBottomMenu.bottomMenuIcon,
+						menuIcon : icon_home_white
 					},
 					messengerBottomMenu : {
-						bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
-						bottomMenuIcon : state.contextData.footerBottomMenu.messengerBottomMenu.bottomMenuIcon,
+						bottomMenuClass : ignoredBottomMenuClass,
+						bottomMenuIcon : footerBottomState.footerBottomMenu.messengerBottomMenu.bottomMenuIcon,
 						menuIcon : icon_message_blue
 					},
 					userAccountBottomMenu : {
-						bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
-						bottomMenuIcon : state.contextData.footerBottomMenu.userAccountBottomMenu.bottomMenuIcon,
+						bottomMenuClass : ignoredBottomMenuClass,
+						bottomMenuIcon : footerBottomState.footerBottomMenu.userAccountBottomMenu.bottomMenuIcon,
 						menuIcon : icon_account_blue
 					},
 					notificationBottomMenu : {
-						bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
-						bottomMenuIcon : state.contextData.footerBottomMenu.notificationBottomMenu.bottomMenuIcon,
+						bottomMenuClass : ignoredBottomMenuClass,
+						bottomMenuIcon : footerBottomState.footerBottomMenu.notificationBottomMenu.bottomMenuIcon,
 						menuIcon : icon_notification_blue
 					}						
 				},
-				bottomMenuLayout : state.contextData.bottomMenuLayout,
-				currentLocation : state.contextData.currentLocation
-			}
-		}});
-	}
-
-	homeBottomMenuClicked(buttonClicked) {
-		if (buttonClicked) {
-			this.setState(function(state) {
-				return {contextData : {
-					footerBottomMenu : {
-						homeBottomMenu : {
-							bottomMenuClass : "bottomMenuLayout selectedMenuLayout",
-							bottomMenuIcon : state.contextData.footerBottomMenu.homeBottomMenu.bottomMenuIcon,
-							menuIcon : icon_home_white
-						},
-						messengerBottomMenu : {
-							bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
-							bottomMenuIcon : state.contextData.footerBottomMenu.messengerBottomMenu.bottomMenuIcon,
-							menuIcon : icon_message_blue
-						},
-						userAccountBottomMenu : {
-							bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
-							bottomMenuIcon : state.contextData.footerBottomMenu.userAccountBottomMenu.bottomMenuIcon,
-							menuIcon : icon_account_blue
-						},
-						notificationBottomMenu : {
-							bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
-							bottomMenuIcon : state.contextData.footerBottomMenu.notificationBottomMenu.bottomMenuIcon,
-							menuIcon : icon_notification_blue
-						}						
-					},
-					bottomMenuLayout : this.visibleBottomMenuLayout,
-					currentLocation : state.contextData.currentLocation
-				}
-			}});
+				bottomMenuLayout : visibleBottomMenuLayout
+			});   
 		}
 	}
 	
-	messengerBottomMenuClicked(buttonClicked) {
+	const messengerBottomMenuClicked = (buttonClicked) => {
 		if (buttonClicked) {
-			this.setState(function(state) {
-				return {contextData : {
-					footerBottomMenu : {
-						homeBottomMenu : {
-							bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
-							bottomMenuIcon : state.contextData.footerBottomMenu.homeBottomMenu.bottomMenuIcon,
-							menuIcon : icon_home_blue
-						},
-						messengerBottomMenu : {
-							bottomMenuClass : "bottomMenuLayout selectedMenuLayout",
-							bottomMenuIcon : state.contextData.footerBottomMenu.messengerBottomMenu.bottomMenuIcon,
-							menuIcon : icon_message_white
-						},
-						userAccountBottomMenu : {
-							bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
-							bottomMenuIcon : state.contextData.footerBottomMenu.userAccountBottomMenu.bottomMenuIcon,
-							menuIcon : icon_account_blue
-						},
-						notificationBottomMenu : {
-							bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
-							bottomMenuIcon : state.contextData.footerBottomMenu.notificationBottomMenu.bottomMenuIcon,
-							menuIcon : icon_notification_blue
-						}						
+			setFooterBottomState({
+				footerBottomMenu : {
+					homeBottomMenu : {
+						bottomMenuClass : ignoredBottomMenuClass,
+						bottomMenuIcon : footerBottomState.footerBottomMenu.homeBottomMenu.bottomMenuIcon,
+						menuIcon : icon_home_blue
 					},
-					bottomMenuLayout : this.visibleBottomMenuLayout,
-					currentLocation : state.contextData.currentLocation
-				}
-			}});
+					messengerBottomMenu : {
+						bottomMenuClass : selectedBottomMenuClass,
+						bottomMenuIcon : footerBottomState.footerBottomMenu.messengerBottomMenu.bottomMenuIcon,
+						menuIcon : icon_message_white
+					},
+					userAccountBottomMenu : {
+						bottomMenuClass : ignoredBottomMenuClass,
+						bottomMenuIcon : footerBottomState.footerBottomMenu.userAccountBottomMenu.bottomMenuIcon,
+						menuIcon : icon_account_blue
+					},
+					notificationBottomMenu : {
+						bottomMenuClass : ignoredBottomMenuClass,
+						bottomMenuIcon : footerBottomState.footerBottomMenu.notificationBottomMenu.bottomMenuIcon,
+						menuIcon : icon_notification_blue
+					}						
+				},
+				bottomMenuLayout : visibleBottomMenuLayout
+			});   
 		}
 	}
 	
-	userAccountBottomMenuClicked(buttonClicked) {
+	const userAccountBottomMenuClicked = (buttonClicked) => {
 		if (buttonClicked) {
-			this.setState(function(state) {
-				return {contextData : {
-					footerBottomMenu : {
-						homeBottomMenu : {
-							bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
-							bottomMenuIcon : state.contextData.footerBottomMenu.homeBottomMenu.bottomMenuIcon,
-							menuIcon : icon_home_blue
-						},
-						messengerBottomMenu : {
-							bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
-							bottomMenuIcon : state.contextData.footerBottomMenu.messengerBottomMenu.bottomMenuIcon,
-							menuIcon : icon_message_blue
-						},
-						userAccountBottomMenu : {
-							bottomMenuClass : "bottomMenuLayout selectedMenuLayout",
-							bottomMenuIcon : state.contextData.footerBottomMenu.userAccountBottomMenu.bottomMenuIcon,
-							menuIcon : icon_account_white
-						},
-						notificationBottomMenu : {
-							bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
-							bottomMenuIcon : state.contextData.footerBottomMenu.notificationBottomMenu.bottomMenuIcon,
-							menuIcon : icon_notification_blue
-						}						
+			setFooterBottomState({
+				footerBottomMenu : {
+					homeBottomMenu : {
+						bottomMenuClass : ignoredBottomMenuClass,
+						bottomMenuIcon : footerBottomState.footerBottomMenu.homeBottomMenu.bottomMenuIcon,
+						menuIcon : icon_home_blue
 					},
-					bottomMenuLayout : this.visibleBottomMenuLayout,
-					currentLocation : state.contextData.currentLocation
-				}
-			}});
+					messengerBottomMenu : {
+						bottomMenuClass : ignoredBottomMenuClass,
+						bottomMenuIcon : footerBottomState.footerBottomMenu.messengerBottomMenu.bottomMenuIcon,
+						menuIcon : icon_message_blue
+					},
+					userAccountBottomMenu : {
+						bottomMenuClass : selectedBottomMenuClass,
+						bottomMenuIcon : footerBottomState.footerBottomMenu.userAccountBottomMenu.bottomMenuIcon,
+						menuIcon : icon_account_white
+					},
+					notificationBottomMenu : {
+						bottomMenuClass : ignoredBottomMenuClass,
+						bottomMenuIcon : footerBottomState.footerBottomMenu.notificationBottomMenu.bottomMenuIcon,
+						menuIcon : icon_notification_blue
+					}						
+				},
+				bottomMenuLayout : visibleBottomMenuLayout
+			});   			
 		}
 	}
 	
-	notificationBottomMenuClicked(buttonClicked) {
+	const notificationBottomMenuClicked = (buttonClicked) => {
 		if (buttonClicked) {
-			this.setState(function(state) {
-				return {contextData : {
-					footerBottomMenu : {
-						homeBottomMenu : {
-							bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
-							bottomMenuIcon : state.contextData.footerBottomMenu.homeBottomMenu.bottomMenuIcon,
-							menuIcon : icon_home_blue
-						},
-						messengerBottomMenu : {
-							bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
-							bottomMenuIcon : state.contextData.footerBottomMenu.messengerBottomMenu.bottomMenuIcon,
-							menuIcon : icon_message_blue
-						},
-						userAccountBottomMenu : {
-							bottomMenuClass : "bottomMenuLayout ignoredMenuLayout",
-							bottomMenuIcon : state.contextData.footerBottomMenu.userAccountBottomMenu.bottomMenuIcon,
-							menuIcon : icon_account_blue
-						},
-						notificationBottomMenu : {
-							bottomMenuClass : "bottomMenuLayout selectedMenuLayout",
-							bottomMenuIcon : state.contextData.footerBottomMenu.notificationBottomMenu.bottomMenuIcon,
-							menuIcon : icon_notification_white
-						}						
+			setFooterBottomState({
+				footerBottomMenu : {
+					homeBottomMenu : {
+						bottomMenuClass : ignoredBottomMenuClass,
+						bottomMenuIcon : footerBottomState.footerBottomMenu.homeBottomMenu.bottomMenuIcon,
+						menuIcon : icon_home_blue
 					},
-					bottomMenuLayout : this.visibleBottomMenuLayout,
-					currentLocation : state.contextData.currentLocation
-				}
-			}});
+					messengerBottomMenu : {
+						bottomMenuClass : ignoredBottomMenuClass,
+						bottomMenuIcon : footerBottomState.footerBottomMenu.messengerBottomMenu.bottomMenuIcon,
+						menuIcon : icon_message_blue
+					},
+					userAccountBottomMenu : {
+						bottomMenuClass : ignoredBottomMenuClass,
+						bottomMenuIcon : footerBottomState.footerBottomMenu.userAccountBottomMenu.bottomMenuIcon,
+						menuIcon : icon_account_blue
+					},
+					notificationBottomMenu : {
+						bottomMenuClass : selectedBottomMenuClass,
+						bottomMenuIcon : footerBottomState.footerBottomMenu.notificationBottomMenu.bottomMenuIcon,
+						menuIcon : icon_notification_white
+					}						
+				},
+				bottomMenuLayout : visibleBottomMenuLayout
+			});
 		}
 	}
 
-	render() {
-		return (
-			<div className={this.state.contextData.bottomMenuLayout}>
-				<Link onClick={this.homeBottomMenuClicked} className="footerLink" to="/">
-					<BottomMenuIcon onButtonClicked={this.homeBottomMenuClicked} menuParts={this.state.contextData.footerBottomMenu.homeBottomMenu} />
-				</Link>
-				<Link onClick={this.messengerBottomMenuClicked} className="footerLink" to="messenger">
-					<BottomMenuIcon onButtonClicked={this.messengerBottomMenuClicked} menuParts={this.state.contextData.footerBottomMenu.messengerBottomMenu} />
-				</Link>
-				<Link onClick={this.userAccountBottomMenuClicked} className="footerLink" to="profile">
-					<BottomMenuIcon onButtonClicked={this.userAccountBottomMenuClicked} menuParts={this.state.contextData.footerBottomMenu.userAccountBottomMenu} />
-				</Link>
-				<Link onClick={this.notificationBottomMenuClicked} className="footerLink" to="notification">
-					<BottomMenuIcon onButtonClicked={this.notificationBottomMenuClicked} menuParts={this.state.contextData.footerBottomMenu.notificationBottomMenu} />
-				</Link>
-			</div>
-		);
-	}
+	return (
+		<div className={footerBottomState.bottomMenuLayout}>
+			<Link onClick={homeBottomMenuClicked} className="footerLink" to="/">
+				<BottomMenuIcon onButtonClicked={homeBottomMenuClicked} menuParts={footerBottomState.footerBottomMenu.homeBottomMenu} />
+			</Link>
+			<Link onClick={messengerBottomMenuClicked} className="footerLink" to="messenger">
+				<BottomMenuIcon onButtonClicked={messengerBottomMenuClicked} menuParts={footerBottomState.footerBottomMenu.messengerBottomMenu} />
+			</Link>
+			<Link onClick={userAccountBottomMenuClicked} className="footerLink" to={"/profile/" + currentUser.memberId}>
+				<BottomMenuIcon onButtonClicked={userAccountBottomMenuClicked} menuParts={footerBottomState.footerBottomMenu.userAccountBottomMenu} />
+			</Link>
+			<Link onClick={notificationBottomMenuClicked} className="footerLink" to="notification">
+				<BottomMenuIcon onButtonClicked={notificationBottomMenuClicked} menuParts={footerBottomState.footerBottomMenu.notificationBottomMenu} />
+			</Link>
+		</div>
+	);
 }
 
 export default Footer;   

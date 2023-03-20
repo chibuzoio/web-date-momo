@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Outlet, Link, useLocation } from "react-router-dom";
+import '../css/style.css';
 import '../css/header.css';
 import placeholder from '../image/placeholder.jpg';
 import icon_menu_black from '../image/icon_menu_black.png';
@@ -8,44 +10,43 @@ import icon_search from '../image/icon_search.png';
 import test_image from '../image/test_image.png';
 import logo from '../image/datemomo.png';
 
-class Header extends React.Component {
+function Header() {
+	var visibleHeaderLayout = "header";
+	var hiddenHeaderLayout = visibleHeaderLayout + " hideComponent";
 
-/*		
-	You declare constructor explicitly because 
-	you want to initialize state. You initialized 
-	state because you want to set state somewhere
-	in the class. If not, use data from props directly, 
-	without initializing state with it and do not declare 
-	the constructor because it's already declared implicitly.
-*/		
-	constructor(props) {
-		super(props);
-		this.state = {}; 
-	}
+	var searchFormPartsValue = {
+		fieldIcon : icon_search,
+		placeholder : "Search",
+		type : "text",
+		formFieldClass : "formFieldClass",
+		fieldLayoutClass : "rightIconFieldLayout",
+		fieldIconClass : "rightFieldIcon"
+	};
 
-	render() {
-		var searchFormPartsValue = {
-			fieldIcon : icon_search,
-			placeholder : "Search",
-			type : "text",
-			formFieldClass : "formFieldClass",
-			fieldLayoutClass : "rightIconFieldLayout",
-			fieldIconClass : "rightFieldIcon"
-		};
+	var roundPictureParts = {
+		roundPictureClass : "roundPictureClass",
+		roundPicture : test_image
+	};
 
-		var roundPictureParts = {
-			roundPictureClass : "roundPictureClass",
-			roundPicture : test_image
-		};
+	const location = useLocation();
 
-		return (
-			<div className="header">
-				<img className="companyLogo" alt="Logo" src={logo} />
-				<RightIconFormField formParts={searchFormPartsValue}/>
-				<RoundPicture pictureParts={roundPictureParts} />
-			</div>
-		);
-	}
+	const [headerLayoutClass, setHeaderLayoutClass] = useState(visibleHeaderLayout);
+
+	useEffect(() => {
+		if (location.pathname.indexOf("/message") > -1) {
+			setHeaderLayoutClass(hiddenHeaderLayout); 
+		} else {
+			setHeaderLayoutClass(visibleHeaderLayout); 
+		}
+	}, [location.pathname]);
+
+	return (
+		<div className={headerLayoutClass}>
+			<img className="companyLogo" alt="Logo" src={logo} />
+			<RightIconFormField formParts={searchFormPartsValue}/>
+			<RoundPicture pictureParts={roundPictureParts} />
+		</div>
+	);
 }
 
 export default Header;   
