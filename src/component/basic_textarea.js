@@ -9,6 +9,7 @@ class BasicTextarea extends React.Component {
 		this.updateState = this.updateState.bind(this);
 		this.getScrollHeight = this.getScrollHeight.bind(this);
 		this.checkEmptyEditor = this.checkEmptyEditor.bind(this);
+		this.readTextareaValue = this.readTextareaValue.bind(this);
 		this.expandTextareaInput = this.expandTextareaInput.bind(this);
 		this.deleteThePlaceholder = this.deleteThePlaceholder.bind(this);
 	}
@@ -31,6 +32,10 @@ class BasicTextarea extends React.Component {
 	  	element.rows = minimumRows + rows
 	}
 
+	readTextareaValue(event) {
+		this.props.onTextValueChange(event.target.innerHTML);
+	}
+
 	getScrollHeight(element) {
 		var savedValue = element.value;
      	element.value = '';
@@ -45,9 +50,6 @@ class BasicTextarea extends React.Component {
 	}
 
 	deleteThePlaceholder(event) {
-		console.log("The text value in this div is " + event.target.textContent);
-		console.log("The html value in this div is " + event.target.innerHTML);
-
 		var placeholder = event.target.innerHTML;
 		var textContentLength = placeholder.length;   
 		
@@ -69,7 +71,7 @@ class BasicTextarea extends React.Component {
 		return (
 			<div className={this.props.formParts.basicTextarea} 
 				onFocus={this.deleteThePlaceholder} onBlur={this.checkEmptyEditor} 
-				contentEditable="true">
+				contentEditable="true" onKeyUp={this.readTextareaValue}>
 				{this.props.formParts.placeholder}
 			</div>
 		);

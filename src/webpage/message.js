@@ -13,15 +13,28 @@ import icon_message_send from '../image/icon_message_send.png';
 import icon_left_arrow_blue from '../image/icon_left_arrow_blue.png';
 
 function Message() {
-	var userMessageEditor = {
-		basicTextarea : "dateMomoMessageEditor",
-		placeholder : "Write Message..."
+	var placeholderText = "Write Message...";
+	var messageResponse = {
+		messageId : 0,
+       	messenger : 0,
+       	message : "",
+       	readStatus : 0,
+       	seenStatus : 0,
+       	deleteMessage : 0,
+       	messageDate : ""
 	}
 
 	const location = useLocation();
 	const navigate = useNavigate();
 
 	const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+	const [messageInputValue, setMessageInputValue] = useState("");
+
+	const [userMessageEditor, setUserMessageEditor] = useState({
+		basicTextarea : "dateMomoMessageEditor",
+		placeholder : placeholderText
+	});
 
 	const [userMessageComposite, setUserMessageComposite] = useState({
 		messageResponses : [],
@@ -32,6 +45,13 @@ function Message() {
 		roundPictureContainer : "roundPictureContainer",
 		roundPictureClass : "messageHeaderPicture",
 		roundPicture : ""
+	});
+
+	const [postMessageRequest, setPostMessageRequest] = useState({
+		senderId : currentUser.memberId,
+        receiverId : 0,
+        messagePosition : 0, 
+        senderMessage : ""		
 	});
 
 	useEffect(() => {
@@ -62,9 +82,63 @@ function Message() {
 					roundPicture : "https://datemomo.com/client/image/" 
 						+ messengerResponse.profilePicture
 				});
+
+				setPostMessageRequest({
+					senderId : currentUser.memberId,
+			        receiverId : messengerResponse.chatmateId,
+			        messagePosition : response.data.length, 
+			        senderMessage : ""		
+				});
 	        }, error => {
 	        	console.log(error);
 	        });		
+	}
+
+	const sendPreparedMessage = (event) => {
+		var preparedSenderMessage = messageInputValue.trim();
+
+		if (preparedSenderMessage !== "") {
+			preparedSenderMessage = encodeURIComponent(preparedSenderMessage.split(" ").join("+"));
+		
+			setPostMessageRequest({
+				senderId : postMessageRequest.senderId,
+		        receiverId : postMessageRequest.receiverId,
+		        messagePosition : postMessageRequest.messagePosition, 
+		        senderMessage : preparedSenderMessage
+			});
+
+			axios.post("https://datemomo.com/service/postmessage.php", postMessageRequest)
+		    	.then(response => {
+					messageResponse = {
+						messageId : response.data.messageId,
+				       	messenger : response.data.messenger,
+				       	message : response.data.message,
+				       	readStatus : response.data.readStatus,
+				       	seenStatus : response.data.seenStatus,
+				       	deleteMessage : response.data.deleteMessage,
+				       	messageDate : response.data.messageDate
+					}
+
+					var userMessageCompositeCopy = userMessageComposite.messageResponses;
+					userMessageCompositeCopy.push(messageResponse);
+
+					setUserMessageComposite({
+						messageResponses : userMessageCompositeCopy,
+						messengerResponse : userMessageComposite.messengerResponse
+					});
+
+					setUserMessageEditor({
+						basicTextarea : userMessageEditor.basicTextarea,
+						placeholder : placeholderText
+					});
+		        }, error => {
+		        	console.log(error);
+		        });					
+		}
+	}
+
+	const updateTextareaState = (textChangeValue) => {
+		setMessageInputValue(textChangeValue);
 	}
 
 	return (
@@ -95,9 +169,9 @@ function Message() {
 				</div>
 				<div className="dateMomoMessageFooter">
 					<div className="messageInputField">
-						<BasicTextarea formParts={userMessageEditor} />
+						<BasicTextarea formParts={userMessageEditor} onTextValueChange={updateTextareaState} />
 					</div>
-					<div className="messageSenderLayout">
+					<div className="messageSenderLayout" onClick={sendPreparedMessage}>
 						<img className="messageSenderIcon" alt="" src={icon_message_send} />
 					</div>
 				</div>
