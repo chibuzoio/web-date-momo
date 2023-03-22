@@ -13,7 +13,7 @@ import icon_message_send from '../image/icon_message_send.png';
 import icon_left_arrow_blue from '../image/icon_left_arrow_blue.png';
 
 function Message() {
-	var placeholderText = "Write Message...";
+	var placeholderText = "Write Message...";	
 	var messageResponse = {
 		messageId : 0,
        	messenger : 0,
@@ -22,18 +22,26 @@ function Message() {
        	seenStatus : 0,
        	deleteMessage : 0,
        	messageDate : ""
-	}
+	};
 
 	const location = useLocation();
 	const navigate = useNavigate();
 
 	const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-
+	
+	var postMessageRequest = {
+		senderId : currentUser.memberId,
+        receiverId : 0,
+        messagePosition : 0, 
+        senderMessage : ""		
+	};
+	
 	const [messageInputValue, setMessageInputValue] = useState("");
 
 	const [userMessageEditor, setUserMessageEditor] = useState({
 		basicTextarea : "dateMomoMessageEditor",
-		placeholder : placeholderText
+		placeholder : placeholderText,
+		setPlaceholder : true
 	});
 
 	const [userMessageComposite, setUserMessageComposite] = useState({
@@ -45,13 +53,6 @@ function Message() {
 		roundPictureContainer : "roundPictureContainer",
 		roundPictureClass : "messageHeaderPicture",
 		roundPicture : ""
-	});
-
-	const [postMessageRequest, setPostMessageRequest] = useState({
-		senderId : currentUser.memberId,
-        receiverId : 0,
-        messagePosition : 0, 
-        senderMessage : ""		
 	});
 
 	useEffect(() => {
@@ -82,13 +83,6 @@ function Message() {
 					roundPicture : "https://datemomo.com/client/image/" 
 						+ messengerResponse.profilePicture
 				});
-
-				setPostMessageRequest({
-					senderId : currentUser.memberId,
-			        receiverId : messengerResponse.chatmateId,
-			        messagePosition : response.data.length, 
-			        senderMessage : ""		
-				});
 	        }, error => {
 	        	console.log(error);
 	        });		
@@ -99,14 +93,14 @@ function Message() {
 
 		if (preparedSenderMessage !== "") {
 			preparedSenderMessage = encodeURIComponent(preparedSenderMessage.split(" ").join("+"));
-		
-			setPostMessageRequest({
-				senderId : postMessageRequest.senderId,
-		        receiverId : postMessageRequest.receiverId,
-		        messagePosition : postMessageRequest.messagePosition, 
-		        senderMessage : preparedSenderMessage
-			});
-
+	
+			postMessageRequest = {
+				senderId : currentUser.memberId,
+		        receiverId : location.state.messengerResponse.chatmateId,
+		        messagePosition : userMessageComposite.messageResponses.length, 
+		        senderMessage : preparedSenderMessage		
+			};
+               
 			axios.post("https://datemomo.com/service/postmessage.php", postMessageRequest)
 		    	.then(response => {
 					messageResponse = {
@@ -129,11 +123,30 @@ function Message() {
 
 					setUserMessageEditor({
 						basicTextarea : userMessageEditor.basicTextarea,
-						placeholder : placeholderText
+						placeholder : userMessageEditor.placeholder,
+						setPlaceholder : true
 					});
+
+					setMessageInputValue("");
 		        }, error => {
 		        	console.log(error);
 		        });					
+		}
+	}
+
+	const updateMessageEditor = (showPlaceholder) => {
+		if (showPlaceholder) {
+			setUserMessageEditor({
+				basicTextarea : userMessageEditor.basicTextarea,
+				placeholder : userMessageEditor.placeholder,
+				setPlaceholder : true
+			});
+		} else {
+			setUserMessageEditor({
+				basicTextarea : userMessageEditor.basicTextarea,
+				placeholder : userMessageEditor.placeholder,
+				setPlaceholder : false
+			});
 		}
 	}
 
@@ -169,7 +182,8 @@ function Message() {
 				</div>
 				<div className="dateMomoMessageFooter">
 					<div className="messageInputField">
-						<BasicTextarea formParts={userMessageEditor} onTextValueChange={updateTextareaState} />
+						<BasicTextarea formParts={userMessageEditor} onTextValueChange={updateTextareaState} 
+							displayPlaceholder={updateMessageEditor} />
 					</div>
 					<div className="messageSenderLayout" onClick={sendPreparedMessage}>
 						<img className="messageSenderIcon" alt="" src={icon_message_send} />

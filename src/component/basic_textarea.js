@@ -1,55 +1,49 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../css/input.css';
 
-class BasicTextarea extends React.Component {
-	state = {formParts : {}};
+function BasicTextarea(props) {
+	const textMessageEditor = useRef();
 
-	constructor(props) {
-		super(props);
-		this.updateState = this.updateState.bind(this);
-		this.getScrollHeight = this.getScrollHeight.bind(this);
-		this.checkEmptyEditor = this.checkEmptyEditor.bind(this);
-		this.readTextareaValue = this.readTextareaValue.bind(this);
-		this.expandTextareaInput = this.expandTextareaInput.bind(this);
-		this.deleteThePlaceholder = this.deleteThePlaceholder.bind(this);
-	}
+	useEffect(() => {
+		updateMessageEditor();
+	}, [props.formParts.setPlaceholder]);
 
-	// Remember this method type for setting state using props values  
-	updateState() {
-		this.setState(function(state, props) {
-			return {
-				formParts : props.formParts
-			}
-		});
-	}
-
-	expandTextareaInput({target : element}) {
+	const expandTextareaInput = ({target : element}) => {
 	  	var minimumRows = element.getAttribute('data-min-rows')|0, rows;
-	  	!element._baseScrollHeight && this.getScrollHeight(element)
+	  	!element._baseScrollHeight && getScrollHeight(element)
 
 		element.rows = minimumRows
 	  	rows = Math.ceil((element.scrollHeight - element._baseScrollHeight) / 16)
 	  	element.rows = minimumRows + rows
 	}
 
-	readTextareaValue(event) {
-		this.props.onTextValueChange(event.target.innerHTML);
+	const readTextareaValue = (event) => {
+		props.onTextValueChange(event.target.innerHTML);
 	}
 
-	getScrollHeight(element) {
+	const getScrollHeight = (element) => {
 		var savedValue = element.value;
      	element.value = '';
 		element._baseScrollHeight = element.scrollHeight;
 		element.value = savedValue;
 	}
 
-	checkEmptyEditor(event) {
+	const checkEmptyEditor = (event) => {
 		if (event.target.textContent.trim() === "") {
-			event.target.innerHTML = this.props.formParts.placeholder;
+			props.displayPlaceholder(true);
+			props.onTextValueChange("");
+		} else {
+			props.displayPlaceholder(false);
 		}
 	}
 
-	deleteThePlaceholder(event) {
+	const updateMessageEditor = () => {
+		if (props.formParts.setPlaceholder) {
+			textMessageEditor.current.innerHTML = props.formParts.placeholder;
+		} 
+	}
+
+	const deleteThePlaceholder = (event) => {
 		var placeholder = event.target.innerHTML;
 		var textContentLength = placeholder.length;   
 		
@@ -63,19 +57,19 @@ class BasicTextarea extends React.Component {
 		}
 
 		if (placeholder.includes("Write Message...")) {
+			props.displayPlaceholder(false);
+			props.onTextValueChange("");
 			event.target.innerHTML = "";
 		}
 	}
 
-	render() {     
-		return (
-			<div className={this.props.formParts.basicTextarea} 
-				onFocus={this.deleteThePlaceholder} onBlur={this.checkEmptyEditor} 
-				contentEditable="true" onKeyUp={this.readTextareaValue}>
-				{this.props.formParts.placeholder}
-			</div>
-		);
-	}
+	return (
+		<div className={props.formParts.basicTextarea} onFocus={deleteThePlaceholder} 
+			contentEditable="true" onKeyUp={readTextareaValue} ref={textMessageEditor} 
+			onBlur={checkEmptyEditor}>
+			{props.formParts.placeholder}
+		</div>
+	);
 }
 
 export default BasicTextarea;   
