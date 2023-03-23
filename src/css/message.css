@@ -69,6 +69,7 @@
 
 .messageSenderIcon {
 	margin-left: -3vmin;
+	cursor: pointer;
 	height: 9vmin;
 }
 
@@ -149,6 +150,7 @@
 	-ms-overflow-style: none; 
 	flex-direction: column;
 	scrollbar-width: none; 
+	padding-bottom: 3vh;
 	overflow-y: auto;
 	display: flex;
 	height: 85%;

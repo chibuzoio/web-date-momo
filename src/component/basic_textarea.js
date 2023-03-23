@@ -18,7 +18,17 @@ function BasicTextarea(props) {
 	}
 
 	const readTextareaValue = (event) => {
-		props.onTextValueChange(event.target.innerHTML);
+		props.onTextValueChange(event.target.textContent);
+	}
+
+	const controlPressedKey = (event) => {		
+		deleteThePlaceholder(event);
+
+		if (event.key === "Enter") {
+			event.preventDefault();
+	
+			props.onKeyRelease("Enter");
+		}
 	}
 
 	const getScrollHeight = (element) => {
@@ -29,6 +39,8 @@ function BasicTextarea(props) {
 	}
 
 	const checkEmptyEditor = (event) => {
+		deleteThePlaceholder(event);
+
 		if (event.target.textContent.trim() === "") {
 			props.displayPlaceholder(true);
 			props.onTextValueChange("");
@@ -44,7 +56,7 @@ function BasicTextarea(props) {
 	}
 
 	const deleteThePlaceholder = (event) => {
-		var placeholder = event.target.innerHTML;
+		var placeholder = event.target.textContent; // event.target.innerHTML;
 		var textContentLength = placeholder.length;   
 		
 	    if (document.selection) {
@@ -59,14 +71,14 @@ function BasicTextarea(props) {
 		if (placeholder.includes("Write Message...")) {
 			props.displayPlaceholder(false);
 			props.onTextValueChange("");
-			event.target.innerHTML = "";
+			event.target.textContent = "";
 		}
 	}
 
 	return (
 		<div className={props.formParts.basicTextarea} onFocus={deleteThePlaceholder} 
 			contentEditable="true" onKeyUp={readTextareaValue} ref={textMessageEditor} 
-			onBlur={checkEmptyEditor}>
+			onBlur={checkEmptyEditor} onKeyDown={controlPressedKey}>
 			{props.formParts.placeholder}
 		</div>
 	);
