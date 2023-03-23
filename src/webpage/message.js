@@ -26,6 +26,7 @@ function Message() {
 
 	const location = useLocation();
 	const navigate = useNavigate();
+	const messageBottomMargin = useRef();
 
 	const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 	
@@ -83,6 +84,10 @@ function Message() {
 					roundPicture : "https://datemomo.com/client/image/" 
 						+ messengerResponse.profilePicture
 				});
+
+				setTimeout(() => {
+					messageBottomMargin.current.scrollIntoView({ behavior: "smooth" });		
+				});
 	        }, error => {
 	        	console.log(error);
 	        });		
@@ -128,6 +133,10 @@ function Message() {
 					});
 
 					setMessageInputValue("");
+
+					setTimeout(() => {
+						messageBottomMargin.current.scrollIntoView({ behavior: "smooth" });		
+					});
 		        }, error => {
 		        	console.log(error);
 		        });					
@@ -152,6 +161,14 @@ function Message() {
 
 	const updateTextareaState = (textChangeValue) => {
 		setMessageInputValue(textChangeValue);
+	}
+
+	const processPressedKey = (keyPressValue) => {
+		switch (keyPressValue) {
+			case "Enter": 
+				sendPreparedMessage();
+				break;
+		}
 	}
 
 	return (
@@ -179,11 +196,12 @@ function Message() {
 								messengerData={userMessageComposite.messengerResponse} />
 						))
 					}
+					<div ref={messageBottomMargin} />
 				</div>
 				<div className="dateMomoMessageFooter">
 					<div className="messageInputField">
 						<BasicTextarea formParts={userMessageEditor} onTextValueChange={updateTextareaState} 
-							displayPlaceholder={updateMessageEditor} />
+							displayPlaceholder={updateMessageEditor} onKeyRelease={processPressedKey} />
 					</div>
 					<div className="messageSenderLayout" onClick={sendPreparedMessage}>
 						<img className="messageSenderIcon" alt="" src={icon_message_send} />
