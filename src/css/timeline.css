@@ -60,6 +60,10 @@
 	}               
 }
 
+.whiteBackground {
+	background: white !important;
+}
+
 .messengerFooterLayout {
 	font-size: calc(10px + 0.5vmin);
 	justify-content: flex-end;
@@ -220,7 +224,6 @@
     scrollbar-width: none; 
 	border-radius: 25px;
 	align-items: center;
-	background: white;
 	overflow-y: auto;
 	display: flex;
 	height: 100%;
