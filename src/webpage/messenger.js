@@ -80,7 +80,7 @@ function Messenger() {
 	}
 
 	return (
-		<div className="scrollView">
+		<div className="scrollView whiteBackground">
 			<div className="dateMomoMessengerLayout">
 				{displayMessengerContent()}
 			</div>
