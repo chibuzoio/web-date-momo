@@ -220,6 +220,7 @@
     scrollbar-width: none; 
 	border-radius: 25px;
 	align-items: center;
+	background: white;
 	overflow-y: auto;
 	display: flex;
 	height: 100%;

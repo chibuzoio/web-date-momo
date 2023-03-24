@@ -6,7 +6,7 @@ import '../css/messenger.css';
 import icon_empty_chat from '../image/icon_empty_chat.png';
 import grey_placeholder from '../image/grey_placeholder.png';
 import icon_waving_hand from '../image/icon_waving_hand.png';
-import HorizontalButtonList from '../component/horizontal_button_list';
+import EmptyMessengerContent from '../widget/empty_messenger_content';
 
 class EmptyMessenger extends React.Component {
 	currentUser = {};
@@ -21,9 +21,7 @@ class EmptyMessenger extends React.Component {
    
 	constructor(props) {
 		super(props);
-		this.displayUserImage = this.displayUserImage.bind(this);
 		this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
-		this.buildSexualCategoryButtons = this.buildSexualCategoryButtons.bind(this);
 	}
 
 	componentDidMount() {
@@ -43,56 +41,7 @@ class EmptyMessenger extends React.Component {
 	        	console.log(error);
 	        });
 	}
-
-	buildSexualCategoryButtons(homeDisplayUser) {
-		var sexualCategoryButtons = [];
-
-        if (homeDisplayUser.bisexualCategory > 0) {
-        	sexualCategoryButtons.push({buttonTitle : "Bisexual", buttonClass : "basicButton emptyMessengerButtons"});
-        }
-
-        if (homeDisplayUser.gayCategory > 0) {
-        	sexualCategoryButtons.push({buttonTitle : "Gay", buttonClass : "basicButton emptyMessengerButtons"});
-        }
-
-        if (homeDisplayUser.lesbianCategory > 0) {
-        	sexualCategoryButtons.push({buttonTitle : "Lesbian", buttonClass : "basicButton emptyMessengerButtons"});
-        }
-
-        if (homeDisplayUser.straightCategory > 0) {
-        	sexualCategoryButtons.push({buttonTitle : "Straight", buttonClass : "basicButton emptyMessengerButtons"});
-        }
-
-        if (homeDisplayUser.sugarDaddyCategory > 0) {
-        	sexualCategoryButtons.push({buttonTitle : "Sugar Daddy", buttonClass : "basicButton emptyMessengerButtons"});
-        }
-
-        if (homeDisplayUser.sugarMommyCategory > 0) {
-        	sexualCategoryButtons.push({buttonTitle : "Sugar Mommy", buttonClass : "basicButton emptyMessengerButtons"});
-        }
-
-        if (homeDisplayUser.toyBoyCategory > 0) {
-        	sexualCategoryButtons.push({buttonTitle : "Toy Boy", buttonClass : "basicButton emptyMessengerButtons"});
-        }
-
-        if (homeDisplayUser.toyGirlCategory > 0) {
-        	sexualCategoryButtons.push({buttonTitle : "Toy Girl", buttonClass : "basicButton emptyMessengerButtons"});
-        }
-           
-		return sexualCategoryButtons;
-	} 
-                
-	displayUserImage(userGottenPicture) {
-		if (typeof userGottenPicture != "undefined") {
-			return (<img className="emptyMessengerPicture" 
-						alt="" src={"https://datemomo.com/client/image/" 
-						+ userGottenPicture.imageName} />);
-		} else {
-			return (<img className="emptyMessengerPicture" 
-						alt="" src={grey_placeholder} />);
-		}
-	}
-
+                   
 	render() {  	 
 		return (
 			<div className="genericMessengerLayout">
@@ -106,20 +55,7 @@ class EmptyMessenger extends React.Component {
 
 				{
 					this.state.contextData.emptyMessengerComposite.homeDisplayResponses.map((homeDisplayUser) => ( 
-						<div className="emptyMessengerContent">
-							<div className="roundPictureContainer">
-								{this.displayUserImage(homeDisplayUser.userPictureResponses[0])}
-							</div>
-							<div className="userAccountData">
-								<div className="chatMateUserName">{homeDisplayUser.userName.charAt(0).toUpperCase() 
-									+ homeDisplayUser.userName.slice(1)}, {homeDisplayUser.age}</div>
-								<div className="chatMateLocation">{homeDisplayUser.currentLocation}</div>
-								<HorizontalButtonList sexualityButtons={this.buildSexualCategoryButtons(homeDisplayUser)} />
-							</div>
-							<div className="wavingIconContainer">				
-								<img className="messengerWavingIcon" alt="" src={icon_waving_hand} />
-							</div>
-						</div>
+						<EmptyMessengerContent emptyMessengerContent={homeDisplayUser} />
 					))
 				}
 

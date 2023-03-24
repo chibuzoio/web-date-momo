@@ -11,11 +11,13 @@ import icon_view_blue from '../image/icon_view_blue.png';
 import icon_edit_white from '../image/icon_edit_white.png';
 import icon_gallery_blue from '../image/icon_gallery_blue.png'; 
 import icon_message_blue from '../image/icon_message_blue.png';
+import icon_no_notification from '../image/icon_no_notification.png'; 
 import { checkNullInMessenger } from '../utility/utility';
 import ActiveMessenger from '../widget/active_messenger';
 import BottomMenuIcon from '../component/bottom_menu_icon';
 import IconProfilePicture from '../component/icon_profile_picture'; 
 import NotificationIterator from '../widget/notification_iterator';
+import EmptyMessengerContent from '../widget/empty_messenger_content';
 import LeftIconHollowButton from '../component/left_icon_hollow_button';
 
 function LeftMenuSection() {
@@ -69,6 +71,10 @@ function LeftMenuSection() {
 	});
 	const [messengerResponses, setMessengerResponses] = useState([]);
 	const [notificationResponses, setNotificationResponses] = useState([]);       
+	const [emptyMessengerResponse, setEmptyMessengerResponse] = useState({
+		homeDisplayResponses : [],
+		thousandRandomCounter : []
+	});
 
 	var messengerRequestData = {
 		memberId : currentUser.memberId
@@ -106,6 +112,13 @@ function LeftMenuSection() {
 	        }, error => {
 	        	console.log(error);
 	        });		        
+
+		axios.post("https://datemomo.com/service/alluserdata.php", messengerRequestData)
+	    	.then(response => {
+	    		setEmptyMessengerResponse(response.data);
+	        }, error => {
+	        	console.log(error);
+	        });	        
 	}
 
 	const openUserGallery = (buttonClicked) => {
@@ -149,8 +162,6 @@ function LeftMenuSection() {
 				var imageData = new Image();
 				base64String = event.target.result;
 
-				// console.log("base64String gotten here is " + this.base64String.substring(5));
-
 				setPictureUpload({
 					picture : base64String,
 					faceCountInPicture : pictureUpload.faceCountInPicture,
@@ -178,7 +189,7 @@ function LeftMenuSection() {
 
 					setTimeout(function() {
 						updateProfilePicture();
-					}, 1000);
+					});
 				};
 			};
 
@@ -260,15 +271,31 @@ function LeftMenuSection() {
 					break;
 				}
 			}
-	   
+		   
 			return (
 				<ActiveMessenger activeMessengerComposite={messengerComposite} 
 					onActiveMessengerClicked={clickMessengerComponent} />
 			);
 		} else {
-			// return (
-			// empty messenger message 
-			// );
+			var homeDisplayResponses = [];
+
+			for (var i = 0; i < emptyMessengerResponse.homeDisplayResponses.length; i++) {
+				homeDisplayResponses.push(emptyMessengerResponse.homeDisplayResponses[i]);
+
+				if (i > 0) {
+					break;
+				}
+			}
+
+			return (
+				<div className="emptyMessengerLeftMenu">
+					{
+						homeDisplayResponses.map((homeDisplayUser) => ( 
+							<EmptyMessengerContent emptyMessengerContent={homeDisplayUser} />
+						))
+					}
+				</div>
+			);
 		} 
 	}
 
@@ -301,9 +328,12 @@ function LeftMenuSection() {
 					onNotificationIteratorClicked={clickNotificationComponent} />
 			);
 		} else {
-			// return (
-			// empty notification message 
-			// );
+			return (
+				<div className="emptyMessengerLeftMenu">
+					<img className="emptyNotificationIcon" alt="" src={icon_no_notification} />
+					<div className="emptyNotificationMessage">You do not have notifications yet!</div>
+				</div>
+			);
 		}
 	}
 

@@ -19,6 +19,11 @@
 		width: 4vmin !important;
 	}
 
+	.emptyMessengerButtons {
+		font-size: calc(10px + 0.3vmin) !important;
+		height: 6vmin !important;
+	}
+
 	.ageFormField {
 		height: 10vmin !important;
 	}       
@@ -111,18 +116,19 @@
 }
 
 .horizontalButtonList {
-	display: flex;
-	overflow-x: auto;
-	overflow-y: hidden;
 	flex-direction: row;    
+	overflow-y: hidden;
+	overflow-x: auto;
+	display: flex;
 }
 
 .emptyMessengerButtons {
-	height: 5vmin;
-	white-space: nowrap;
 	font-size: calc(10px + 0.5vmin);
-	margin-top: 0vmin;
 	margin-right: 2vmin;
+	white-space: nowrap;
+	margin-top: 0vmin;
+	font-weight: 500;
+	height: 4vmin;
 }
 
 .sexualityButton {
