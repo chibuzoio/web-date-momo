@@ -7,6 +7,7 @@ import '../css/picture_upload.css';
 import '../css/floating_account.css';  
 import * as faceapi from 'face-api.js';
 import { Outlet, Link, useNavigate } from "react-router-dom";
+import loading_puzzle from '../image/loading_puzzle.gif';
 import icon_view_blue from '../image/icon_view_blue.png';
 import icon_edit_white from '../image/icon_edit_white.png';
 import icon_gallery_blue from '../image/icon_gallery_blue.png'; 
@@ -21,6 +22,10 @@ import EmptyMessengerContent from '../widget/empty_messenger_content';
 import LeftIconHollowButton from '../component/left_icon_hollow_button';
 
 function LeftMenuSection() {
+	var visibleMessengerDisplay = "messengerMessageLayout";
+	var visibleEmptyNotification = "emptyMessengerLeftMenu";
+	var hiddenMessengerDisplay = visibleMessengerDisplay + " hideComponent";
+	var hiddenEmptyNotification = visibleEmptyNotification + " hideComponent";
 	var base64String = "";
 	var pictureUpdateRequest = {
 		memberId : 0,
@@ -63,6 +68,9 @@ function LeftMenuSection() {
 
 	const navigate = useNavigate();
 	const selectPictureButton = useRef();
+	const [notificationLoader, setNotificationLoader] = useState(visibleEmptyNotification);
+	const [displayMessengerClass, setDisplayMessengerClass] = useState(hiddenMessengerDisplay);
+	const [emptyNotificationLayout, setEmptyNotificationLayout] = useState(hiddenEmptyNotification);
 	const [pictureUpload, setPictureUpload] = useState({
 		picture : "",
 		faceCountInPicture : 0,
@@ -102,6 +110,8 @@ function LeftMenuSection() {
 	    	.then(response => {
 				var localMessengerResponses = checkNullInMessenger(response.data);
 				setMessengerResponses(localMessengerResponses);
+				setDisplayMessengerClass(visibleMessengerDisplay);
+				setNotificationLoader(hiddenEmptyNotification);
 	        }, error => {
 	        	console.log(error);
 	        });
@@ -109,6 +119,11 @@ function LeftMenuSection() {
 		axios.post("https://datemomo.com/service/usernotifications.php", messengerRequestData) 
 	    	.then(response => {
 	    		setNotificationResponses(response.data);
+
+	    		if (response.data.length <= 0) {
+	    			setEmptyNotificationLayout(visibleEmptyNotification);
+	    			setNotificationLoader(hiddenEmptyNotification);
+	    		}
 	        }, error => {
 	        	console.log(error);
 	        });		        
@@ -116,6 +131,8 @@ function LeftMenuSection() {
 		axios.post("https://datemomo.com/service/alluserdata.php", messengerRequestData)
 	    	.then(response => {
 	    		setEmptyMessengerResponse(response.data);
+				setDisplayMessengerClass(visibleMessengerDisplay);
+				setNotificationLoader(hiddenEmptyNotification);
 	        }, error => {
 	        	console.log(error);
 	        });	        
@@ -329,10 +346,15 @@ function LeftMenuSection() {
 			);
 		} else {
 			return (
-				<div className="emptyMessengerLeftMenu">
-					<img className="emptyNotificationIcon" alt="" src={icon_no_notification} />
-					<div className="emptyNotificationMessage">You do not have notifications yet!</div>
-				</div>
+				<>
+					<div className={emptyNotificationLayout}>
+						<img className="emptyNotificationIcon" alt="" src={icon_no_notification} />
+						<div className="emptyNotificationMessage">You do not have notifications yet!</div>
+					</div>
+					<div className={notificationLoader}>
+						<img className="loadingPuzzleIcon" alt="" src={loading_puzzle} />
+					</div>
+				</>
 			);
 		}
 	}
@@ -369,8 +391,11 @@ function LeftMenuSection() {
 			</div>
 			<div className="messengerMenuLayout leftMenuContent">
 				<div className="leftMenuHeader">Chats</div>
-				<div className="messengerMessageLayout">
+				<div className={displayMessengerClass}>
 					{displayMessengerContent()}
+				</div>
+				<div className={notificationLoader}>
+					<img className="loadingPuzzleIcon" alt="" src={loading_puzzle} />
 				</div>
 				<div className="messengerFooterLayout" onClick={openUserMessenger}>
 					<u>Messenger</u>

@@ -33,6 +33,10 @@
 	font-size: calc(10px + 1vmin);
 }
 
+.loadingPuzzleIcon {
+	height: 35px;
+}
+
 .emptyNotificationIcon {
 	margin-bottom: 2vmin;
 	height: 55px;

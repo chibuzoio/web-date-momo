@@ -7,16 +7,23 @@ import '../css/timeline.css';
 import '../css/messenger.css';
 import Header from '../widget/header';
 import Footer from '../widget/footer'; 
+import color_loader from '../image/color_loader.gif';
 import EmptyMessenger from '../widget/empty_messenger'; 
 import {checkNullInMessenger} from '../utility/utility';
 import ActiveMessenger from '../widget/active_messenger';
 
 function Messenger() {	
+	var visibleMessengerLoader = "messengerLoaderLayout";
+	var visibleMessengerDisplay = "dateMomoMessengerLayout";
+	var hiddenMessengerLoader = visibleMessengerLoader + " hideComponent";
+	var hiddenMessengerDisplay = visibleMessengerDisplay + " hideComponent";
 	const navigate = useNavigate();
 
 	const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
 	const [messengerResponses, setMessengerResponses] = useState([]);
+	const [messengerDisplayClass, setMessengerDisplayClass] = useState(hiddenMessengerDisplay);
+	const [messengerDisplayLoader, setMessengerDisplayLoader] = useState(visibleMessengerLoader);
 
 	useEffect(() => {
 		loadMessengerComposite();
@@ -31,6 +38,8 @@ function Messenger() {
 	    	.then(response => {
 				var localMessengerResponses = checkNullInMessenger(response.data);
 				setMessengerResponses(localMessengerResponses);
+				setMessengerDisplayClass(visibleMessengerDisplay);
+				setMessengerDisplayLoader(hiddenMessengerLoader);
 	        }, error => {
 	        	console.log(error);
 	        });    	
@@ -81,8 +90,11 @@ function Messenger() {
 
 	return (
 		<div className="scrollView whiteBackground">
-			<div className="dateMomoMessengerLayout">
+			<div className={messengerDisplayClass}>
 				{displayMessengerContent()}
+			</div>
+			<div className={messengerDisplayLoader}>
+				<img className="colorLoader" alt="" src={color_loader} />
 			</div>
 		</div>
 	);
