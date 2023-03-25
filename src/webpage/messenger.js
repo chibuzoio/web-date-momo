@@ -84,8 +84,17 @@ function Messenger() {
 				</>
 			);
 		} else {
-			return (<EmptyMessenger />);
+			return (<EmptyMessenger onClickMessengerLayout={messengerLayoutClicked} 
+				onClickWavingIcon={wavingIconClicked} />);
 		}
+	}
+
+    const wavingIconClicked = (homeDisplayResponse) => {
+    	// use homeDisplayResponse value here 
+    }
+
+	const messengerLayoutClicked = (homeDisplayResponse) => {
+		// use homeDisplayResponse value here 
 	}
 
 	return (

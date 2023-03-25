@@ -56,18 +56,26 @@ function EmptyMessengerContent(props) {
 		return sexualCategoryButtons;
 	} 
 
+	const clickWavingIcon = (event) => {
+		props.onClickWavingIcon(props.emptyMessengerContent);
+	}
+
+	const clickEmptyMessengerLayout = (event) => {
+		props.onClickMessengerLayout(props.emptyMessengerContent);
+	}
+
 	return (
 		<div className="emptyMessengerContent">
-			<div className="roundPictureContainer">
+			<div className="roundPictureContainer" onClick={clickEmptyMessengerLayout}>
 				{displayUserImage(props.emptyMessengerContent.userPictureResponses[0])}
 			</div>
-			<div className="userAccountData">
+			<div className="userAccountData" onClick={clickEmptyMessengerLayout}>
 				<div className="chatMateUserName">{props.emptyMessengerContent.userName.charAt(0).toUpperCase() 
 					+ props.emptyMessengerContent.userName.slice(1)}, {props.emptyMessengerContent.age}</div>
 				<div className="chatMateLocation">{props.emptyMessengerContent.currentLocation}</div>
 				<HorizontalButtonList sexualityButtons={buildSexualCategoryButtons(props.emptyMessengerContent)} />
 			</div>
-			<div className="wavingIconContainer">				
+			<div className="wavingIconContainer" onClick={clickWavingIcon}>				
 				<img className="messengerWavingIcon" alt="" src={icon_waving_hand} />
 			</div>
 		</div>
