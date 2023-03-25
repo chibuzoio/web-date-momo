@@ -44,6 +44,11 @@
 
 }
 
+.messengerSticker {
+	height: 35px;
+	width: 35px;
+}
+
 .activeMessengerHeader {
 	font-size: calc(10px + 3vmin);	
 	padding-right: 1.5vmin;
