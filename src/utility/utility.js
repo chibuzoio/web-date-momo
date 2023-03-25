@@ -1,3 +1,11 @@
+export const selectChosenSticker = (sticker) => {
+    switch (sticker) {
+        case "<{#anim-wave#}>": 
+            return require("../image/anime_waving_hand.gif");
+            break;
+    }
+}
+
 export const getQueryParam = (urlParamKey) => {
     var urlSearchParams = new URLSearchParams(window.location.search);
     return urlSearchParams.get(urlParamKey);

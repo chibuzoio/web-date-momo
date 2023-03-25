@@ -1,59 +1,66 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../css/style.css';
 import '../css/input.css';
 import '../css/message.css';
 import RoundPicture from '../component/round_picture';
-import test_image from '../image/test_image.png';
+import { selectChosenSticker } from '../utility/utility';
 
-class MessageContent extends React.Component {
-	visibleChatMateMessage = "baseMessage chatMateMessage";
-	visibleHostUserMessage = "baseMessage hostUserMessage";
-	hiddenChatMateMessage = this.visibleChatMateMessage + " hideComponent";
-	hiddenHostUserMessage = this.visibleHostUserMessage + " hideComponent";
-	state = {contextData : {
-		chatMateMessageLayout : this.hiddenChatMateMessage,
-		hostUserMessageLayout : this.hiddenHostUserMessage
-	}};
+function MessageContent(props) {
+	var visibleChatMateMessage = "baseMessage chatMateMessage";
+	var visibleHostUserMessage = "baseMessage hostUserMessage";
+	var hiddenChatMateMessage = visibleChatMateMessage + " hideComponent";
+	var hiddenHostUserMessage = visibleHostUserMessage + " hideComponent";
+	var visibleChatMateIcon = visibleChatMateMessage + " iconMessageLayout";
+	var visibleHostUserIcon = visibleHostUserMessage + " iconMessageLayout"; 
 
-	constructor(props) {
-		super(props);
-	}
+	const [decodedMessageComponent, setDecodedMessageComponent] = useState("");
+	const [chatMateMessageLayout, setChatMateMessageLayout] = useState(hiddenChatMateMessage);
+	const [hostUserMessageLayout, setHostUserMessageLayout] = useState(hiddenHostUserMessage);
 
-	componentDidMount() {
-		if (this.props.messageData.messenger === this.props.messengerData.chatmateId) {
-			this.setState(function(state) {
-				return {contextData : {
-					chatMateMessageLayout : this.visibleChatMateMessage,
-					hostUserMessageLayout : this.hiddenHostUserMessage
-				}
-			}});
+	useEffect(() => {
+		var gottenMessage = 
+			decodeURIComponent(props.messageData.message).split("+").join(" ");
+
+		setDecodedMessageComponent(gottenMessage);
+
+		if ((gottenMessage.indexOf("<{#") > -1) && (gottenMessage.indexOf("#}>") > -1)) {
+			if (props.messageData.messenger === props.messengerData.chatmateId) {
+				setChatMateMessageLayout(visibleChatMateIcon);
+				setHostUserMessageLayout(hiddenHostUserMessage);
+			} else {
+				setChatMateMessageLayout(hiddenChatMateMessage);
+				setHostUserMessageLayout(visibleHostUserIcon);
+			}
 		} else {
-			this.setState(function(state) {
-				return {contextData : {
-					chatMateMessageLayout : this.hiddenChatMateMessage,
-					hostUserMessageLayout : this.visibleHostUserMessage
-				}
-			}});
+			if (props.messageData.messenger === props.messengerData.chatmateId) {
+				setChatMateMessageLayout(visibleChatMateMessage);
+				setHostUserMessageLayout(hiddenHostUserMessage);
+			} else {
+				setChatMateMessageLayout(hiddenChatMateMessage);
+				setHostUserMessageLayout(visibleHostUserMessage);
+			}
+		}
+	}, []);
+  
+	const decodeMessageData = () => {
+		if ((decodedMessageComponent.indexOf("<{#") > -1) 
+			&& (decodedMessageComponent.indexOf("#}>") > -1)) {
+			return (<img className="messageSticker" alt="" src={selectChosenSticker(decodedMessageComponent)} />);
+		} else {
+			return decodedMessageComponent;
 		}
 	}
 
-	render() {
-		var roundPictureParts = {
-			roundPictureClass : "emptyMessengerPicture",
-			roundPicture : test_image
-		};
-      
-		return (
-			<div className="chatMessageLayout">
-				<div className={this.state.contextData.chatMateMessageLayout}>
-					{decodeURIComponent(this.props.messageData.message).split("+").join(" ")}
-				</div>
-				<div className={this.state.contextData.hostUserMessageLayout}>
-					{decodeURIComponent(this.props.messageData.message).split("+").join(" ")}
-				</div>
+	return (
+		<div className="chatMessageLayout">
+			<div className={chatMateMessageLayout}>
+				{decodeMessageData()}
 			</div>
-		);
-	}
+			<div className={hostUserMessageLayout}>
+				{decodeMessageData()}
+			</div>
+		</div>
+	);
 }
 
 export default MessageContent;   
