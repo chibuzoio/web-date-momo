@@ -8,6 +8,7 @@ import test_image from '../image/test_image.png';
 import RoundPicture from '../component/round_picture';
 import MessageContent from '../widget/message_content';
 import BasicTextarea from '../component/basic_textarea';
+import { selectChosenSticker } from '../utility/utility';
 import icon_menu_blue from '../image/icon_menu_blue.png';
 import icon_message_send from '../image/icon_message_send.png';
 import icon_left_arrow_blue from '../image/icon_left_arrow_blue.png';
@@ -87,7 +88,7 @@ function Message() {
 
 				setTimeout(() => {
 					messageBottomMargin.current.scrollIntoView({ behavior: "smooth" });		
-				});
+				}, 300);
 	        }, error => {
 	        	console.log(error);
 	        });		

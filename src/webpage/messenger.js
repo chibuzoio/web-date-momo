@@ -9,8 +9,8 @@ import Header from '../widget/header';
 import Footer from '../widget/footer'; 
 import color_loader from '../image/color_loader.gif';
 import EmptyMessenger from '../widget/empty_messenger'; 
-import {checkNullInMessenger} from '../utility/utility';
 import ActiveMessenger from '../widget/active_messenger';
+import { checkNullInMessenger, selectChosenSticker } from '../utility/utility';
 
 function Messenger() {	
 	var visibleMessengerLoader = "messengerLoaderLayout";

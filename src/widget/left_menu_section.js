@@ -13,7 +13,7 @@ import icon_edit_white from '../image/icon_edit_white.png';
 import icon_gallery_blue from '../image/icon_gallery_blue.png'; 
 import icon_message_blue from '../image/icon_message_blue.png';
 import icon_no_notification from '../image/icon_no_notification.png'; 
-import { checkNullInMessenger } from '../utility/utility';
+import { checkNullInMessenger, selectChosenSticker } from '../utility/utility';
 import ActiveMessenger from '../widget/active_messenger';
 import BottomMenuIcon from '../component/bottom_menu_icon';
 import IconProfilePicture from '../component/icon_profile_picture'; 
@@ -206,7 +206,7 @@ function LeftMenuSection() {
 
 					setTimeout(function() {
 						updateProfilePicture();
-					});
+					}, 1000);
 				};
 			};
 

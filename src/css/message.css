@@ -31,6 +31,14 @@
 
 }
 
+.iconMessageLayout {
+	background: white !important;
+}
+
+.messageSticker {
+	height: 75px;
+}
+
 .hostUserMessage {  
 	background: #097ECA; 
 	color: white;
