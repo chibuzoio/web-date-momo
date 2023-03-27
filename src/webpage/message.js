@@ -87,7 +87,9 @@ function Message() {
 				});
 
 				setTimeout(() => {
-					messageBottomMargin.current.scrollIntoView({ behavior: "smooth" });		
+					if (messageBottomMargin.current != null) {
+						messageBottomMargin.current.scrollIntoView({ behavior: "smooth" });
+					}
 				}, 300);
 	        }, error => {
 	        	console.log(error);
@@ -136,7 +138,9 @@ function Message() {
 					setMessageInputValue("");
 
 					setTimeout(() => {
-						messageBottomMargin.current.scrollIntoView({ behavior: "smooth" });		
+						if (messageBottomMargin.current != null) {
+							messageBottomMargin.current.scrollIntoView({ behavior: "smooth" });
+						}
 					});
 		        }, error => {
 		        	console.log(error);

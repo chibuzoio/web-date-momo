@@ -308,7 +308,9 @@ function LeftMenuSection() {
 				<div className="emptyMessengerLeftMenu">
 					{
 						homeDisplayResponses.map((homeDisplayUser) => ( 
-							<EmptyMessengerContent emptyMessengerContent={homeDisplayUser} />
+							<EmptyMessengerContent emptyMessengerContent={homeDisplayUser} 
+								onClickMessengerLayout={messengerLayoutClicked} 
+								onClickWavingIcon={wavingIconClicked} />
 						))
 					}
 				</div>
@@ -357,6 +359,67 @@ function LeftMenuSection() {
 				</>
 			);
 		}
+	}
+
+    const wavingIconClicked = (homeDisplayResponse) => {
+    	sendPreparedMessage(homeDisplayResponse);	
+    }
+
+	const messengerLayoutClicked = (homeDisplayResponse) => {		
+		var messengerResponseCopy = {
+			chatmateId : homeDisplayResponse.memberId,
+			userName : homeDisplayResponse.userName,
+			fullName : homeDisplayResponse.fullName,
+			profilePicture : homeDisplayResponse.profilePicture,
+			userBlockedStatus : homeDisplayResponse.userBlockedStatus
+		};
+
+		navigate("/message", {
+			state : {
+				messengerResponse : messengerResponseCopy
+			}
+		});
+	}
+
+	const sendPreparedMessage = (homeDisplayResponse) => {
+		var preparedSenderMessage = "<{#anim-wave#}>";
+		preparedSenderMessage = encodeURIComponent(preparedSenderMessage.split(" ").join("+"));
+
+		var postMessageRequest = {
+			senderId : currentUser.memberId,
+	        receiverId : homeDisplayResponse.memberId,
+	        messagePosition : 0, 
+	        senderMessage : preparedSenderMessage		
+		};
+           
+		axios.post("https://datemomo.com/service/postmessage.php", postMessageRequest)
+	    	.then(response => {
+				var messageResponse = {
+					messageId : response.data.messageId,
+			       	messenger : response.data.messenger,
+			       	message : response.data.message,
+			       	readStatus : response.data.readStatus,
+			       	seenStatus : response.data.seenStatus,
+			       	deleteMessage : response.data.deleteMessage,
+			       	messageDate : response.data.messageDate
+				};
+				
+				var messengerResponseCopy = {
+					chatmateId : homeDisplayResponse.memberId,
+					userName : homeDisplayResponse.userName,
+					fullName : homeDisplayResponse.fullName,
+					profilePicture : homeDisplayResponse.profilePicture,
+					userBlockedStatus : homeDisplayResponse.userBlockedStatus
+				};
+
+				navigate("/message", {
+					state : {
+						messengerResponse : messengerResponseCopy
+					}
+				});
+	        }, error => {
+	        	console.log(error);
+	        });					
 	}
 
 	/* For the three layouts on leftMenuLayout, make the height 

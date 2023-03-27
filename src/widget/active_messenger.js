@@ -6,10 +6,10 @@ class ActiveMessenger extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.clickActiveMessengerComponent = this.clickActiveMessengerComponent.bind(this);
+		this.clickMessengerComponent = this.clickMessengerComponent.bind(this);
 	}
 
-	clickActiveMessengerComponent(messengerResponse) {
+	clickMessengerComponent(messengerResponse) {
 		this.props.onActiveMessengerClicked(messengerResponse);
 	}
 
@@ -18,7 +18,7 @@ class ActiveMessenger extends React.Component {
 			<div className="activeMessengerLayout">
 				{
 					this.props.activeMessengerComposite.map((messengerContent) => ( 
-						<ActiveMessengerContent onMessengerClicked={this.clickActiveMessengerComponent} 
+						<ActiveMessengerContent onMessengerClicked={this.clickMessengerComponent} 
 							messengerComposite={messengerContent} />
 					))
 				}
