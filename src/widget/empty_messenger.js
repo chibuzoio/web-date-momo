@@ -22,6 +22,8 @@ class EmptyMessenger extends React.Component {
 	constructor(props) {
 		super(props);
 		this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
+	    this.wavingIconClicked = this.wavingIconClicked.bind(this);
+		this.messengerLayoutClicked = this.messengerLayoutClicked.bind(this);
 	}
 
 	componentDidMount() {
@@ -41,7 +43,15 @@ class EmptyMessenger extends React.Component {
 	        	console.log(error);
 	        });
 	}
-                   
+    
+    wavingIconClicked(homeDisplayResponse) {
+    	this.props.onClickWavingIcon(homeDisplayResponse);
+    }
+
+	messengerLayoutClicked(homeDisplayResponse) {
+		this.props.onClickMessengerLayout(homeDisplayResponse);
+	}
+
 	render() {  	 
 		return (
 			<div className="genericMessengerLayout">
@@ -55,7 +65,9 @@ class EmptyMessenger extends React.Component {
 
 				{
 					this.state.contextData.emptyMessengerComposite.homeDisplayResponses.map((homeDisplayUser) => ( 
-						<EmptyMessengerContent emptyMessengerContent={homeDisplayUser} />
+						<EmptyMessengerContent emptyMessengerContent={homeDisplayUser} 
+							onClickMessengerLayout={this.messengerLayoutClicked} 
+							onClickWavingIcon={this.wavingIconClicked} />
 					))
 				}
 

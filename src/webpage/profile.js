@@ -5,15 +5,26 @@ import '../css/style.css';
 import '../css/profile.css';
 import '../css/timeline.css';
 import '../css/sexuality.css';  
+import '../css/picture_upload.css';
+import * as faceapi from 'face-api.js';
 import icon_edit_blue from '../image/icon_edit_blue.png'; 
 import icon_camera_blue from '../image/icon_camera_blue.png';
 import { Outlet, Link, useNavigate, useParams } from "react-router-dom";
 import icon_gallery_blue from '../image/icon_gallery_blue.png'; 
 import SexualityBiometrics from '../widget/sexuality_biometrics';
 import UserDetailPicture from '../component/user_detail_picture';
+import IconProfilePicture from '../component/icon_profile_picture'; 
 import LeftIconHollowButton from '../component/left_icon_hollow_button';
 
 function Profile() {
+	var base64String = "";
+	var pictureUpdateRequest = {
+		memberId : 0,
+		imageWidth : 0,
+		imageHeight : 0,
+		base64Picture : ""
+	};
+
 	var editProfileButton = {
 		buttonTitle : "Edit Profile",
 		buttonIcon : icon_edit_blue,
@@ -21,7 +32,7 @@ function Profile() {
 			"greyHollowButton floatingAccountButton",
 		leftIconHollowButtonIcon : "hollowButtonLeftIcon",
 		leftIconHollowButtonTitle : "leftHollowButtonTitle"
-	}
+	};
 
 	var pictureGalleryButton = {
 		buttonTitle : "Photos",
@@ -30,7 +41,7 @@ function Profile() {
 			"greyHollowButton floatingAccountButton",
 		leftIconHollowButtonIcon : "hollowButtonLeftIcon",
 		leftIconHollowButtonTitle : "leftHollowButtonTitle"
-	}
+	};
 
 	var visibleFirstThree = "firstThreeLikerUsers";
 	var visibleSecondThree = "secondThreeLikerUsers";
@@ -40,9 +51,19 @@ function Profile() {
 	var hiddenLikerUserLayout = visibleLikerUserLayout + " hideComponent";
 
 	const params = useParams();
+	const navigate = useNavigate();
 	const profileLayout = useRef();
+	const selectPictureButton = useRef();
 
+	const MODEL_URL = process.env.PUBLIC_URL + '/models';
 	const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+	var profilePictureParts = {
+		roundPicture : "https://datemomo.com/client/image/" + currentUser.profilePicture,
+		pictureLayoutClass : "profilePictureLayout",
+		profilePictureClass : "profilePictureImage",
+		pictureChangeClass : "profilePictureIcon"
+	}
 
 	const [userLikerResponses, setUserLikerResponses] = useState([]);
 	const [userProfileResponse, setUserProfileResponse] = useState({
@@ -93,6 +114,13 @@ function Profile() {
         threesomeExperience : 0,
         sexToyExperience : 0,
         videoSexExperience : 0
+	});
+	
+	const [pictureUpload, setPictureUpload] = useState({
+		picture : "",
+		faceCountInPicture : 0,
+		imageWidth : 0,
+		imageHeight : 0
 	});
 
 	const [userLikerLayout, setUserLikerLayout] = useState({
@@ -170,6 +198,19 @@ function Profile() {
 	useEffect(() => {
 		calculatePictureDimensions();
 		window.addEventListener('resize', calculatePictureDimensions);
+
+		async function loadModels(modelUrl) {
+		  	Promise.all([
+		    	faceapi.nets.tinyFaceDetector.loadFromUri(modelUrl),
+		    	faceapi.nets.faceLandmark68Net.loadFromUri(modelUrl),
+		    	faceapi.nets.faceRecognitionNet.loadFromUri(modelUrl),
+		    	faceapi.nets.faceExpressionNet.loadFromUri(modelUrl),
+		  	]).then(() => {
+		  		console.log("Models have been loaded here!!!!");
+		  	});
+		};
+
+		loadModels(MODEL_URL);
 
 		loadUserProfileComposite();
 
@@ -539,18 +580,114 @@ function Profile() {
 
 		return sexualCategoryButtons;
 	} 
+
+	const processFaceDetection = async (imageData) => {
+		var detections = await faceapi.detectAllFaces(imageData, 
+			new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions()
+	   		.then((response) => {     
+				setPictureUpload({
+					picture : pictureUpload.picture,
+					faceCountInPicture : response.length,
+					imageWidth : pictureUpload.imageWidth,
+					imageHeight : pictureUpload.imageHeight	
+				});
+	   		});
+	}
           
+	const handlePictureChange = (event) => {
+		if (event.target.files[0] != null) {
+			var imageReader = new FileReader();
+			imageReader.readAsDataURL(event.target.files[0]);
+
+			imageReader.onload = (event) => {
+				var imageData = new Image();
+				base64String = event.target.result;
+
+				setPictureUpload({
+					picture : base64String,
+					faceCountInPicture : pictureUpload.faceCountInPicture,
+					imageWidth : pictureUpload.imageWidth,
+					imageHeight : pictureUpload.imageHeight
+				});
+
+				pictureUpdateRequest.base64Picture = 
+					base64String.substring(base64String.indexOf("base64,") + 7);
+	        
+				imageData.src = base64String;
+
+				processFaceDetection(imageData);
+
+				imageData.onload = () => {
+					setPictureUpload({
+						picture : pictureUpload.picture,
+						faceCountInPicture : pictureUpload.faceCountInPicture,
+						imageWidth : imageData.width,
+						imageHeight : imageData.height
+					});
+
+					pictureUpdateRequest.imageWidth = imageData.width;
+					pictureUpdateRequest.imageHeight = imageData.height;
+
+					setTimeout(function() {
+						updateProfilePicture();
+					}, 1000);
+				};
+			};
+
+			imageReader.onerror = (error) => {
+				console.log("Error gotten here is: " + error);
+			}
+		}
+	}
+
+	const updateProfilePicture = () => {
+		pictureUpdateRequest.memberId = currentUser.memberId;
+
+		if (pictureUpload.imageWidth > 0 
+			&& pictureUpload.imageHeight > 0 && pictureUpload.faceCountInPicture > 0) {
+			axios.post("https://datemomo.com/service/updatepicture.php", pictureUpdateRequest)
+		    	.then(response => { 
+		    		currentUser.profilePicture = response.data.profilePicture;
+					localStorage.setItem("currentUser", JSON.stringify(currentUser));
+					window.location.reload(true);
+		        }, error => {
+		        	console.log(error);
+		        });
+		} else {
+			if (pictureUpload.faceCountInPicture <= 0) {
+				// Display no Face In Picture Error Message here
+
+			}      
+		}
+	}
+
+	const changeProfilePicture = (changePictureClicked) => {
+		if (changePictureClicked) {
+			selectPictureButton.current.click();
+		}
+	}
+
+	const openUserGallery = (buttonClicked) => {
+		if (buttonClicked) {
+			navigate("/gallery/" + currentUser.memberId + "/" + 0);
+		}
+	}
+
+	const editUserProfile = (buttonClicked) => {
+		if (buttonClicked) {
+			// window.location.assign("/profile");
+		}
+	}
+
 	return ( 			
 		<div className="scrollView">
 			<div className="dateMomoProfileLayout" ref={profileLayout}> 
 				<div className="pictureUserNameLayout">
 					<div className="profilePictureContainer">
-						<div className="profilePictureLayout">
-							<img className="profilePictureImage" 
-								alt="" src={"https://datemomo.com/client/image/" 
-								+ userProfileResponse.profilePicture} />
-							<img className="profilePictureIcon" alt="" src={icon_camera_blue} />
-						</div>
+						<input type="file" onChange={handlePictureChange} className="uploadPictureButton"
+							ref={selectPictureButton} accept="image/*" />
+						<IconProfilePicture onClickPictureChange={changeProfilePicture} 
+							pictureParts={profilePictureParts} />
 					</div>
 					<div className="userNameLocationLayout">
 						<div className="userNameAgeText">{userProfileResponse.userName.charAt(0).toUpperCase() 
@@ -560,8 +697,8 @@ function Profile() {
 					</div>
 				</div>
 				<div className="profileButtonLayout">
-					<LeftIconHollowButton buttonParts={pictureGalleryButton} />
-					<LeftIconHollowButton buttonParts={editProfileButton} />
+					<LeftIconHollowButton onButtonClicked={openUserGallery} buttonParts={pictureGalleryButton} />
+					<LeftIconHollowButton onButtonClicked={editUserProfile} buttonParts={editProfileButton} />
 				</div>
 				<div className={userLikerLayout.generalLikerDisplayLayout}> 
 					<div className="userlikerCount">{userLikerLayout.userLikerDisplayTitle}</div>
