@@ -72,20 +72,19 @@ function Gallery() {
 	useEffect(() => {
 		setPictureDisplayLayout();
 		calculatePictureDimensions();
-		window.addEventListener('resize', () => { 
-			calculatePictureDimensions();
-			setPictureDisplayLayout();
-		});
+		window.addEventListener('resize', windowResizeEvents);
 
 		loadGalleryComposite();
 
 		return () => {
-			window.removeEventListener('resize', () => { 
-				calculatePictureDimensions();
-				setPictureDisplayLayout();
-			});
+			window.removeEventListener('resize', windowResizeEvents);
 		};
 	}, []);
+
+	const windowResizeEvents = () => {
+		calculatePictureDimensions();
+		setPictureDisplayLayout();
+	}
 
 	const loadGalleryComposite = () => {
 		axios.post("https://datemomo.com/service/userpicture.php", requestData)
