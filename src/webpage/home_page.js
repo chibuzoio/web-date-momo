@@ -5,7 +5,7 @@ import '../css/header.css';
 import '../css/footer.css';
 import '../css/timeline.css';
 import '../css/home_page.css';
-import { Outlet, Link, useLocation } from "react-router-dom";
+import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import Footer from '../widget/footer';
 import LeftMenuSection from '../widget/left_menu_section';
 import BottomMenuIcon from '../component/bottom_menu_icon';
@@ -26,7 +26,11 @@ function HomePage() {
 	var contentParentLayout = "outerParentLayout";
 	var messageParentLayout = "messageOuterParentLayout outerParentLayout";
 	var hiddenHeaderLayout = visibleHeaderLayout + " hideComponent";
-  
+	var currentUser = {
+		profilePicture : "",
+		authenticated : false, 
+		userLevel : ""
+	};
 	var searchFormPartsValue = {
 		fieldIcon : icon_search,
 		placeholder : "Search",
@@ -37,29 +41,28 @@ function HomePage() {
 	};
 
 	const location = useLocation();
-
-	const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+	const navigate = useNavigate();
 
 	const [headerLayoutClass, setHeaderLayoutClass] = useState(visibleHeaderLayout);
 	const [contentOuterContainer, setContentOuterContainer] = useState(contentParentLayout);
 
+	const currentUserData = JSON.parse(localStorage.getItem("currentUser"));
+
+	if (currentUserData != null) {
+		if (Object.keys(currentUserData).length > 0) {
+			currentUser = currentUserData;
+		}
+	}
+
 	useEffect(() => {
-		if (currentUser != null) {
-			if (Object.keys(currentUser).length > 0) {
-				if (currentUser.authenticated) {
-					if (currentUser.userLevel === "uploadProfilePicture") { 
-						window.location.replace("/picture_upload");
-					} else if (currentUser.userLevel === "selectSexualityInterest") { 
-						window.location.replace("/sexuality");
-					}
-				} else {
-					window.location.replace("/login");
-				}
-			} else {
-				window.location.replace("/login");
+		if (currentUser.authenticated) {
+			if (currentUser.userLevel === "uploadProfilePicture") { 
+				navigate("/picture_upload");
+			} else if (currentUser.userLevel === "selectSexualityInterest") { 
+				navigate("/sexuality");
 			}
 		} else {
-			window.location.replace("/login");
+			navigate("/login");
 		}
 
 		if (location.pathname.indexOf("/message") > -1) {
