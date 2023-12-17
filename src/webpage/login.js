@@ -115,10 +115,7 @@ class Login extends React.Component {
 								inputValidity : state.contextData.inputValidity
 					   		}
 					    }}); 
-
-						console.log("The userLevel value from the server here is " + JSON.stringify(response.data.userInformationData.userLevel));
-						// console.log("The response value from the server here is " + JSON.stringify(response.data));
-
+  
 						response.data.authenticated = response.data.isPasswordValid;
 
 			    		if (response.data.authenticated) {
@@ -132,7 +129,6 @@ class Login extends React.Component {
 						        } else if (currentUser.userInformationData.userLevel === "selectSexualityInterest") { 
 									window.location.replace("/sexuality");
 						        } else if (currentUser.userInformationData.userLevel === "displayMatchedUsers") { 
-									console.log("Execution entered here. So, location must be changed to /: that's homepage");
 						        	window.location.replace("/");
 						        } 
 						    }          
