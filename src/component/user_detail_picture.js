@@ -28,7 +28,7 @@ class UserDetailPicture extends React.Component {
 					<img className="detailPictureImage" style={{
 						height : this.props.dimension.detailPictureHeight,
 						width : this.props.dimension.detailPictureWidth}}
-						alt="" src={"https://datemomo.com/client/image/" 
+						alt="" src={"http://localhost:1337/image/" 
 						+ this.props.userDetailParts.userDetails.profilePicture} />
 					<div className="userNameLabel" style={{
 						marginTop : this.props.dimension.topUserNameMargin,

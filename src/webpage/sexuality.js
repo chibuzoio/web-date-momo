@@ -470,7 +470,7 @@ class Sexuality extends React.Component {
 
 	componentDidMount() {
 		this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
-		this.sexualityRequestData.memberId = this.currentUser.memberId; 
+		this.sexualityRequestData.memberId = this.currentUser.userInformationData.memberId; 
 	}
 
 	componentWillUnmount() {
@@ -558,7 +558,7 @@ class Sexuality extends React.Component {
 		    this.sexualityRequestData.sexToyExperience = this.state.contextData.sexualExperienceButtons[12].sexualitySelected;
 		    this.sexualityRequestData.videoSexExperience = this.state.contextData.sexualExperienceButtons[13].sexualitySelected;
 
-			axios.post("https://datemomo.com/service/userbiometrics.php", this.sexualityRequestData)
+			axios.post("http://localhost:1337/userbiometrics", this.sexualityRequestData)
 		    	.then(response => { 
 					this.setState(function(state) {
 						return {contextData : {
@@ -577,7 +577,7 @@ class Sexuality extends React.Component {
 						}
 					}});       
 
-					this.currentUser.userLevel = response.data.userLevel;
+					this.currentUser.userInformationData.userLevel = response.data.userLevel;
 					localStorage.setItem("currentUser", JSON.stringify(this.currentUser));
 					window.location.replace("/");
 		        }, error => {     

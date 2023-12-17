@@ -56,9 +56,9 @@ function HomePage() {
 
 	useEffect(() => {
 		if (currentUser.authenticated) {
-			if (currentUser.userLevel === "uploadProfilePicture") { 
+			if (currentUser.userInformationData.userLevel === "uploadProfilePicture") { 
 				navigate("/picture_upload");
-			} else if (currentUser.userLevel === "selectSexualityInterest") { 
+			} else if (currentUser.userInformationData.userLevel === "selectSexualityInterest") { 
 				navigate("/sexuality");
 			}
 		} else {
@@ -83,7 +83,7 @@ function HomePage() {
 				<RightIconFormField formParts={searchFormPartsValue}/>
 				<Link className="companyLogoLink" to="account">
 					<img className="roundPictureClass" alt="" 
-						src={"https://datemomo.com/client/image/" + currentUser.profilePicture} />
+						src={"http://localhost:1337/image/" + currentUser.userInformationData.profilePicture} />
 				</Link>
 			</div>
 			<div className={contentOuterContainer}>

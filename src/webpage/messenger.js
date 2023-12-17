@@ -31,10 +31,10 @@ function Messenger() {
 
     const loadMessengerComposite = () => {
 		var requestData = {
-			memberId : currentUser.memberId
+			memberId : currentUser.userInformationData.memberId
 		}
 
-		axios.post("https://datemomo.com/service/usermessengersdata.php", requestData)
+		axios.post("http://localhost:1337/usermessengersdata", requestData)
 	    	.then(response => {
 				var localMessengerResponses = checkNullInMessenger(response.data);
 				setMessengerResponses(localMessengerResponses);
@@ -114,13 +114,13 @@ function Messenger() {
 		preparedSenderMessage = encodeURIComponent(preparedSenderMessage.split(" ").join("+"));
 
 		var postMessageRequest = {
-			senderId : currentUser.memberId,
+			senderId : currentUser.userInformationData.memberId,
 	        receiverId : homeDisplayResponse.memberId,
 	        messagePosition : 0, 
 	        senderMessage : preparedSenderMessage		
 		};
            
-		axios.post("https://datemomo.com/service/postmessage.php", postMessageRequest)
+		axios.post("http://localhost:1337/postmessage", postMessageRequest)
 	    	.then(response => {
 				var messageResponse = {
 					messageId : response.data.messageId,

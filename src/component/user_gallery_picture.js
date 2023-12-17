@@ -27,7 +27,7 @@ function UserGalleryPicture(props) {
 				<img className={pictureImageClass} style={{
 					height : props.dimension.detailPictureHeight,
 					width : props.dimension.detailPictureWidth}}
-					alt="" src={"https://datemomo.com/client/image/" 
+					alt="" src={"http://localhost:1337/image/" 
 					+ props.galleryPictureParts.galleryPictureParts.imageName} />
 			</div>
 		</div>

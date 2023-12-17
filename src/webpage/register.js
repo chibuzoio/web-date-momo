@@ -69,7 +69,7 @@ class Register extends React.Component {
 	}
 
 	componentDidMount() {
-		axios.get("https://datemomo.com/service/usernamecomposite.php")
+		axios.get("http://localhost:1337/usernamecomposite")
 	      	.then(response => {
 	        	this.setState(function(state) {
 		        	return {contextData : {
@@ -86,7 +86,7 @@ class Register extends React.Component {
 	        	console.log(error);
 	      	});
 
-		axios.get("https://datemomo.com/service/privacy_policy.php")
+		axios.get("http://localhost:1337/documents/privacy_policy.txt")
 	      	.then(response => {
 				this.setState(function(state) {
 			    	return {contextData : {
@@ -109,7 +109,7 @@ class Register extends React.Component {
 	        	console.log(error);
 	      	});
 
-		axios.get("https://datemomo.com/service/terms_and_conditions.php")
+		axios.get("http://localhost:1337/documents/terms_and_conditions.txt")
 	      	.then(response => {
 				this.setState(function(state) {
 			    	return {contextData : {
@@ -313,7 +313,7 @@ class Register extends React.Component {
 		          	}
 		        }});
 
-				axios.post("https://datemomo.com/service/registermember.php", this.state.contextData.registerRequestData)
+				axios.post("http://localhost:1337/registermember", this.state.contextData.registerRequestData)
 			    	.then(response => {   
 		        		this.setState(function(state) {
 				        	return {contextData : {

@@ -28,10 +28,10 @@ class EmptyMessenger extends React.Component {
 
 	componentDidMount() {
 		this.requestData = {
-			memberId : this.currentUser.memberId
+			memberId : this.currentUser.userInformationData.memberId
 		}
 
-		axios.post("https://datemomo.com/service/alluserdata.php", this.requestData)
+		axios.post("http://localhost:1337/alluserdata", this.requestData)
 	    	.then(response => {
 	    		this.setState(function(state) { 
 	    			return {contextData : {

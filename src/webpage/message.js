@@ -32,7 +32,7 @@ function Message() {
 	const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 	
 	var postMessageRequest = {
-		senderId : currentUser.memberId,
+		senderId : currentUser.userInformationData.memberId,
         receiverId : 0,
         messagePosition : 0, 
         senderMessage : ""		
@@ -64,7 +64,7 @@ function Message() {
 	const loadMessageComposite = () => {
 		var messengerResponse = location.state.messengerResponse;
 		var messageRequest = {
-			senderId : currentUser.memberId,
+			senderId : currentUser.userInformationData.memberId,
 			receiverId : messengerResponse.chatmateId,
 			fullName : messengerResponse.fullName,
 			userName : messengerResponse.userName,
@@ -73,7 +73,7 @@ function Message() {
 			userBlockedStatus : messengerResponse.userBlockedStatus
 		};	
 
-		axios.post("https://datemomo.com/service/usermessagesdata.php", messageRequest)
+		axios.post("http://localhost:1337/usermessagesdata", messageRequest)
 	    	.then(response => {
 	    		setUserMessageComposite({
 	    			messageResponses : response.data,
@@ -82,7 +82,7 @@ function Message() {
 
 				setRoundPictureParts({
 					roundPictureClass : roundPictureParts.roundPictureClass,
-					roundPicture : "https://datemomo.com/client/image/" 
+					roundPicture : "http://localhost:1337/image/" 
 						+ messengerResponse.profilePicture
 				});
 
@@ -103,13 +103,13 @@ function Message() {
 			preparedSenderMessage = encodeURIComponent(preparedSenderMessage.split(" ").join("+"));
 	
 			postMessageRequest = {
-				senderId : currentUser.memberId,
+				senderId : currentUser.userInformationData.memberId,
 		        receiverId : location.state.messengerResponse.chatmateId,
 		        messagePosition : userMessageComposite.messageResponses.length, 
 		        senderMessage : preparedSenderMessage		
 			};
                
-			axios.post("https://datemomo.com/service/postmessage.php", postMessageRequest)
+			axios.post("http://localhost:1337/postmessage", postMessageRequest)
 		    	.then(response => {
 					messageResponse = {
 						messageId : response.data.messageId,

@@ -87,7 +87,7 @@ function Gallery() {
 	}
 
 	const loadGalleryComposite = () => {
-		axios.post("https://datemomo.com/service/userpicture.php", requestData)
+		axios.post("http://localhost:1337/userpicture", requestData)
 			.then(response => {
 				setUserPictureResponse(response.data);
 
@@ -289,7 +289,7 @@ function Gallery() {
 				<img className="pictureLayoutIcon nextPictureSelector" alt="" src={icon_next} onClick={handleRightSpanClick} />
 				<div className="pictureLayoutIcon leftClickableSpan" onClick={handleLeftSpanClick}></div>
 				<div className="pictureLayoutIcon rightClickableSpan" onClick={handleRightSpanClick}></div>
-				<img className={galleryPictureClass} alt="" src={"https://datemomo.com/client/image/" 
+				<img className={galleryPictureClass} alt="" src={"http://localhost:1337/image/" 
 					+ pictureDisplayImage.pictureDisplayImage} onClick={handlePictureClick} />
 			</div>
 		</div>

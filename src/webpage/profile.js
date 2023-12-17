@@ -59,7 +59,7 @@ function Profile() {
 	const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
 	var profilePictureParts = {
-		roundPicture : "https://datemomo.com/client/image/" + currentUser.profilePicture,
+		roundPicture : "http://localhost:1337/image/" + currentUser.userInformationData.profilePicture,
 		pictureLayoutClass : "profilePictureLayout",
 		profilePictureClass : "profilePictureImage",
 		pictureChangeClass : "profilePictureIcon"
@@ -220,15 +220,15 @@ function Profile() {
 	}, [userProfileResponse]);
 
 	const loadUserProfileComposite = () => {
-		axios.post("https://datemomo.com/service/userinformation.php", requestData)
+		axios.post("http://localhost:1337/userinformation", requestData)
 	    	.then(response => {
 	    		setUserProfileResponse(response.data);
 	        }, error => {
 	        	console.log(error);
 	        });
 
-	    if (currentUser.memberId == params.memberId) {
-			axios.post("https://datemomo.com/service/userlikersdata.php", requestData)
+	    if (currentUser.userInformationData.memberId == params.memberId) {
+			axios.post("http://localhost:1337/userlikersdata", requestData)
 		    	.then(response => {
 		    		setUserLikerResponses(response.data);
 		    		displayAvailableLiker();
@@ -641,13 +641,13 @@ function Profile() {
 	}
 
 	const updateProfilePicture = () => {
-		pictureUpdateRequest.memberId = currentUser.memberId;
+		pictureUpdateRequest.memberId = currentUser.userInformationData.memberId;
 
 		if (pictureUpload.imageWidth > 0 
 			&& pictureUpload.imageHeight > 0 && pictureUpload.faceCountInPicture > 0) {
-			axios.post("https://datemomo.com/service/updatepicture.php", pictureUpdateRequest)
+			axios.post("http://localhost:1337/updatepicture", pictureUpdateRequest)
 		    	.then(response => { 
-		    		currentUser.profilePicture = response.data.profilePicture;
+		    		currentUser.userInformationData.profilePicture = response.data.profilePicture;
 					localStorage.setItem("currentUser", JSON.stringify(currentUser));
 					window.location.reload(true);
 		        }, error => {
@@ -669,7 +669,7 @@ function Profile() {
 
 	const openUserGallery = (buttonClicked) => {
 		if (buttonClicked) {
-			navigate("/gallery/" + currentUser.memberId + "/" + 0);
+			navigate("/gallery/" + currentUser.userInformationData.memberId + "/" + 0);
 		}
 	}
 
@@ -714,15 +714,15 @@ function Profile() {
 					</div>
 				</div>
 				<div className="userLikerSexualityLayout">
-					<div className="sexualityHeader">{currentUser.memberId == params.memberId ? 
+					<div className="sexualityHeader">{currentUser.userInformationData.memberId == params.memberId ? 
 						"My" : userProfileResponse.userName.charAt(0).toUpperCase() 
 						+ userProfileResponse.userName.slice(1)} Sexuality</div>
 					<SexualityBiometrics sexualityButtons={buildSexualCategoryButtons()} />
-					<div className="sexualityHeader">{currentUser.memberId == params.memberId ? 
+					<div className="sexualityHeader">{currentUser.userInformationData.memberId == params.memberId ? 
 						"My" : userProfileResponse.userName.charAt(0).toUpperCase() 
 						+ userProfileResponse.userName.slice(1)} Interests</div>
 					<SexualityBiometrics sexualityButtons={buildSexualInterestButtons()} />
-					<div className="sexualityHeader">{currentUser.memberId == params.memberId ? 
+					<div className="sexualityHeader">{currentUser.userInformationData.memberId == params.memberId ? 
 						"My" : userProfileResponse.userName.charAt(0).toUpperCase() 
 						+ userProfileResponse.userName.slice(1)} Experiences</div>
 					<SexualityBiometrics sexualityButtons={buildSexualExperienceButtons()} />

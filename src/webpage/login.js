@@ -98,7 +98,7 @@ class Login extends React.Component {
 					}
 				}});
 
-				axios.post("https://datemomo.com/service/loginmember.php", this.state.contextData.loginRequestData)
+				axios.post("http://localhost:1337/loginmember", this.state.contextData.loginRequestData)
 			    	.then(response => {
 			    		this.setState(function(state) {
 			    			return {contextData : {
@@ -116,17 +116,23 @@ class Login extends React.Component {
 					   		}
 					    }}); 
 
+						console.log("The userLevel value from the server here is " + JSON.stringify(response.data.userInformationData.userLevel));
+						// console.log("The response value from the server here is " + JSON.stringify(response.data));
+
+						response.data.authenticated = response.data.isPasswordValid;
+
 			    		if (response.data.authenticated) {
 			    			localStorage.setItem("currentUser", JSON.stringify(response.data));
 
 			    			var currentUser = response.data;
 
 			    			if (currentUser.authenticated) {
-						        if (currentUser.userLevel === "uploadProfilePicture") { 
+						        if (currentUser.userInformationData.userLevel === "uploadProfilePicture") { 
 									window.location.replace("/picture_upload");
-						        } else if (currentUser.userLevel === "selectSexualityInterest") { 
+						        } else if (currentUser.userInformationData.userLevel === "selectSexualityInterest") { 
 									window.location.replace("/sexuality");
-						        } else if (currentUser.userLevel === "displayMatchedUsers") { 
+						        } else if (currentUser.userInformationData.userLevel === "displayMatchedUsers") { 
+									console.log("Execution entered here. So, location must be changed to /: that's homepage");
 						        	window.location.replace("/");
 						        } 
 						    }          

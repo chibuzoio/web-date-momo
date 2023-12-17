@@ -122,42 +122,42 @@ function Timeline() {
 	}
 
 	var requestData = {
-		memberId : currentUser.memberId,
-		age : currentUser.age,
-		sex : currentUser.sex,
-		registrationDate : currentUser.registrationDate,
-    	bisexualCategory : currentUser.bisexualCategory,
-    	gayCategory : currentUser.gayCategory,
-    	lesbianCategory : currentUser.lesbianCategory,
-    	straightCategory : currentUser.straightCategory,
-    	sugarDaddyCategory : currentUser.sugarDaddyCategory,
-    	sugarMommyCategory : currentUser.sugarMommyCategory,
-    	toyBoyCategory : currentUser.toyBoyCategory,
-    	toyGirlCategory : currentUser.toyGirlCategory,
-    	bisexualInterest : currentUser.bisexualInterest,
-    	gayInterest : currentUser.gayInterest,
-    	lesbianInterest : currentUser.lesbianInterest,
-    	straightInterest : currentUser.straightInterest,
-    	friendshipInterest : currentUser.friendshipInterest,
-    	sugarDaddyInterest : currentUser.sugarDaddyInterest,
-    	sugarMommyInterest : currentUser.sugarMommyInterest,
-    	relationshipInterest : currentUser.relationshipInterest,
-    	toyBoyInterest : currentUser.toyBoyInterest,
-    	toyGirlInterest : currentUser.toyGirlInterest,
-    	sixtyNineExperience : currentUser.sixtyNineExperience,
-    	analSexExperience : currentUser.analSexExperience,
-    	givenHeadExperience : currentUser.givenHeadExperience,
-    	missionaryExperience : currentUser.missionaryExperience,
-    	oneNightStandExperience : currentUser.oneNightStandExperience,
-    	orgySexExperience : currentUser.orgySexExperience,
-    	poolSexExperience : currentUser.poolSexExperience,
-    	receivedHeadExperience : currentUser.receivedHeadExperience,
-    	carSexExperience : currentUser.carSexExperience,
-    	publicSexExperience : currentUser.publicSexExperience,
-    	cameraSexExperience : currentUser.cameraSexExperience,
-    	threesomeExperience : currentUser.threesomeExperience,
-    	sexToyExperience : currentUser.sexToyExperience,
-    	videoSexExperience : currentUser.videoSexExperience
+		memberId : currentUser.userInformationData.memberId,
+		age : currentUser.userInformationData.age,
+		sex : currentUser.userInformationData.sex,
+		registrationDate : currentUser.userInformationData.registrationDate,
+    	bisexualCategory : currentUser.userSexualityData.bisexualCategory,
+    	gayCategory : currentUser.userSexualityData.gayCategory,
+    	lesbianCategory : currentUser.userSexualityData.lesbianCategory,
+    	straightCategory : currentUser.userSexualityData.straightCategory,
+    	sugarDaddyCategory : currentUser.userSexualityData.sugarDaddyCategory,
+    	sugarMommyCategory : currentUser.userSexualityData.sugarMommyCategory,
+    	toyBoyCategory : currentUser.userSexualityData.toyBoyCategory,
+    	toyGirlCategory : currentUser.userSexualityData.toyGirlCategory,
+    	bisexualInterest : currentUser.userInterestData.bisexualInterest,
+    	gayInterest : currentUser.userInterestData.gayInterest,
+    	lesbianInterest : currentUser.userInterestData.lesbianInterest,
+    	straightInterest : currentUser.userInterestData.straightInterest,
+    	friendshipInterest : currentUser.userInterestData.friendshipInterest,
+    	sugarDaddyInterest : currentUser.userInterestData.sugarDaddyInterest,
+    	sugarMommyInterest : currentUser.userInterestData.sugarMommyInterest,
+    	relationshipInterest : currentUser.userInterestData.relationshipInterest,
+    	toyBoyInterest : currentUser.userInterestData.toyBoyInterest,
+    	toyGirlInterest : currentUser.userInterestData.toyGirlInterest,
+    	sixtyNineExperience : currentUser.userExperienceData.sixtyNineExperience,
+    	analSexExperience : currentUser.userExperienceData.analSexExperience,
+    	givenHeadExperience : currentUser.userExperienceData.givenHeadExperience,
+    	missionaryExperience : currentUser.userExperienceData.missionaryExperience,
+    	oneNightStandExperience : currentUser.userExperienceData.oneNightStandExperience,
+    	orgySexExperience : currentUser.userExperienceData.orgySexExperience,
+    	poolSexExperience : currentUser.userExperienceData.poolSexExperience,
+    	receivedHeadExperience : currentUser.userExperienceData.receivedHeadExperience,
+    	carSexExperience : currentUser.userExperienceData.carSexExperience,
+    	publicSexExperience : currentUser.userExperienceData.publicSexExperience,
+    	cameraSexExperience : currentUser.userExperienceData.cameraSexExperience,
+    	threesomeExperience : currentUser.userExperienceData.threesomeExperience,
+    	sexToyExperience : currentUser.userExperienceData.sexToyExperience,
+    	videoSexExperience : currentUser.userExperienceData.videoSexExperience
 	};
 
 	useEffect(() => {
@@ -173,7 +173,7 @@ function Timeline() {
 	}, []);
 
 	const loadUserComposite = () => {
-		axios.post("https://datemomo.com/service/matcheduserdata.php", requestData)
+		axios.post("http://localhost:1337/matcheduserdata", requestData)
 			.then(response => {
 				setUserComposite(response.data);
 
@@ -229,11 +229,11 @@ function Timeline() {
 		});
 
 		setFloatingAccountData({
-			currentLocation : userComposite.homeDisplayResponses[currentUserPosition].currentLocation,
-			profilePicture : userComposite.homeDisplayResponses[currentUserPosition].profilePicture,
-			userStatus : userComposite.homeDisplayResponses[currentUserPosition].userStatus,
-			userName : userComposite.homeDisplayResponses[currentUserPosition].userName,
-			age : userComposite.homeDisplayResponses[currentUserPosition].age
+			currentLocation : userComposite.homeDisplayResponses[currentUserPosition].userInformationData.currentLocation,
+			profilePicture : userComposite.homeDisplayResponses[currentUserPosition].userInformationData.profilePicture,
+			userStatus : userComposite.homeDisplayResponses[currentUserPosition].userInformationData.userStatus,
+			userName : userComposite.homeDisplayResponses[currentUserPosition].userInformationData.userName,
+			age : userComposite.homeDisplayResponses[currentUserPosition].userInformationData.age
 		});
 
 		setCloseLayoutIcon({
@@ -246,59 +246,59 @@ function Timeline() {
 	const buildSexualExperienceButtons = (currentPosition) => {
 		var sexualExperienceButtons = [];
 
-        if (userComposite.homeDisplayResponses[currentPosition].sixtyNineExperience > 0) {
+        if (userComposite.homeDisplayResponses[currentPosition].userExperienceData.sixtyNineExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "69", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userComposite.homeDisplayResponses[currentPosition].analSexExperience > 0) {
+        if (userComposite.homeDisplayResponses[currentPosition].userExperienceData.analSexExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Anal Sex", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userComposite.homeDisplayResponses[currentPosition].givenHeadExperience > 0) {
+        if (userComposite.homeDisplayResponses[currentPosition].userExperienceData.givenHeadExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Given Head", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userComposite.homeDisplayResponses[currentPosition].missionaryExperience > 0) {
+        if (userComposite.homeDisplayResponses[currentPosition].userExperienceData.missionaryExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Missionary", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userComposite.homeDisplayResponses[currentPosition].oneNightStandExperience > 0) {
+        if (userComposite.homeDisplayResponses[currentPosition].userExperienceData.oneNightStandExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "One-night Stand", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userComposite.homeDisplayResponses[currentPosition].orgySexExperience > 0) {
+        if (userComposite.homeDisplayResponses[currentPosition].userExperienceData.orgySexExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Orgy Sex", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userComposite.homeDisplayResponses[currentPosition].poolSexExperience > 0) {
+        if (userComposite.homeDisplayResponses[currentPosition].userExperienceData.poolSexExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Pool Sex", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userComposite.homeDisplayResponses[currentPosition].receivedHeadExperience > 0) {
+        if (userComposite.homeDisplayResponses[currentPosition].userExperienceData.receivedHeadExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Received Head", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userComposite.homeDisplayResponses[currentPosition].carSexExperience > 0) {
+        if (userComposite.homeDisplayResponses[currentPosition].userExperienceData.carSexExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Sexed In Car", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userComposite.homeDisplayResponses[currentPosition].publicSexExperience > 0) {
+        if (userComposite.homeDisplayResponses[currentPosition].userExperienceData.publicSexExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Sexed In Public", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userComposite.homeDisplayResponses[currentPosition].cameraSexExperience > 0) {
+        if (userComposite.homeDisplayResponses[currentPosition].userExperienceData.cameraSexExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Sexed With Camera", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userComposite.homeDisplayResponses[currentPosition].threesomeExperience > 0) {
+        if (userComposite.homeDisplayResponses[currentPosition].userExperienceData.threesomeExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Threesome", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userComposite.homeDisplayResponses[currentPosition].sexToyExperience > 0) {
+        if (userComposite.homeDisplayResponses[currentPosition].userExperienceData.sexToyExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Used Sex Toys", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userComposite.homeDisplayResponses[currentPosition].videoSexExperience > 0) {
+        if (userComposite.homeDisplayResponses[currentPosition].userExperienceData.videoSexExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Video Sex Chat", buttonClass : "basicButton sexualityButton"});
         }
            
@@ -308,43 +308,43 @@ function Timeline() {
 	const buildSexualInterestButtons = (currentPosition) => {
 		var sexualInterestButtons = [];
 
-        if (userComposite.homeDisplayResponses[currentPosition].bisexualInterest > 0) {
+        if (userComposite.homeDisplayResponses[currentPosition].userInterestData.bisexualInterest > 0) {
         	sexualInterestButtons.push({buttonTitle : "Bisexual", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userComposite.homeDisplayResponses[currentPosition].friendshipInterest > 0) {
+        if (userComposite.homeDisplayResponses[currentPosition].userInterestData.friendshipInterest > 0) {
         	sexualInterestButtons.push({buttonTitle : "Friendship", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userComposite.homeDisplayResponses[currentPosition].gayInterest > 0) {
+        if (userComposite.homeDisplayResponses[currentPosition].userInterestData.gayInterest > 0) {
         	sexualInterestButtons.push({buttonTitle : "Gay", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userComposite.homeDisplayResponses[currentPosition].lesbianInterest > 0) {
+        if (userComposite.homeDisplayResponses[currentPosition].userInterestData.lesbianInterest > 0) {
         	sexualInterestButtons.push({buttonTitle : "Lesbian", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userComposite.homeDisplayResponses[currentPosition].relationshipInterest > 0) {
+        if (userComposite.homeDisplayResponses[currentPosition].userInterestData.relationshipInterest > 0) {
         	sexualInterestButtons.push({buttonTitle : "Relationship", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userComposite.homeDisplayResponses[currentPosition].straightInterest > 0) {
+        if (userComposite.homeDisplayResponses[currentPosition].userInterestData.straightInterest > 0) {
         	sexualInterestButtons.push({buttonTitle : "Straight", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userComposite.homeDisplayResponses[currentPosition].sugarDaddyInterest > 0) {
+        if (userComposite.homeDisplayResponses[currentPosition].userInterestData.sugarDaddyInterest > 0) {
         	sexualInterestButtons.push({buttonTitle : "Sugar Daddy", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userComposite.homeDisplayResponses[currentPosition].sugarMommyInterest > 0) {
+        if (userComposite.homeDisplayResponses[currentPosition].userInterestData.sugarMommyInterest > 0) {
         	sexualInterestButtons.push({buttonTitle : "Sugar Mommy", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userComposite.homeDisplayResponses[currentPosition].toyBoyInterest > 0) {
+        if (userComposite.homeDisplayResponses[currentPosition].userInterestData.toyBoyInterest > 0) {
         	sexualInterestButtons.push({buttonTitle : "Toy Boy", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userComposite.homeDisplayResponses[currentPosition].toyGirlInterest > 0) {
+        if (userComposite.homeDisplayResponses[currentPosition].userInterestData.toyGirlInterest > 0) {
         	sexualInterestButtons.push({buttonTitle : "Toy Girl", buttonClass : "basicButton sexualityButton"});
         }
                 
@@ -354,35 +354,35 @@ function Timeline() {
 	const buildSexualCategoryButtons = (currentPosition) => {
 		var sexualCategoryButtons = [];
 
-        if (userComposite.homeDisplayResponses[currentPosition].bisexualCategory > 0) {
+        if (userComposite.homeDisplayResponses[currentPosition].userSexualityData.bisexualCategory > 0) {
         	sexualCategoryButtons.push({buttonTitle : "Bisexual", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userComposite.homeDisplayResponses[currentPosition].gayCategory > 0) {
+        if (userComposite.homeDisplayResponses[currentPosition].userSexualityData.gayCategory > 0) {
         	sexualCategoryButtons.push({buttonTitle : "Gay", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userComposite.homeDisplayResponses[currentPosition].lesbianCategory > 0) {
+        if (userComposite.homeDisplayResponses[currentPosition].userSexualityData.lesbianCategory > 0) {
         	sexualCategoryButtons.push({buttonTitle : "Lesbian", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userComposite.homeDisplayResponses[currentPosition].straightCategory > 0) {
+        if (userComposite.homeDisplayResponses[currentPosition].userSexualityData.straightCategory > 0) {
         	sexualCategoryButtons.push({buttonTitle : "Straight", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userComposite.homeDisplayResponses[currentPosition].sugarDaddyCategory > 0) {
+        if (userComposite.homeDisplayResponses[currentPosition].userSexualityData.sugarDaddyCategory > 0) {
         	sexualCategoryButtons.push({buttonTitle : "Sugar Daddy", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userComposite.homeDisplayResponses[currentPosition].sugarMommyCategory > 0) {
+        if (userComposite.homeDisplayResponses[currentPosition].userSexualityData.sugarMommyCategory > 0) {
         	sexualCategoryButtons.push({buttonTitle : "Sugar Mommy", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userComposite.homeDisplayResponses[currentPosition].toyBoyCategory > 0) {
+        if (userComposite.homeDisplayResponses[currentPosition].userSexualityData.toyBoyCategory > 0) {
         	sexualCategoryButtons.push({buttonTitle : "Toy Boy", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userComposite.homeDisplayResponses[currentPosition].toyGirlCategory > 0) {
+        if (userComposite.homeDisplayResponses[currentPosition].userSexualityData.toyGirlCategory > 0) {
         	sexualCategoryButtons.push({buttonTitle : "Toy Girl", buttonClass : "basicButton sexualityButton"});
         }
            
@@ -391,8 +391,8 @@ function Timeline() {
 
 	const replaceImagePlaceholder = (event) => {
 		var currentUserPosition = event.currentTarget.getAttribute("data-current-user");
-		event.currentTarget.src = "https://datemomo.com/client/image/" 
-			+ userComposite.homeDisplayResponses[currentUserPosition].profilePicture;
+		event.currentTarget.src = "http://localhost:1337/image/" 
+			+ userComposite.homeDisplayResponses[currentUserPosition].userInformationData.profilePicture;
 		event.currentTarget.onload = () => setTimelineCoverClass(hiddenTimelineCover);
 	}
 
@@ -415,12 +415,12 @@ function Timeline() {
 		var currentUserLiked = true;
 		var currentUserPosition = event.currentTarget.getAttribute("data-current-user");
 
-		if (userComposite.homeDisplayResponses[currentUserPosition].liked) {
+		if (userComposite.homeDisplayResponses[currentUserPosition].liked.liked) {
 			currentUserLiked = false;
 		} 
 
 		var homeDisplayResponses = userComposite.homeDisplayResponses;
-		homeDisplayResponses[currentUserPosition].liked = currentUserLiked;
+		homeDisplayResponses[currentUserPosition].liked.liked = currentUserLiked;
          
 		setUserComposite({
 			homeDisplayResponses : homeDisplayResponses,
@@ -428,12 +428,12 @@ function Timeline() {
 		});
           
 		var likeRequestData = {
-			memberId : currentUser.memberId,
-            liked : userComposite.homeDisplayResponses[currentUserPosition].liked,
-			likedUserId : userComposite.homeDisplayResponses[currentUserPosition].memberId
+			memberId : currentUser.userInformationData.memberId,
+            liked : userComposite.homeDisplayResponses[currentUserPosition].liked.liked,
+			likedUserId : userComposite.homeDisplayResponses[currentUserPosition].userInformationData.memberId
 		};
 
-		axios.post("https://datemomo.com/service/likeuser.php", likeRequestData)
+		axios.post("http://localhost:1337/likeuser", likeRequestData)
 	    	.then(response => {
 	    		// console.log("Action proceeded with positive response from the server");
 	        }, error => {
@@ -456,7 +456,7 @@ function Timeline() {
 
 				var tenIterationCounter = 0;
 				var moreMatchedUserRequest = {
-					memberId : currentUser.memberId,
+					memberId : currentUser.userInformationData.memberId,
 					nextMatchedUsersIdArray : []
 				};				
 
@@ -471,7 +471,7 @@ function Timeline() {
                     }
 				}
 
-				axios.post("https://datemomo.com/service/morematcheduserdata.php", moreMatchedUserRequest)
+				axios.post("http://localhost:1337/morematcheduserdata", moreMatchedUserRequest)
 					.then(response => {
 			    		var homeDisplayResponsesData = userComposite.homeDisplayResponses.concat(response.data);
 
@@ -479,8 +479,8 @@ function Timeline() {
 			    		var homeDisplayResponses = [];
 
 			    		for (var i = 0; i < homeDisplayResponsesData.length; i++) {
-			    			if (memberIdArray.indexOf(homeDisplayResponsesData[i].memberId) < 0) {
-			    				memberIdArray.push(homeDisplayResponsesData[i].memberId);
+			    			if (memberIdArray.indexOf(homeDisplayResponsesData[i].userInformationData.memberId) < 0) {
+			    				memberIdArray.push(homeDisplayResponsesData[i].userInformationData.memberId);
 			    				homeDisplayResponses.push(homeDisplayResponsesData[i]);
 			    			}
 			    		}
@@ -541,14 +541,14 @@ function Timeline() {
 								<div className="userNameLayout" data-current-user={index}  
 									onClick={displayFloatingLayout}>
 									<div className="userNameText">
-										{homeDisplayUser.userName.charAt(0).toUpperCase() 
-										+ homeDisplayUser.userName.slice(1)}, {homeDisplayUser.age}
+										{homeDisplayUser.userInformationData.userName.charAt(0).toUpperCase() 
+										+ homeDisplayUser.userInformationData.userName.slice(1)}, {homeDisplayUser.userInformationData.age}
 									</div>
-									<div className="locationText"> {(homeDisplayUser.currentLocation === "") ? 
-										"Location Not Set" : homeDisplayUser.currentLocation}</div>
+									<div className="locationText"> {(homeDisplayUser.userInformationData.currentLocation === "") ? 
+										"Location Not Set" : homeDisplayUser.userInformationData.currentLocation}</div>
 								</div>
 								<div className="likeIconLayout" data-current-user={index} onClick={clickLikeUser}>
-									{changeLikedIcon(homeDisplayUser.liked)}
+									{changeLikedIcon(homeDisplayUser.liked.liked)}
 								</div>
 							</div>
 						</div>
@@ -561,7 +561,7 @@ function Timeline() {
 
 				<div className="floatingAccountImageContainer">
 					<img className="floatingUserAccountImage" ref={userAccountImage} 
-						onLoad={setGradientHeight} alt="" src={"https://datemomo.com/client/image/" 
+						onLoad={setGradientHeight} alt="" src={"http://localhost:1337/image/" 
 						+ floatingAccountData.profilePicture} />
 				</div>					
 				<div className="gradientCover" style={{height : floatingLayoutSettings.gradientHeight}}>

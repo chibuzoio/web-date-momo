@@ -10,7 +10,7 @@ function ActiveMessengerContent(props) {
 		.messengerComposite.messengerResponse.lastMessage).split("+").join(" ");
 	var roundPictureParts = {
 		roundPictureClass : props.messengerComposite.messengerClasses.roundPictureClass,
-		roundPicture : "https://datemomo.com/client/image/" + 
+		roundPicture : "http://localhost:1337/image/" + 
 			props.messengerComposite.messengerResponse.profilePicture
 	};
 

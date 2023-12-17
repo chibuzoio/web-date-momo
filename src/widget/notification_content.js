@@ -32,7 +32,7 @@ class NotificationContent extends React.Component {
 	render() {
 		var roundPictureParts = {
 			roundPictureClass : this.props.notificationComposite.notificationClasses.roundPictureClass, 
-			roundPicture : "https://datemomo.com/client/image/" + 
+			roundPicture : "http://localhost:1337/image/" + 
 				this.props.notificationComposite.notificationResponse.profilePicture
 		};
                

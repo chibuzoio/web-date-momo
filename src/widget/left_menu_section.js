@@ -60,7 +60,7 @@ function LeftMenuSection() {
 	const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
 	var profilePictureParts = {
-		roundPicture : "https://datemomo.com/client/image/" + currentUser.profilePicture,
+		roundPicture : "http://localhost:1337/image/" + currentUser.userInformationData.profilePicture,
 		pictureLayoutClass : "profilePictureLayout pictureLayoutClass",
 		profilePictureClass : "profilePictureImage profilePictureClass",
 		pictureChangeClass : "profilePictureIcon pictureChangeClass"
@@ -85,7 +85,7 @@ function LeftMenuSection() {
 	});
 
 	var messengerRequestData = {
-		memberId : currentUser.memberId
+		memberId : currentUser.userInformationData.memberId
 	}
 
 	useEffect(() => {
@@ -106,7 +106,7 @@ function LeftMenuSection() {
 	}, []);
 	
 	const loadMessengerNotificationData = () => {
-		axios.post("https://datemomo.com/service/usermessengersdata.php", messengerRequestData)
+		axios.post("http://localhost:1337/usermessengersdata", messengerRequestData)
 	    	.then(response => {
 				var localMessengerResponses = checkNullInMessenger(response.data);
 				setMessengerResponses(localMessengerResponses);
@@ -116,7 +116,7 @@ function LeftMenuSection() {
 	        	console.log(error);
 	        });
 
-		axios.post("https://datemomo.com/service/usernotifications.php", messengerRequestData) 
+		axios.post("http://localhost:1337/usernotifications", messengerRequestData) 
 	    	.then(response => {
 	    		setNotificationResponses(response.data);
 
@@ -128,7 +128,7 @@ function LeftMenuSection() {
 	        	console.log(error);
 	        });		        
 
-		axios.post("https://datemomo.com/service/alluserdata.php", messengerRequestData)
+		axios.post("http://localhost:1337/alluserdata", messengerRequestData)
 	    	.then(response => {
 	    		setEmptyMessengerResponse(response.data);
 				setDisplayMessengerClass(visibleMessengerDisplay);
@@ -140,7 +140,7 @@ function LeftMenuSection() {
 
 	const openUserGallery = (buttonClicked) => {
 		if (buttonClicked) {
-			navigate("/gallery/" + currentUser.memberId + "/" + 0);
+			navigate("/gallery/" + currentUser.userInformationData.memberId + "/" + 0);
 		}
 	}
 
@@ -152,7 +152,7 @@ function LeftMenuSection() {
 
 	const openUserProfile = (buttonClicked) => {
 		if (buttonClicked) {
-			navigate("/profile/" + currentUser.memberId);
+			navigate("/profile/" + currentUser.userInformationData.memberId);
 		}
 	}
 
@@ -230,13 +230,13 @@ function LeftMenuSection() {
 	}
 
 	const updateProfilePicture = () => {
-		pictureUpdateRequest.memberId = currentUser.memberId;
+		pictureUpdateRequest.memberId = currentUser.userInformationData.memberId;
 
 		if (pictureUpload.imageWidth > 0 
 			&& pictureUpload.imageHeight > 0 && pictureUpload.faceCountInPicture > 0) {
-			axios.post("https://datemomo.com/service/updatepicture.php", pictureUpdateRequest)
+			axios.post("http://localhost:1337/updatepicture", pictureUpdateRequest)
 		    	.then(response => { 
-		    		currentUser.profilePicture = response.data.profilePicture;
+		    		currentUser.userInformationData.profilePicture = response.data.profilePicture;
 					localStorage.setItem("currentUser", JSON.stringify(currentUser));
 					window.location.reload(true);
 		        }, error => {
@@ -386,13 +386,13 @@ function LeftMenuSection() {
 		preparedSenderMessage = encodeURIComponent(preparedSenderMessage.split(" ").join("+"));
 
 		var postMessageRequest = {
-			senderId : currentUser.memberId,
+			senderId : currentUser.userInformationData.memberId,
 	        receiverId : homeDisplayResponse.memberId,
 	        messagePosition : 0, 
 	        senderMessage : preparedSenderMessage		
 		};
            
-		axios.post("https://datemomo.com/service/postmessage.php", postMessageRequest)
+		axios.post("http://localhost:1337/postmessage", postMessageRequest)
 	    	.then(response => {
 				var messageResponse = {
 					messageId : response.data.messageId,
@@ -442,12 +442,12 @@ function LeftMenuSection() {
 				</div>
 				<div className="profileMenuLowerLayout">
 					<div className="leftMenuUserName">
-						{currentUser.userName.charAt(0).toUpperCase() + 
-							currentUser.userName.slice(1)}
+						{currentUser.userInformationData.userName.charAt(0).toUpperCase() + 
+							currentUser.userInformationData.userName.slice(1)}
 					</div>
 					<div className="leftMenuLocation">
-						{(currentUser.currentLocation === "") ? 
-							"Location Not Set" : currentUser.currentLocation}
+						{(currentUser.userInformationData.currentLocation === "") ? 
+							"Location Not Set" : currentUser.userInformationData.currentLocation}
 					</div>
 					<LeftIconHollowButton onButtonClicked={openUserProfile} buttonParts={leftMenuProfileButton} />
 				</div>

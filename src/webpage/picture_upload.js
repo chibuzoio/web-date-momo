@@ -126,7 +126,7 @@ class PictureUpload extends React.Component {
 
 	componentDidMount() {
 		this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
-		this.pictureUploadRequest.memberId = this.currentUser.memberId;
+		this.pictureUploadRequest.memberId = this.currentUser.userInformationData.memberId;
 
 		const MODEL_URL = process.env.PUBLIC_URL + '/models';
 		this.loadModels(MODEL_URL);
@@ -286,7 +286,7 @@ class PictureUpload extends React.Component {
 					}
 				}});  
 
-				axios.post("https://datemomo.com/service/postpicture.php", this.pictureUploadRequest)
+				axios.post("http://localhost:1337/postpicture", this.pictureUploadRequest)
 			    	.then(response => {     
 						this.setState(function(state) {
 							return {contextData : {
@@ -312,7 +312,7 @@ class PictureUpload extends React.Component {
 							}
 						}});  
 
-						this.currentUser.userLevel = this.pictureUploadRequest.userLevel;
+						this.currentUser.userInformationData.userLevel = this.pictureUploadRequest.userLevel;
 						localStorage.setItem("currentUser", JSON.stringify(this.currentUser));
 						window.location.replace("/sexuality");
 			        }, error => {    

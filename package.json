@@ -1,6 +1,6 @@
 {
   "name": "web-date-momo",
-  "homepage": "https://datemomo.com/",
+  "homepage": "http://localhost:1337/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

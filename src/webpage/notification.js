@@ -21,10 +21,10 @@ function Notification() {
 
 	const loadNotificationComposite = () => {
 		var requestData = {
-			memberId : currentUser.memberId
+			memberId : currentUser.userInformationData.memberId
 		}
 
-		axios.post("https://datemomo.com/service/usernotifications.php", requestData)
+		axios.post("http://localhost:1337/usernotifications", requestData)
 	    	.then(response => {
 	    		setNotificationResponses(response.data);
 	        }, error => {

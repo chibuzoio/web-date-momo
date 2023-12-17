@@ -10,7 +10,7 @@ function EmptyMessengerContent(props) {
 	const displayUserImage = (userGottenPicture) => {
 		if (typeof userGottenPicture != "undefined") {
 			return (<img className="emptyMessengerPicture" 
-						alt="" src={"https://datemomo.com/client/image/" 
+						alt="" src={"http://localhost:1337/image/" 
 						+ userGottenPicture.imageName} />);
 		} else {
 			return (<img className="emptyMessengerPicture" 

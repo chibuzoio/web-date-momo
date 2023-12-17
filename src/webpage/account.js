@@ -111,7 +111,7 @@ function Account() {
 	});
 
 	var requestData = {
-		memberId : currentUser.memberId
+		memberId : currentUser.userInformationData.memberId
 	}
 
 	useEffect(() => {
@@ -126,7 +126,7 @@ function Account() {
 	}, [userLikedResponses]);
 
 	const loadLikedUserComposite = () => {
-		axios.post("https://datemomo.com/service/likedusersdata.php", requestData)
+		axios.post("http://localhost:1337/likedusersdata", requestData)
 			.then(response => {
 				setUserLikedResponses(response.data);
 				displayAvailableLiked();
@@ -266,13 +266,13 @@ function Account() {
 					<div className="accountPictureLayout">
 						<div className="profilePictureLayout">
 							<img className="profilePictureImage" 
-								alt="" src={"https://datemomo.com/client/image/" 
-								+ currentUser.profilePicture} />
+								alt="" src={"http://localhost:1337/image/" 
+								+ currentUser.userInformationData.profilePicture} />
 						</div>
 					</div>
 					<div className="impactCountLayout">
 						<div className="impactCountHeader">Impact</div>
-						<div className="impactCountNumber">{currentUser.impactCount}</div>
+						<div className="impactCountNumber">{currentUser.userInformationData.impactCount}</div>
 					</div>
 				</div>
 				<div className="likedUsersTitle">People You Like</div>

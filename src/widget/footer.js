@@ -228,7 +228,7 @@ function Footer() {
 			<Link onClick={messengerBottomMenuClicked} className="footerLink" to="messenger">
 				<BottomMenuIcon onButtonClicked={messengerBottomMenuClicked} menuParts={footerBottomState.footerBottomMenu.messengerBottomMenu} />
 			</Link>
-			<Link onClick={userAccountBottomMenuClicked} className="footerLink" to={"/profile/" + currentUser.memberId}>
+			<Link onClick={userAccountBottomMenuClicked} className="footerLink" to={"/profile/" + currentUser.userInformationData.memberId}>
 				<BottomMenuIcon onButtonClicked={userAccountBottomMenuClicked} menuParts={footerBottomState.footerBottomMenu.userAccountBottomMenu} />
 			</Link>
 			<Link onClick={notificationBottomMenuClicked} className="footerLink" to="notification">
