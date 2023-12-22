@@ -313,7 +313,11 @@ class PictureUpload extends React.Component {
 						}});  
 
 						this.currentUser.userInformationData.userLevel = this.pictureUploadRequest.userLevel;
+						this.currentUser.userInformationData.profilePicture = response.data.profilePicture;
+						this.currentUser.userInformationData.age = response.data.age;
+
 						localStorage.setItem("currentUser", JSON.stringify(this.currentUser));
+
 						window.location.replace("/sexuality");
 			        }, error => {    
 						this.setState(function(state) {

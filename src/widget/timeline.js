@@ -5,17 +5,10 @@ import '../css/header.css';
 import '../css/timeline.css';
 import '../css/picture_upload.css';
 import '../css/floating_account.css';
-import placeholder from '../image/placeholder.jpg'; 
-import RoundPicture from '../component/round_picture';
-import ActiveMessenger from '../widget/active_messenger';
-import { Outlet, Link, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import ProgressAnimation from '../component/progress_animation';
-import BottomMenuIcon from '../component/bottom_menu_icon';
-import IconProfilePicture from '../component/icon_profile_picture';
-import RightIconFormField from '../component/right_icon_form_field';
 import icon_heart_hollow from '../image/icon_heart_hollow.png';
 import icon_heart_red from '../image/icon_heart_red.png';
-import icon_search from '../image/icon_search.png';
 import icon_message_blue from '../image/icon_message_blue.png';
 import CloseLayoutIcon from '../component/close_layout_icon';
 import SexualityBiometrics from '../widget/sexuality_biometrics';
@@ -24,7 +17,6 @@ import motion_placeholder from '../image/motion_placeholder.gif';
 import icon_close_white from '../image/icon_close_white.png';
 import icon_view_blue from '../image/icon_view_blue.png';
 import color_loader from '../image/color_loader.gif';
-import logo from '../image/datemomo.png';
 
 function Timeline() {
 	var visibleMenuLayout = "menuLayoutClass";
@@ -61,6 +53,8 @@ function Timeline() {
 	}
 
 	const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+	console.log("currentUser data composite here is " + JSON.stringify(currentUser));
 
 	const location = useLocation();
 	const navigate = useNavigate();

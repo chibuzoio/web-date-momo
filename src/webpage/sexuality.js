@@ -471,6 +471,7 @@ class Sexuality extends React.Component {
 	componentDidMount() {
 		this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
 		this.sexualityRequestData.memberId = this.currentUser.userInformationData.memberId; 
+		console.log("Current user value in componentDidMount here is " + JSON.stringify(this.currentUser));
 	}
 
 	componentWillUnmount() {
@@ -559,7 +560,7 @@ class Sexuality extends React.Component {
 		    this.sexualityRequestData.videoSexExperience = this.state.contextData.sexualExperienceButtons[13].sexualitySelected;
 
 			axios.post("http://localhost:1337/userbiometrics", this.sexualityRequestData)
-		    	.then(response => { 
+		    	.then(async response => { 
 					this.setState(function(state) {
 						return {contextData : {
 							sexualCategoryButtons : this.state.contextData.sexualCategoryButtons,
@@ -577,8 +578,32 @@ class Sexuality extends React.Component {
 						}
 					}});       
 
-					this.currentUser.userInformationData.userLevel = response.data.userLevel;
-					localStorage.setItem("currentUser", JSON.stringify(this.currentUser));
+					let localUserData = {
+						userInformationData : {
+							registrationDate : this.currentUser.userInformationData.registrationDate,
+							profilePicture : this.currentUser.userInformationData.profilePicture,
+							passwordHash : this.currentUser.userInformationData.passwordHash,
+							impactCount : this.currentUser.userInformationData.impactCount,
+							userStatus : this.currentUser.userInformationData.userStatus,
+							userRole : this.currentUser.userInformationData.userRole,
+							userName : this.currentUser.userInformationData.userName,
+							memberId : this.currentUser.userInformationData.memberId,
+							age : this.currentUser.userInformationData.age,
+							userLevel : response.data.userLevel
+						},
+						userExperienceData : response.data.userExperienceData,
+						userSexualityData : response.data.userSexualityData,
+						userInterestData : response.data.userInterestData,
+						userBlockingTableName : this.currentUser.userBlockingTableName,
+						notificationTableName : this.currentUser.notificationTableName,
+						messengerTableName : this.currentUser.messengerTableName,
+						likedUserTableName : this.currentUser.likedUserTableName,
+						likeTableName : this.currentUser.likeTableName,
+						authenticated : this.currentUser.authenticated
+					};
+					
+					localStorage.setItem("currentUser", JSON.stringify(localUserData));	
+
 					window.location.replace("/");
 		        }, error => {     
 					this.setState(function(state) {
