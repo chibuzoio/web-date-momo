@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Outlet, Link, useNavigate, useLocation } from "react-router-dom";
+import React, { useState, useCallback, useEffect, useRef } from 'react';
+import useWebSocket, { ReadyState } from 'react-use-websocket';
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from 'axios';
 import '../css/style.css';
 import '../css/message.css';   
@@ -24,6 +25,7 @@ function Message() {
        	deleteMessage : 0,
        	messageDate : ""
 	};
+	var webSocketUrl = "ws://localhost:8000";
 
 	const location = useLocation();
 	const navigate = useNavigate();
@@ -57,9 +59,57 @@ function Message() {
 		roundPicture : ""
 	});
 
+	const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(webSocketUrl, {
+		share : false,
+		onOpen : () => console.log("Successfully opened connection!!!!!!!!!"),
+		shouldReconnect : () => true
+	});
+	
+	const connectionStatus = {
+		[ReadyState.CONNECTING] : 'Connecting',
+		[ReadyState.OPEN] : 'Open',
+		[ReadyState.CLOSING] : 'Closing',
+		[ReadyState.CLOSED] : 'Closed',
+		[ReadyState.UNINSTANTIATED] : 'Uninstantiated',
+	}[readyState];
+
 	useEffect(() => {
 		loadMessageComposite();
-	}, []);
+
+		if (lastJsonMessage !== null) {
+			/* messageResponse = {
+				messageId : response.data.messageId,
+				messenger : response.data.messenger,
+				message : response.data.message,
+				readStatus : response.data.readStatus,
+				seenStatus : response.data.seenStatus,
+				deleteMessage : response.data.deleteMessage,
+				messageDate : response.data.messageDate
+			} */
+
+			var userMessageCompositeCopy = userMessageComposite.messageResponses;
+			userMessageCompositeCopy.push(lastJsonMessage);
+
+			setUserMessageComposite({
+				messageResponses : userMessageCompositeCopy,
+				messengerResponse : userMessageComposite.messengerResponse
+			});
+
+			setUserMessageEditor({
+				basicTextarea : userMessageEditor.basicTextarea,
+				placeholder : userMessageEditor.placeholder,
+				setPlaceholder : true
+			});
+
+			setMessageInputValue("");
+
+			setTimeout(() => {
+				if (messageBottomMargin.current != null) {
+					messageBottomMargin.current.scrollIntoView({ behavior: "smooth" });
+				}
+			});
+		}
+	}, [lastJsonMessage]);
 
 	const loadMessageComposite = () => {
 		var messengerResponse = location.state.messengerResponse;
@@ -95,6 +145,24 @@ function Message() {
 	        	console.log(error);
 	        });		
 	}
+
+	const sendSocketMessage = useCallback((event) => {
+		var preparedSenderMessage = messageInputValue.trim();
+
+		console.log("connectionStatus value here is " + connectionStatus);
+
+		if (preparedSenderMessage !== "" && ReadyState.OPEN) {
+			sendJsonMessage({
+				messageId : 5,
+				messenger : "Chibuzo",
+				message : preparedSenderMessage,
+				readStatus : false,
+				seenStatus : false,
+				deleteMessage : false,
+				messageDate : Math.floor(Date.now() / 1000)
+			});
+		}
+	}, []);
 
 	const sendPreparedMessage = (event) => {
 		var preparedSenderMessage = messageInputValue.trim();
@@ -171,7 +239,7 @@ function Message() {
 	const processPressedKey = (keyPressValue) => {
 		switch (keyPressValue) {
 			case "Enter": 
-				sendPreparedMessage();
+				sendSocketMessage();
 				break;
 		}
 	}
@@ -208,7 +276,7 @@ function Message() {
 						<BasicTextarea formParts={userMessageEditor} onTextValueChange={updateTextareaState} 
 							displayPlaceholder={updateMessageEditor} onKeyRelease={processPressedKey} />
 					</div>
-					<div className="messageSenderLayout" onClick={sendPreparedMessage}>
+					<div className="messageSenderLayout" onClick={sendSocketMessage}>
 						<img className="messageSenderIcon" alt="" src={icon_message_send} />
 					</div>
 				</div>
