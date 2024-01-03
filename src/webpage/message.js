@@ -1,11 +1,9 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
-import useWebSocket, { ReadyState } from 'react-use-websocket';
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from 'axios';
 import '../css/style.css';
 import '../css/message.css';   
 import '../css/timeline.css';
-import test_image from '../image/test_image.png';
 import RoundPicture from '../component/round_picture';
 import MessageContent from '../widget/message_content';
 import BasicTextarea from '../component/basic_textarea';
@@ -29,6 +27,7 @@ function Message() {
 
 	const location = useLocation();
 	const navigate = useNavigate();
+	const webSocketConnection = useRef();
 	const messageBottomMargin = useRef();
 
 	const currentUser = JSON.parse(localStorage.getItem("currentUser"));
@@ -39,7 +38,8 @@ function Message() {
         messagePosition : 0, 
         senderMessage : ""		
 	};
-	
+
+	const [isOpen, setIsOpen] = useState(false);
 	const [messageInputValue, setMessageInputValue] = useState("");
 
 	const [userMessageEditor, setUserMessageEditor] = useState({
@@ -58,49 +58,44 @@ function Message() {
 		roundPictureClass : "messageHeaderPicture",
 		roundPicture : ""
 	});
-
-	const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(webSocketUrl, {
-		share : false,
-		onOpen : () => console.log("Successfully opened connection!!!!!!!!!"),
-		shouldReconnect : () => true
-	});
-	
-	const connectionStatus = {
-		[ReadyState.CONNECTING] : 'Connecting',
-		[ReadyState.OPEN] : 'Open',
-		[ReadyState.CLOSING] : 'Closing',
-		[ReadyState.CLOSED] : 'Closed',
-		[ReadyState.UNINSTANTIATED] : 'Uninstantiated',
-	}[readyState];
-
+    
 	useEffect(() => {
 		loadMessageComposite();
 
-		if (lastJsonMessage !== null) {
-			/* messageResponse = {
-				messageId : response.data.messageId,
-				messenger : response.data.messenger,
-				message : response.data.message,
-				readStatus : response.data.readStatus,
-				seenStatus : response.data.seenStatus,
-				deleteMessage : response.data.deleteMessage,
-				messageDate : response.data.messageDate
-			} */
+		const connection = new WebSocket(webSocketUrl);
 
+		connection.onopen = () => {
+			setIsOpen(true);
+			console.log("Connection is opened!");
+			sendSocketMessage();
+		}
+	
+		connection.onclose = () => {
+			setIsOpen(false);
+			console.log("Connection is closed!");
+
+			setTimeout(() => {
+				setIsOpen(null);
+			}, 1000);
+		}
+    
+		connection.onmessage = (event) => {
+			console.log("Gotten message here is " + event.data);
+			
 			var userMessageCompositeCopy = userMessageComposite.messageResponses;
-			userMessageCompositeCopy.push(lastJsonMessage);
-
+			userMessageCompositeCopy.push(event.data);
+			
 			setUserMessageComposite({
 				messageResponses : userMessageCompositeCopy,
 				messengerResponse : userMessageComposite.messengerResponse
 			});
-
+			
 			setUserMessageEditor({
 				basicTextarea : userMessageEditor.basicTextarea,
 				placeholder : userMessageEditor.placeholder,
 				setPlaceholder : true
 			});
-
+			
 			setMessageInputValue("");
 
 			setTimeout(() => {
@@ -109,7 +104,14 @@ function Message() {
 				}
 			});
 		}
-	}, [lastJsonMessage]);
+
+		connection.onerror = (error) => {
+			console.log(error);
+			connection.close();
+		}
+
+		webSocketConnection.current = connection;
+	}, [isOpen]);
 
 	const loadMessageComposite = () => {
 		var messengerResponse = location.state.messengerResponse;
@@ -149,19 +151,21 @@ function Message() {
 	const sendSocketMessage = useCallback((event) => {
 		var preparedSenderMessage = messageInputValue.trim();
 
-		console.log("connectionStatus value here is " + connectionStatus);
+		console.log("webSocket connection status value here is " + isOpen);
 
-		if (preparedSenderMessage !== "" && ReadyState.OPEN) {
-			sendJsonMessage({
+		// if (preparedSenderMessage !== "" && isOpen) {
+			webSocketConnection.current.send(JSON.stringify({
 				messageId : 5,
 				messenger : "Chibuzo",
-				message : preparedSenderMessage,
+				message : "ekjfdsahfkaj fhjakshf kjahfjk sf",
 				readStatus : false,
 				seenStatus : false,
 				deleteMessage : false,
 				messageDate : Math.floor(Date.now() / 1000)
-			});
-		}
+			}));
+
+			// message : preparedSenderMessage,
+		// }
 	}, []);
 
 	const sendPreparedMessage = (event) => {
