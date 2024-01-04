@@ -39,7 +39,6 @@ function Message() {
         senderMessage : ""		
 	};
 
-	const [isOpen, setIsOpen] = useState(false);
 	const [messageInputValue, setMessageInputValue] = useState("");
 
 	const [userMessageEditor, setUserMessageEditor] = useState({
@@ -65,30 +64,25 @@ function Message() {
 		const connection = new WebSocket(webSocketUrl);
 
 		connection.onopen = () => {
-			setIsOpen(true);
 			console.log("Connection is opened!");
 		}
 	
 		connection.onclose = () => {
-			setIsOpen(false);
 			console.log("Connection is closed!");
-
-			setTimeout(() => {
-				setIsOpen(null);
-			}, 1000);
 		}
     
-		connection.onmessage = (event) => {
-			console.log("Gotten message here is " + event.data);
-			
+		connection.onmessage = (event) => {			
 			var userMessageCompositeCopy = userMessageComposite.messageResponses;
-			userMessageCompositeCopy.push(event.data);
-			
+			userMessageCompositeCopy.push(JSON.parse(event.data));
+		
+			console.log("The value of userMessageCompositeCopy here is " + JSON.stringify(userMessageCompositeCopy));
+			console.log("userMessageComposite.messengerResponse value here in useEffect onmessage is " + JSON.stringify(userMessageComposite.messengerResponse));
+
 			setUserMessageComposite({
 				messageResponses : userMessageCompositeCopy,
 				messengerResponse : userMessageComposite.messengerResponse
 			});
-			
+
 			setUserMessageEditor({
 				basicTextarea : userMessageEditor.basicTextarea,
 				placeholder : userMessageEditor.placeholder,
@@ -110,7 +104,7 @@ function Message() {
 		}
 
 		webSocketConnection.current = connection;
-	}, []);
+	}, [userMessageComposite.messengerResponse]);
 
 	const loadMessageComposite = () => {
 		var messengerResponse = location.state.messengerResponse;
@@ -150,23 +144,15 @@ function Message() {
 	const sendSocketMessage = useCallback((event) => {
 		var preparedSenderMessage = messageInputValue.trim();
 
-		console.log("preparedSenderMessage value here is " + preparedSenderMessage);
-		console.log("webSocket connection status value here is " + webSocketConnection.current.readyState); // Gives 1
-		console.log("webSocket connection status value here is " + webSocketConnection.current.OPEN); // Gives 1 also
-
-		// if (preparedSenderMessage !== "" && webSocketConnection.current.readyState === 1) {
-		if (webSocketConnection.current.readyState === 1) {
+		if (preparedSenderMessage !== "" && webSocketConnection.current.readyState === 1) {
 			webSocketConnection.current.send(JSON.stringify({
-				messageId : 5,
-				messenger : "Chibuzo",
-				message : "lfjlsjf klsjflkj lkjlksj glksjlkg jlksdfjg lkjldkjg kld",
-				readStatus : false,
-				seenStatus : false,
-				deleteMessage : false,
-				messageDate : Math.floor(Date.now() / 1000)
+				senderId : currentUser.userInformationData.memberId,
+		        receiverId : location.state.messengerResponse.chatmateId,
+		        messagePosition : userMessageComposite.messageResponses.length, 
+		        senderMessage : preparedSenderMessage		
 			}));
 		}
-	}, []);
+	}, [messageInputValue]);
 
 	const sendPreparedMessage = (event) => {
 		var preparedSenderMessage = messageInputValue.trim();
