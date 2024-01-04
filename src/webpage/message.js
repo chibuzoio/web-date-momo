@@ -67,7 +67,6 @@ function Message() {
 		connection.onopen = () => {
 			setIsOpen(true);
 			console.log("Connection is opened!");
-			sendSocketMessage();
 		}
 	
 		connection.onclose = () => {
@@ -111,7 +110,7 @@ function Message() {
 		}
 
 		webSocketConnection.current = connection;
-	}, [isOpen]);
+	}, []);
 
 	const loadMessageComposite = () => {
 		var messengerResponse = location.state.messengerResponse;
@@ -151,21 +150,22 @@ function Message() {
 	const sendSocketMessage = useCallback((event) => {
 		var preparedSenderMessage = messageInputValue.trim();
 
-		console.log("webSocket connection status value here is " + isOpen);
+		console.log("preparedSenderMessage value here is " + preparedSenderMessage);
+		console.log("webSocket connection status value here is " + webSocketConnection.current.readyState); // Gives 1
+		console.log("webSocket connection status value here is " + webSocketConnection.current.OPEN); // Gives 1 also
 
-		// if (preparedSenderMessage !== "" && isOpen) {
+		// if (preparedSenderMessage !== "" && webSocketConnection.current.readyState === 1) {
+		if (webSocketConnection.current.readyState === 1) {
 			webSocketConnection.current.send(JSON.stringify({
 				messageId : 5,
 				messenger : "Chibuzo",
-				message : "ekjfdsahfkaj fhjakshf kjahfjk sf",
+				message : "lfjlsjf klsjflkj lkjlksj glksjlkg jlksdfjg lkjldkjg kld",
 				readStatus : false,
 				seenStatus : false,
 				deleteMessage : false,
 				messageDate : Math.floor(Date.now() / 1000)
 			}));
-
-			// message : preparedSenderMessage,
-		// }
+		}
 	}, []);
 
 	const sendPreparedMessage = (event) => {
