@@ -73,31 +73,64 @@ function Message() {
 			console.log("Connection is closed!");
 		}
     
-		connection.onmessage = (event) => {			
+		connection.onmessage = async (event) => {			
 			var userMessageCompositeCopy = userMessageComposite.messageResponses;
-			userMessageCompositeCopy.push(JSON.parse(event.data));
-		
-			console.log("The value of userMessageCompositeCopy here is " + JSON.stringify(userMessageCompositeCopy));
-			console.log("userMessageComposite.messengerResponse value here in useEffect onmessage is " + JSON.stringify(userMessageComposite.messengerResponse));
+			var receivedMessage = JSON.parse(event.data); 
 
-			setUserMessageComposite({
-				messageResponses : userMessageCompositeCopy,
-				messengerResponse : userMessageComposite.messengerResponse
-			});
+			if (currentUser.userInformationData.memberId === receivedMessage.messenger 
+				|| currentUser.userInformationData.memberId === receivedMessage.recipient) {
+				await new Promise((resolve, reject) => {
+					var duplicateMessageId = false;
 
-			setUserMessageEditor({
-				basicTextarea : userMessageEditor.basicTextarea,
-				placeholder : userMessageEditor.placeholder,
-				setPlaceholder : true
-			});
+					for (let index = 0; index < userMessageCompositeCopy.length; index++) {
+						if (receivedMessage.messageId === userMessageCompositeCopy[index].messageId) {
+							duplicateMessageId = true;
+							break;
+						}	
+					}
+
+					resolve(duplicateMessageId);
+				}).then((result) => {
+					if (result === false) {
+						userMessageCompositeCopy.push(receivedMessage);
 			
-			setMessageInputValue("");
-
-			setTimeout(() => {
-				if (messageBottomMargin.current != null) {
-					messageBottomMargin.current.scrollIntoView({ behavior: "smooth" });
-				}
-			});
+						/* {
+							"messagePosition" : 22, 
+							"deleteMessage" : 0, 
+							"messenger" : 1, 
+							"messageDate" : "1704490471", 
+							"seenStatus" : 0, 
+							"readStatus" : 0, 
+							"recipient" : 2,
+							"messageId" : 23, 
+							"message" : "What's popping"
+						} */
+		
+						console.log("The value of userMessageCompositeCopy here is " + JSON.stringify(userMessageCompositeCopy));
+		
+						setUserMessageComposite({
+							messageResponses : userMessageCompositeCopy,
+							messengerResponse : userMessageComposite.messengerResponse
+						});
+		
+						setUserMessageEditor({
+							basicTextarea : userMessageEditor.basicTextarea,
+							placeholder : userMessageEditor.placeholder,
+							setPlaceholder : true
+						});
+						
+						setMessageInputValue("");
+		
+						setTimeout(() => {
+							if (messageBottomMargin.current != null) {
+								messageBottomMargin.current.scrollIntoView({ behavior: "smooth" });
+							}
+						});	
+					}
+				}).catch((error) => {
+					console.log(error);
+				});
+			}
 		}
 
 		connection.onerror = (error) => {
@@ -106,7 +139,7 @@ function Message() {
 		}
 
 		webSocketConnection.current = connection;
-	}, [userMessageComposite.messengerResponse]);
+	}, [userMessageComposite]);
 
 	const loadMessageComposite = () => {
 		var messengerResponse = location.state.messengerResponse;
