@@ -60,7 +60,9 @@ function Message() {
     
 	useEffect(() => {
 		loadMessageComposite();
+	}, []);
 
+	useEffect(() => {
 		const connection = new WebSocket(webSocketUrl);
 
 		connection.onopen = () => {

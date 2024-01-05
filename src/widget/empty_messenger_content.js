@@ -67,11 +67,11 @@ function EmptyMessengerContent(props) {
 	return (
 		<div className="emptyMessengerContent">
 			<div className="roundPictureContainer" onClick={clickEmptyMessengerLayout}>
-				{displayUserImage(props.emptyMessengerContent.userPictureResponses[0])}
+				{/* displayUserImage(props.emptyMessengerContent.userPictureResponses[0]) */}
 			</div>
 			<div className="userAccountData" onClick={clickEmptyMessengerLayout}>
-				<div className="chatMateUserName">{props.emptyMessengerContent.userName.charAt(0).toUpperCase() 
-					+ props.emptyMessengerContent.userName.slice(1)}, {props.emptyMessengerContent.age}</div>
+				<div className="chatMateUserName">{/* props.emptyMessengerContent.userName.charAt(0).toUpperCase() 
+					+ props.emptyMessengerContent.userName.slice(1)}, {props.emptyMessengerContent.age */}</div>
 				<div className="chatMateLocation">{props.emptyMessengerContent.currentLocation}</div>
 				<HorizontalButtonList sexualityButtons={buildSexualCategoryButtons(props.emptyMessengerContent)} />
 			</div>
