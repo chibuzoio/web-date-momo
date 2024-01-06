@@ -39,6 +39,7 @@ function Message() {
         senderMessage : ""		
 	};
 
+	const [connectionState, setConnectionState] = useState(3);
 	const [messageInputValue, setMessageInputValue] = useState("");
 	const [connectionComposite, setConnectionComposite] = useState([]);
 
@@ -74,10 +75,12 @@ function Message() {
 
 		if (connectionComposite.length > 0) {
 			connectionComposite[0].onopen = () => {
+				setConnectionState(connectionComposite[0].readyState);
 				console.log("Connection is opened!");
 			}
 		
 			connectionComposite[0].onclose = () => {
+				setConnectionState(connectionComposite[0].readyState);
 				console.log("Connection is closed!");
 			}
 		
@@ -134,7 +137,7 @@ function Message() {
 
 			webSocketConnection.current = connectionComposite[0];
 		}
-	}, [userMessageComposite, connectionComposite]);
+	}, [userMessageComposite, connectionComposite, connectionState]);
 
 	const loadMessageComposite = () => {
 		var messengerResponse = location.state.messengerResponse;
