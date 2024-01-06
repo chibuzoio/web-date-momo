@@ -54,7 +54,7 @@ function Timeline() {
 
 	const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
-	console.log("currentUser data composite here is " + JSON.stringify(currentUser));
+	// console.log("currentUser data composite here is " + JSON.stringify(currentUser));
 
 	const location = useLocation();
 	const navigate = useNavigate();

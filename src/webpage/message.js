@@ -40,6 +40,7 @@ function Message() {
 	};
 
 	const [messageInputValue, setMessageInputValue] = useState("");
+	const [connectionComposite, setConnectionComposite] = useState([]);
 
 	const [userMessageEditor, setUserMessageEditor] = useState({
 		basicTextarea : "dateMomoMessageEditor",
@@ -63,83 +64,77 @@ function Message() {
 	}, []);
 
 	useEffect(() => {
-		const connection = new WebSocket(webSocketUrl);
-
-		connection.onopen = () => {
-			console.log("Connection is opened!");
-		}
-	
-		connection.onclose = () => {
-			console.log("Connection is closed!");
-		}
-    
-		connection.onmessage = async (event) => {			
-			var userMessageCompositeCopy = userMessageComposite.messageResponses;
-			var receivedMessage = JSON.parse(event.data); 
-
-			if (currentUser.userInformationData.memberId === receivedMessage.messenger 
-				|| currentUser.userInformationData.memberId === receivedMessage.recipient) {
-				await new Promise((resolve, reject) => {
-					var duplicateMessageId = false;
-
-					for (let index = 0; index < userMessageCompositeCopy.length; index++) {
-						if (receivedMessage.messageId === userMessageCompositeCopy[index].messageId) {
-							duplicateMessageId = true;
-							break;
-						}	
-					}
-
-					resolve(duplicateMessageId);
-				}).then((result) => {
-					if (result === false) {
-						userMessageCompositeCopy.push(receivedMessage);
-			
-						/* {
-							"messagePosition" : 22, 
-							"deleteMessage" : 0, 
-							"messenger" : 1, 
-							"messageDate" : "1704490471", 
-							"seenStatus" : 0, 
-							"readStatus" : 0, 
-							"recipient" : 2,
-							"messageId" : 23, 
-							"message" : "What's popping"
-						} */
-		
-						console.log("The value of userMessageCompositeCopy here is " + JSON.stringify(userMessageCompositeCopy));
-		
-						setUserMessageComposite({
-							messageResponses : userMessageCompositeCopy,
-							messengerResponse : userMessageComposite.messengerResponse
-						});
-		
-						setUserMessageEditor({
-							basicTextarea : userMessageEditor.basicTextarea,
-							placeholder : userMessageEditor.placeholder,
-							setPlaceholder : true
-						});
-						
-						setMessageInputValue("");
-		
-						setTimeout(() => {
-							if (messageBottomMargin.current != null) {
-								messageBottomMargin.current.scrollIntoView({ behavior: "smooth" });
-							}
-						});	
-					}
-				}).catch((error) => {
-					console.log(error);
-				});
+		if (connectionComposite.length <= 0) {
+			setConnectionComposite([new WebSocket(webSocketUrl)]);
+		} else {
+			if (connectionComposite[0].readyState === 3) {
+				setConnectionComposite([new WebSocket(webSocketUrl)]);
 			}
 		}
 
-		connection.onerror = (error) => {
-			console.log(error);
-			connection.close();
-		}
+		if (connectionComposite.length > 0) {
+			connectionComposite[0].onopen = () => {
+				console.log("Connection is opened!");
+			}
+		
+			connectionComposite[0].onclose = () => {
+				console.log("Connection is closed!");
+			}
+		
+			connectionComposite[0].onmessage = async (event) => {			
+				var userMessageCompositeCopy = userMessageComposite.messageResponses;
+				var receivedMessage = JSON.parse(event.data); 
 
-		webSocketConnection.current = connection;
-	}, [userMessageComposite]);
+				if (currentUser.userInformationData.memberId === receivedMessage.messenger 
+					|| currentUser.userInformationData.memberId === receivedMessage.recipient) {
+					await new Promise((resolve, reject) => {
+						var duplicateMessageId = false;
+
+						for (let index = 0; index < userMessageCompositeCopy.length; index++) {
+							if (receivedMessage.messageId === userMessageCompositeCopy[index].messageId) {
+								duplicateMessageId = true;
+								break;
+							}	
+						}
+
+						resolve(duplicateMessageId);
+					}).then((result) => {
+						if (result === false) {
+							userMessageCompositeCopy.push(receivedMessage);
+       			
+							setUserMessageComposite({
+								messageResponses : userMessageCompositeCopy,
+								messengerResponse : userMessageComposite.messengerResponse
+							});
+			
+							setUserMessageEditor({
+								basicTextarea : userMessageEditor.basicTextarea,
+								placeholder : userMessageEditor.placeholder,
+								setPlaceholder : true
+							});
+							
+							setMessageInputValue("");
+			
+							setTimeout(() => {
+								if (messageBottomMargin.current != null) {
+									messageBottomMargin.current.scrollIntoView({ behavior: "smooth" });
+								}
+							});	
+						}
+					}).catch((error) => {
+						console.log(error);
+					});
+				}
+			}
+
+			connectionComposite[0].onerror = (error) => {
+				console.log(error);
+				connectionComposite[0].close();
+			}
+
+			webSocketConnection.current = connectionComposite[0];
+		}
+	}, [userMessageComposite, connectionComposite]);
 
 	const loadMessageComposite = () => {
 		var messengerResponse = location.state.messengerResponse;

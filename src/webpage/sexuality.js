@@ -471,7 +471,7 @@ class Sexuality extends React.Component {
 	componentDidMount() {
 		this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
 		this.sexualityRequestData.memberId = this.currentUser.userInformationData.memberId; 
-		console.log("Current user value in componentDidMount here is " + JSON.stringify(this.currentUser));
+		// console.log("Current user value in componentDidMount here is " + JSON.stringify(this.currentUser));
 	}
 
 	componentWillUnmount() {
