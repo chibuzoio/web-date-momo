@@ -604,6 +604,7 @@ class Sexuality extends React.Component {
 					
 					localStorage.setItem("currentUser", JSON.stringify(localUserData));	
 
+					// Use useLocation here and store page data in state 
 					window.location.replace("/");
 		        }, error => {     
 					this.setState(function(state) {

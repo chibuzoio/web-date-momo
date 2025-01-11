@@ -690,8 +690,9 @@ function Profile() {
 							pictureParts={profilePictureParts} />
 					</div>
 					<div className="userNameLocationLayout">
-						<div className="userNameAgeText">{userProfileResponse.userName.charAt(0).toUpperCase() 
-							+ userProfileResponse.userName.slice(1)}, {userProfileResponse.age}</div>
+						<div className="userNameAgeText">{(userProfileResponse.userName !== undefined ? 
+							(userProfileResponse.userName.charAt(0).toUpperCase() 
+								+ userProfileResponse.userName.slice(1)) : "")}, {userProfileResponse.age}</div>
 						<div className="userLocationText">{userProfileResponse.currentLocation}</div>
 						<div className="currentStatusText">{userProfileResponse.userStatus}</div>
 					</div>
@@ -715,16 +716,19 @@ function Profile() {
 				</div>
 				<div className="userLikerSexualityLayout">
 					<div className="sexualityHeader">{currentUser.userInformationData.memberId == params.memberId ? 
-						"My" : userProfileResponse.userName.charAt(0).toUpperCase() 
-						+ userProfileResponse.userName.slice(1)} Sexuality</div>
+						"My" : (userProfileResponse.userName !== undefined ?
+						(userProfileResponse.userName.charAt(0).toUpperCase() 
+						+ userProfileResponse.userName.slice(1)) : "")} Sexuality</div>
 					<SexualityBiometrics sexualityButtons={buildSexualCategoryButtons()} />
 					<div className="sexualityHeader">{currentUser.userInformationData.memberId == params.memberId ? 
-						"My" : userProfileResponse.userName.charAt(0).toUpperCase() 
-						+ userProfileResponse.userName.slice(1)} Interests</div>
+						"My" : (userProfileResponse.userName !== undefined ? 
+							(userProfileResponse.userName.charAt(0).toUpperCase() 
+							+ userProfileResponse.userName.slice(1)) : "")} Interests</div>
 					<SexualityBiometrics sexualityButtons={buildSexualInterestButtons()} />
 					<div className="sexualityHeader">{currentUser.userInformationData.memberId == params.memberId ? 
-						"My" : userProfileResponse.userName.charAt(0).toUpperCase() 
-						+ userProfileResponse.userName.slice(1)} Experiences</div>
+						"My" : (userProfileResponse.userName !== undefined ?
+						(userProfileResponse.userName.charAt(0).toUpperCase() 
+						+ userProfileResponse.userName.slice(1)) : "")} Experiences</div>
 					<SexualityBiometrics sexualityButtons={buildSexualExperienceButtons()} />
 				</div>
 			</div>
