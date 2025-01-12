@@ -20,7 +20,7 @@ function Footer() {
 
 	const location = useLocation();
 
-	const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+	const userDataComposite = JSON.parse(localStorage.getItem("userDataComposite"));
 
 	const [footerBottomState, setFooterBottomState] = useState({
 		footerBottomMenu : {
@@ -228,7 +228,7 @@ function Footer() {
 			<Link onClick={messengerBottomMenuClicked} className="footerLink" to="messenger">
 				<BottomMenuIcon onButtonClicked={messengerBottomMenuClicked} menuParts={footerBottomState.footerBottomMenu.messengerBottomMenu} />
 			</Link>
-			<Link onClick={userAccountBottomMenuClicked} className="footerLink" to={"/profile/" + currentUser.userInformationData.memberId}>
+			<Link onClick={userAccountBottomMenuClicked} className="footerLink" to={"/profile/" + userDataComposite.currentUserData.userInformationData.memberId}>
 				<BottomMenuIcon onButtonClicked={userAccountBottomMenuClicked} menuParts={footerBottomState.footerBottomMenu.userAccountBottomMenu} />
 			</Link>
 			<Link onClick={notificationBottomMenuClicked} className="footerLink" to="notification">

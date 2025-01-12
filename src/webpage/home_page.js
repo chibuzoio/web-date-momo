@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 import '../css/style.css';
 import '../css/header.css';
 import '../css/footer.css';
@@ -16,11 +17,6 @@ function HomePage() {
 	var contentParentLayout = "outerParentLayout";
 	var messageParentLayout = "messageOuterParentLayout outerParentLayout";
 	var hiddenHeaderLayout = visibleHeaderLayout + " hideComponent";
-	var currentUser = {
-		profilePicture : "",
-		authenticated : false, 
-		userLevel : ""
-	};
 	var searchFormPartsValue = {
 		fieldIcon : icon_search,
 		placeholder : "Search",
@@ -36,24 +32,20 @@ function HomePage() {
 	const [headerLayoutClass, setHeaderLayoutClass] = useState(visibleHeaderLayout);
 	const [contentOuterContainer, setContentOuterContainer] = useState(contentParentLayout);
 
-	const currentUserData = JSON.parse(localStorage.getItem("currentUser"));
+	const userDataComposite = JSON.parse(localStorage.getItem("userDataComposite"));
 
-	if (currentUserData != null) {
-		if (Object.keys(currentUserData).length > 0) {
-			currentUser = currentUserData;
-		}
+	var requestData = {
+		memberId : userDataComposite.currentUserData.userInformationData.memberId
 	}
 
 	useEffect(() => {
-		if (currentUser.authenticated) {
-			if (currentUser.userInformationData.userLevel === "uploadProfilePicture") { 
+		if (userDataComposite.currentUserData.userInformationData.authenticated) {
+			if (userDataComposite.currentUserData.userInformationData.userLevel === "uploadProfilePicture") { 
 				navigate("/picture_upload");
-			} else if (currentUser.userInformationData.userLevel === "selectSexualityInterest") { 
+			} else if (userDataComposite.currentUserData.userInformationData.userLevel === "selectSexualityInterest") { 
 				navigate("/sexuality");
 			}
-		} else {
-			navigate("/login");
-		}
+		} 
 
 		if (location.pathname.indexOf("/message") > -1) {
 			setHeaderLayoutClass(hiddenHeaderLayout); 
@@ -63,19 +55,31 @@ function HomePage() {
 			setContentOuterContainer(contentParentLayout);
 		}
 	}, [location.pathname]);
-           
+        
+	const reloadHomePage = () => {
+		navigate("/");
+	}
+   
+	const openUserAccount = (event) => {
+		axios.post("http://localhost:1337/likedusersdata", requestData)
+			.then(response => {
+				navigate("account");
+		    }, error => {
+		    	console.log(error);
+		    });
+	}
+	
 	return (
 		<div className="homePage">
 			<div className={headerLayoutClass}>
-				<Link className="companyLogoLink" to="/">
+				<Link className="companyLogoLink" onClick={reloadHomePage}>
 					<img className="companyLogo" alt="Logo" src={logo} />
 				</Link>
 				<RightIconFormField formParts={searchFormPartsValue}/>
-				<Link className="companyLogoLink" to="account">
+				<Link className="companyLogoLink" onClick={openUserAccount}>
 					<img className="roundPictureClass" alt="" 
-						src={"http://localhost:1337/image/" 
-						+ (currentUser.userInformationData !== undefined 
-						? currentUser.userInformationData.profilePicture : "")} />
+						src={"http://localhost:1337/image/" + 
+						userDataComposite.currentUserData.userInformationData.profilePicture} />
 				</Link>
 			</div>
 			<div className={contentOuterContainer}>

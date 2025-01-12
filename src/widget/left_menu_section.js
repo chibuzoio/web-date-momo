@@ -6,7 +6,7 @@ import '../css/timeline.css';
 import '../css/picture_upload.css';
 import '../css/floating_account.css';  
 import * as faceapi from 'face-api.js';
-import { Outlet, Link, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import loading_puzzle from '../image/loading_puzzle.gif';
 import icon_view_blue from '../image/icon_view_blue.png';
 import icon_edit_white from '../image/icon_edit_white.png';
@@ -57,10 +57,10 @@ function LeftMenuSection() {
 	}
 
 	const MODEL_URL = process.env.PUBLIC_URL + '/models';
-	const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+	const userDataComposite = JSON.parse(localStorage.getItem("userDataComposite"));
 
 	var profilePictureParts = {
-		roundPicture : "http://localhost:1337/image/" + currentUser.userInformationData.profilePicture,
+		roundPicture : "http://localhost:1337/image/" + userDataComposite.currentUserData.userInformationData.profilePicture,
 		pictureLayoutClass : "profilePictureLayout pictureLayoutClass",
 		profilePictureClass : "profilePictureImage profilePictureClass",
 		pictureChangeClass : "profilePictureIcon pictureChangeClass"
@@ -68,8 +68,8 @@ function LeftMenuSection() {
 
 	const navigate = useNavigate();
 	const selectPictureButton = useRef();
-	const [notificationLoader, setNotificationLoader] = useState(visibleEmptyNotification);
-	const [displayMessengerClass, setDisplayMessengerClass] = useState(hiddenMessengerDisplay);
+	const [notificationLoader, setNotificationLoader] = useState(hiddenEmptyNotification);
+	const [displayMessengerClass, setDisplayMessengerClass] = useState(visibleMessengerDisplay);
 	const [emptyNotificationLayout, setEmptyNotificationLayout] = useState(hiddenEmptyNotification);
 	const [pictureUpload, setPictureUpload] = useState({
 		picture : "",
@@ -77,15 +77,9 @@ function LeftMenuSection() {
 		imageWidth : 0,
 		imageHeight : 0
 	});
-	const [messengerResponses, setMessengerResponses] = useState([]);
-	const [notificationResponses, setNotificationResponses] = useState([]);       
-	const [emptyMessengerResponse, setEmptyMessengerResponse] = useState({
-		homeDisplayResponses : [],
-		thousandRandomCounter : []
-	});
 
 	var messengerRequestData = {
-		memberId : currentUser.userInformationData.memberId
+		memberId : userDataComposite.currentUserData.userInformationData.memberId
 	}
 
 	useEffect(() => {
@@ -101,46 +95,11 @@ function LeftMenuSection() {
 		};
 
 		loadModels(MODEL_URL);
-
-		loadMessengerNotificationData();
 	}, []);
-	
-	const loadMessengerNotificationData = () => {
-		axios.post("http://localhost:1337/usermessengersdata", messengerRequestData)
-	    	.then(response => {
-				var localMessengerResponses = checkNullInMessenger(response.data);
-				setMessengerResponses(localMessengerResponses);
-				setDisplayMessengerClass(visibleMessengerDisplay);
-				setNotificationLoader(hiddenEmptyNotification);
-	        }, error => {
-	        	console.log(error);
-	        });
-
-		axios.post("http://localhost:1337/usernotifications", messengerRequestData) 
-	    	.then(response => {
-	    		setNotificationResponses(response.data);
-
-	    		if (response.data.length <= 0) {
-	    			setEmptyNotificationLayout(visibleEmptyNotification);
-	    			setNotificationLoader(hiddenEmptyNotification);
-	    		}
-	        }, error => {
-	        	console.log(error);
-	        });		        
-
-		axios.post("http://localhost:1337/alluserdata", messengerRequestData)
-	    	.then(response => {
-	    		setEmptyMessengerResponse(response.data);
-				setDisplayMessengerClass(visibleMessengerDisplay);
-				setNotificationLoader(hiddenEmptyNotification);
-	        }, error => {
-	        	console.log(error);
-	        });	        
-	}
 
 	const openUserGallery = (buttonClicked) => {
 		if (buttonClicked) {
-			navigate("/gallery/" + currentUser.userInformationData.memberId + "/" + 0);
+			navigate("/gallery/" + userDataComposite.currentUserData.userInformationData.memberId + "/" + 0);
 		}
 	}
 
@@ -152,7 +111,7 @@ function LeftMenuSection() {
 
 	const openUserProfile = (buttonClicked) => {
 		if (buttonClicked) {
-			navigate("/profile/" + currentUser.userInformationData.memberId);
+			navigate("/profile/" + userDataComposite.currentUserData.userInformationData.memberId);
 		}
 	}
 
@@ -230,14 +189,14 @@ function LeftMenuSection() {
 	}
 
 	const updateProfilePicture = () => {
-		pictureUpdateRequest.memberId = currentUser.userInformationData.memberId;
+		pictureUpdateRequest.memberId = userDataComposite.currentUserData.userInformationData.memberId;
 
 		if (pictureUpload.imageWidth > 0 
 			&& pictureUpload.imageHeight > 0 && pictureUpload.faceCountInPicture > 0) {
 			axios.post("http://localhost:1337/updatepicture", pictureUpdateRequest)
 		    	.then(response => { 
-		    		currentUser.userInformationData.profilePicture = response.data.profilePicture;
-					localStorage.setItem("currentUser", JSON.stringify(currentUser));
+		    		userDataComposite.currentUserData.userInformationData.profilePicture = response.data.profilePicture;
+					localStorage.setItem("userDataComposite", JSON.stringify(userDataComposite));
 					window.location.reload(true);
 		        }, error => {
 		        	console.log(error);
@@ -263,12 +222,12 @@ function LeftMenuSection() {
 	}
 
 	const displayMessengerContent = () => { 
-		if (messengerResponses.length > 0) {
+		if (userDataComposite.messengerResponses.length > 0) {
 			var messengerComposite = [];
 
-			for (var i = 0; i < messengerResponses.length; i++) {
+			for (var i = 0; i < userDataComposite.messengerResponses.length; i++) {
 				var messengerContent = {
-					messengerResponse : messengerResponses[i],
+					messengerResponse : userDataComposite.messengerResponses[i],
 					messengerClasses : {
 						messengerContentLayout : "activeMessengerContent messengerContentTimeline",
 						chatMateUserName : "chatMateUserName chatMateUserNameTimeline",
@@ -296,8 +255,8 @@ function LeftMenuSection() {
 		} else {
 			var homeDisplayResponses = [];
 
-			for (var i = 0; i < emptyMessengerResponse.homeDisplayResponses.length; i++) {
-				homeDisplayResponses.push(emptyMessengerResponse.homeDisplayResponses[i]);
+			for (var i = 0; i < userDataComposite.emptyMessengerResponse.homeDisplayResponses.length; i++) {
+				homeDisplayResponses.push(userDataComposite.emptyMessengerResponse.homeDisplayResponses[i]);
 
 				if (i > 0) {
 					break;
@@ -319,12 +278,12 @@ function LeftMenuSection() {
 	}
 
 	const displayNotificationContent = () => {
-		if (notificationResponses.length > 0) {
+		if (userDataComposite.notificationResponses.length > 0) {
 			var notificationComposite = [];
 			
-			for (var i = 0; i < notificationResponses.length; i++) {
+			for (var i = 0; i < userDataComposite.notificationResponses.length; i++) {
 				var notificationContent = {
-					notificationResponse : notificationResponses[i],
+					notificationResponse : userDataComposite.notificationResponses[i],
 					notificationClasses : {
 						notificationContentLayout : "activeMessengerContent notificationContentTimeline",
 						notificationTitle : "notificationTitleTimeline",
@@ -386,7 +345,7 @@ function LeftMenuSection() {
 		preparedSenderMessage = encodeURIComponent(preparedSenderMessage.split(" ").join("+"));
 
 		var postMessageRequest = {
-			senderId : currentUser.userInformationData.memberId,
+			senderId : userDataComposite.currentUserData.userInformationData.memberId,
 	        receiverId : homeDisplayResponse.memberId,
 	        messagePosition : 0, 
 	        senderMessage : preparedSenderMessage		
@@ -442,12 +401,12 @@ function LeftMenuSection() {
 				</div>
 				<div className="profileMenuLowerLayout">
 					<div className="leftMenuUserName">
-						{currentUser.userInformationData.userName.charAt(0).toUpperCase() + 
-							currentUser.userInformationData.userName.slice(1)}
+						{userDataComposite.currentUserData.userInformationData.userName.charAt(0).toUpperCase() + 
+							userDataComposite.currentUserData.userInformationData.userName.slice(1)}
 					</div>
 					<div className="leftMenuLocation">
-						{(currentUser.userInformationData.currentLocation === "") ? 
-							"Location Not Set" : currentUser.userInformationData.currentLocation}
+						{(userDataComposite.currentUserData.userInformationData.currentLocation === "") ? 
+							"Location Not Set" : userDataComposite.currentUserData.userInformationData.currentLocation}
 					</div>
 					<LeftIconHollowButton onButtonClicked={openUserProfile} buttonParts={leftMenuProfileButton} />
 				</div>

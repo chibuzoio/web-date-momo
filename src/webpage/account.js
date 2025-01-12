@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
 import '../css/style.css';
 import '../css/profile.css';
 import '../css/timeline.css';
@@ -10,7 +9,7 @@ import icon_logout from '../image/icon_logout.png';
 import LeftIconMenu from '../component/left_icon_menu'; 
 import ProfilePicture from '../component/profile_picture'; 
 import icon_suggestion from '../image/icon_suggestion.png';
-import { Outlet, Link, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import icon_announcement from '../image/icon_announcement.png';
 import UserDetailPicture from '../component/user_detail_picture';
 import icon_help_and_support from '../image/icon_help_and_support.png';
@@ -56,10 +55,11 @@ function Account() {
 	var hiddenFirstThree = visibleFirstThree + " hideComponent";
 	var hiddenLikedUserLayout = visibleLikedUserLayout + " hideComponent";
 	
+	const location = useLocation();
 	const profileLayout = useRef();
-	const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+	const userDataComposite = JSON.parse(localStorage.getItem("userDataComposite"));
 
-	const [userLikedResponses, setUserLikedResponses] = useState([]);
+	// const [userLikedResponses, setUserLikedResponses] = useState([]);
 	
 	const [userLikedLayout, setUserLikedLayout] = useState({
 		userLikedDisplayTitle : "",
@@ -110,34 +110,20 @@ function Account() {
 		}
 	});
 
-	var requestData = {
-		memberId : currentUser.userInformationData.memberId
-	}
-
 	useEffect(() => {
 		calculatePictureDimensions();
 		window.addEventListener('resize', calculatePictureDimensions);
 
-		loadLikedUserComposite();
+		displayAvailableLiked();
 
 		return () => {
 			window.removeEventListener('resize', calculatePictureDimensions);
 		};
-	}, [userLikedResponses]);
-
-	const loadLikedUserComposite = () => {
-		axios.post("http://localhost:1337/likedusersdata", requestData)
-			.then(response => {
-				setUserLikedResponses(response.data);
-				displayAvailableLiked();
-		    }, error => {
-		    	console.log(error);
-		    });
-	}
+	}, []);
 
 	const logoutCurrentUser = (menuClicked) => {
 		if (menuClicked) {
-			localStorage.setItem("currentUser", "{}");
+			localStorage.setItem("userDataComposite", "{}");
 			window.location.replace("/login");
 		}
 	}
@@ -163,50 +149,50 @@ function Account() {
 
 	const initializeFirstLikedUser = () => { 
 		setFirstLikedUser({
-			innerPictureClass : (userLikedResponses[0].userName.length > 0) ? "" : "hideComponent", 
+			innerPictureClass : (userDataComposite.likedUserComposite[0].userName.length > 0) ? "" : "hideComponent", 
 			userDetails : {
-				profilePicture : userLikedResponses[0].profilePicture,
-				pictureUserName : userLikedResponses[0].userName,
-				pictureAge : userLikedResponses[0].age
+				profilePicture : userDataComposite.likedUserComposite[0].profilePicture,
+				pictureUserName : userDataComposite.likedUserComposite[0].userName,
+				pictureAge : userDataComposite.likedUserComposite[0].age
 			}
 		});	
 	}
 
 	const initializeSecondLikedUser = () => {      
 		setSecondLikedUser({
-			innerPictureClass : (userLikedResponses[1].userName.length > 0) ? "" : "hideComponent", 
+			innerPictureClass : (userDataComposite.likedUserComposite[1].userName.length > 0) ? "" : "hideComponent", 
 			userDetails : {
-				profilePicture : userLikedResponses[1].profilePicture,
-				pictureUserName : userLikedResponses[1].userName,
-				pictureAge : userLikedResponses[1].age
+				profilePicture : userDataComposite.likedUserComposite[1].profilePicture,
+				pictureUserName : userDataComposite.likedUserComposite[1].userName,
+				pictureAge : userDataComposite.likedUserComposite[1].age
 			}
 		});
 	}
 
 	const initializeThirdLikedUser = () => {
 		setThirdLikedUser({
-			innerPictureClass : (userLikedResponses[2].userName.length > 0) ? "" : "hideComponent", 
+			innerPictureClass : (userDataComposite.likedUserComposite[2].userName.length > 0) ? "" : "hideComponent", 
 			userDetails : {
-				profilePicture : userLikedResponses[2].profilePicture,
-				pictureUserName : userLikedResponses[2].userName,
-				pictureAge : userLikedResponses[2].age
+				profilePicture : userDataComposite.likedUserComposite[2].profilePicture,
+				pictureUserName : userDataComposite.likedUserComposite[2].userName,
+				pictureAge : userDataComposite.likedUserComposite[2].age
 			}
 		});		
 	}
 
 	const initializeFourthLikedUser = () => {
 		setFourthLikedUser({
-			innerPictureClass : (userLikedResponses[3].userName.length > 0) ? "" : "hideComponent", 
+			innerPictureClass : (userDataComposite.likedUserComposite[3].userName.length > 0) ? "" : "hideComponent", 
 			userDetails : {
-				profilePicture : userLikedResponses[3].profilePicture,
-				pictureUserName : userLikedResponses[3].userName,
-				pictureAge : userLikedResponses[3].age
+				profilePicture : userDataComposite.likedUserComposite[3].profilePicture,
+				pictureUserName : userDataComposite.likedUserComposite[3].userName,
+				pictureAge : userDataComposite.likedUserComposite[3].age
 			}
 		});
 	}
 
 	const displayAvailableLiked = () => {
-		if (userLikedResponses.length > 0) {
+		if (userDataComposite.likedUserComposite.length > 0) {
 			setUserLikedLayout({
 				userLikedDisplayTitle : "People You Like",
 				generalLikedDisplayLayout : userLikedLayout.generalLikedDisplayLayout,
@@ -214,7 +200,7 @@ function Account() {
 			});
 		}
 
-		if (userLikedResponses.length <= 0) {
+		if (userDataComposite.likedUserComposite.length <= 0) {
 			setUserLikedLayout({
 				userLikedDisplayTitle : userLikedLayout.userLikedDisplayTitle,
 				generalLikedDisplayLayout : hiddenLikedUserLayout,
@@ -227,29 +213,29 @@ function Account() {
 				firstThreeLikedDisplay : visibleFirstThree
 			});
 
-			if (userLikedResponses.length === 1) {
+			if (userDataComposite.likedUserComposite.length === 1) {
 				initializeFirstLikedUser();
 			}
 
-			if (userLikedResponses.length === 2) {
+			if (userDataComposite.likedUserComposite.length === 2) {
 				initializeFirstLikedUser();
 				initializeSecondLikedUser();
 			}
 
-			if (userLikedResponses.length === 3) {
+			if (userDataComposite.likedUserComposite.length === 3) {
 				initializeFirstLikedUser();
 				initializeSecondLikedUser();
 				initializeThirdLikedUser();
 			}
 			
-			if (userLikedResponses.length === 4) { 
+			if (userDataComposite.likedUserComposite.length === 4) { 
 				initializeFirstLikedUser();
 				initializeSecondLikedUser();
 				initializeThirdLikedUser();
 				initializeFourthLikedUser();
 			}
 
-			if (userLikedResponses.length > 4) {
+			if (userDataComposite.likedUserComposite.length > 4) {
 				// display the count of users not displayed over the 6th user layout 
 				initializeFirstLikedUser();
 				initializeSecondLikedUser();
@@ -267,12 +253,12 @@ function Account() {
 						<div className="profilePictureLayout">
 							<img className="profilePictureImage" 
 								alt="" src={"http://localhost:1337/image/" 
-								+ currentUser.userInformationData.profilePicture} />
+								+ userDataComposite.currentUserData.userInformationData.profilePicture} />
 						</div>
 					</div>
 					<div className="impactCountLayout">
 						<div className="impactCountHeader">Impact</div>
-						<div className="impactCountNumber">{currentUser.userInformationData.impactCount}</div>
+						<div className="impactCountNumber">{userDataComposite.currentUserData.userInformationData.impactCount}</div>
 					</div>
 				</div>
 				<div className="likedUsersTitle">People You Like</div>
