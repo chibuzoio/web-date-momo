@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../css/login.css';
 import '../css/style.css';
@@ -10,185 +10,169 @@ import BasicButton from '../component/basic_button';
 import icon_person from '../image/icon_person.png';
 import logo from '../image/datemomo.png';
 
-class Register extends React.Component {
-	visibleRegisterWidget = "loginWidget";
-	visibleButtonClass = "basicButton fullWidth";
-	visibleTermsConditions = "termsAndConditionsLayout";
-	hiddenButtonClass = this.visibleButtonClass + " hideComponent";
-	hiddenRegisterWidget = this.visibleRegisterWidget + " hideComponent";
-	hiddenTermsConditions = this.visibleTermsConditions + " hideComponent";
-	passwordShortError = "Password is too short";
-	passwordEmptyError = "Password field is empty";
-	userNameShortError = "User name is too short";
-	userNameEmptyError = "User name field is empty";
-	userNameUsedError = "User name is already taken";
-	userNameSpaceError = "User name must not contain space";
-	state = {contextData : {
-		userNames : [],
-		registerRequestData : {
-			userName : "",
-			password : "",
-			userLevel : "uploadProfilePicture",
-			userStatus : "Hello dear! Welcome to my profile!"
-		},
-		userNameValidity : {
-			userNameError : this.userNameEmptyError,
-			userNameValid : false,
-			errorDisplay : "none"
-		}, 
-		passwordValidity : {
-			passwordError : this.passwordEmptyError,
-			passwordValid : false,
-			errorDisplay : "none"
-		},
-		registerButtonParts : {
-			buttonTitle : "Sign Up",
-			buttonClass : this.visibleButtonClass
-		},
-		toggleLayoutDisplay : {
-			privacyConditionHtml : parse(""),
-			privacyPolicyText : "",
-			termsConditionsText : "",
-			registerWidgetClass : this.visibleRegisterWidget,
-			termsConditionsClass : this.hiddenTermsConditions
-		},
-		loadingPuzzleDisplay : "none"
-	}};
+function Register() {
+	var visibleRegisterWidget = "loginWidget";
+	var visibleButtonClass = "basicButton fullWidth";
+	var visibleTermsConditions = "termsAndConditionsLayout";
+	var hiddenButtonClass = visibleButtonClass + " hideComponent";
+	var hiddenRegisterWidget = visibleRegisterWidget + " hideComponent";
+	var hiddenTermsConditions = visibleTermsConditions + " hideComponent";
+	var passwordShortError = "Password is too short";
+	var passwordEmptyError = "Password field is empty";
+	var userNameShortError = "User name is too short";
+	var userNameEmptyError = "User name field is empty";
+	var userNameUsedError = "User name is already taken";
+	var userNameSpaceError = "User name must not contain space";
 
-	constructor(props) {
-		super(props);
-		// localStorage.setItem("currentUser", "{}");
-		this.privacyClicked = this.privacyClicked.bind(this);
-		this.validatePassword = this.validatePassword.bind(this);
-		this.validateUserName = this.validateUserName.bind(this);
-		this.conditionsClicked = this.conditionsClicked.bind(this);
-		this.processRegistration = this.processRegistration.bind(this);
-		this.updateInputUserName = this.updateInputUserName.bind(this);
-		this.updateInputPassword = this.updateInputPassword.bind(this);
-		this.closePrivacyCondition = this.closePrivacyCondition.bind(this);
-	}
+    var privacyConditionButton = {
+        buttonTitle : "Done",
+        buttonClass : "basicButton"
+    };
 
-	componentDidMount() {
-		axios.get("http://localhost:1337/usernamecomposite")
-	      	.then(response => {
-	        	this.setState(function(state) {
-		        	return {contextData : {
-			          	userNames : response.data,
-			          	registerRequestData : state.contextData.registerRequestData,
-			          	userNameValidity : state.contextData.userNameValidity,
-			          	passwordValidity : state.contextData.passwordValidity,
-			          	registerButtonParts : state.contextData.registerButtonParts,
-			          	toggleLayoutDisplay : state.contextData.toggleLayoutDisplay,
-			          	loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
-		          	}
-		        }});
-	      	}, error => {
-	        	console.log(error);
-	      	});
+    var firstFormPartsValue = {
+        fieldIcon : icon_person,
+        placeholder : "User Name",
+        label : "User Name",
+        type : "text",
+        inputFieldClass : "inputFieldLocal",
+        fieldLayoutClass : "fieldLayout",
+        fieldIconClass : "leftFieldIcon"
+    };
 
-		axios.get("http://localhost:1337/documents/privacy_policy.txt")
-	      	.then(response => {
-				this.setState(function(state) {
-			    	return {contextData : {
-			          	userNames : state.contextData.userNames,
-			          	registerRequestData : state.contextData.registerRequestData,
-			          	userNameValidity : state.contextData.userNameValidity,
-			          	passwordValidity : state.contextData.passwordValidity,
-			          	registerButtonParts : state.contextData.registerButtonParts,
-						toggleLayoutDisplay : {
-							privacyConditionHtml : state.contextData.toggleLayoutDisplay.privacyConditionHtml,
-							privacyPolicyText : response.data,
-							termsConditionsText : state.contextData.toggleLayoutDisplay.termsConditionsText,
-							registerWidgetClass : state.contextData.toggleLayoutDisplay.registerWidgetClass,
-							termsConditionsClass : state.contextData.toggleLayoutDisplay.termsConditionsClass
-						},
-			          	loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
-			      	}
-			    }});
-	      	}, error => {
-	        	console.log(error);
-	      	});
+    var secondFormPartsValue = {
+        fieldIcon : icon_password,
+        placeholder : "Password",
+        label : "Password",
+        type : "password",
+        inputFieldClass : "inputFieldLocal",
+        fieldLayoutClass : "fieldLayout",
+        fieldIconClass : "leftFieldIcon"
+    };
 
-		axios.get("http://localhost:1337/documents/terms_and_conditions.txt")
-	      	.then(response => {
-				this.setState(function(state) {
-			    	return {contextData : {
-			          	userNames : state.contextData.userNames,
-			          	registerRequestData : state.contextData.registerRequestData,
-			          	userNameValidity : state.contextData.userNameValidity,
-			          	passwordValidity : state.contextData.passwordValidity,
-			          	registerButtonParts : state.contextData.registerButtonParts,
-						toggleLayoutDisplay : {
-							privacyConditionHtml : state.contextData.toggleLayoutDisplay.privacyConditionHtml,
-							privacyPolicyText : state.contextData.toggleLayoutDisplay.privacyPolicyText,
-							termsConditionsText : response.data,
-							registerWidgetClass : state.contextData.toggleLayoutDisplay.registerWidgetClass,
-							termsConditionsClass : state.contextData.toggleLayoutDisplay.termsConditionsClass
-						},
-			          	loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
-			      	}
-			    }});
-	      	}, error => {
-	        	console.log(error);
-	      	});
-	}
+    var userDataComposite = {
+        currentUserData : {},
+        likedUserComposite : [],
+        messengerResponses : [],
+        notificationResponses : [],
+        timelineDataComposite : {
+            homeDisplayResponses : [],
+            thousandRandomCounter : []
+        },
+        emptyMessengerResponse : {
+            homeDisplayResponses : [],
+		    thousandRandomCounter : []
+        }
+    };
 
-	componentWillUnmount() {
+    const [userNameComposite, setUserNameComposite] = useState([]);
+    const [loadingPuzzleDisplay, setLoadingPuzzleDisplay] = useState("none");
 
-	}
-  
-	validatePassword() {
-		var passwordValid = false;
-		var errorDisplayStyle = "none";
-		var passwordErrorText = this.passwordShortError;
-		var passwordValue = this.state.contextData.registerRequestData.password;
+    const [registerRequestData, setRegisterRequestData] = useState({
+        userName : "",
+        password : "",
+        userLevel : "uploadProfilePicture",
+        userStatus : "Hello dear! Welcome to my profile!"
+    });
 
-		if (passwordValue.length > 4) {
-			passwordValid = true;	
-		} else {
-			errorDisplayStyle = "flex";
+    const [userNameValidity, setUserNameValidity] = useState({
+        userNameError : userNameEmptyError,
+        userNameValid : false,
+        errorDisplay : "none"
+    });
 
-			if (!passwordValue) {
-				passwordErrorText = this.passwordEmptyError;
-			}
-		}
+    const [passwordValidity, setPasswordValidity] = useState({
+        passwordError : passwordEmptyError,
+        passwordValid : false,
+        errorDisplay : "none"
+    });
 
-		this.setState(function(state) {
-			return {contextData : {
-				userNames : state.contextData.userNames,
-				registerRequestData : state.contextData.registerRequestData,
-				userNameValidity : state.contextData.userNameValidity,
-		      	passwordValidity : {
-					passwordError : passwordErrorText,
-					passwordValid : passwordValid,
-					errorDisplay : errorDisplayStyle
-				},
-	          	registerButtonParts : state.contextData.registerButtonParts,
-	          	toggleLayoutDisplay : state.contextData.toggleLayoutDisplay,
-	          	loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
-			}
-		}});
+    const [registerButtonParts, setRegisterButtonParts] = useState({
+        buttonTitle : "Sign Up",
+        buttonClass : visibleButtonClass
+    });
 
-		return passwordValid;		
-	}
+    const [toggleLayoutDisplay, setToggleLayoutDisplay] = useState({
+        registerWidgetClass : visibleRegisterWidget,
+        termsConditionsClass : hiddenTermsConditions
+    });
 
-	validateUserName() {
+    const [conditionPrivacyText, setConditionPrivacyText] = useState({
+        privacyConditionHtml : parse(""),
+        privacyPolicyText : "",
+        termsConditionsText : ""
+    });
+
+    useEffect(() => {
+        axios.get("http://localhost:1337/usernamecomposite")
+            .then(response => {
+                setUserNameComposite(response.data);
+            }, error => {
+                console.log(error);
+            });
+
+        axios.get("http://localhost:1337/documents/privacy_policy.txt")
+            .then(response => {
+                setConditionPrivacyText({
+                    privacyConditionHtml : conditionPrivacyText.privacyConditionHtml,
+                    privacyPolicyText : response.data,
+                    termsConditionsText : conditionPrivacyText.termsConditionsText
+                });
+            }, error => {
+                console.log(error);
+            });
+
+        axios.get("http://localhost:1337/documents/terms_and_conditions.txt")
+            .then(response => {
+                setConditionPrivacyText({
+                    privacyConditionHtml : conditionPrivacyText.privacyConditionHtml,
+                    privacyPolicyText : conditionPrivacyText.privacyPolicyText,
+                    termsConditionsText : response.data
+                });
+            }, error => {
+                console.log(error);
+            });
+    }, []);
+        
+    const validatePassword = () => {
+        var passwordValid = false;
+        var errorDisplayStyle = "none";
+        var passwordErrorText = passwordShortError;
+        var passwordValue = registerRequestData.password;
+
+        if (passwordValue.length > 4) {
+            passwordValid = true;	
+        } else {
+            errorDisplayStyle = "flex";
+
+            if (!passwordValue) {
+                passwordErrorText = passwordEmptyError;
+            }
+        }
+
+        setPasswordValidity({
+            passwordError : passwordErrorText,
+            passwordValid : passwordValid,
+            errorDisplay : errorDisplayStyle
+        });
+
+        return passwordValid;		
+    }
+    
+	const validateUserName = () => {
 		var userNameValid = false;
 		var userNameErrorText = "";
 		var errorDisplayStyle = "none";
-		var userNameArray = this.state.contextData.userNames;
-		var userNameValue = this.state.contextData.registerRequestData.userName;
 
-		if (userNameValue.length > 3) {
+		if (registerRequestData.userName.length > 3) {
 			userNameValid = true;
 
-			if (userNameValue.indexOf(" ") > -1) {
-				userNameErrorText = this.userNameSpaceError;
+			if (registerRequestData.userName.indexOf(" ") > -1) {
+				userNameErrorText = userNameSpaceError;
 				errorDisplayStyle = "flex";
 				userNameValid = false;
 			} else {
-				if (userNameArray.indexOf(userNameValue) > -1) {
-					userNameErrorText = this.userNameUsedError;
+				if (userNameComposite.indexOf(registerRequestData.userName) > -1) {
+					userNameErrorText = userNameUsedError;
 					errorDisplayStyle = "flex";
 					userNameValid = false;
 				} 
@@ -197,160 +181,125 @@ class Register extends React.Component {
 			errorDisplayStyle = "flex";
 			userNameValid = false;
 		
-			if (!userNameValue) {
-				userNameErrorText = this.userNameEmptyError;
+			if (!registerRequestData.userName) {
+				userNameErrorText = userNameEmptyError;
 			} else {
-				userNameErrorText = this.userNameShortError;
+				userNameErrorText = userNameShortError;
 			}
 		}
 
-		this.setState(function(state) {
-			return {contextData : {
-				userNames : state.contextData.userNames,
-				registerRequestData : state.contextData.registerRequestData,
-				userNameValidity : {
-					userNameError : userNameErrorText,
-					userNameValid : userNameValid,
-					errorDisplay : errorDisplayStyle
-				},
-		      	passwordValidity : state.contextData.passwordValidity,
-	          	registerButtonParts : state.contextData.registerButtonParts,
-	          	toggleLayoutDisplay : state.contextData.toggleLayoutDisplay,
-	          	loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
-			}
-		}});
+        setUserNameValidity({
+            userNameError : userNameErrorText,
+            userNameValid : userNameValid,
+            errorDisplay : errorDisplayStyle
+        });
 
 		return userNameValid;
 	}
 
-	updateInputUserName(userNameValue, isBlurred) {
-		this.setState(function(state) {
-			return {contextData : {
-				userNames : state.contextData.userNames,
-				registerRequestData : {
-					userName : userNameValue.toLowerCase().trim(),
-					password : state.contextData.registerRequestData.password,
-					userLevel : state.contextData.registerRequestData.userLevel,
-					userStatus : state.contextData.registerRequestData.userStatus
-				},
-				userNameValidity : {
-					userNameError : state.contextData.userNameValidity.userNameError,
-					userNameValid : state.contextData.userNameValidity.userNameValid,
-					errorDisplay : "none"
-				}, 
-				passwordValidity : {
-					passwordError : state.contextData.passwordValidity.passwordError,
-					passwordValid : state.contextData.passwordValidity.passwordValid,
-					errorDisplay : "none"
-				},
-	          	registerButtonParts : {
-					buttonTitle : "Sign Up",
-					buttonClass : this.visibleButtonClass
-				},
-				toggleLayoutDisplay : state.contextData.toggleLayoutDisplay,
-	          	loadingPuzzleDisplay : "none"
-			}
-		}});
+	const updateInputUserName = (userNameValue, isBlurred) => {
+        setRegisterRequestData({
+            userName : userNameValue.toLowerCase().trim(),
+            password : registerRequestData.password,
+            userLevel : registerRequestData.userLevel,
+            userStatus : registerRequestData.userStatus
+        });
 
+        setUserNameValidity({
+            userNameError : userNameValidity.userNameError,
+            userNameValid : userNameValidity.userNameValid,
+            errorDisplay : "none"
+        });
+
+        setPasswordValidity({
+			passwordError : passwordValidity.passwordError,
+            passwordValid : passwordValidity.passwordValid,
+            errorDisplay : "none"
+        });
+
+        setRegisterButtonParts({
+            buttonTitle : "Sign Up",
+            buttonClass : visibleButtonClass
+        });
+
+        setLoadingPuzzleDisplay("none");
+  
 		if (isBlurred) {
-			this.validateUserName();
+			validateUserName();
 		}
 	}
 
-	updateInputPassword(passwordValue, isBlurred) {
-		this.setState(function(state) {
-			return {contextData : {
-				userNames : state.contextData.userNames,
-				registerRequestData : {
-					userName : state.contextData.registerRequestData.userName,
-					password : passwordValue,
-					userLevel : state.contextData.registerRequestData.userLevel,
-					userStatus : state.contextData.registerRequestData.userStatus
-				},
-				userNameValidity : {
-					userNameError : state.contextData.userNameValidity.userNameError,
-					userNameValid : state.contextData.userNameValidity.userNameValid,
-					errorDisplay : "none"
-				}, 
-				passwordValidity : {
-					passwordError : state.contextData.passwordValidity.passwordError,
-					passwordValid : state.contextData.passwordValidity.passwordValid,
-					errorDisplay : "none"
-				},
-	          	registerButtonParts : {
-					buttonTitle : "Sign Up",
-					buttonClass : this.visibleButtonClass
-				},
-				toggleLayoutDisplay : state.contextData.toggleLayoutDisplay,
-	          	loadingPuzzleDisplay : "none"
-			}
-		}});
+	const updateInputPassword = (passwordValue, isBlurred) => {
+        setRegisterRequestData({
+            userName : registerRequestData.userName,
+            password : passwordValue,
+            userLevel : registerRequestData.userLevel,
+            userStatus : registerRequestData.userStatus
+        });
+
+        setUserNameValidity({
+            userNameError : userNameValidity.userNameError,
+            userNameValid : userNameValidity.userNameValid,
+            errorDisplay : "none"
+        });
+
+        setPasswordValidity({
+            passwordError : passwordValidity.passwordError,
+            passwordValid : passwordValidity.passwordValid,
+            errorDisplay : "none"
+        });
+
+        setRegisterButtonParts({
+            buttonTitle : "Sign Up",
+            buttonClass : visibleButtonClass
+        });
+
+        setLoadingPuzzleDisplay("none");
        
 		if (isBlurred) {
-			this.validateUserName();
-			this.validatePassword();
+			validateUserName();
+			validatePassword();
 		}
 	}
 
-	processRegistration(buttonClicked) {
+	const processRegistration = (buttonClicked) => {
 		if (buttonClicked) {
-			var passwordValid = this.validatePassword();
-			var userNameValid = this.validateUserName();
+			var passwordValid = validatePassword();
+			var userNameValid = validateUserName();
 
 			if (passwordValid && userNameValid) {
-        		this.setState(function(state) {
-		        	return {contextData : {
-			          	userNames : state.contextData.userNames,
-			          	registerRequestData : state.contextData.registerRequestData,
-			          	userNameValidity : state.contextData.userNameValidity,
-			          	passwordValidity : state.contextData.passwordValidity,
-			          	registerButtonParts : {
-							buttonTitle : "Sign Up",
-							buttonClass : this.hiddenButtonClass
-						},
-						toggleLayoutDisplay : state.contextData.toggleLayoutDisplay,
-			          	loadingPuzzleDisplay : "flex"
-		          	}
-		        }});
+                setRegisterButtonParts({
+                    buttonTitle : "Sign Up",
+                    buttonClass : hiddenButtonClass
+                });
 
-				axios.post("http://localhost:1337/registermember", this.state.contextData.registerRequestData)
+                setLoadingPuzzleDisplay("flex");
+            
+				axios.post("http://localhost:1337/registermember", registerRequestData)
 			    	.then(response => {   
-		        		this.setState(function(state) {
-				        	return {contextData : {
-					          	userNames : state.contextData.userNames,
-					          	registerRequestData : state.contextData.registerRequestData,
-					          	userNameValidity : state.contextData.userNameValidity,
-					          	passwordValidity : state.contextData.passwordValidity,
-					          	registerButtonParts : {
-									buttonTitle : "Sign Up",
-									buttonClass : this.visibleButtonClass
-								},
-								toggleLayoutDisplay : state.contextData.toggleLayoutDisplay,
-					          	loadingPuzzleDisplay : "none"
-				          	}
-				        }});
+                        setRegisterButtonParts({
+                            buttonTitle : "Sign Up",
+                            buttonClass : visibleButtonClass
+                        });
+
+                        setLoadingPuzzleDisplay("none");
 
 			    		if (response.data.authenticated) {
-			    			localStorage.setItem("currentUser", JSON.stringify(response.data));
+                            userDataComposite.currentUserData = response.data;
+
+			    			localStorage.setItem("userDataComposite", JSON.stringify(userDataComposite));
+
 				    		window.location.replace("/picture_upload");
 			    		} else {
-			    			localStorage.setItem("currentUser", JSON.stringify({}));           
+			    			localStorage.setItem("userDataComposite", JSON.stringify({}));           
 			    		}
 			        }, error => {    
-		        		this.setState(function(state) {
-				        	return {contextData : {
-					          	userNames : state.contextData.userNames,
-					          	registerRequestData : state.contextData.registerRequestData,
-					          	userNameValidity : state.contextData.userNameValidity,
-					          	passwordValidity : state.contextData.passwordValidity,
-					          	registerButtonParts : {
-									buttonTitle : "Sign Up",
-									buttonClass : this.visibleButtonClass
-								},
-								toggleLayoutDisplay : state.contextData.toggleLayoutDisplay,
-					          	loadingPuzzleDisplay : "none"
-				          	}
-				        }});
+                        setRegisterButtonParts({
+                            buttonTitle : "Sign Up",
+                            buttonClass : visibleButtonClass
+                        });
+
+                        setLoadingPuzzleDisplay("none");
 
 			        	console.log(error);
 			        });
@@ -358,133 +307,85 @@ class Register extends React.Component {
 		}
 	}
 
-	conditionsClicked(event) {
-		this.setState(function(state) {
-	    	return {contextData : {
-	          	userNames : state.contextData.userNames,
-	          	registerRequestData : state.contextData.registerRequestData,
-	          	userNameValidity : state.contextData.userNameValidity,
-	          	passwordValidity : state.contextData.passwordValidity,
-	          	registerButtonParts : state.contextData.registerButtonParts,
-				toggleLayoutDisplay : {
-					privacyConditionHtml : parse(state.contextData.toggleLayoutDisplay.termsConditionsText),
-					privacyPolicyText : state.contextData.toggleLayoutDisplay.privacyPolicyText,
-					termsConditionsText : state.contextData.toggleLayoutDisplay.termsConditionsText,
-					registerWidgetClass : this.hiddenRegisterWidget,
-					termsConditionsClass : this.visibleTermsConditions
-				},
-	          	loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
-	      	}
-	    }});
+	const conditionsClicked = (event) => {
+        setConditionPrivacyText({
+            privacyConditionHtml : parse(conditionPrivacyText.termsConditionsText),
+            privacyPolicyText : conditionPrivacyText.privacyPolicyText,
+            termsConditionsText : conditionPrivacyText.termsConditionsText,
+        });
+
+        setToggleLayoutDisplay({
+            registerWidgetClass : hiddenRegisterWidget,
+            termsConditionsClass : visibleTermsConditions
+        });
 	}
 
-	privacyClicked(event) {
-		this.setState(function(state) {
-	    	return {contextData : {
-	          	userNames : state.contextData.userNames,
-	          	registerRequestData : state.contextData.registerRequestData,
-	          	userNameValidity : state.contextData.userNameValidity,
-	          	passwordValidity : state.contextData.passwordValidity,
-	          	registerButtonParts : state.contextData.registerButtonParts,
-				toggleLayoutDisplay : {
-					privacyConditionHtml : parse(state.contextData.toggleLayoutDisplay.privacyPolicyText),
-					privacyPolicyText : state.contextData.toggleLayoutDisplay.privacyPolicyText,
-					termsConditionsText : state.contextData.toggleLayoutDisplay.termsConditionsText,
-					registerWidgetClass : this.hiddenRegisterWidget,
-					termsConditionsClass : this.visibleTermsConditions
-				},
-	          	loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
-	      	}
-	    }});
+	const privacyClicked = (event) => {
+        setConditionPrivacyText({
+            privacyConditionHtml : parse(conditionPrivacyText.privacyPolicyText),
+            privacyPolicyText : conditionPrivacyText.privacyPolicyText,
+            termsConditionsText : conditionPrivacyText.termsConditionsText,
+        });
+
+        setToggleLayoutDisplay({
+            registerWidgetClass : hiddenRegisterWidget,
+            termsConditionsClass : visibleTermsConditions
+        });
 	}
 
-	closePrivacyCondition(buttonClicked) {
+	const closePrivacyCondition = (buttonClicked) => {
 		if (buttonClicked) {
-			this.setState(function(state) {
-		    	return {contextData : {
-		          	userNames : state.contextData.userNames,
-		          	registerRequestData : state.contextData.registerRequestData,
-		          	userNameValidity : state.contextData.userNameValidity,
-		          	passwordValidity : state.contextData.passwordValidity,
-		          	registerButtonParts : state.contextData.registerButtonParts,
-					toggleLayoutDisplay : {
-						privacyConditionHtml : state.contextData.toggleLayoutDisplay.privacyConditionHtml,
-						privacyPolicyText : state.contextData.toggleLayoutDisplay.privacyPolicyText,
-						termsConditionsText : state.contextData.toggleLayoutDisplay.termsConditionsText,
-						registerWidgetClass : this.visibleRegisterWidget,
-						termsConditionsClass : this.hiddenTermsConditions
-					},
-		          	loadingPuzzleDisplay : state.contextData.loadingPuzzleDisplay
-		      	}
-		    }});			
+            setConditionPrivacyText({
+                privacyConditionHtml : parse(""),
+                privacyPolicyText : conditionPrivacyText.privacyPolicyText,
+                termsConditionsText : conditionPrivacyText.termsConditionsText,
+            });
+        
+            setToggleLayoutDisplay({
+                registerWidgetClass : visibleRegisterWidget,
+                termsConditionsClass : hiddenTermsConditions
+            });
 		}
 	}
 
-	render() {
-		var privacyConditionButton = {
-			buttonTitle : "Done",
-			buttonClass : "basicButton"
-		};
-
-		var firstFormPartsValue = {
-			fieldIcon : icon_person,
-			placeholder : "User Name",
-			label : "User Name",
-			type : "text",
-			inputFieldClass : "inputFieldLocal",
-			fieldLayoutClass : "fieldLayout",
-			fieldIconClass : "leftFieldIcon"
-		};
-
-		var secondFormPartsValue = {
-			fieldIcon : icon_password,
-			placeholder : "Password",
-			label : "Password",
-			type : "password",
-			inputFieldClass : "inputFieldLocal",
-			fieldLayoutClass : "fieldLayout",
-			fieldIconClass : "leftFieldIcon"
-		};
-       
-		return (
-			<div className="login">
-				<div className={this.state.contextData.toggleLayoutDisplay.registerWidgetClass}>
-					<div className="registerPageHeader">
-						<div className="registerPageTitle">Create Your <br></br>Account</div>
-						<img className="registerPageIcon" alt="Logo" src={logo}/>
-					</div>
-					<div className="registerInputLayout">
-						<LeftIconFormField onFormValueChange={this.updateInputUserName} formParts={firstFormPartsValue} />
-						<div className="inputErrorMessage userNameError" 
-							style={{display: this.state.contextData.userNameValidity.errorDisplay}}>
-							{this.state.contextData.userNameValidity.userNameError}
-						</div>
-						<LeftIconFormField onFormValueChange={this.updateInputPassword} formParts={secondFormPartsValue} />
-						<div className="inputErrorMessage passwordError" 
-							style={{display: this.state.contextData.passwordValidity.errorDisplay}}>
-							{this.state.contextData.passwordValidity.passwordError}
-						</div>
-					</div>
-					<BasicButton onButtonClicked={this.processRegistration} buttonParts={this.state.contextData.registerButtonParts} />
-					<div className="progressLoadingLayout" 
-						style={{display : this.state.contextData.loadingPuzzleDisplay}}>
-						<img className="progressLoadingIcon" src={loading_puzzle} alt="" />
-					</div>
-					<div className="termsAndConditionsLabel">
-						By creating account, you agree to our <span className="termsAndConditionsSpan" 
-						onClick={this.conditionsClicked}>Terms and Conditions</span>, and <span className="termsAndConditionsSpan" 
-						onClick={this.privacyClicked}>Privacy Policy</span>.
-					</div>
-				</div>
-				<div className={this.state.contextData.toggleLayoutDisplay.termsConditionsClass}>
-					<div className="privacyConditionHtml">{this.state.contextData.toggleLayoutDisplay.privacyConditionHtml}</div>
-					<BasicButton onButtonClicked={this.closePrivacyCondition} buttonParts={privacyConditionButton} />
-				</div>
-			</div>
-		);
-	}
+    return (
+        <div className="login">
+            <div className={toggleLayoutDisplay.registerWidgetClass}>
+                <div className="registerPageHeader">
+                    <div className="registerPageTitle">Create Your <br></br>Account</div>
+                    <img className="registerPageIcon" alt="Logo" src={logo}/>
+                </div>
+                <div className="registerInputLayout">
+                    <LeftIconFormField onFormValueChange={updateInputUserName} formParts={firstFormPartsValue} />
+                    <div className="inputErrorMessage userNameError" 
+                        style={{display: userNameValidity.errorDisplay}}>
+                        {userNameValidity.userNameError}
+                    </div>
+                    <LeftIconFormField onFormValueChange={updateInputPassword} formParts={secondFormPartsValue} />
+                    <div className="inputErrorMessage passwordError" 
+                        style={{display: passwordValidity.errorDisplay}}>
+                        {passwordValidity.passwordError}
+                    </div>
+                </div>
+                <BasicButton onButtonClicked={processRegistration} buttonParts={registerButtonParts} />
+                <div className="progressLoadingLayout" 
+                    style={{display : loadingPuzzleDisplay}}>
+                    <img className="progressLoadingIcon" src={loading_puzzle} alt="" />
+                </div>
+                <div className="termsAndConditionsLabel">
+                    By creating account, you agree to our <span className="termsAndConditionsSpan" 
+                    onClick={conditionsClicked}>Terms and Conditions</span>, and <span className="termsAndConditionsSpan" 
+                    onClick={privacyClicked}>Privacy Policy</span>.
+                </div>
+            </div>
+            <div className={toggleLayoutDisplay.termsConditionsClass}>
+                <div className="privacyConditionHtml">{conditionPrivacyText.privacyConditionHtml}</div>
+                <BasicButton onButtonClicked={closePrivacyCondition} buttonParts={privacyConditionButton} />
+            </div>
+        </div>
+    );
 }
 
-export default Register;  
+export default Register;
 
 
