@@ -10,7 +10,7 @@ import BasicButton from '../component/basic_button';
 import icon_person from '../image/icon_person.png';
 import logo from '../image/datemomo.png';
 
-class Register extends React.Component {
+class RegisterDeprecated extends React.Component {
 	visibleRegisterWidget = "loginWidget";
 	visibleButtonClass = "basicButton fullWidth";
 	visibleTermsConditions = "termsAndConditionsLayout";
@@ -485,6 +485,6 @@ class Register extends React.Component {
 	}
 }
 
-export default Register;  
+export default RegisterDeprecated;  
 
 

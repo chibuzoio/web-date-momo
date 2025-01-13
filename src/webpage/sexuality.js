@@ -463,6 +463,21 @@ function Sexuality() {
         animationMotionIcon : loading_puzzle
     }); 
 
+	const updateSexualityCollection = (sexualityButtonData) => {
+		if (sexualityButtonData[0].sexualityType === "Category") {
+			setSexualCategoryButtons(sexualityButtonData);
+		} else if (sexualityButtonData[0].sexualityType === "Interest") {
+			setSexualInterestButtons(sexualityButtonData);
+		} else if (sexualityButtonData[0].sexualityType === "Experience") {
+			setSexualExperienceButtons(sexualityButtonData);
+		}
+
+		setSexualityButtonParts({
+			buttonTitle : sexualityButtonParts.buttonTitle,
+			buttonClass : visibleButtonClass			
+		});
+	}
+
     const submitSexualitySelections = (buttonClicked) => {
 		if (buttonClicked) {
             setSexualityButtonParts({

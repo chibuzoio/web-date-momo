@@ -4,7 +4,7 @@ import '../css/floating_account.css';
 import placeholder from '../image/placeholder.jpg';
 import icon_message_blue from '../image/icon_message_blue.png';
 import RoundPicture from '../component/round_picture';
-import SexualityOptions from '../widget/sexuality_options';
+import SexualityOptions from './sexuality_options';
 import LeftIconHollowButton from '../component/left_icon_hollow_button';
 import RightIconFormField from '../component/right_icon_form_field';
 import icon_view_blue from '../image/icon_view_blue.png';

@@ -4,10 +4,9 @@ import '../css/login.css';
 import '../css/sexuality.css';
 import BasicButton from '../component/basic_button';
 import loading_puzzle from '../image/loading_puzzle.gif';
-import SexualityOptions from '../widget/sexuality_options';
 import ProgressAnimation from '../component/progress_animation';
 
-class Sexuality extends React.Component {
+class SexualityDeprecated extends React.Component {
 	visibleSexualBasicButton = "basicButton sexualityButton";  
 	visibleSexualHollowButton = "hollowButton sexualityButton";  
 	visibleButtonClass = "basicButton customTopMargin fullWidth";
@@ -647,6 +646,6 @@ class Sexuality extends React.Component {
 	}
 }
 
-export default Sexuality;
+export default SexualityDeprecated;
 
 
