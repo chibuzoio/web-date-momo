@@ -309,10 +309,9 @@ function Login() {
 
 				axios.post("http://localhost:1337/loginmember", loginRequestData)
 			    	.then(response => {
-						response.data.authenticated = response.data.isPasswordValid;
-
-			    		if (response.data.authenticated) {
+			    		if (response.data.isPasswordValid) {
                             userDataComposite.currentUserData = response.data;
+                            userDataComposite.currentUserData.authenticated = response.data.isPasswordValid;
 
                             messengerRequestData.memberId = userDataComposite.currentUserData.userInformationData.memberId;
 

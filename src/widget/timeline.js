@@ -96,7 +96,7 @@ function Timeline() {
 
 	if (userDataComposite.currentUserData.userInformationData != null) {
 		if (Object.keys(userDataComposite.currentUserData.userInformationData).length > 0) {
-			if (userDataComposite.currentUserData.userInformationData.authenticated === false) {
+			if (userDataComposite.currentUserData.authenticated === false) {
 				window.location.replace("/login");
 			}     
 		} else {
