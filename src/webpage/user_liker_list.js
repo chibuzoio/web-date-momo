@@ -6,53 +6,46 @@ import Footer from '../widget/footer';
 import test_image from '../image/test_image.png';
 import UserLikerContent from '../widget/user_liker_content';
 
-class UserLikerList extends React.Component {
-
-	constructor(props) {
-		super(props);
-	}
-
-	render() {             
-		var userLikerContents = {   
-			roundPictureParts : {
-				roundPictureClass : "emptyMessengerPicture",
-				roundPicture : test_image
-			},
-			userLikerNameAge : "Solution, 33",	
-			userLikerLocation : "Minarelikoy"
-		};
+function UserLikerList(params) {
+    var userLikerContents = {   
+        roundPictureParts : {
+            roundPictureClass : "emptyMessengerPicture",
+            roundPicture : test_image
+        },
+        userLikerNameAge : "Solution, 33",	
+        userLikerLocation : "Minarelikoy"
+    };
 	    
-		return (
-			<div className="dateMomoOuterLayout">
-				<Header />
-				<div className="dateMomoMessengerLayout">
-					<div className="notificationHeader hideComponent">Notifications</div>
-					<UserLikerContent userLikerData={userLikerContents} />
-					<UserLikerContent userLikerData={userLikerContents} />
-					<UserLikerContent userLikerData={userLikerContents} />
-					<UserLikerContent userLikerData={userLikerContents} />
-					<UserLikerContent userLikerData={userLikerContents} />
-					<UserLikerContent userLikerData={userLikerContents} />
-					<UserLikerContent userLikerData={userLikerContents} />
-					<UserLikerContent userLikerData={userLikerContents} />
-					<UserLikerContent userLikerData={userLikerContents} />
-					<UserLikerContent userLikerData={userLikerContents} />
-					<UserLikerContent userLikerData={userLikerContents} />
-					<UserLikerContent userLikerData={userLikerContents} />
-					<UserLikerContent userLikerData={userLikerContents} />
-					<UserLikerContent userLikerData={userLikerContents} />
-					<UserLikerContent userLikerData={userLikerContents} />
-					<UserLikerContent userLikerData={userLikerContents} />
-					<UserLikerContent userLikerData={userLikerContents} />
-					<UserLikerContent userLikerData={userLikerContents} />
-					<UserLikerContent userLikerData={userLikerContents} />   
-				</div>
-				<Footer />
-			</div>
-		);
-	}
+    return (
+        <div className="dateMomoOuterLayout">
+            <Header />
+            <div className="dateMomoMessengerLayout">
+                <div className="notificationHeader hideComponent">Notifications</div>
+                <UserLikerContent userLikerData={userLikerContents} />
+                <UserLikerContent userLikerData={userLikerContents} />
+                <UserLikerContent userLikerData={userLikerContents} />
+                <UserLikerContent userLikerData={userLikerContents} />
+                <UserLikerContent userLikerData={userLikerContents} />
+                <UserLikerContent userLikerData={userLikerContents} />
+                <UserLikerContent userLikerData={userLikerContents} />
+                <UserLikerContent userLikerData={userLikerContents} />
+                <UserLikerContent userLikerData={userLikerContents} />
+                <UserLikerContent userLikerData={userLikerContents} />
+                <UserLikerContent userLikerData={userLikerContents} />
+                <UserLikerContent userLikerData={userLikerContents} />
+                <UserLikerContent userLikerData={userLikerContents} />
+                <UserLikerContent userLikerData={userLikerContents} />
+                <UserLikerContent userLikerData={userLikerContents} />
+                <UserLikerContent userLikerData={userLikerContents} />
+                <UserLikerContent userLikerData={userLikerContents} />
+                <UserLikerContent userLikerData={userLikerContents} />
+                <UserLikerContent userLikerData={userLikerContents} />   
+            </div>
+            <Footer />
+        </div>
+    );
 }
 
-export default UserLikerList;   
+export default UserLikerList;
 
 

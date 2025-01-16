@@ -5,7 +5,7 @@ import RoundPicture from '../component/round_picture';
 import {getTimeDifference} from '../utility/utility';
 import test_image from '../image/test_image.png';
 
-class NotificationContent extends React.Component {
+class NotificationContentDeprecated extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -54,6 +54,6 @@ class NotificationContent extends React.Component {
 	}
 }
 
-export default NotificationContent;   
+export default NotificationContentDeprecated;   
 
 
