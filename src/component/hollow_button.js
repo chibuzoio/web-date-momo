@@ -2,38 +2,19 @@ import React from 'react';
 import '../css/input.css';
 import '../css/style.css';
 
-class HollowButton extends React.Component {
-	state = {buttonParts : {}};
-
-	constructor(props) {
-		super(props);
-		this.updateState = this.updateState.bind(this);
-		this.clickHollowButton = this.clickHollowButton.bind(this);
+function HollowButton(props) {
+	const clickHollowButton = (event) => {
+		props.onButtonClicked(true);
 	}
 
-	clickHollowButton(event) {
-		this.props.onButtonClicked(true);
-	}
-
-	// Remember this method type for setting state using props values  
-	updateState() {
-		this.setState(function(state, props) {
-			return {
-				buttonParts : props.buttonParts
-			}
-		});
-	}
-
-	render() {
-		return (
-			<button onClick={this.clickHollowButton} 
-				className={this.props.buttonParts.buttonClass} type="button"> 
-				{this.props.buttonParts.buttonTitle}
-			</button>
-		);
-	}
+    return (
+        <button onClick={clickHollowButton} 
+            className={props.buttonParts.buttonClass} type="button"> 
+            {props.buttonParts.buttonTitle}
+        </button>
+    );
 }
 
-export default HollowButton;   
+export default HollowButton;
 
 

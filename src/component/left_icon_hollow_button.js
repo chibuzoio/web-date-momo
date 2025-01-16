@@ -2,38 +2,19 @@ import React from 'react';
 import '../css/input.css';
 import '../css/style.css';
 
-class LeftIconHollowButton extends React.Component {
-	state = {buttonParts : {}};
-
-	constructor(props) {
-		super(props);
-		this.updateState = this.updateState.bind(this);
-		this.clickHollowButton = this.clickHollowButton.bind(this);
+function LeftIconHollowButton(props) {
+	const clickHollowButton = (event) => {
+		props.onButtonClicked(true);
 	}
-
-	clickHollowButton(event) {
-		this.props.onButtonClicked(true);
-	}
-
-	// Remember this method type for setting state using props values  
-	updateState() {
-		this.setState(function(state, props) {
-			return {
-				buttonParts : props.buttonParts
-			}
-		});
-	}
-
-	render() {
-		return (
-			<button onClick={this.clickHollowButton} className={this.props.buttonParts.leftIconHollowButtonLayout}>
-				<img className={this.props.buttonParts.leftIconHollowButtonIcon} src={this.props.buttonParts.buttonIcon}/>
-				<div className={this.props.buttonParts.leftIconHollowButtonTitle}>{this.props.buttonParts.buttonTitle}</div>
-			</button>
-		);
-	}
+ 
+    return (
+        <button onClick={clickHollowButton} className={props.buttonParts.leftIconHollowButtonLayout}>
+            <img className={props.buttonParts.leftIconHollowButtonIcon} src={props.buttonParts.buttonIcon}/>
+            <div className={props.buttonParts.leftIconHollowButtonTitle}>{props.buttonParts.buttonTitle}</div>
+        </button>
+    );
 }
 
-export default LeftIconHollowButton;   
+export default LeftIconHollowButton;
 
 
