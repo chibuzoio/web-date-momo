@@ -1,35 +1,27 @@
 import React from 'react';
 import '../css/messenger.css';
-import NotificationContent from '../widget/notification_content';
+import NotificationContent from './notification_content';
 
-class NotificationIterator extends React.Component {
-
-	constructor(props) {
-		super(props);
-		this.clickNotificationIteratorComponent = this.clickNotificationIteratorComponent.bind(this);
+function NotificationIterator(props) {
+	const clickNotificationIteratorComponent = (notificationEffectorId) => {
+		props.onNotificationIteratorClicked(notificationEffectorId);
 	}
+    
+    return (
+        <div className="notificationIteratorLayout">
 
-	clickNotificationIteratorComponent(notificationEffectorId) {
-		this.props.onNotificationIteratorClicked(notificationEffectorId);
-	}
+            {
+                props.notificationComposite.map((notificationContent) => ( 
+                    <NotificationContent notificationComposite={notificationContent} 
+                        onNotificationClicked={clickNotificationIteratorComponent} />
+                ))
+            }
 
-	render() {  
-		return (
-			<div className="notificationIteratorLayout">
-
-				{
-					this.props.notificationComposite.map((notificationContent) => ( 
-						<NotificationContent notificationComposite={notificationContent} 
-							onNotificationClicked={this.clickNotificationIteratorComponent} />
-					))
-				}
-
-				<div className="bottomPadding"><p></p></div>
-			</div>
-		);
-	}
+            <div className="bottomPadding"><p></p></div>
+        </div>
+    );
 }
 
-export default NotificationIterator;   
+export default NotificationIterator;
 
 
