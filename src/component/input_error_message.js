@@ -2,7 +2,7 @@ import React from 'react';
 import '../css/input.css';
 import '../css/style.css';
 
-function InputErrorMessage(params) {
+function InputErrorMessage(props) {
     return (
         <div className={props.errorMessageData.messageLayout}>
             {props.errorMessageData.errorMessage}

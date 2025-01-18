@@ -75,6 +75,8 @@ function PictureUpload() {
 
     pictureUploadRequest.memberId = userDataComposite.currentUserData.userInformationData.memberId;
 
+    const selectPictureButton = useRef();
+
     const [userAgeSexData, setUserAgeSexData] = useState({
         userSex : "", 
         userAge : 0 
@@ -232,7 +234,7 @@ function PictureUpload() {
 
 	const openSystemGallery = (buttonClicked) => {
 		if (buttonClicked) {
-			this.selectPictureButton.click();
+			selectPictureButton.click();
 		}
 	}
 
@@ -446,7 +448,7 @@ function PictureUpload() {
                     <img className="registerPageIcon" alt="Logo" src={logo}/>
                 </div>
                 <input type="file" onChange={handlePictureChange} className="uploadPictureButton"
-                    ref={(selectPictureButton) => {selectPictureButton = selectPictureButton}} accept="image/*" />
+                    ref={selectPictureButton} accept="image/*" />
                 <img className="userPicture" onClick={selectPictureFile} alt="" src={pictureUploadData.picture} />
                 <div className="pictureButtons customTopMargin">
                     <LeftIconHollowButton onButtonClicked={openDeviceCamera} buttonParts={takePictureButton} />
@@ -474,8 +476,7 @@ function PictureUpload() {
                     <BasicFormField onFormValueChange={updateInputUserAge} formParts={ageFormField} />
                 </div>
                 <InputErrorMessage errorMessageData={userAgeValidity} />
-                <BasicButton onButtonClicked={handlePictureUpload} 
-                    buttonParts={pictureUploadButtons.uploadBasicButton} />
+                <BasicButton onButtonClicked={handlePictureUpload} buttonParts={uploadBasicButton} />
                 <ProgressAnimation animationData={puzzleProgressAnimation} />
             </div>
         </div>

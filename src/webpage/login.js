@@ -13,6 +13,7 @@ import google_play_download from '../image/google_play_download.png';
 import icon_gallery_blue from '../image/icon_gallery_blue.png';
 import loading_puzzle from '../image/loading_puzzle.gif';
 import icon_password from '../image/icon_password.png';
+import HollowButton from '../component/hollow_button';
 import BasicButton from '../component/basic_button';
 import Register from './register';
 import logo from '../image/datemomo.png';
@@ -23,6 +24,7 @@ function Login() {
     };
 	var visibleErrorMessage = "inputErrorMessage ";
 	var visibleButtonClass = "basicButton fullWidth";
+    var visibleHollowButton = "hollowButton fullWidth";
 	var visibleAnimationClass = "progressLoadingLayout";
 	// var visibleErrorMessage = "inputErrorMessage userNameError";
 	var hiddenButtonClass = visibleButtonClass + " hideComponent";
@@ -44,6 +46,11 @@ function Login() {
         emptyMessengerResponse : {
             homeDisplayResponses : [],
 		    thousandRandomCounter : []
+        },
+        registrationData : {
+            userNameComposite : [],
+            privacyPolicyText : "",
+            termsAndConditionsText : ""            
         }
     };
 
@@ -105,6 +112,11 @@ function Login() {
         fieldLayoutClass : "fieldLayout",
         fieldIconClass : "leftFieldIcon"
     };
+
+    var signUpHollowButton = {
+        buttonTitle : "Sign Up",
+        buttonClass : visibleHollowButton
+    }
 
     const navigate = useNavigate();
     
@@ -246,6 +258,33 @@ function Login() {
 		}
   	}
 
+    const loadUserNamePrivacyData = () => {
+        axios.get("http://localhost:1337/usernamecomposite")
+        .then(response => {
+            userDataComposite.registrationData.userNameComposite = response.data;
+
+            axios.get("http://localhost:1337/documents/privacy_policy.txt")
+                .then(response => {
+                    userDataComposite.registrationData.privacyPolicyText = response.data;
+
+                    axios.get("http://localhost:1337/documents/terms_and_conditions.txt")            
+                        .then(response => {
+                            userDataComposite.registrationData.termsAndConditionsText = response.data;
+
+                            localStorage.setItem("userDataComposite", JSON.stringify(userDataComposite));
+
+                            navigate("/register");
+                        }, error => {
+                            console.log(error);
+                        });
+                }, error => {
+                    console.log(error);
+                });
+        }, error => {
+            console.log(error);
+        });
+    }
+
     const loadMessengerNotificationData = () => {
         axios.post("http://localhost:1337/usermessengersdata", messengerRequestData)
             .then(response => {
@@ -264,7 +303,7 @@ function Login() {
                                         userDataComposite.timelineDataComposite = response.data;
 
                                         localStorage.setItem("userDataComposite", JSON.stringify(userDataComposite));
-        
+
                                         setLoginButtonParts({
                                             buttonTitle : "Log In",
                                             buttonClass : visibleButtonClass
@@ -289,6 +328,10 @@ function Login() {
                     }, error => {
                         console.log(error);
                     });
+    }
+
+    const openRegistrationPage = (event) => {
+        loadUserNamePrivacyData();
     }
 
     const authenticateCurrentUser = (buttonClicked) => {
@@ -400,9 +443,7 @@ function Login() {
                     <InputErrorMessage errorMessageData={inputValidity.passwordValidity} />
                     <BasicButton onButtonClicked={authenticateCurrentUser} buttonParts={loginButtonParts} />
                     <ProgressAnimation animationData={puzzleProgressAnimation} />
-                    <Link to="/register">
-                        <button className="hollowButton buttonTopMargin fullWidth" type="button">Sign Up</button>
-                    </Link>
+                    <HollowButton onButtonClicked={openRegistrationPage} buttonParts={signUpHollowButton} />
                     <InputErrorMessage errorMessageData={inputValidity.credentialValidity} />
                     <a href="https://play.google.com/store/apps/details?id=com.chibuzo.datemomo"> 
                         <div className="googlePlayLayout">

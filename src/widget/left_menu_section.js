@@ -14,7 +14,7 @@ import icon_gallery_blue from '../image/icon_gallery_blue.png';
 import icon_message_blue from '../image/icon_message_blue.png';
 import icon_no_notification from '../image/icon_no_notification.png'; 
 import { checkNullInMessenger, selectChosenSticker } from '../utility/utility';
-import ActiveMessenger from './active_messenger_deprecated';
+import ActiveMessenger from './active_messenger';
 import BottomMenuIcon from '../component/bottom_menu_icon';
 import IconProfilePicture from '../component/icon_profile_picture'; 
 import NotificationIterator from '../widget/notification_iterator';

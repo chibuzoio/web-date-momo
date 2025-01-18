@@ -49,22 +49,8 @@ function Register() {
         fieldIconClass : "leftFieldIcon"
     };
 
-    var userDataComposite = {
-        currentUserData : {},
-        likedUserComposite : [],
-        messengerResponses : [],
-        notificationResponses : [],
-        timelineDataComposite : {
-            homeDisplayResponses : [],
-            thousandRandomCounter : []
-        },
-        emptyMessengerResponse : {
-            homeDisplayResponses : [],
-		    thousandRandomCounter : []
-        }
-    };
+    var userDataComposite = JSON.parse(localStorage.getItem("userDataComposite"));
 
-    const [userNameComposite, setUserNameComposite] = useState([]);
     const [loadingPuzzleDisplay, setLoadingPuzzleDisplay] = useState("none");
 
     const [registerRequestData, setRegisterRequestData] = useState({
@@ -96,43 +82,8 @@ function Register() {
         termsConditionsClass : hiddenTermsConditions
     });
 
-    const [conditionPrivacyText, setConditionPrivacyText] = useState({
-        privacyConditionHtml : parse(""),
-        privacyPolicyText : "",
-        termsConditionsText : ""
-    });
+    const [privacyConditionHtml, setPrivacyConditionHtml] = useState(parse(""));
 
-    useEffect(() => {
-        axios.get("http://localhost:1337/usernamecomposite")
-            .then(response => {
-                setUserNameComposite(response.data);
-            }, error => {
-                console.log(error);
-            });
-
-        axios.get("http://localhost:1337/documents/privacy_policy.txt")
-            .then(response => {
-                setConditionPrivacyText({
-                    privacyConditionHtml : conditionPrivacyText.privacyConditionHtml,
-                    privacyPolicyText : response.data,
-                    termsConditionsText : conditionPrivacyText.termsConditionsText
-                });
-            }, error => {
-                console.log(error);
-            });
-
-        axios.get("http://localhost:1337/documents/terms_and_conditions.txt")
-            .then(response => {
-                setConditionPrivacyText({
-                    privacyConditionHtml : conditionPrivacyText.privacyConditionHtml,
-                    privacyPolicyText : conditionPrivacyText.privacyPolicyText,
-                    termsConditionsText : response.data
-                });
-            }, error => {
-                console.log(error);
-            });
-    }, []);
-        
     const validatePassword = () => {
         var passwordValid = false;
         var errorDisplayStyle = "none";
@@ -171,7 +122,7 @@ function Register() {
 				errorDisplayStyle = "flex";
 				userNameValid = false;
 			} else {
-				if (userNameComposite.indexOf(registerRequestData.userName) > -1) {
+				if (userDataComposite.registrationData.userNameComposite.indexOf(registerRequestData.userName) > -1) {
 					userNameErrorText = userNameUsedError;
 					errorDisplayStyle = "flex";
 					userNameValid = false;
@@ -283,16 +234,14 @@ function Register() {
                         });
 
                         setLoadingPuzzleDisplay("none");
-
+     
 			    		if (response.data.authenticated) {
                             userDataComposite.currentUserData = response.data;
 
 			    			localStorage.setItem("userDataComposite", JSON.stringify(userDataComposite));
 
 				    		window.location.replace("/picture_upload");
-			    		} else {
-			    			localStorage.setItem("userDataComposite", JSON.stringify({}));           
-			    		}
+			    		} 
 			        }, error => {    
                         setRegisterButtonParts({
                             buttonTitle : "Sign Up",
@@ -308,11 +257,7 @@ function Register() {
 	}
 
 	const conditionsClicked = (event) => {
-        setConditionPrivacyText({
-            privacyConditionHtml : parse(conditionPrivacyText.termsConditionsText),
-            privacyPolicyText : conditionPrivacyText.privacyPolicyText,
-            termsConditionsText : conditionPrivacyText.termsConditionsText,
-        });
+        setPrivacyConditionHtml(parse(userDataComposite.registrationData.termsAndConditionsText));
 
         setToggleLayoutDisplay({
             registerWidgetClass : hiddenRegisterWidget,
@@ -321,11 +266,7 @@ function Register() {
 	}
 
 	const privacyClicked = (event) => {
-        setConditionPrivacyText({
-            privacyConditionHtml : parse(conditionPrivacyText.privacyPolicyText),
-            privacyPolicyText : conditionPrivacyText.privacyPolicyText,
-            termsConditionsText : conditionPrivacyText.termsConditionsText,
-        });
+        setPrivacyConditionHtml(parse(userDataComposite.registrationData.privacyPolicyText));
 
         setToggleLayoutDisplay({
             registerWidgetClass : hiddenRegisterWidget,
@@ -335,11 +276,7 @@ function Register() {
 
 	const closePrivacyCondition = (buttonClicked) => {
 		if (buttonClicked) {
-            setConditionPrivacyText({
-                privacyConditionHtml : parse(""),
-                privacyPolicyText : conditionPrivacyText.privacyPolicyText,
-                termsConditionsText : conditionPrivacyText.termsConditionsText,
-            });
+            setPrivacyConditionHtml(parse(""));
         
             setToggleLayoutDisplay({
                 registerWidgetClass : visibleRegisterWidget,
@@ -379,7 +316,7 @@ function Register() {
                 </div>
             </div>
             <div className={toggleLayoutDisplay.termsConditionsClass}>
-                <div className="privacyConditionHtml">{conditionPrivacyText.privacyConditionHtml}</div>
+                <div className="privacyConditionHtml">{privacyConditionHtml}</div>
                 <BasicButton onButtonClicked={closePrivacyCondition} buttonParts={privacyConditionButton} />
             </div>
         </div>
