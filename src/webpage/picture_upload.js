@@ -234,7 +234,7 @@ function PictureUpload() {
 
 	const openSystemGallery = (buttonClicked) => {
 		if (buttonClicked) {
-			selectPictureButton.click();
+			selectPictureButton.current.click();
 		}
 	}
 
@@ -245,7 +245,7 @@ function PictureUpload() {
 	}
 
 	const selectPictureFile = (event) => {
-		selectPictureButton.click();
+		selectPictureButton.current.click();
 	}
   
 	const handlePictureUpload = (buttonClicked) => {

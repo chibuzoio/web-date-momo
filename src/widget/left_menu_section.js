@@ -129,6 +129,25 @@ function LeftMenuSection() {
 		}
 	}
 
+	const loadMessageComposite = (messengerResponse) => {
+		var messageRequest = {
+			senderId : userDataComposite.currentUserData.userInformationData.memberId,
+			receiverId : messengerResponse.chatmateId,
+			fullName : messengerResponse.fullName,
+			userName : messengerResponse.userName,
+			lastActiveTime : "",
+			profilePicture : messengerResponse.profilePicture,
+			userBlockedStatus : messengerResponse.userBlockedStatus
+		};	
+
+		axios.post("http://localhost:1337/usermessagesdata", messageRequest)
+			.then(response => {
+				return response.data;
+			}, error => {
+				console.log(error);
+			});
+	}
+
 	const handlePictureChange = (event) => {
 		if (event.target.files[0] != null) {
 			var imageReader = new FileReader();
@@ -214,9 +233,12 @@ function LeftMenuSection() {
 	}
 
 	const clickMessengerComponent = (messengerResponse) => {
+		var messageResponses = loadMessageComposite(messengerResponse);
+
 		navigate("/message", {
 			state : {
-				messengerResponse : messengerResponse
+				messengerResponse : messengerResponse,
+				messageResponses : messageResponses
 			}
 		});
 	}
@@ -333,9 +355,12 @@ function LeftMenuSection() {
 			userBlockedStatus : homeDisplayResponse.userBlockedStatus
 		};
 
+		var messageResponses = loadMessageComposite(messengerResponseCopy);
+
 		navigate("/message", {
 			state : {
-				messengerResponse : messengerResponseCopy
+				messengerResponse : messengerResponseCopy,
+				messageResponses : messageResponses
 			}
 		});
 	}
@@ -371,9 +396,12 @@ function LeftMenuSection() {
 					userBlockedStatus : homeDisplayResponse.userBlockedStatus
 				};
 
+				var messageResponses = loadMessageComposite(messengerResponseCopy);
+
 				navigate("/message", {
 					state : {
-						messengerResponse : messengerResponseCopy
+						messengerResponse : messengerResponseCopy,
+						messageResponses : messageResponses
 					}
 				});
 	        }, error => {

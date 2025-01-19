@@ -548,7 +548,13 @@ function Sexuality() {
 							userName : userDataComposite.currentUserData.userInformationData.userName,
 							memberId : userDataComposite.currentUserData.userInformationData.memberId,
 							age : userDataComposite.currentUserData.userInformationData.age,
-							userLevel : response.data.userLevel
+							userLevel : response.data.userLevel,
+							currentLocation : "",
+							deleteAccount : 0,
+							emailAddress : 0,
+							phoneNumber : "",
+							fullName : "",
+							sex : ""
 						},
 						userExperienceData : response.data.userExperienceData,
 						userSexualityData : response.data.userSexualityData,
@@ -561,7 +567,9 @@ function Sexuality() {
 						authenticated : userDataComposite.currentUserData.authenticated
 					};
 					
-					localStorage.setItem("userDataComposite", JSON.stringify(localUserData));	
+					userDataComposite.currentUserData.userInformationData = localUserData;
+
+					localStorage.setItem("userDataComposite", JSON.stringify(userDataComposite));	
 
 					window.location.replace("/");
 		        }, error => {     

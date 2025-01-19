@@ -30,10 +30,10 @@ function Message() {
 	const webSocketConnection = useRef();
 	const messageBottomMargin = useRef();
 
-	const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+	const userDataComposite = JSON.parse(localStorage.getItem("userDataComposite"));
 	
 	var postMessageRequest = {
-		senderId : currentUser.userInformationData.memberId,
+		senderId : userDataComposite.currentUserData.userInformationData.memberId,
         receiverId : 0,
         messagePosition : 0, 
         senderMessage : ""		
@@ -61,7 +61,22 @@ function Message() {
 	});
     
 	useEffect(() => {
-		loadMessageComposite();
+		setUserMessageComposite({
+			messengerResponse : location.state.messengerResponse,
+			messageResponses : location.state.messageResponses
+		});
+
+		setRoundPictureParts({
+			roundPictureClass : roundPictureParts.roundPictureClass,
+			roundPicture : "http://localhost:1337/image/" 
+				+ location.state.messengerResponse.profilePicture
+		});
+
+		setTimeout(() => {
+			if (messageBottomMargin.current != null) {
+				messageBottomMargin.current.scrollIntoView({ behavior: "smooth" });
+			}
+		}, 300);
 	}, []);
 
 	useEffect(() => {
@@ -88,8 +103,8 @@ function Message() {
 				var userMessageCompositeCopy = userMessageComposite.messageResponses;
 				var receivedMessage = JSON.parse(event.data); 
 
-				if (currentUser.userInformationData.memberId === receivedMessage.messenger 
-					|| currentUser.userInformationData.memberId === receivedMessage.recipient) {
+				if (userDataComposite.currentUserData.userInformationData.memberId === receivedMessage.messenger 
+					|| userDataComposite.currentUserData.userInformationData.memberId === receivedMessage.recipient) {
 					await new Promise((resolve, reject) => {
 						var duplicateMessageId = false;
 
@@ -138,48 +153,13 @@ function Message() {
 			webSocketConnection.current = connectionComposite[0];
 		}
 	}, [userMessageComposite, connectionComposite, connectionState]);
-
-	const loadMessageComposite = () => {
-		var messengerResponse = location.state.messengerResponse;
-		var messageRequest = {
-			senderId : currentUser.userInformationData.memberId,
-			receiverId : messengerResponse.chatmateId,
-			fullName : messengerResponse.fullName,
-			userName : messengerResponse.userName,
-			lastActiveTime : "",
-			profilePicture : messengerResponse.profilePicture,
-			userBlockedStatus : messengerResponse.userBlockedStatus
-		};	
-
-		axios.post("http://localhost:1337/usermessagesdata", messageRequest)
-	    	.then(response => {
-	    		setUserMessageComposite({
-	    			messageResponses : response.data,
-					messengerResponse : messengerResponse
-	    		});
-
-				setRoundPictureParts({
-					roundPictureClass : roundPictureParts.roundPictureClass,
-					roundPicture : "http://localhost:1337/image/" 
-						+ messengerResponse.profilePicture
-				});
-
-				setTimeout(() => {
-					if (messageBottomMargin.current != null) {
-						messageBottomMargin.current.scrollIntoView({ behavior: "smooth" });
-					}
-				}, 300);
-	        }, error => {
-	        	console.log(error);
-	        });		
-	}
-
+     
 	const sendSocketMessage = useCallback((event) => {
 		var preparedSenderMessage = messageInputValue.trim();
 
 		if (preparedSenderMessage !== "" && webSocketConnection.current.readyState === 1) {
 			webSocketConnection.current.send(JSON.stringify({
-				senderId : currentUser.userInformationData.memberId,
+				senderId : userDataComposite.currentUserData.userInformationData.memberId,
 		        receiverId : location.state.messengerResponse.chatmateId,
 		        messagePosition : userMessageComposite.messageResponses.length, 
 		        senderMessage : preparedSenderMessage		
@@ -194,7 +174,7 @@ function Message() {
 			preparedSenderMessage = encodeURIComponent(preparedSenderMessage.split(" ").join("+"));
 	
 			postMessageRequest = {
-				senderId : currentUser.userInformationData.memberId,
+				senderId : userDataComposite.currentUserData.userInformationData.memberId,
 		        receiverId : location.state.messengerResponse.chatmateId,
 		        messagePosition : userMessageComposite.messageResponses.length, 
 		        senderMessage : preparedSenderMessage		

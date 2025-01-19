@@ -79,7 +79,7 @@ function FloatingAccount() {
     const [gradientHeight, setGradientHeight] = useState(0);
 
     useEffect(() => {
-        window.addEventListener('resize', setGradientHeight(userAccountImage.clientHeight));
+        window.addEventListener('resize', setGradientHeight(userAccountImage.current.clientHeight));
     }, [gradientHeight]);
 
 	const updateGradientHeight = (event) => {

@@ -260,29 +260,29 @@ function Login() {
 
     const loadUserNamePrivacyData = () => {
         axios.get("http://localhost:1337/usernamecomposite")
-        .then(response => {
-            userDataComposite.registrationData.userNameComposite = response.data;
+            .then(response => {
+                userDataComposite.registrationData.userNameComposite = response.data;
 
-            axios.get("http://localhost:1337/documents/privacy_policy.txt")
-                .then(response => {
-                    userDataComposite.registrationData.privacyPolicyText = response.data;
+                axios.get("http://localhost:1337/documents/privacy_policy.txt")
+                    .then(response => {
+                        userDataComposite.registrationData.privacyPolicyText = response.data;
 
-                    axios.get("http://localhost:1337/documents/terms_and_conditions.txt")            
-                        .then(response => {
-                            userDataComposite.registrationData.termsAndConditionsText = response.data;
+                        axios.get("http://localhost:1337/documents/terms_and_conditions.txt")            
+                            .then(response => {
+                                userDataComposite.registrationData.termsAndConditionsText = response.data;
 
-                            localStorage.setItem("userDataComposite", JSON.stringify(userDataComposite));
+                                localStorage.setItem("userDataComposite", JSON.stringify(userDataComposite));
 
-                            navigate("/register");
-                        }, error => {
-                            console.log(error);
-                        });
-                }, error => {
-                    console.log(error);
-                });
-        }, error => {
-            console.log(error);
-        });
+                                navigate("/register");
+                            }, error => {
+                                console.log(error);
+                            });
+                    }, error => {
+                        console.log(error);
+                    });
+            }, error => {
+                console.log(error);
+            });
     }
 
     const loadMessengerNotificationData = () => {
