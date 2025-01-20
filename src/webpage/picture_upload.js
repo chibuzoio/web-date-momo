@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Outlet, useLoaderData, useLocation, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import '../css/login.css';
 import '../css/picture_upload.css';
@@ -75,6 +76,7 @@ function PictureUpload() {
 
     pictureUploadRequest.memberId = userDataComposite.currentUserData.userInformationData.memberId;
 
+    const location = useLocation();
     const selectPictureButton = useRef();
 
     const [userAgeSexData, setUserAgeSexData] = useState({
@@ -82,11 +84,12 @@ function PictureUpload() {
         userAge : 0 
     });
 
+    const [faceCountInPicture, setFaceCountInPicture] = useState(0);
+
     const [pictureUploadData, setPictureUploadData] = useState({
         picture : icon_picture_upload,
-        faceCountInPicture : 0,
-        imageWidth : 0,
-        imageHeight : 0
+        imageHeight : 0,
+        imageWidth : 0
     });
 
     const [pictureValidity, setPictureValidity] = useState({
@@ -154,10 +157,10 @@ function PictureUpload() {
 
 	const chooseMaleSex = (buttonClicked) => {
 		if (buttonClicked) {
-            setUserAgeSexData({
+            var localAgeSexData = {
                 userSex : "Male",
                 userAge : userAgeSexData.userAge
-            });
+            };
 
             setPictureUploadButtons({
                 maleBasicButton : {
@@ -180,20 +183,18 @@ function PictureUpload() {
             
 			pictureUploadRequest.sex = "Male";
 			
-			validateUploadPicture();
-
-			setTimeout(() => {
-				validateUserSex();	
-			}, 1000);
+			validateUploadPicture(pictureUploadData);
+			validateUserSex(localAgeSexData);	
+            validateFaceCountInPicture();
 		}
 	}
     
 	const chooseFemaleSex = (buttonClicked) => {
 		if (buttonClicked) {
-            setUserAgeSexData({
+            var localAgeSexData = {
                 userSex : "Female",
                 userAge : userAgeSexData.userAge
-            });
+            };
 
             setPictureUploadButtons({
                 maleBasicButton : {
@@ -216,11 +217,9 @@ function PictureUpload() {
             
 			pictureUploadRequest.sex = "Female";
 
-			validateUploadPicture();
-
-			setTimeout(() => {
-				validateUserSex();	
-			}, 1000);
+			validateUploadPicture(pictureUploadData);
+			validateUserSex(localAgeSexData);	
+            validateFaceCountInPicture();
 		}
 	}
 
@@ -250,9 +249,10 @@ function PictureUpload() {
   
 	const handlePictureUpload = (buttonClicked) => {
 		if (buttonClicked) {
-			validateUploadPicture();
-			validateUserSex();
-			validateUserAge();
+			validateUploadPicture(pictureUploadData);
+			validateUserSex(userAgeSexData);
+			validateUserAge(userAgeSexData);
+            validateFaceCountInPicture();
   
 			if (pictureValidity.pictureValid && userSexValidity.userSexValid && 
 				userAgeValidity.userAgeValid) {
@@ -316,13 +316,6 @@ function PictureUpload() {
 
 				// console.log("base64String gotten here is " + base64String.substring(5));
 
-                setPictureUploadData({
-                    picture : base64String,
-                    faceCountInPicture : pictureUploadData.faceCountInPicture,
-                    imageWidth : pictureUploadData.imageWidth,
-                    imageHeight : pictureUploadData.imageHeight
-                });
-            
 				pictureUploadRequest.base64Picture = 
 					base64String.substring(base64String.indexOf("base64,") + 7);
             
@@ -331,19 +324,16 @@ function PictureUpload() {
 				processFaceDetection(imageData);
 
 				imageData.onload = () => {
-                    setPictureUploadData({
-                        picture : pictureUploadData.picture,
-                        faceCountInPicture : pictureUploadData.faceCountInPicture,
+                    var localPictureUploadData = {
+                        picture : base64String,
                         imageWidth : imageData.width,
                         imageHeight : imageData.height
-                    });
-                        
+                    };
+                     
     				pictureUploadRequest.imageWidth = imageData.width;
     				pictureUploadRequest.imageHeight = imageData.height;
-
-					setTimeout(() => {
-						validateUploadPicture();
-					}, 1000);
+               
+					validateUploadPicture(localPictureUploadData);
 				};
 			};
 
@@ -354,89 +344,93 @@ function PictureUpload() {
 	}
 
 	async function processFaceDetection(imageData) {
-        var detections = await faceapi.detectAllFaces(imageData, 
+        await faceapi.detectAllFaces(imageData, 
             new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions()
         .then((response) => {     
-
-            setPictureUploadData({
-                picture : pictureUploadData.picture,
-                faceCountInPicture : response.length,
-                imageWidth : pictureUploadData.imageWidth,
-                imageHeight : pictureUploadData.imageHeight
-            });
+            setFaceCountInPicture(response.length);
         });
     }
 
-	const validateUserAge = () => {
+    const validateFaceCountInPicture = () => {
+        if (faceCountInPicture <= 0) {
+            setPictureValidity({
+                errorMessage : noFaceInPictureErrorMessage,
+                messageLayout : visibleErrorMessage,
+                pictureValid : false
+            });
+        }
+    }
+
+	const validateUserAge = (localAgeSexData) => {
 		var userAgeValidity = {
 			errorMessage : ageRequiredError,
 			messageLayout : visibleUserAgeError,
 			userAgeValid : false
 		};
     	
-		if (userAgeSexData.userAge < 81 && userAgeSexData.userAge > 18) {
+		if (localAgeSexData.userAge < 81 && localAgeSexData.userAge > 18) {
 			userAgeValidity.messageLayout = hiddenErrorMessage;
 			userAgeValidity.userAgeValid = true;
 		}
     
-		if (userAgeSexData.userAge < 18 && userAgeSexData.userAge > 0) {
+		if (localAgeSexData.userAge < 18 && localAgeSexData.userAge > 0) {
 			userAgeValidity.errorMessage = ageMinimumError;
 		}
 
-		if (userAgeSexData.userAge > 80) {
+		if (localAgeSexData.userAge > 80) {
 			userAgeValidity.errorMessage = ageMaximumError;
 		}
 
         setUserAgeValidity(userAgeValidity);
+        setUserAgeSexData(localAgeSexData);
 	}
 
-	const validateUserSex = () => {
-		var userSexValidity = {
+	const validateUserSex = (localAgeSexData) => {
+		var localUserSexValidity = {
 			errorMessage : userSexValidity.errorMessage,
 			messageLayout : visibleErrorMessage,
 			userSexValid : false
 		}
 
-		if (userAgeSexData.userSex !== "") {
-			userSexValidity.messageLayout = hiddenErrorMessage;
-			userSexValidity.userSexValid = true;
+		if (localAgeSexData.userSex !== "") {
+			localUserSexValidity.messageLayout = hiddenErrorMessage;
+			localUserSexValidity.userSexValid = true;
 		}
 
-        setUserSexValidity(userSexValidity);
+        setUserSexValidity(localUserSexValidity);
+        setUserAgeSexData(localAgeSexData);
 	}
 
-	const validateUploadPicture = () => {
-		var pictureValidity = {
+	const validateUploadPicture = (localPictureUploadData) => {
+		var localPictureValidity = {
 			errorMessage : pictureErrorMessage,
 			messageLayout : visibleErrorMessage,
 			pictureValid : false
 		};
 
-		if (pictureUploadData.imageWidth > 0 && pictureUploadData.imageHeight > 0 
-			&& pictureUploadData.faceCountInPicture > 0) {
-			pictureValidity.messageLayout = hiddenErrorMessage;
-			pictureValidity.pictureValid = true;
-		} else {
-			if (pictureUploadData.faceCountInPicture <= 0) {
-				pictureValidity.errorMessage = noFaceInPictureErrorMessage;
-			}      
-		}
+        if (localPictureUploadData.imageWidth > 0 && localPictureUploadData.imageHeight > 0) {
+            localPictureValidity.messageLayout = hiddenErrorMessage;
+            localPictureValidity.pictureValid = true;
+            console.log("Execution entered the error free zone");
+        } 
 
-        setPictureValidity(pictureValidity);
+        setPictureUploadData(localPictureUploadData);
+        setPictureValidity(localPictureValidity);
 	}
 
 	const updateInputUserAge = (userAgeValue, isBlurred) => {
-        setUserAgeSexData({
+        var localAgeSexData = {
             userSex : userAgeSexData.userSex,
             userAge : userAgeValue
-        });
+        };
 
 		pictureUploadRequest.userAge = userAgeValue;
 
 		if (isBlurred) {
-			validateUploadPicture();
-			validateUserSex();
-			validateUserAge();
+			validateUploadPicture(pictureUploadData);
+			validateUserSex(localAgeSexData);
+			validateUserAge(localAgeSexData);
+            validateFaceCountInPicture();
 		}
 	}
 

@@ -569,6 +569,12 @@ function Sexuality() {
 					
 					userDataComposite.currentUserData.userInformationData = localUserData;
 
+					var props = Object.getOwnPropertyNames(userDataComposite.registrationData);
+					
+					for (var i = 0; i < props.length; i++) {
+						delete userDataComposite.registrationData[props[i]];
+					}
+
 					localStorage.setItem("userDataComposite", JSON.stringify(userDataComposite));	
 
 					window.location.replace("/");
