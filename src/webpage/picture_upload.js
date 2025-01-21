@@ -60,21 +60,9 @@ function PictureUpload() {
         type : "number"
     }
 
-    var pictureUploadRequest = {
-		sex : "",
-		memberId : 0,
-		userAge : 0,
-		imageWidth : 0,
-		imageHeight : 0,
-		userLevel : "selectSexualityInterest",
-		base64Picture : ""
-	};
-
 	const MODEL_URL = process.env.PUBLIC_URL + '/models';
 
     const userDataComposite = JSON.parse(localStorage.getItem("userDataComposite"));
-
-    pictureUploadRequest.memberId = userDataComposite.currentUserData.userInformationData.memberId;
 
     const location = useLocation();
     const selectPictureButton = useRef();
@@ -110,6 +98,16 @@ function PictureUpload() {
         userAgeValid : false
     });
 
+    const [pictureUploadRequest, setPictureUploadRequest] = useState({
+		sex : "",
+		memberId : 0,
+		userAge : 0,
+		imageWidth : 0,
+		imageHeight : 0,
+		userLevel : "selectSexualityInterest",
+		base64Picture : ""
+	});
+
     const [pictureUploadButtons, setPictureUploadButtons] = useState({
         maleBasicButton : {
             buttonTitle : "Male",
@@ -141,6 +139,16 @@ function PictureUpload() {
     });
 
 	useEffect(() => {
+        setPictureUploadRequest({
+            sex : pictureUploadRequest.sex,
+            memberId : userDataComposite.currentUserData.userInformationData.memberId,
+            userAge : pictureUploadRequest.userAge,
+            imageWidth : pictureUploadRequest.imageWidth,
+            imageHeight : pictureUploadRequest.imageHeight,
+            userLevel : pictureUploadRequest.userLevel,
+            base64Picture : pictureUploadRequest.base64Picture
+        });
+                       
 		async function loadModels(modelUrl) {
 		  	Promise.all([
 		    	faceapi.nets.tinyFaceDetector.loadFromUri(modelUrl),
@@ -181,8 +189,16 @@ function PictureUpload() {
                 }
             });
             
-			pictureUploadRequest.sex = "Male";
-			
+            setPictureUploadRequest({
+                sex : "Male",
+                memberId : pictureUploadRequest.memberId,
+                userAge : pictureUploadRequest.userAge,
+                imageWidth : pictureUploadRequest.imageWidth,
+                imageHeight : pictureUploadRequest.imageHeight,
+                userLevel : pictureUploadRequest.userLevel,
+                base64Picture : pictureUploadRequest.base64Picture
+            });    
+
 			validateUploadPicture(pictureUploadData);
 			validateUserSex(localAgeSexData);	
             validateFaceCountInPicture();
@@ -214,9 +230,17 @@ function PictureUpload() {
                     buttonClass : hiddenFemaleHollowButton
                 }
             });
-            
-			pictureUploadRequest.sex = "Female";
 
+            setPictureUploadRequest({
+                sex : "Female",
+                memberId : pictureUploadRequest.memberId,
+                userAge : pictureUploadRequest.userAge,
+                imageWidth : pictureUploadRequest.imageWidth,
+                imageHeight : pictureUploadRequest.imageHeight,
+                userLevel : pictureUploadRequest.userLevel,
+                base64Picture : pictureUploadRequest.base64Picture
+            });
+        
 			validateUploadPicture(pictureUploadData);
 			validateUserSex(localAgeSexData);	
             validateFaceCountInPicture();
@@ -266,7 +290,7 @@ function PictureUpload() {
                     animationImageClass : puzzleProgressAnimation.animationImageClass,
                     animationMotionIcon : puzzleProgressAnimation.animationMotionIcon
                 });
-
+     
 				axios.post("http://localhost:1337/postpicture", pictureUploadRequest)
 			    	.then(response => {     
                         setUploadBasicButton({
@@ -316,9 +340,6 @@ function PictureUpload() {
 
 				// console.log("base64String gotten here is " + base64String.substring(5));
 
-				pictureUploadRequest.base64Picture = 
-					base64String.substring(base64String.indexOf("base64,") + 7);
-            
 				imageData.src = base64String;
 
 				processFaceDetection(imageData);
@@ -329,10 +350,17 @@ function PictureUpload() {
                         imageWidth : imageData.width,
                         imageHeight : imageData.height
                     };
-                     
-    				pictureUploadRequest.imageWidth = imageData.width;
-    				pictureUploadRequest.imageHeight = imageData.height;
-               
+
+                    setPictureUploadRequest({
+                        sex : pictureUploadRequest.sex,
+                        memberId : pictureUploadRequest.memberId,
+                        userAge : pictureUploadRequest.userAge,
+                        imageWidth : imageData.width,
+                        imageHeight : imageData.height,
+                        userLevel : pictureUploadRequest.userLevel,
+                        base64Picture : base64String.substring(base64String.indexOf("base64,") + 7)
+                    });
+                       
 					validateUploadPicture(localPictureUploadData);
 				};
 			};
@@ -424,8 +452,16 @@ function PictureUpload() {
             userAge : userAgeValue
         };
 
-		pictureUploadRequest.userAge = userAgeValue;
-
+        setPictureUploadRequest({
+            sex : pictureUploadRequest.sex,
+            memberId : pictureUploadRequest.memberId,
+            userAge : userAgeValue,
+            imageWidth : pictureUploadRequest.imageWidth,
+            imageHeight : pictureUploadRequest.imageHeight,
+            userLevel : pictureUploadRequest.userLevel,
+            base64Picture : pictureUploadRequest.base64Picture
+        });
+           
 		if (isBlurred) {
 			validateUploadPicture(pictureUploadData);
 			validateUserSex(localAgeSexData);
