@@ -567,7 +567,7 @@ function Sexuality() {
 						authenticated : userDataComposite.currentUserData.authenticated
 					};
 					
-					userDataComposite.currentUserData.userInformationData = localUserData;
+					userDataComposite.currentUserData = localUserData;
 
 					var props = Object.getOwnPropertyNames(userDataComposite.registrationData);
 					

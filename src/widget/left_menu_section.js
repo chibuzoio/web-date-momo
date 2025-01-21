@@ -78,10 +78,6 @@ function LeftMenuSection() {
 		imageHeight : 0
 	});
 
-	var messengerRequestData = {
-		memberId : userDataComposite.currentUserData.userInformationData.memberId
-	}
-
 	useEffect(() => {
 		async function loadModels(modelUrl) {
 		  	Promise.all([
@@ -111,7 +107,20 @@ function LeftMenuSection() {
 
 	const openUserProfile = (buttonClicked) => {
 		if (buttonClicked) {
-			navigate("/profile/" + userDataComposite.currentUserData.userInformationData.memberId);
+			var requestData = {
+				memberId : userDataComposite.currentUserData.userInformationData.memberId
+			}
+
+			axios.post("http://localhost:1337/userinformation", requestData)
+				.then(response => {
+					userDataComposite.userProfileResponse = response.data;
+			
+					localStorage.setItem("userDataComposite", JSON.stringify(userDataComposite));
+
+					navigate("/profile/" + userDataComposite.currentUserData.userInformationData.memberId);
+				}, error => {
+					console.log(error);
+				});
 		}
 	}
 

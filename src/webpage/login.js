@@ -33,7 +33,7 @@ function Login() {
 	var passwordEmptyError = "Password field is empty";
 	var userNameEmptyError = "User name field is empty";
 	var incorrectCredentialError = "User name or password is incorrect";
-
+           
     var userDataComposite = {
         currentUserData : {},
         likedUserComposite : [],
@@ -51,6 +51,55 @@ function Login() {
             userNameComposite : [],
             privacyPolicyText : "",
             termsAndConditionsText : ""            
+        },
+        userProfileResponse : {
+            memberId : 0,
+            age : 0,
+            sex : "",
+            fullName : "",
+            userName : "",
+            userStatus : "",
+            phoneNumber : "",
+            emailAddress : "",
+            profilePicture : "",
+            userBlockedStatus : 0,
+            currentLocation : "",
+            registrationDate : "",
+            messengerTableName : "",
+            liked : false,
+            userPictureResponses : [],
+            bisexualCategory : 0,
+            gayCategory : 0,
+            lesbianCategory : 0,
+            straightCategory : 0,
+            sugarDaddyCategory : 0,
+            sugarMommyCategory : 0,
+            toyBoyCategory : 0,
+            toyGirlCategory : 0,
+            bisexualInterest : 0,
+            gayInterest : 0,
+            lesbianInterest : 0,
+            straightInterest : 0,
+            friendshipInterest : 0,
+            sugarDaddyInterest : 0,
+            sugarMommyInterest : 0,
+            relationshipInterest : 0,
+            toyBoyInterest : 0,
+            toyGirlInterest : 0,
+            sixtyNineExperience : 0,
+            analSexExperience : 0,
+            givenHeadExperience : 0,
+            oneNightStandExperience : 0,
+            orgySexExperience : 0,
+            poolSexExperience : 0,
+            receivedHeadExperience : 0,
+            missionaryExperience : 0,
+            carSexExperience : 0,
+            publicSexExperience : 0,
+            cameraSexExperience : 0,
+            threesomeExperience : 0,
+            sexToyExperience : 0,
+            videoSexExperience : 0
         }
     };
 
@@ -297,11 +346,11 @@ function Login() {
                         axios.post("http://localhost:1337/alluserdata", messengerRequestData)
                             .then(response => {
                                 userDataComposite.emptyMessengerResponse = response.data;
-
+                
                                 axios.post("http://localhost:1337/matcheduserdata", timelineRequestData)
                                     .then(response => {
                                         userDataComposite.timelineDataComposite = response.data;
-
+                
                                         localStorage.setItem("userDataComposite", JSON.stringify(userDataComposite));
 
                                         setLoginButtonParts({
@@ -352,9 +401,11 @@ function Login() {
 
 				axios.post("http://localhost:1337/loginmember", loginRequestData)
 			    	.then(response => {
-			    		if (response.data.isPasswordValid) {
+                        console.log("response.data.authenticated value here is " + response.data.authenticated);
+
+			    		if (response.data.authenticated) {
                             userDataComposite.currentUserData = response.data;
-                            userDataComposite.currentUserData.authenticated = response.data.isPasswordValid;
+                            userDataComposite.currentUserData.authenticated = response.data.authenticated;
 
                             messengerRequestData.memberId = userDataComposite.currentUserData.userInformationData.memberId;
 

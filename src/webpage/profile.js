@@ -18,13 +18,14 @@ import LeftIconHollowButton from '../component/left_icon_hollow_button';
 
 function Profile() {
 	var base64String = "";
+
 	var pictureUpdateRequest = {
 		memberId : 0,
 		imageWidth : 0,
 		imageHeight : 0,
 		base64Picture : ""
 	};
-
+	
 	var editProfileButton = {
 		buttonTitle : "Edit Profile",
 		buttonIcon : icon_edit_blue,
@@ -56,71 +57,22 @@ function Profile() {
 	const selectPictureButton = useRef();
 
 	const MODEL_URL = process.env.PUBLIC_URL + '/models';
-	const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+	const userDataComposite = JSON.parse(localStorage.getItem("userDataComposite"));
 
 	var profilePictureParts = {
-		roundPicture : "http://localhost:1337/image/" + currentUser.userInformationData.profilePicture,
+		roundPicture : "http://localhost:1337/image/" + userDataComposite.currentUserData.userInformationData.profilePicture,
 		pictureLayoutClass : "profilePictureLayout",
 		profilePictureClass : "profilePictureImage",
 		pictureChangeClass : "profilePictureIcon"
 	}
 
+	const [faceCountInPicture, setFaceCountInPicture] = useState(0);	
 	const [userLikerResponses, setUserLikerResponses] = useState([]);
-	const [userProfileResponse, setUserProfileResponse] = useState({
-		memberId : 0,
-        age : 0,
-        sex : "",
-        fullName : "",
-        userName : "",
-        userStatus : "",
-        phoneNumber : "",
-        emailAddress : "",
-        profilePicture : "",
-        userBlockedStatus : 0,
-        currentLocation : "",
-        registrationDate : "",
-        messengerTableName : "",
-        liked : false,
-        userPictureResponses : [],
-        bisexualCategory : 0,
-        gayCategory : 0,
-        lesbianCategory : 0,
-        straightCategory : 0,
-        sugarDaddyCategory : 0,
-        sugarMommyCategory : 0,
-        toyBoyCategory : 0,
-        toyGirlCategory : 0,
-        bisexualInterest : 0,
-        gayInterest : 0,
-        lesbianInterest : 0,
-        straightInterest : 0,
-        friendshipInterest : 0,
-        sugarDaddyInterest : 0,
-        sugarMommyInterest : 0,
-        relationshipInterest : 0,
-        toyBoyInterest : 0,
-        toyGirlInterest : 0,
-        sixtyNineExperience : 0,
-        analSexExperience : 0,
-        givenHeadExperience : 0,
-        oneNightStandExperience : 0,
-        orgySexExperience : 0,
-        poolSexExperience : 0,
-        receivedHeadExperience : 0,
-        missionaryExperience : 0,
-        carSexExperience : 0,
-        publicSexExperience : 0,
-        cameraSexExperience : 0,
-        threesomeExperience : 0,
-        sexToyExperience : 0,
-        videoSexExperience : 0
-	});
-	
-	const [pictureUpload, setPictureUpload] = useState({
-		picture : "",
-		faceCountInPicture : 0,
-		imageWidth : 0,
-		imageHeight : 0
+		    
+	const [sexualCompositeButtons, setSexualCompositeButtons] = useState({
+		sexualExperienceButtons : [],
+		sexualInterestButtons : [],
+		sexualCategoryButtons : []
 	});
 
 	const [userLikerLayout, setUserLikerLayout] = useState({
@@ -212,22 +164,21 @@ function Profile() {
 
 		loadModels(MODEL_URL);
 
-		loadUserProfileComposite();
+		setSexualCompositeButtons({
+			sexualExperienceButtons : buildSexualExperienceButtons(),
+			sexualInterestButtons : buildSexualInterestButtons(),
+			sexualCategoryButtons : buildSexualCategoryButtons()
+		});
+
+		loadUserLikerComposite();
 
 		return () => {
 			window.removeEventListener('resize', calculatePictureDimensions);
 		};
-	}, [userProfileResponse]);
+	}, []);
 
-	const loadUserProfileComposite = () => {
-		axios.post("http://localhost:1337/userinformation", requestData)
-	    	.then(response => {
-	    		setUserProfileResponse(response.data);
-	        }, error => {
-	        	console.log(error);
-	        });
-
-	    if (currentUser.userInformationData.memberId == params.memberId) {
+	const loadUserLikerComposite = () => {
+	    if (userDataComposite.currentUserData.userInformationData.memberId == params.memberId) {
 			axios.post("http://localhost:1337/userlikersdata", requestData)
 		    	.then(response => {
 		    		setUserLikerResponses(response.data);
@@ -438,59 +389,59 @@ function Profile() {
 	const buildSexualExperienceButtons = () => {
 		var sexualExperienceButtons = [];
 
-        if (userProfileResponse.sixtyNineExperience > 0) {
+        if (userDataComposite.userProfileResponse.sixtyNineExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "69", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userProfileResponse.analSexExperience > 0) {
+        if (userDataComposite.userProfileResponse.analSexExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Anal Sex", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userProfileResponse.givenHeadExperience > 0) {
+        if (userDataComposite.userProfileResponse.givenHeadExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Given Head", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userProfileResponse.missionaryExperience > 0) {
+        if (userDataComposite.userProfileResponse.missionaryExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Missionary", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userProfileResponse.oneNightStandExperience > 0) {
+        if (userDataComposite.userProfileResponse.oneNightStandExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "One-night Stand", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userProfileResponse.orgySexExperience > 0) {
+        if (userDataComposite.userProfileResponse.orgySexExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Orgy Sex", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userProfileResponse.poolSexExperience > 0) {
+        if (userDataComposite.userProfileResponse.poolSexExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Pool Sex", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userProfileResponse.receivedHeadExperience > 0) {
+        if (userDataComposite.userProfileResponse.receivedHeadExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Received Head", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userProfileResponse.carSexExperience > 0) {
+        if (userDataComposite.userProfileResponse.carSexExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Sexed In Car", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userProfileResponse.publicSexExperience > 0) {
+        if (userDataComposite.userProfileResponse.publicSexExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Sexed In Public", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userProfileResponse.cameraSexExperience > 0) {
+        if (userDataComposite.userProfileResponse.cameraSexExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Sexed With Camera", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userProfileResponse.threesomeExperience > 0) {
+        if (userDataComposite.userProfileResponse.threesomeExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Threesome", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userProfileResponse.sexToyExperience > 0) {
+        if (userDataComposite.userProfileResponse.sexToyExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Used Sex Toys", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userProfileResponse.videoSexExperience > 0) {
+        if (userDataComposite.userProfileResponse.videoSexExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Video Sex Chat", buttonClass : "basicButton sexualityButton"});
         }
            
@@ -500,43 +451,43 @@ function Profile() {
 	const buildSexualInterestButtons = () => {
 		var sexualInterestButtons = [];
 
-        if (userProfileResponse.bisexualInterest > 0) {
+        if (userDataComposite.userProfileResponse.bisexualInterest > 0) {
         	sexualInterestButtons.push({buttonTitle : "Bisexual", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userProfileResponse.friendshipInterest > 0) {
+        if (userDataComposite.userProfileResponse.friendshipInterest > 0) {
         	sexualInterestButtons.push({buttonTitle : "Friendship", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userProfileResponse.gayInterest > 0) {
+        if (userDataComposite.userProfileResponse.gayInterest > 0) {
         	sexualInterestButtons.push({buttonTitle : "Gay", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userProfileResponse.lesbianInterest > 0) {
+        if (userDataComposite.userProfileResponse.lesbianInterest > 0) {
         	sexualInterestButtons.push({buttonTitle : "Lesbian", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userProfileResponse.relationshipInterest > 0) {
+        if (userDataComposite.userProfileResponse.relationshipInterest > 0) {
         	sexualInterestButtons.push({buttonTitle : "Relationship", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userProfileResponse.straightInterest > 0) {
+        if (userDataComposite.userProfileResponse.straightInterest > 0) {
         	sexualInterestButtons.push({buttonTitle : "Straight", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userProfileResponse.sugarDaddyInterest > 0) {
+        if (userDataComposite.userProfileResponse.sugarDaddyInterest > 0) {
         	sexualInterestButtons.push({buttonTitle : "Sugar Daddy", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userProfileResponse.sugarMommyInterest > 0) {
+        if (userDataComposite.userProfileResponse.sugarMommyInterest > 0) {
         	sexualInterestButtons.push({buttonTitle : "Sugar Mommy", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userProfileResponse.toyBoyInterest > 0) {
+        if (userDataComposite.userProfileResponse.toyBoyInterest > 0) {
         	sexualInterestButtons.push({buttonTitle : "Toy Boy", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userProfileResponse.toyGirlInterest > 0) {
+        if (userDataComposite.userProfileResponse.toyGirlInterest > 0) {
         	sexualInterestButtons.push({buttonTitle : "Toy Girl", buttonClass : "basicButton sexualityButton"});
         }
                 
@@ -546,35 +497,35 @@ function Profile() {
 	const buildSexualCategoryButtons = () => {
 		var sexualCategoryButtons = [];
 
-        if (userProfileResponse.bisexualCategory > 0) {
+        if (userDataComposite.userProfileResponse.bisexualCategory > 0) {
         	sexualCategoryButtons.push({buttonTitle : "Bisexual", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userProfileResponse.gayCategory > 0) {
+        if (userDataComposite.userProfileResponse.gayCategory > 0) {
         	sexualCategoryButtons.push({buttonTitle : "Gay", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userProfileResponse.lesbianCategory > 0) {
+        if (userDataComposite.userProfileResponse.lesbianCategory > 0) {
         	sexualCategoryButtons.push({buttonTitle : "Lesbian", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userProfileResponse.straightCategory > 0) {
+        if (userDataComposite.userProfileResponse.straightCategory > 0) {
         	sexualCategoryButtons.push({buttonTitle : "Straight", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userProfileResponse.sugarDaddyCategory > 0) {
+        if (userDataComposite.userProfileResponse.sugarDaddyCategory > 0) {
         	sexualCategoryButtons.push({buttonTitle : "Sugar Daddy", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userProfileResponse.sugarMommyCategory > 0) {
+        if (userDataComposite.userProfileResponse.sugarMommyCategory > 0) {
         	sexualCategoryButtons.push({buttonTitle : "Sugar Mommy", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userProfileResponse.toyBoyCategory > 0) {
+        if (userDataComposite.userProfileResponse.toyBoyCategory > 0) {
         	sexualCategoryButtons.push({buttonTitle : "Toy Boy", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userProfileResponse.toyGirlCategory > 0) {
+        if (userDataComposite.userProfileResponse.toyGirlCategory > 0) {
         	sexualCategoryButtons.push({buttonTitle : "Toy Girl", buttonClass : "basicButton sexualityButton"});
         }
 
@@ -585,12 +536,7 @@ function Profile() {
 		var detections = await faceapi.detectAllFaces(imageData, 
 			new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions()
 	   		.then((response) => {     
-				setPictureUpload({
-					picture : pictureUpload.picture,
-					faceCountInPicture : response.length,
-					imageWidth : pictureUpload.imageWidth,
-					imageHeight : pictureUpload.imageHeight	
-				});
+				setFaceCountInPicture(response.length);
 	   		});
 	}
           
@@ -603,34 +549,18 @@ function Profile() {
 				var imageData = new Image();
 				base64String = event.target.result;
 
-				setPictureUpload({
-					picture : base64String,
-					faceCountInPicture : pictureUpload.faceCountInPicture,
-					imageWidth : pictureUpload.imageWidth,
-					imageHeight : pictureUpload.imageHeight
-				});
-
-				pictureUpdateRequest.base64Picture = 
-					base64String.substring(base64String.indexOf("base64,") + 7);
-	        
 				imageData.src = base64String;
 
 				processFaceDetection(imageData);
 
 				imageData.onload = () => {
-					setPictureUpload({
-						picture : pictureUpload.picture,
-						faceCountInPicture : pictureUpload.faceCountInPicture,
+					var localPictureUploadData = {
+						picture : base64String,
 						imageWidth : imageData.width,
 						imageHeight : imageData.height
-					});
-
-					pictureUpdateRequest.imageWidth = imageData.width;
-					pictureUpdateRequest.imageHeight = imageData.height;
-
-					setTimeout(function() {
-						updateProfilePicture();
-					}, 1000);
+					};
+			
+					updateProfilePicture(localPictureUploadData);
 				};
 			};
 
@@ -640,21 +570,24 @@ function Profile() {
 		}
 	}
 
-	const updateProfilePicture = () => {
-		pictureUpdateRequest.memberId = currentUser.userInformationData.memberId;
+	const updateProfilePicture = (localPictureUploadData) => {
+		pictureUpdateRequest.imageWidth = localPictureUploadData.imageWidth;
+		pictureUpdateRequest.imageHeight = localPictureUploadData.imageHeight;
+		pictureUpdateRequest.base64Picture = localPictureUploadData.base64Picture;
+		pictureUpdateRequest.memberId = userDataComposite.currentUserData.userInformationData.memberId;
 
-		if (pictureUpload.imageWidth > 0 
-			&& pictureUpload.imageHeight > 0 && pictureUpload.faceCountInPicture > 0) {
+		if (localPictureUploadData.imageWidth > 0 
+			&& localPictureUploadData.imageHeight > 0/*  && faceCountInPicture > 0 */) {
 			axios.post("http://localhost:1337/updatepicture", pictureUpdateRequest)
 		    	.then(response => { 
-		    		currentUser.userInformationData.profilePicture = response.data.profilePicture;
-					localStorage.setItem("currentUser", JSON.stringify(currentUser));
+		    		userDataComposite.currentUserData.userInformationData.profilePicture = response.data.profilePicture;
+					localStorage.setItem("userDataComposite", JSON.stringify(userDataComposite));
 					window.location.reload(true);
 		        }, error => {
 		        	console.log(error);
 		        });
 		} else {
-			if (pictureUpload.faceCountInPicture <= 0) {
+			if (faceCountInPicture <= 0) {
 				// Display no Face In Picture Error Message here
 
 			}      
@@ -669,7 +602,7 @@ function Profile() {
 
 	const openUserGallery = (buttonClicked) => {
 		if (buttonClicked) {
-			navigate("/gallery/" + currentUser.userInformationData.memberId + "/" + 0);
+			navigate("/gallery/" + userDataComposite.currentUserData.userInformationData.memberId + "/" + 0);
 		}
 	}
 
@@ -690,11 +623,11 @@ function Profile() {
 							pictureParts={profilePictureParts} />
 					</div>
 					<div className="userNameLocationLayout">
-						<div className="userNameAgeText">{(userProfileResponse.userName !== undefined ? 
-							(userProfileResponse.userName.charAt(0).toUpperCase() 
-								+ userProfileResponse.userName.slice(1)) : "")}, {userProfileResponse.age}</div>
-						<div className="userLocationText">{userProfileResponse.currentLocation}</div>
-						<div className="currentStatusText">{userProfileResponse.userStatus}</div>
+						<div className="userNameAgeText">{(userDataComposite.currentUserData.userInformationData.userName !== undefined ? 
+							(userDataComposite.currentUserData.userInformationData.userName.charAt(0).toUpperCase() 
+								+ userDataComposite.currentUserData.userInformationData.userName.slice(1)) : "")}, {userDataComposite.currentUserData.userInformationData.age}</div>
+						<div className="userLocationText">{userDataComposite.currentUserData.userInformationData.currentLocation}</div>
+						<div className="currentStatusText">{userDataComposite.currentUserData.userInformationData.userStatus}</div>
 					</div>
 				</div>
 				<div className="profileButtonLayout">
@@ -715,21 +648,21 @@ function Profile() {
 					</div>
 				</div>
 				<div className="userLikerSexualityLayout">
-					<div className="sexualityHeader">{currentUser.userInformationData.memberId == params.memberId ? 
-						"My" : (userProfileResponse.userName !== undefined ?
-						(userProfileResponse.userName.charAt(0).toUpperCase() 
-						+ userProfileResponse.userName.slice(1)) : "")} Sexuality</div>
-					<SexualityBiometrics sexualityButtons={buildSexualCategoryButtons()} />
-					<div className="sexualityHeader">{currentUser.userInformationData.memberId == params.memberId ? 
-						"My" : (userProfileResponse.userName !== undefined ? 
-							(userProfileResponse.userName.charAt(0).toUpperCase() 
-							+ userProfileResponse.userName.slice(1)) : "")} Interests</div>
-					<SexualityBiometrics sexualityButtons={buildSexualInterestButtons()} />
-					<div className="sexualityHeader">{currentUser.userInformationData.memberId == params.memberId ? 
-						"My" : (userProfileResponse.userName !== undefined ?
-						(userProfileResponse.userName.charAt(0).toUpperCase() 
-						+ userProfileResponse.userName.slice(1)) : "")} Experiences</div>
-					<SexualityBiometrics sexualityButtons={buildSexualExperienceButtons()} />
+					<div className="sexualityHeader">{userDataComposite.currentUserData.userInformationData.memberId == params.memberId ? 
+						"My" : (userDataComposite.currentUserData.userInformationData.userName !== undefined ?
+						(userDataComposite.currentUserData.userInformationData.userName.charAt(0).toUpperCase() 
+						+ userDataComposite.currentUserData.userInformationData.userName.slice(1)) : "")} Sexuality</div>
+					<SexualityBiometrics sexualityButtons={sexualCompositeButtons.sexualCategoryButtons} />
+					<div className="sexualityHeader">{userDataComposite.currentUserData.userInformationData.memberId == params.memberId ? 
+						"My" : (userDataComposite.currentUserData.userInformationData.userName !== undefined ? 
+							(userDataComposite.currentUserData.userInformationData.userName.charAt(0).toUpperCase() 
+							+ userDataComposite.currentUserData.userInformationData.userName.slice(1)) : "")} Interests</div>
+					<SexualityBiometrics sexualityButtons={sexualCompositeButtons.sexualInterestButtons} />
+					<div className="sexualityHeader">{userDataComposite.currentUserData.userInformationData.memberId == params.memberId ? 
+						"My" : (userDataComposite.currentUserData.userInformationData.userName !== undefined ?
+						(userDataComposite.currentUserData.userInformationData.userName.charAt(0).toUpperCase() 
+						+ userDataComposite.currentUserData.userInformationData.userName.slice(1)) : "")} Experiences</div>
+					<SexualityBiometrics sexualityButtons={sexualCompositeButtons.sexualExperienceButtons} />
 				</div>
 			</div>
 		</div>
