@@ -385,63 +385,63 @@ function Profile() {
 			topUserNameMargin : userNameTopMargin + "px"
 		});
 	}
-
+   
 	const buildSexualExperienceButtons = () => {
 		var sexualExperienceButtons = [];
-
-        if (userDataComposite.userProfileResponse.sixtyNineExperience > 0) {
+   
+        if (userDataComposite.userProfileResponse.userExperienceData.sixtyNineExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "69", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userDataComposite.userProfileResponse.analSexExperience > 0) {
+        if (userDataComposite.userProfileResponse.userExperienceData.analSexExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Anal Sex", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userDataComposite.userProfileResponse.givenHeadExperience > 0) {
+        if (userDataComposite.userProfileResponse.userExperienceData.givenHeadExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Given Head", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userDataComposite.userProfileResponse.missionaryExperience > 0) {
+        if (userDataComposite.userProfileResponse.userExperienceData.missionaryExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Missionary", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userDataComposite.userProfileResponse.oneNightStandExperience > 0) {
+        if (userDataComposite.userProfileResponse.userExperienceData.oneNightStandExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "One-night Stand", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userDataComposite.userProfileResponse.orgySexExperience > 0) {
+        if (userDataComposite.userProfileResponse.userExperienceData.orgySexExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Orgy Sex", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userDataComposite.userProfileResponse.poolSexExperience > 0) {
+        if (userDataComposite.userProfileResponse.userExperienceData.poolSexExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Pool Sex", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userDataComposite.userProfileResponse.receivedHeadExperience > 0) {
+        if (userDataComposite.userProfileResponse.userExperienceData.receivedHeadExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Received Head", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userDataComposite.userProfileResponse.carSexExperience > 0) {
+        if (userDataComposite.userProfileResponse.userExperienceData.carSexExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Sexed In Car", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userDataComposite.userProfileResponse.publicSexExperience > 0) {
+        if (userDataComposite.userProfileResponse.userExperienceData.publicSexExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Sexed In Public", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userDataComposite.userProfileResponse.cameraSexExperience > 0) {
+        if (userDataComposite.userProfileResponse.userExperienceData.cameraSexExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Sexed With Camera", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userDataComposite.userProfileResponse.threesomeExperience > 0) {
+        if (userDataComposite.userProfileResponse.userExperienceData.threesomeExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Threesome", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userDataComposite.userProfileResponse.sexToyExperience > 0) {
+        if (userDataComposite.userProfileResponse.userExperienceData.sexToyExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Used Sex Toys", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userDataComposite.userProfileResponse.videoSexExperience > 0) {
+        if (userDataComposite.userProfileResponse.userExperienceData.videoSexExperience > 0) {
         	sexualExperienceButtons.push({buttonTitle : "Video Sex Chat", buttonClass : "basicButton sexualityButton"});
         }
            
@@ -451,43 +451,43 @@ function Profile() {
 	const buildSexualInterestButtons = () => {
 		var sexualInterestButtons = [];
 
-        if (userDataComposite.userProfileResponse.bisexualInterest > 0) {
+        if (userDataComposite.userProfileResponse.userInterestData.bisexualInterest > 0) {
         	sexualInterestButtons.push({buttonTitle : "Bisexual", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userDataComposite.userProfileResponse.friendshipInterest > 0) {
+        if (userDataComposite.userProfileResponse.userInterestData.friendshipInterest > 0) {
         	sexualInterestButtons.push({buttonTitle : "Friendship", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userDataComposite.userProfileResponse.gayInterest > 0) {
+        if (userDataComposite.userProfileResponse.userInterestData.gayInterest > 0) {
         	sexualInterestButtons.push({buttonTitle : "Gay", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userDataComposite.userProfileResponse.lesbianInterest > 0) {
+        if (userDataComposite.userProfileResponse.userInterestData.lesbianInterest > 0) {
         	sexualInterestButtons.push({buttonTitle : "Lesbian", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userDataComposite.userProfileResponse.relationshipInterest > 0) {
+        if (userDataComposite.userProfileResponse.userInterestData.relationshipInterest > 0) {
         	sexualInterestButtons.push({buttonTitle : "Relationship", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userDataComposite.userProfileResponse.straightInterest > 0) {
+        if (userDataComposite.userProfileResponse.userInterestData.straightInterest > 0) {
         	sexualInterestButtons.push({buttonTitle : "Straight", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userDataComposite.userProfileResponse.sugarDaddyInterest > 0) {
+        if (userDataComposite.userProfileResponse.userInterestData.sugarDaddyInterest > 0) {
         	sexualInterestButtons.push({buttonTitle : "Sugar Daddy", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userDataComposite.userProfileResponse.sugarMommyInterest > 0) {
+        if (userDataComposite.userProfileResponse.userInterestData.sugarMommyInterest > 0) {
         	sexualInterestButtons.push({buttonTitle : "Sugar Mommy", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userDataComposite.userProfileResponse.toyBoyInterest > 0) {
+        if (userDataComposite.userProfileResponse.userInterestData.toyBoyInterest > 0) {
         	sexualInterestButtons.push({buttonTitle : "Toy Boy", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userDataComposite.userProfileResponse.toyGirlInterest > 0) {
+        if (userDataComposite.userProfileResponse.userInterestData.toyGirlInterest > 0) {
         	sexualInterestButtons.push({buttonTitle : "Toy Girl", buttonClass : "basicButton sexualityButton"});
         }
                 
@@ -497,35 +497,35 @@ function Profile() {
 	const buildSexualCategoryButtons = () => {
 		var sexualCategoryButtons = [];
 
-        if (userDataComposite.userProfileResponse.bisexualCategory > 0) {
+        if (userDataComposite.userProfileResponse.userSexualityData.bisexualCategory > 0) {
         	sexualCategoryButtons.push({buttonTitle : "Bisexual", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userDataComposite.userProfileResponse.gayCategory > 0) {
+        if (userDataComposite.userProfileResponse.userSexualityData.gayCategory > 0) {
         	sexualCategoryButtons.push({buttonTitle : "Gay", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userDataComposite.userProfileResponse.lesbianCategory > 0) {
+        if (userDataComposite.userProfileResponse.userSexualityData.lesbianCategory > 0) {
         	sexualCategoryButtons.push({buttonTitle : "Lesbian", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userDataComposite.userProfileResponse.straightCategory > 0) {
+        if (userDataComposite.userProfileResponse.userSexualityData.straightCategory > 0) {
         	sexualCategoryButtons.push({buttonTitle : "Straight", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userDataComposite.userProfileResponse.sugarDaddyCategory > 0) {
+        if (userDataComposite.userProfileResponse.userSexualityData.sugarDaddyCategory > 0) {
         	sexualCategoryButtons.push({buttonTitle : "Sugar Daddy", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userDataComposite.userProfileResponse.sugarMommyCategory > 0) {
+        if (userDataComposite.userProfileResponse.userSexualityData.sugarMommyCategory > 0) {
         	sexualCategoryButtons.push({buttonTitle : "Sugar Mommy", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userDataComposite.userProfileResponse.toyBoyCategory > 0) {
+        if (userDataComposite.userProfileResponse.userSexualityData.toyBoyCategory > 0) {
         	sexualCategoryButtons.push({buttonTitle : "Toy Boy", buttonClass : "basicButton sexualityButton"});
         }
 
-        if (userDataComposite.userProfileResponse.toyGirlCategory > 0) {
+        if (userDataComposite.userProfileResponse.userSexualityData.toyGirlCategory > 0) {
         	sexualCategoryButtons.push({buttonTitle : "Toy Girl", buttonClass : "basicButton sexualityButton"});
         }
 
