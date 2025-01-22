@@ -6,6 +6,7 @@ import BasicButton from '../component/basic_button';
 import loading_puzzle from '../image/loading_puzzle.gif';
 import SexualityOptions from '../widget/sexuality_options';
 import ProgressAnimation from '../component/progress_animation';
+import { checkNullInMessenger, selectChosenSticker } from '../utility/utility';
 
 function Sexuality() {
 	var visibleSexualBasicButton = "basicButton sexualityButton";  
@@ -16,6 +17,45 @@ function Sexuality() {
 	var hiddenAnimationClass = visibleAnimationClass + " hideComponent";
 	var hiddenSexualBasicButton = visibleSexualBasicButton + " hideComponent";
 	var hiddenSexualHollowButton = visibleSexualHollowButton + " hideComponent";
+    
+	var timelineRequestData = {
+		memberId : 0,
+		age : 0,
+		sex : "",
+		registrationDate : "",
+    	bisexualCategory : 0,
+    	gayCategory : 0,
+    	lesbianCategory : 0,
+    	straightCategory : 0,
+    	sugarDaddyCategory : 0,
+    	sugarMommyCategory : 0,
+    	toyBoyCategory : 0,
+    	toyGirlCategory : 0,
+    	bisexualInterest : 0,
+    	gayInterest : 0,
+    	lesbianInterest : 0,
+    	straightInterest : 0,
+    	friendshipInterest : 0,
+    	sugarDaddyInterest : 0,
+    	sugarMommyInterest : 0,
+    	relationshipInterest : 0,
+    	toyBoyInterest : 0,
+    	toyGirlInterest : 0,
+    	sixtyNineExperience : 0,
+    	analSexExperience : 0,
+    	givenHeadExperience : 0,
+    	missionaryExperience : 0,
+    	oneNightStandExperience : 0,
+    	orgySexExperience : 0,
+    	poolSexExperience : 0,
+    	receivedHeadExperience : 0,
+    	carSexExperience : 0,
+    	publicSexExperience : 0,
+    	cameraSexExperience : 0,
+    	threesomeExperience : 0,
+    	sexToyExperience : 0,
+    	videoSexExperience : 0
+	};
 
     var sexualityRequestData = {
 	    memberId : 0,
@@ -58,6 +98,10 @@ function Sexuality() {
 	const userDataComposite = JSON.parse(localStorage.getItem("userDataComposite"));
 
     sexualityRequestData.memberId = userDataComposite.currentUserData.userInformationData.memberId; 
+
+	var messengerRequestData = {
+        memberId : userDataComposite.currentUserData.userInformationData.memberId
+    };
 
 	const [sexualCategoryButtons, setSexualCategoryButtons] = useState([
 		{
@@ -478,6 +522,51 @@ function Sexuality() {
 		});
 	}
 
+    const loadMessengerNotificationData = () => {
+        axios.post("http://localhost:1337/usermessengersdata", messengerRequestData)
+            .then(response => {
+                userDataComposite.messengerResponses = checkNullInMessenger(response.data);
+                
+                axios.post("http://localhost:1337/usernotifications", messengerRequestData) 
+                    .then(response => {
+                        userDataComposite.notificationResponses = response.data;
+                
+                        axios.post("http://localhost:1337/alluserdata", messengerRequestData)
+                            .then(response => {
+                                userDataComposite.emptyMessengerResponse = response.data;
+                
+                                axios.post("http://localhost:1337/matcheduserdata", timelineRequestData)
+                                    .then(response => {
+                                        userDataComposite.timelineDataComposite = response.data;
+                
+                                        localStorage.setItem("userDataComposite", JSON.stringify(userDataComposite));
+							
+										setSexualityButtonParts({
+											buttonTitle : sexualityButtonParts.buttonTitle,
+											buttonClass : visibleButtonClass
+										});
+							
+                                        setPuzzleProgressAnimation({
+                                            animationLayout : hiddenAnimationClass,
+                                            animationImageClass : puzzleProgressAnimation.animationImageClass,
+                                            animationMotionIcon : puzzleProgressAnimation.animationMotionIcon
+                                        });
+                                        
+                                        window.location.replace("/");
+                                    }, error => {
+                                        console.log(error);
+                                    });
+                            }, error => {
+                                console.log(error);
+                            });	        
+                        }, error => {
+                            console.log(error);
+                        });		        
+                    }, error => {
+                        console.log(error);
+                    });
+    }
+
     const submitSexualitySelections = (buttonClicked) => {
 		if (buttonClicked) {
             setSexualityButtonParts({
@@ -526,17 +615,6 @@ function Sexuality() {
 
 			axios.post("http://localhost:1337/userbiometrics", sexualityRequestData)
 		    	.then(async response => { 
-                    setSexualityButtonParts({
-                        buttonTitle : sexualityButtonParts.buttonTitle,
-                        buttonClass : visibleButtonClass
-                    });
-        
-                    setPuzzleProgressAnimation({
-                        animationLayout : hiddenAnimationClass,
-                        animationImageClass : puzzleProgressAnimation.animationImageClass,
-                        animationMotionIcon : puzzleProgressAnimation.animationMotionIcon
-                    });
-        
 					let localUserData = {
 						userInformationData : {
 							registrationDate : userDataComposite.currentUserData.userInformationData.registrationDate,
@@ -575,9 +653,44 @@ function Sexuality() {
 						delete userDataComposite.registrationData[props[i]];
 					}
 
-					localStorage.setItem("userDataComposite", JSON.stringify(userDataComposite));	
+					timelineRequestData.memberId = localUserData.userInformationData.memberId;
+					timelineRequestData.age = localUserData.userInformationData.age;
+					timelineRequestData.sex = localUserData.userInformationData.sex;
+					timelineRequestData.registrationDate = localUserData.userInformationData.registrationDate;
+					timelineRequestData.bisexualCategory = localUserData.userSexualityData.bisexualCategory;
+					timelineRequestData.gayCategory = localUserData.userSexualityData.gayCategory;
+					timelineRequestData.lesbianCategory = localUserData.userSexualityData.lesbianCategory;
+					timelineRequestData.straightCategory = localUserData.userSexualityData.straightCategory;
+					timelineRequestData.sugarDaddyCategory = localUserData.userSexualityData.sugarDaddyCategory;
+					timelineRequestData.sugarMommyCategory = localUserData.userSexualityData.sugarMommyCategory;
+					timelineRequestData.toyBoyCategory = localUserData.userSexualityData.toyBoyCategory;
+					timelineRequestData.toyGirlCategory = localUserData.userSexualityData.toyGirlCategory;
+					timelineRequestData.bisexualInterest = localUserData.userInterestData.bisexualInterest;
+					timelineRequestData.gayInterest = localUserData.userInterestData.gayInterest;
+					timelineRequestData.lesbianInterest = localUserData.userInterestData.lesbianInterest;
+					timelineRequestData.straightInterest = localUserData.userInterestData.straightInterest;
+					timelineRequestData.friendshipInterest = localUserData.userInterestData.friendshipInterest;
+					timelineRequestData.sugarDaddyInterest = localUserData.userInterestData.sugarDaddyInterest;
+					timelineRequestData.sugarMommyInterest = localUserData.userInterestData.sugarMommyInterest;
+					timelineRequestData.relationshipInterest = localUserData.userInterestData.relationshipInterest;
+					timelineRequestData.toyBoyInterest = localUserData.userInterestData.toyBoyInterest;
+					timelineRequestData.toyGirlInterest = localUserData.userInterestData.toyGirlInterest;
+					timelineRequestData.sixtyNineExperience = localUserData.userExperienceData.sixtyNineExperience;
+					timelineRequestData.analSexExperience = localUserData.userExperienceData.analSexExperience;
+					timelineRequestData.givenHeadExperience = localUserData.userExperienceData.givenHeadExperience;
+					timelineRequestData.missionaryExperience = localUserData.userExperienceData.missionaryExperience;
+					timelineRequestData.oneNightStandExperience = localUserData.userExperienceData.oneNightStandExperience;
+					timelineRequestData.orgySexExperience = localUserData.userExperienceData.orgySexExperience;
+					timelineRequestData.poolSexExperience = localUserData.userExperienceData.poolSexExperience;
+					timelineRequestData.receivedHeadExperience = localUserData.userExperienceData.receivedHeadExperience;
+					timelineRequestData.carSexExperience = localUserData.userExperienceData.carSexExperience;
+					timelineRequestData.publicSexExperience = localUserData.userExperienceData.publicSexExperience;
+					timelineRequestData.cameraSexExperience = localUserData.userExperienceData.cameraSexExperience;
+					timelineRequestData.threesomeExperience = localUserData.userExperienceData.threesomeExperience;
+					timelineRequestData.sexToyExperience = localUserData.userExperienceData.sexToyExperience;
+					timelineRequestData.videoSexExperience = localUserData.userExperienceData.videoSexExperience;
 
-					window.location.replace("/");
+					loadMessengerNotificationData();
 		        }, error => {     
                     setSexualityButtonParts({
                         buttonTitle : sexualityButtonParts.buttonTitle,

@@ -364,7 +364,7 @@ function Login() {
                                             animationMotionIcon : puzzleProgressAnimation.animationMotionIcon
                                         });
                                         
-                                        navigate("/");
+                                        window.location.replace("/");
                                     }, error => {
                                         console.log(error);
                                     });
@@ -401,8 +401,6 @@ function Login() {
 
 				axios.post("http://localhost:1337/loginmember", loginRequestData)
 			    	.then(response => {
-                        console.log("response.data.authenticated value here is " + response.data.authenticated);
-
 			    		if (response.data.authenticated) {
                             userDataComposite.currentUserData = response.data;
                             userDataComposite.currentUserData.authenticated = response.data.authenticated;
