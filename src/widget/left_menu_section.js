@@ -20,6 +20,7 @@ import IconProfilePicture from '../component/icon_profile_picture';
 import NotificationIterator from '../widget/notification_iterator';
 import EmptyMessengerContent from '../widget/empty_messenger_content';
 import LeftIconHollowButton from '../component/left_icon_hollow_button';
+import { isJSON } from 'validator';
 
 function LeftMenuSection() {
 	var visibleMessengerDisplay = "messengerMessageLayout";
@@ -66,6 +67,7 @@ function LeftMenuSection() {
 		pictureChangeClass : "profilePictureIcon pictureChangeClass"
 	}
 
+	const location = useLocation();
 	const navigate = useNavigate();
 	const selectPictureButton = useRef();
 	const [notificationLoader, setNotificationLoader] = useState(hiddenEmptyNotification);
@@ -137,6 +139,32 @@ function LeftMenuSection() {
 			selectPictureButton.current.click();
 		}
 	}
+	
+/* 		{
+			"userPictureComposite":[
+				{
+					"imageHeight":755,"imageName":"profile170352578600001.png","imageId":1,"imageWidth":433
+				},
+				{
+					"imageHeight":755,"imageName":"profile170388307100001.png","imageId":3,"imageWidth":433
+				}
+			],
+			"userInformationData":{
+				"memberId":1,"registrationDate":"1703525763","currentLocation":"","profilePicture":"profile170388307100001.png","deleteAccount":0,"passwordHash":"$2b$10$xaCGiRVnfsuK87cC5ctXreEjnmJ8HuRj006ypQwc8JDpjAjaODMNW","emailAddress":"","phoneNumber":"","impactCount":1,"userStatus":"Hello dear! Welcome to my profile!","userLevel":"displayMatchedUsers","userName":"Solution","fullName":"","sex":"MALE","age":31
+			},
+			"userExperienceData":{
+				"oneNightStandExperience":1,"receivedHeadExperience":1,"missionaryExperience":1,"threesomeExperience":1,"publicSexExperience":1,"givenHeadExperience":1,"cameraSexExperience":1,"sixtyNineExperience":1,"poolSexExperience":1,"analSexExperience":0,"carSexExperience":1,"orgySexExperience":1
+			},
+			"messengerTableName":"messenger170352576300001",
+			"userSexualityData":{
+				"sugarDaddyCategory":1,"sugarMommyCategory":1,"straightCategory":1,"bisexualCategory":1,"lesbianCategory":1,"toyGirlCategory":1,"toyBoyCategory":0,"gayCategory":0
+			},
+			"userInterestData":{
+				"relationshipInterest":0,"sugarDaddyInterest":1,"sugarMommyInterest":1,"friendshipInterest":0,"straightInterest":1,"bisexualInterest":1,"lesbianInterest":1,"toyGirlInterest":1,"toyBoyInterest":1,"gayInterest":0
+			},
+			"memberId":1,
+			"liked":false
+		} */
 
 	const loadMessageComposite = (messengerResponse) => {
 		var messageRequest = {
@@ -151,7 +179,12 @@ function LeftMenuSection() {
 
 		axios.post("http://localhost:1337/usermessagesdata", messageRequest)
 			.then(response => {
-				return response.data;
+				navigate("/message", {
+					state : {
+						messengerResponse : messengerResponse,
+						messageResponses : response.data
+					}
+				});
 			}, error => {
 				console.log(error);
 			});
@@ -242,14 +275,7 @@ function LeftMenuSection() {
 	}
 
 	const clickMessengerComponent = (messengerResponse) => {
-		var messageResponses = loadMessageComposite(messengerResponse);
-
-		navigate("/message", {
-			state : {
-				messengerResponse : messengerResponse,
-				messageResponses : messageResponses
-			}
-		});
+		loadMessageComposite(messengerResponse);
 	}
 
 	const displayMessengerContent = () => { 
@@ -357,21 +383,14 @@ function LeftMenuSection() {
 
 	const messengerLayoutClicked = (homeDisplayResponse) => {		
 		var messengerResponseCopy = {
-			chatmateId : homeDisplayResponse.memberId,
-			userName : homeDisplayResponse.userName,
-			fullName : homeDisplayResponse.fullName,
-			profilePicture : homeDisplayResponse.profilePicture,
-			userBlockedStatus : homeDisplayResponse.userBlockedStatus
+			chatmateId : homeDisplayResponse.userInformationData.memberId,
+			userName : homeDisplayResponse.userInformationData.userName,
+			fullName : homeDisplayResponse.userInformationData.fullName,
+			profilePicture : homeDisplayResponse.userInformationData.profilePicture,
+			userBlockedStatus : homeDisplayResponse.userInformationData.userBlockedStatus
 		};
 
-		var messageResponses = loadMessageComposite(messengerResponseCopy);
-
-		navigate("/message", {
-			state : {
-				messengerResponse : messengerResponseCopy,
-				messageResponses : messageResponses
-			}
-		});
+		loadMessageComposite(messengerResponseCopy);
 	}
 
 	const sendPreparedMessage = (homeDisplayResponse) => {
@@ -398,21 +417,14 @@ function LeftMenuSection() {
 				};
 				
 				var messengerResponseCopy = {
-					chatmateId : homeDisplayResponse.memberId,
-					userName : homeDisplayResponse.userName,
-					fullName : homeDisplayResponse.fullName,
-					profilePicture : homeDisplayResponse.profilePicture,
-					userBlockedStatus : homeDisplayResponse.userBlockedStatus
+					chatmateId : homeDisplayResponse.userInformationData.memberId,
+					userName : homeDisplayResponse.userInformationData.userName,
+					fullName : homeDisplayResponse.userInformationData.fullName,
+					profilePicture : homeDisplayResponse.userInformationData.profilePicture,
+					userBlockedStatus : homeDisplayResponse.userInformationData.userBlockedStatus
 				};
 
-				var messageResponses = loadMessageComposite(messengerResponseCopy);
-
-				navigate("/message", {
-					state : {
-						messengerResponse : messengerResponseCopy,
-						messageResponses : messageResponses
-					}
-				});
+				loadMessageComposite(messengerResponseCopy);
 	        }, error => {
 	        	console.log(error);
 	        });					

@@ -50,8 +50,8 @@ function Message() {
 	});
 
 	const [userMessageComposite, setUserMessageComposite] = useState({
-		messageResponses : [],
-		messengerResponse : {}
+		messengerResponse : {},
+		messageResponses : []
 	});
 
 	const [roundPictureParts, setRoundPictureParts] = useState({
@@ -77,7 +77,7 @@ function Message() {
 				messageBottomMargin.current.scrollIntoView({ behavior: "smooth" });
 			}
 		}, 300);
-	}, []);
+	}, [location.state]);
 
 	useEffect(() => {
 		if (connectionComposite.length <= 0) {

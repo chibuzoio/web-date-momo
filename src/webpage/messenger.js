@@ -21,25 +21,44 @@ function Messenger() {
 
 	const userDataComposite = JSON.parse(localStorage.getItem("userDataComposite"));
 
-	const [messengerResponses, setMessengerResponses] = useState(userDataComposite.messengerResponses);
 	const [messengerDisplayClass, setMessengerDisplayClass] = useState(visibleMessengerDisplay);
 	const [messengerDisplayLoader, setMessengerDisplayLoader] = useState(hiddenMessengerLoader);
     
 	const clickMessengerComponent = (messengerResponse) => {
-		navigate("/message", {
-			state : {
-				messengerResponse : messengerResponse
-			}
-		});
+		loadMessageComposite(messengerResponse);
+	}
+
+	const loadMessageComposite = (messengerResponse) => {
+		var messageRequest = {
+			senderId : userDataComposite.currentUserData.userInformationData.memberId,
+			receiverId : messengerResponse.chatmateId,
+			fullName : messengerResponse.fullName,
+			userName : messengerResponse.userName,
+			lastActiveTime : "",
+			profilePicture : messengerResponse.profilePicture,
+			userBlockedStatus : messengerResponse.userBlockedStatus
+		};	
+
+		axios.post("http://localhost:1337/usermessagesdata", messageRequest)
+			.then(response => {
+				navigate("/message", {
+					state : {
+						messengerResponse : messengerResponse,
+						messageResponses : response.data
+					}
+				});
+			}, error => {
+				console.log(error);
+			});
 	}
 
 	const displayMessengerContent = () => {
-		if (messengerResponses.length > 0) {
+		if (userDataComposite.messengerResponses.length > 0) {
 			var messengerComposite = [];
 
-			for (var i = 0; i < messengerResponses.length; i++) {
+			for (var i = 0; i < userDataComposite.messengerResponses.length; i++) {
 				var messengerContent = {
-					messengerResponse : messengerResponses[i],
+					messengerResponse : userDataComposite.messengerResponses[i],
 					messengerClasses : {
 						messengerContentLayout : "activeMessengerContent messengerContentTimeline",
 						chatMateUserName : "chatMateUserName chatMateUserNameTimeline",
@@ -75,18 +94,40 @@ function Messenger() {
 
 	const messengerLayoutClicked = (homeDisplayResponse) => {
 		var messengerResponseCopy = {
-			chatmateId : homeDisplayResponse.memberId,
-			userName : homeDisplayResponse.userName,
-			fullName : homeDisplayResponse.fullName,
-			profilePicture : homeDisplayResponse.profilePicture,
-			userBlockedStatus : homeDisplayResponse.userBlockedStatus
+			chatmateId : homeDisplayResponse.userInformationData.memberId,
+			userName : homeDisplayResponse.userInformationData.userName,
+			fullName : homeDisplayResponse.userInformationData.fullName,
+			profilePicture : homeDisplayResponse.userInformationData.profilePicture,
+			userBlockedStatus : homeDisplayResponse.userInformationData.userBlockedStatus
 		};
 
-		navigate("/message", {
-			state : {
-				messengerResponse : messengerResponseCopy
-			}
-		});
+/* 		{
+			"userPictureComposite":[
+				{
+					"imageHeight":755,"imageName":"profile170352578600001.png","imageId":1,"imageWidth":433
+				},
+				{
+					"imageHeight":755,"imageName":"profile170388307100001.png","imageId":3,"imageWidth":433
+				}
+			],
+			"userInformationData":{
+				"memberId":1,"registrationDate":"1703525763","currentLocation":"","profilePicture":"profile170388307100001.png","deleteAccount":0,"passwordHash":"$2b$10$xaCGiRVnfsuK87cC5ctXreEjnmJ8HuRj006ypQwc8JDpjAjaODMNW","emailAddress":"","phoneNumber":"","impactCount":1,"userStatus":"Hello dear! Welcome to my profile!","userLevel":"displayMatchedUsers","userName":"Solution","fullName":"","sex":"MALE","age":31
+			},
+			"userExperienceData":{
+				"oneNightStandExperience":1,"receivedHeadExperience":1,"missionaryExperience":1,"threesomeExperience":1,"publicSexExperience":1,"givenHeadExperience":1,"cameraSexExperience":1,"sixtyNineExperience":1,"poolSexExperience":1,"analSexExperience":0,"carSexExperience":1,"orgySexExperience":1
+			},
+			"messengerTableName":"messenger170352576300001",
+			"userSexualityData":{
+				"sugarDaddyCategory":1,"sugarMommyCategory":1,"straightCategory":1,"bisexualCategory":1,"lesbianCategory":1,"toyGirlCategory":1,"toyBoyCategory":0,"gayCategory":0
+			},
+			"userInterestData":{
+				"relationshipInterest":0,"sugarDaddyInterest":1,"sugarMommyInterest":1,"friendshipInterest":0,"straightInterest":1,"bisexualInterest":1,"lesbianInterest":1,"toyGirlInterest":1,"toyBoyInterest":1,"gayInterest":0
+			},
+			"memberId":1,
+			"liked":false
+		} */
+
+		loadMessageComposite(messengerResponseCopy);
 	}
 
 	const sendPreparedMessage = (homeDisplayResponse) => {
@@ -119,12 +160,8 @@ function Messenger() {
 					profilePicture : homeDisplayResponse.profilePicture,
 					userBlockedStatus : homeDisplayResponse.userBlockedStatus
 				};
-
-				navigate("/message", {
-					state : {
-						messengerResponse : messengerResponseCopy
-					}
-				});
+				
+				loadMessageComposite(messengerResponseCopy);
 	        }, error => {
 	        	console.log(error);
 	        });					
