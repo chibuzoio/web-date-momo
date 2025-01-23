@@ -462,6 +462,17 @@ function Login() {
                                     errorMessage : inputValidity.credentialValidity.errorMessage
                                 }
                             });
+
+                            setPuzzleProgressAnimation({
+                                animationLayout : hiddenAnimationClass,
+                                animationImageClass : puzzleProgressAnimation.animationImageClass,
+                                animationMotionIcon : puzzleProgressAnimation.animationMotionIcon
+                            });
+
+                            setLoginButtonParts({
+                                buttonTitle : "Log In",
+                                buttonClass : visibleButtonClass
+                            });    
 			    		}
 			        }, error => {		        	
                         setLoginButtonParts({

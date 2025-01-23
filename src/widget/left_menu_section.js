@@ -70,7 +70,7 @@ function LeftMenuSection() {
 	const selectPictureButton = useRef();
 	const [notificationLoader, setNotificationLoader] = useState(hiddenEmptyNotification);
 	const [displayMessengerClass, setDisplayMessengerClass] = useState(visibleMessengerDisplay);
-	const [emptyNotificationLayout, setEmptyNotificationLayout] = useState(hiddenEmptyNotification);
+	const [emptyNotificationLayout, setEmptyNotificationLayout] = useState(visibleEmptyNotification);
 	const [pictureUpload, setPictureUpload] = useState({
 		picture : "",
 		faceCountInPicture : 0,

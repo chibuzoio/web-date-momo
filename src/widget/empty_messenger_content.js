@@ -6,7 +6,6 @@ import icon_waving_hand from '../image/icon_waving_hand.png';
 import RoundPicture from '../component/round_picture';
 
 function EmptyMessengerContent(props) {
-
 	const displayUserImage = (userGottenPicture) => {
 		if (typeof userGottenPicture != "undefined") {
 			return (<img className="emptyMessengerPicture" 
@@ -21,35 +20,35 @@ function EmptyMessengerContent(props) {
 	const buildSexualCategoryButtons = (emptyMessengerContent) => {
 		var sexualCategoryButtons = [];
 
-        if (emptyMessengerContent.bisexualCategory > 0) {
+        if (emptyMessengerContent.userSexualityData.bisexualCategory > 0) {
         	sexualCategoryButtons.push({buttonTitle : "Bisexual", buttonClass : "basicButton emptyMessengerButtons"});
         }
 
-        if (emptyMessengerContent.gayCategory > 0) {
+        if (emptyMessengerContent.userSexualityData.gayCategory > 0) {
         	sexualCategoryButtons.push({buttonTitle : "Gay", buttonClass : "basicButton emptyMessengerButtons"});
         }
 
-        if (emptyMessengerContent.lesbianCategory > 0) {
+        if (emptyMessengerContent.userSexualityData.lesbianCategory > 0) {
         	sexualCategoryButtons.push({buttonTitle : "Lesbian", buttonClass : "basicButton emptyMessengerButtons"});
         }
 
-        if (emptyMessengerContent.straightCategory > 0) {
+        if (emptyMessengerContent.userSexualityData.straightCategory > 0) {
         	sexualCategoryButtons.push({buttonTitle : "Straight", buttonClass : "basicButton emptyMessengerButtons"});
         }
 
-        if (emptyMessengerContent.sugarDaddyCategory > 0) {
+        if (emptyMessengerContent.userSexualityData.sugarDaddyCategory > 0) {
         	sexualCategoryButtons.push({buttonTitle : "Sugar Daddy", buttonClass : "basicButton emptyMessengerButtons"});
         }
 
-        if (emptyMessengerContent.sugarMommyCategory > 0) {
+        if (emptyMessengerContent.userSexualityData.sugarMommyCategory > 0) {
         	sexualCategoryButtons.push({buttonTitle : "Sugar Mommy", buttonClass : "basicButton emptyMessengerButtons"});
         }
 
-        if (emptyMessengerContent.toyBoyCategory > 0) {
+        if (emptyMessengerContent.userSexualityData.toyBoyCategory > 0) {
         	sexualCategoryButtons.push({buttonTitle : "Toy Boy", buttonClass : "basicButton emptyMessengerButtons"});
         }
 
-        if (emptyMessengerContent.toyGirlCategory > 0) {
+        if (emptyMessengerContent.userSexualityData.toyGirlCategory > 0) {
         	sexualCategoryButtons.push({buttonTitle : "Toy Girl", buttonClass : "basicButton emptyMessengerButtons"});
         }
            
@@ -63,15 +62,15 @@ function EmptyMessengerContent(props) {
 	const clickEmptyMessengerLayout = (event) => {
 		props.onClickMessengerLayout(props.emptyMessengerContent);
 	}
-
+  
 	return (
 		<div className="emptyMessengerContent">
 			<div className="roundPictureContainer" onClick={clickEmptyMessengerLayout}>
-				{/* displayUserImage(props.emptyMessengerContent.userPictureResponses[0]) */}
+				{displayUserImage(props.emptyMessengerContent.userPictureComposite[0])}
 			</div>
 			<div className="userAccountData" onClick={clickEmptyMessengerLayout}>
-				<div className="chatMateUserName">{/* props.emptyMessengerContent.userName.charAt(0).toUpperCase() 
-					+ props.emptyMessengerContent.userName.slice(1)}, {props.emptyMessengerContent.age */}</div>
+				<div className="chatMateUserName">{props.emptyMessengerContent.userInformationData.userName.charAt(0).toUpperCase() 
+					+ props.emptyMessengerContent.userInformationData.userName.slice(1)}, {props.emptyMessengerContent.userInformationData.age}</div>
 				<div className="chatMateLocation">{props.emptyMessengerContent.currentLocation}</div>
 				<HorizontalButtonList sexualityButtons={buildSexualCategoryButtons(props.emptyMessengerContent)} />
 			</div>

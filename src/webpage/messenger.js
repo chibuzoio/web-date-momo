@@ -19,32 +19,12 @@ function Messenger() {
 	var hiddenMessengerDisplay = visibleMessengerDisplay + " hideComponent";
 	const navigate = useNavigate();
 
-	const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+	const userDataComposite = JSON.parse(localStorage.getItem("userDataComposite"));
 
-	const [messengerResponses, setMessengerResponses] = useState([]);
-	const [messengerDisplayClass, setMessengerDisplayClass] = useState(hiddenMessengerDisplay);
-	const [messengerDisplayLoader, setMessengerDisplayLoader] = useState(visibleMessengerLoader);
-
-	useEffect(() => {
-		loadMessengerComposite();
-	}, []);
-
-    const loadMessengerComposite = () => {
-		var requestData = {
-			memberId : currentUser.userInformationData.memberId
-		}
-
-		axios.post("http://localhost:1337/usermessengersdata", requestData)
-	    	.then(response => {
-				var localMessengerResponses = checkNullInMessenger(response.data);
-				setMessengerResponses(localMessengerResponses);
-				setMessengerDisplayClass(visibleMessengerDisplay);
-				setMessengerDisplayLoader(hiddenMessengerLoader);
-	        }, error => {
-	        	console.log(error);
-	        });    	
-    }
-
+	const [messengerResponses, setMessengerResponses] = useState(userDataComposite.messengerResponses);
+	const [messengerDisplayClass, setMessengerDisplayClass] = useState(visibleMessengerDisplay);
+	const [messengerDisplayLoader, setMessengerDisplayLoader] = useState(hiddenMessengerLoader);
+    
 	const clickMessengerComponent = (messengerResponse) => {
 		navigate("/message", {
 			state : {
@@ -114,7 +94,7 @@ function Messenger() {
 		preparedSenderMessage = encodeURIComponent(preparedSenderMessage.split(" ").join("+"));
 
 		var postMessageRequest = {
-			senderId : currentUser.userInformationData.memberId,
+			senderId : userDataComposite.currentUserData.userInformationData.memberId,
 	        receiverId : homeDisplayResponse.memberId,
 	        messagePosition : 0, 
 	        senderMessage : preparedSenderMessage		
