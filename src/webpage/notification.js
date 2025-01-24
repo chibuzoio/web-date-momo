@@ -11,38 +11,32 @@ import NotificationIterator from '../widget/notification_iterator';
 function Notification() {	
 	const navigate = useNavigate();
 	
-	const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-  
-	const [notificationResponses, setNotificationResponses] = useState([]);
-
-	useEffect(() => {
-		loadNotificationComposite();
-	}, []);	
-
-	const loadNotificationComposite = () => {
-		var requestData = {
-			memberId : currentUser.userInformationData.memberId
-		}
-
-		axios.post("http://localhost:1337/usernotifications", requestData)
-	    	.then(response => {
-	    		setNotificationResponses(response.data);
-	        }, error => {
-	        	console.log(error);
-	        });		
-	}
+	const userDataComposite = JSON.parse(localStorage.getItem("userDataComposite"));
 
 	const clickNotificationComponent = (notificationEffectorId) => {
-		navigate("/profile/" + notificationEffectorId);
+		var requestData = {
+			memberId : notificationEffectorId
+		};
+
+		axios.post("http://localhost:1337/userinformation", requestData)
+			.then(response => {
+				userDataComposite.userProfileResponse = response.data;
+		
+				localStorage.setItem("userDataComposite", JSON.stringify(userDataComposite));
+
+				navigate("/profile/" + notificationEffectorId);
+			}, error => {
+				console.log(error);
+			});
 	}
 
 	const displayNotificationContent = () => {
-		if (notificationResponses.length > 0) {
+		if (userDataComposite.notificationResponses.length > 0) {
 			var notificationComposite = [];
 			
-			for (var i = 0; i < notificationResponses.length; i++) {
+			for (var i = 0; i < userDataComposite.notificationResponses.length; i++) {
 				var notificationContent = {
-					notificationResponse : notificationResponses[i],
+					notificationResponse : userDataComposite.notificationResponses[i],
 					notificationClasses : {
 						notificationContentLayout : "activeMessengerContent notificationContentTimeline",
 						notificationTitle : "notificationTitleTimeline",

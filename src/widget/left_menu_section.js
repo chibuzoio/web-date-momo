@@ -131,6 +131,9 @@ function LeftMenuSection() {
 	}
 
 	const openUserNotification = (event) => {
+		// before you navigate to notification, first load all the required notification composite
+		// Already loaded in login script
+
 		navigate("/notification");
 	}
 
@@ -270,8 +273,21 @@ function LeftMenuSection() {
 		}
 	}
   
-	const clickNotificationComponent = (notificationEffectorId) => {
-		navigate("/profile/" + notificationEffectorId);
+	const clickNotificationComponent = (notificationEffectorId) => {	
+		var requestData = {
+			memberId : notificationEffectorId
+		};
+
+		axios.post("http://localhost:1337/userinformation", requestData)
+			.then(response => {
+				userDataComposite.userProfileResponse = response.data;
+
+				localStorage.setItem("userDataComposite", JSON.stringify(userDataComposite));
+
+				navigate("/profile/" + notificationEffectorId);
+			}, error => {
+				console.log(error);
+			});
 	}
 
 	const clickMessengerComponent = (messengerResponse) => {
@@ -335,6 +351,9 @@ function LeftMenuSection() {
 	}
 
 	const displayNotificationContent = () => {
+		console.log("The value of userDataComposite.notificationResponses here is " 
+			+ JSON.stringify(userDataComposite.notificationResponses));
+
 		if (userDataComposite.notificationResponses.length > 0) {
 			var notificationComposite = [];
 			

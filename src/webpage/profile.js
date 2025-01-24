@@ -59,13 +59,6 @@ function Profile() {
 	const MODEL_URL = process.env.PUBLIC_URL + '/models';
 	const userDataComposite = JSON.parse(localStorage.getItem("userDataComposite"));
 
-	var profilePictureParts = {
-		roundPicture : "http://localhost:1337/image/" + userDataComposite.currentUserData.userInformationData.profilePicture,
-		pictureLayoutClass : "profilePictureLayout",
-		profilePictureClass : "profilePictureImage",
-		pictureChangeClass : "profilePictureIcon"
-	}
-
 	const [faceCountInPicture, setFaceCountInPicture] = useState(0);	
 	const [userLikerResponses, setUserLikerResponses] = useState([]);
 		    
@@ -73,6 +66,13 @@ function Profile() {
 		sexualExperienceButtons : [],
 		sexualInterestButtons : [],
 		sexualCategoryButtons : []
+	});
+
+	const [profilePictureParts, setProfilePictureParts] = useState({
+		profilePictureClass : "",
+		pictureLayoutClass : "",
+		pictureChangeClass : "",
+		roundPicture : ""
 	});
 
 	const [userLikerLayout, setUserLikerLayout] = useState({
@@ -164,6 +164,13 @@ function Profile() {
 
 		loadModels(MODEL_URL);
 
+		setProfilePictureParts({
+			roundPicture : "http://localhost:1337/image/" + userDataComposite.userProfileResponse.userPictureComposite.imageName,
+			pictureLayoutClass : "profilePictureLayout",
+			profilePictureClass : "profilePictureImage",
+			pictureChangeClass : "profilePictureIcon"
+		});
+
 		setSexualCompositeButtons({
 			sexualExperienceButtons : buildSexualExperienceButtons(),
 			sexualInterestButtons : buildSexualInterestButtons(),
@@ -175,7 +182,7 @@ function Profile() {
 		return () => {
 			window.removeEventListener('resize', calculatePictureDimensions);
 		};
-	}, []);
+	}, [userDataComposite.userProfileResponse]);
 
 	const loadUserLikerComposite = () => {
 	    if (userDataComposite.currentUserData.userInformationData.memberId == params.memberId) {
@@ -385,7 +392,7 @@ function Profile() {
 			topUserNameMargin : userNameTopMargin + "px"
 		});
 	}
-   
+
 	const buildSexualExperienceButtons = () => {
 		var sexualExperienceButtons = [];
    
@@ -596,13 +603,15 @@ function Profile() {
 
 	const changeProfilePicture = (changePictureClicked) => {
 		if (changePictureClicked) {
-			selectPictureButton.current.click();
+			if (userDataComposite.currentUserData.userInformationData.memberId == params.memberId) {
+				selectPictureButton.current.click();
+			}
 		}
 	}
 
 	const openUserGallery = (buttonClicked) => {
 		if (buttonClicked) {
-			navigate("/gallery/" + userDataComposite.currentUserData.userInformationData.memberId + "/" + 0);
+			navigate("/gallery/" + userDataComposite.userProfileResponse.memberId + "/" + 0);
 		}
 	}
 
@@ -611,7 +620,7 @@ function Profile() {
 			// window.location.assign("/profile");
 		}
 	}
-
+	         
 	return ( 			
 		<div className="scrollView">
 			<div className="dateMomoProfileLayout" ref={profileLayout}> 
@@ -623,11 +632,11 @@ function Profile() {
 							pictureParts={profilePictureParts} />
 					</div>
 					<div className="userNameLocationLayout">
-						<div className="userNameAgeText">{(userDataComposite.currentUserData.userInformationData.userName !== undefined ? 
-							(userDataComposite.currentUserData.userInformationData.userName.charAt(0).toUpperCase() 
-								+ userDataComposite.currentUserData.userInformationData.userName.slice(1)) : "")}, {userDataComposite.currentUserData.userInformationData.age}</div>
-						<div className="userLocationText">{userDataComposite.currentUserData.userInformationData.currentLocation}</div>
-						<div className="currentStatusText">{userDataComposite.currentUserData.userInformationData.userStatus}</div>
+						<div className="userNameAgeText">{(userDataComposite.userProfileResponse.userInformationData.userName !== undefined ? 
+							(userDataComposite.userProfileResponse.userInformationData.userName.charAt(0).toUpperCase() 
+								+ userDataComposite.userProfileResponse.userInformationData.userName.slice(1)) : "")}, {userDataComposite.userProfileResponse.userInformationData.age}</div>
+						<div className="userLocationText">{userDataComposite.userProfileResponse.userInformationData.currentLocation}</div>
+						<div className="currentStatusText">{userDataComposite.userProfileResponse.userInformationData.userStatus}</div>
 					</div>
 				</div>
 				<div className="profileButtonLayout">
@@ -649,19 +658,19 @@ function Profile() {
 				</div>
 				<div className="userLikerSexualityLayout">
 					<div className="sexualityHeader">{userDataComposite.currentUserData.userInformationData.memberId == params.memberId ? 
-						"My" : (userDataComposite.currentUserData.userInformationData.userName !== undefined ?
-						(userDataComposite.currentUserData.userInformationData.userName.charAt(0).toUpperCase() 
-						+ userDataComposite.currentUserData.userInformationData.userName.slice(1)) : "")} Sexuality</div>
+						"My" : (userDataComposite.userProfileResponse.userInformationData.userName !== undefined ?
+						(userDataComposite.userProfileResponse.userInformationData.userName.charAt(0).toUpperCase() 
+						+ userDataComposite.userProfileResponse.userInformationData.userName.slice(1)) : "")} Sexuality</div>
 					<SexualityBiometrics sexualityButtons={sexualCompositeButtons.sexualCategoryButtons} />
 					<div className="sexualityHeader">{userDataComposite.currentUserData.userInformationData.memberId == params.memberId ? 
-						"My" : (userDataComposite.currentUserData.userInformationData.userName !== undefined ? 
-							(userDataComposite.currentUserData.userInformationData.userName.charAt(0).toUpperCase() 
-							+ userDataComposite.currentUserData.userInformationData.userName.slice(1)) : "")} Interests</div>
+						"My" : (userDataComposite.userProfileResponse.userInformationData.userName !== undefined ? 
+							(userDataComposite.userProfileResponse.userInformationData.userName.charAt(0).toUpperCase() 
+							+ userDataComposite.userProfileResponse.userInformationData.userName.slice(1)) : "")} Interests</div>
 					<SexualityBiometrics sexualityButtons={sexualCompositeButtons.sexualInterestButtons} />
 					<div className="sexualityHeader">{userDataComposite.currentUserData.userInformationData.memberId == params.memberId ? 
-						"My" : (userDataComposite.currentUserData.userInformationData.userName !== undefined ?
-						(userDataComposite.currentUserData.userInformationData.userName.charAt(0).toUpperCase() 
-						+ userDataComposite.currentUserData.userInformationData.userName.slice(1)) : "")} Experiences</div>
+						"My" : (userDataComposite.userProfileResponse.userInformationData.userName !== undefined ?
+						(userDataComposite.userProfileResponse.userInformationData.userName.charAt(0).toUpperCase() 
+						+ userDataComposite.userProfileResponse.userInformationData.userName.slice(1)) : "")} Experiences</div>
 					<SexualityBiometrics sexualityButtons={sexualCompositeButtons.sexualExperienceButtons} />
 				</div>
 			</div>
