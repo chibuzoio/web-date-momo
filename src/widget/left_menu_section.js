@@ -97,14 +97,83 @@ function LeftMenuSection() {
 
 	const openUserGallery = (buttonClicked) => {
 		if (buttonClicked) {
+			// refreshTimelineData();
+
 			navigate("/gallery/" + userDataComposite.currentUserData.userInformationData.memberId + "/" + 0);
 		}
 	}
 
 	const editUserProfile = (buttonClicked) => {
 		if (buttonClicked) {
+			// refreshTimelineData();
+
 			// window.location.assign("/profile");
 		}
+	}
+
+	const refreshTimelineData = () => {
+		var timelineRequestData = {
+			memberId : userDataComposite.currentUserData.userInformationData.memberId,
+			age : userDataComposite.currentUserData.userInformationData.age,
+			sex : userDataComposite.currentUserData.userInformationData.sex,
+			registrationDate : userDataComposite.currentUserData.userInformationData.registrationDate,
+			bisexualCategory : userDataComposite.currentUserData.userSexualityData.bisexualCategory,
+			gayCategory : userDataComposite.currentUserData.userSexualityData.gayCategory,
+			lesbianCategory : userDataComposite.currentUserData.userSexualityData.lesbianCategory,
+			straightCategory : userDataComposite.currentUserData.userSexualityData.straightCategory,
+			sugarDaddyCategory : userDataComposite.currentUserData.userSexualityData.sugarDaddyCategory,
+			sugarMommyCategory : userDataComposite.currentUserData.userSexualityData.sugarMommyCategory,
+			toyBoyCategory : userDataComposite.currentUserData.userSexualityData.toyBoyCategory,
+			toyGirlCategory : userDataComposite.currentUserData.userSexualityData.toyGirlCategory,
+			bisexualInterest : userDataComposite.currentUserData.userInterestData.bisexualInterest,
+			gayInterest : userDataComposite.currentUserData.userInterestData.gayInterest,
+			lesbianInterest : userDataComposite.currentUserData.userInterestData.lesbianInterest,
+			straightInterest : userDataComposite.currentUserData.userInterestData.straightInterest,
+			friendshipInterest : userDataComposite.currentUserData.userInterestData.friendshipInterest,
+			sugarDaddyInterest : userDataComposite.currentUserData.userInterestData.sugarDaddyInterest,
+			sugarMommyInterest : userDataComposite.currentUserData.userInterestData.sugarMommyInterest,
+			relationshipInterest : userDataComposite.currentUserData.userInterestData.relationshipInterest,
+			toyBoyInterest : userDataComposite.currentUserData.userInterestData.toyBoyInterest,
+			toyGirlInterest : userDataComposite.currentUserData.userInterestData.toyGirlInterest,
+			sixtyNineExperience : userDataComposite.currentUserData.userExperienceData.sixtyNineExperience,
+			analSexExperience : userDataComposite.currentUserData.userExperienceData.analSexExperience,
+			givenHeadExperience : userDataComposite.currentUserData.userExperienceData.givenHeadExperience,
+			missionaryExperience : userDataComposite.currentUserData.userExperienceData.missionaryExperience,
+			oneNightStandExperience : userDataComposite.currentUserData.userExperienceData.oneNightStandExperience,
+			orgySexExperience : userDataComposite.currentUserData.userExperienceData.orgySexExperience,
+			poolSexExperience : userDataComposite.currentUserData.userExperienceData.poolSexExperience,
+			receivedHeadExperience : userDataComposite.currentUserData.userExperienceData.receivedHeadExperience,
+			carSexExperience : userDataComposite.currentUserData.userExperienceData.carSexExperience,
+			publicSexExperience : userDataComposite.currentUserData.userExperienceData.publicSexExperience,
+			cameraSexExperience : userDataComposite.currentUserData.userExperienceData.cameraSexExperience,
+			threesomeExperience : userDataComposite.currentUserData.userExperienceData.threesomeExperience,
+			sexToyExperience : userDataComposite.currentUserData.userExperienceData.sexToyExperience,
+			videoSexExperience : userDataComposite.currentUserData.userExperienceData.videoSexExperience
+		}
+
+		var emptyMessengerRequestData = {
+			memberId : userDataComposite.currentUserData.userInformationData.memberId
+		};
+
+		axios.post("http://localhost:1337/matcheduserdata", timelineRequestData)
+			.then(response => {
+				userDataComposite.timelineDataComposite = response.data;
+
+				if (userDataComposite.messengerResponses.length <= 0) {
+					axios.post("http://localhost:1337/alluserdata", emptyMessengerRequestData)
+						.then(response => {
+							userDataComposite.emptyMessengerResponse = response.data;
+
+							localStorage.setItem("userDataComposite", JSON.stringify(userDataComposite));
+						}, error => {
+							console.log(error);
+						});
+				} else {
+					localStorage.setItem("userDataComposite", JSON.stringify(userDataComposite));
+				}
+			}, error => {
+				console.log(error);
+			});	        
 	}
 
 	const openUserProfile = (buttonClicked) => {
@@ -112,6 +181,8 @@ function LeftMenuSection() {
 			var requestData = {
 				memberId : userDataComposite.currentUserData.userInformationData.memberId
 			}
+
+			// refreshTimelineData();
 
 			axios.post("http://localhost:1337/userinformation", requestData)
 				.then(response => {
@@ -127,12 +198,15 @@ function LeftMenuSection() {
 	}
 
 	const openUserMessenger = (event) => {
+		// refreshTimelineData();
+
 		navigate("/messenger");
 	}
 
 	const openUserNotification = (event) => {
 		// before you navigate to notification, first load all the required notification composite
 		// Already loaded in login script
+		// refreshTimelineData();
 
 		navigate("/notification");
 	}
@@ -179,6 +253,8 @@ function LeftMenuSection() {
 			profilePicture : messengerResponse.profilePicture,
 			userBlockedStatus : messengerResponse.userBlockedStatus
 		};	
+
+		// refreshTimelineData();
 
 		axios.post("http://localhost:1337/usermessagesdata", messageRequest)
 			.then(response => {
@@ -277,6 +353,8 @@ function LeftMenuSection() {
 		var requestData = {
 			memberId : notificationEffectorId
 		};
+
+		// refreshTimelineData();
 
 		axios.post("http://localhost:1337/userinformation", requestData)
 			.then(response => {

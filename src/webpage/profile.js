@@ -163,9 +163,9 @@ function Profile() {
 		};
 
 		loadModels(MODEL_URL);
-
+   
 		setProfilePictureParts({
-			roundPicture : "http://localhost:1337/image/" + userDataComposite.userProfileResponse.userPictureComposite.imageName,
+			roundPicture : "http://localhost:1337/image/" + userDataComposite.userProfileResponse.userInformationData.profilePicture,
 			pictureLayoutClass : "profilePictureLayout",
 			profilePictureClass : "profilePictureImage",
 			pictureChangeClass : "profilePictureIcon"
